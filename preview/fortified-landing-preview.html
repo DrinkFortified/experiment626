@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fortified Bundle Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+/* Fortified: Build Your Own Bundle landing */
+.fb {
+  --fb-teal: #12a39a;
+  --fb-teal-dark: #0d8a82;
+  --fb-ink: #0b0b0b;
+  --fb-navy: #0e1a24;
+  --fb-muted: #5b6168;
+  --fb-line: #d9dde1;
+  --fb-bg: #ffffff;
+  --fb-soft: #f5f7f8;
+  --fb-energy: #c8102e;
+  --fb-everyday: #f26a1b;
+  --fb-performance: #121212;
+  --fb-radius: 18px;
+  --fb-font: var(--font-body-family, "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif);
+  --fb-font-head: var(--font-heading-family, "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif);
+  font-family: var(--fb-font);
+  color: var(--fb-ink);
+  background: var(--fb-bg);
+  padding: 48px 16px 140px;
+  -webkit-font-smoothing: antialiased;
+}
+.fb *, .fb *::before, .fb *::after { box-sizing: border-box; }
+.fb button { font-family: inherit; cursor: pointer; }
+.fb img { max-width: 100%; display: block; }
+.fb__wrap { max-width: 1240px; margin: 0 auto; }
+
+/* Header */
+.fb__eyebrow { color: var(--fb-teal); text-transform: uppercase; letter-spacing: .12em; font-weight: 800; font-size: 15px; text-align: center; margin: 0 0 8px; }
+.fb__title { font-family: var(--fb-font-head); font-weight: 900; text-transform: uppercase; text-align: center; font-size: clamp(32px, 6vw, 60px); line-height: 1; letter-spacing: -.01em; margin: 0 0 12px; }
+.fb__sub { text-align: center; color: var(--fb-muted); font-size: 17px; max-width: 620px; margin: 0 auto 8px; }
+.fb__trust { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; list-style: none; padding: 0; margin: 14px 0 0; font-size: 14px; font-weight: 600; }
+.fb__trust li::before { content: "\2713"; color: var(--fb-teal); margin-right: 6px; font-weight: 900; }
+.fb__link { background: none; border: 0; padding: 0; color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+
+/* Tier stepper */
+.fb__steps { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); max-width: 1040px; margin: 40px auto 48px; list-style: none; padding: 0; }
+.fb__steps::before, .fb__steps-fill { content: ""; position: absolute; top: 24px; left: 16.66%; height: 2px; background: var(--fb-line); width: 66.66%; }
+.fb__steps-fill { background: var(--fb-teal); width: 0; transition: width .3s ease; z-index: 1; }
+.fb__step { position: relative; z-index: 2; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.fb__dot { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--fb-line); background: #fff; display: grid; place-items: center; color: #fff; transition: background .2s, border-color .2s; }
+.fb__dot svg { width: 22px; height: 22px; opacity: 0; transition: opacity .2s; }
+.fb__step.is-on .fb__dot { background: var(--fb-teal); border-color: var(--fb-teal); }
+.fb__step.is-on .fb__dot svg { opacity: 1; }
+.fb__step-name { font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: 17px; }
+.fb__pill { display: inline-block; background: var(--fb-teal); color: #fff; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; font-size: 13px; padding: 7px 18px; border-radius: 999px; }
+.fb__perks { font-size: 14px; font-weight: 600; line-height: 1.7; }
+
+/* Product lines */
+.fb__lines { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.fb__line { border-radius: var(--fb-radius); padding: 22px 14px 14px; color: #fff; display: flex; flex-direction: column; }
+.fb__line--energy { background: var(--fb-energy); }
+.fb__line--everyday { background: var(--fb-everyday); }
+.fb__line--performance { background: var(--fb-performance); }
+.fb__line-head { text-align: center; margin-bottom: 18px; }
+.fb__line-name { font-family: var(--fb-font-head); font-weight: 900; text-transform: uppercase; font-size: 36px; line-height: 1; margin: 0 0 8px; }
+.fb__line-desc { margin: 0; font-size: 16px; opacity: .95; }
+.fb__cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 1; }
+.fb__card { background: #fff; color: var(--fb-ink); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; text-align: center; border: 2px solid transparent; transition: border-color .15s; }
+.fb__card.is-picked { border-color: var(--fb-teal); }
+.fb__card-media { position: relative; aspect-ratio: 1 / 1; background: var(--fb-soft); }
+.fb__card-media img { width: 100%; height: 100%; object-fit: cover; }
+.fb__badge { position: absolute; top: 12px; left: 12px; background: #000; color: #fff; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; }
+.fb__card-body { padding: 14px 12px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.fb__flavor { font-weight: 800; font-size: 21px; line-height: 1.15; margin: 0; }
+.fb__tagline { color: var(--fb-muted); font-size: 14px; margin: 0; }
+.fb__card .fb__link { font-size: 16px; font-weight: 600; margin: 4px auto; }
+.fb__qty { margin-top: auto; display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; border: 1.5px solid var(--fb-line); border-radius: 999px; height: 50px; }
+.fb__qty button { background: none; border: 0; height: 100%; font-size: 24px; color: var(--fb-ink); border-radius: 999px; }
+.fb__qty button:disabled { opacity: .3; cursor: default; }
+.fb__qty output { font-size: 22px; font-weight: 600; }
+.fb__qty-slot { margin-top: auto; }
+.fb__add { width: 100%; height: 50px; font-size: 16px; border-radius: 999px; border: 0; background: var(--fb-navy); color: #fff; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+
+/* Coming soon */
+.fb__soon { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; border: 2px dashed rgba(255,255,255,.25); border-radius: 14px; padding: 28px 18px; text-align: center; }
+.fb__soon-tag { background: var(--fb-teal); color: #fff; font-weight: 800; letter-spacing: .12em; font-size: 13px; text-transform: uppercase; padding: 7px 16px; border-radius: 999px; }
+.fb__soon p { margin: 0; opacity: .85; max-width: 280px; }
+.fb__soon .fb__add { width: auto; background: #fff; color: var(--fb-ink); padding: 0 26px; margin: 0; }
+
+/* Summary */
+.fb__summary { max-width: 720px; margin: 40px auto 0; }
+.fb__freq { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; border: 0; padding: 0; }
+.fb__freq legend { width: 100%; text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; font-size: 13px; margin-bottom: 10px; }
+.fb__freq label { position: relative; }
+.fb__freq input { position: absolute; opacity: 0; inset: 0; }
+.fb__freq span { display: inline-block; padding: 9px 16px; border: 1.5px solid var(--fb-line); border-radius: 999px; font-weight: 600; font-size: 14px; cursor: pointer; }
+.fb__freq input:checked + span { border-color: var(--fb-teal); background: var(--fb-teal); color: #fff; }
+.fb__freq input:focus-visible + span { outline: 2px solid var(--fb-navy); outline-offset: 2px; }
+.fb__subtotal { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.fb__subtotal-label { display: flex; align-items: center; gap: 14px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-size: 18px; }
+.fb__prices { font-size: 24px; font-weight: 800; }
+.fb__prices s { color: #9aa0a6; font-weight: 600; font-size: 18px; margin-right: 8px; }
+.fb__cta { width: 100%; height: 72px; border: 0; border-radius: 8px; background: var(--fb-navy); color: #fff; font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: .03em; transition: transform .1s, background .2s; }
+.fb__cta:hover:not(:disabled) { background: #000; }
+.fb__cta:active:not(:disabled) { transform: translateY(1px); }
+.fb__cta:disabled { background: #9aa3ab; cursor: not-allowed; }
+.fb__otp { display: block; margin: 16px auto 0; font-size: 18px; }
+.fb__otp:disabled { opacity: .4; cursor: not-allowed; }
+.fb__nudge { text-align: center; color: var(--fb-teal-dark); font-weight: 700; margin: 0 0 14px; min-height: 1.4em; }
+.fb__legal { font-size: 12.5px; color: var(--fb-muted); text-align: center; line-height: 1.5; margin: 14px auto 0; max-width: 620px; }
+.fb__error { color: var(--fb-energy); text-align: center; font-weight: 600; margin: 10px 0 0; min-height: 1.2em; }
+
+/* Mobile sticky bar */
+.fb__sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; background: #fff; border-top: 1px solid var(--fb-line); padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); display: none; align-items: center; gap: 12px; box-shadow: 0 -6px 20px rgba(0,0,0,.06); }
+.fb__sticky-info { flex: 1; font-size: 13px; line-height: 1.3; }
+.fb__sticky-info strong { display: block; font-size: 18px; }
+.fb__sticky .fb__cta { height: 52px; width: auto; flex: 1.4; font-size: 15px; padding: 0 14px; white-space: nowrap; }
+
+/* Dialogs */
+.fb-dialog { border: 0; border-radius: 18px; padding: 0; width: min(560px, calc(100vw - 32px)); max-height: calc(100vh - 48px); color: #0b0b0b; font-family: var(--font-body-family, "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif); }
+.fb-dialog::backdrop { background: rgba(10, 14, 18, .6); }
+.fb-dialog__inner { padding: 28px 24px 24px; position: relative; }
+.fb-dialog__close { position: absolute; top: 10px; right: 10px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: #f1f3f4; font-size: 22px; line-height: 1; cursor: pointer; }
+.fb-dialog h3 { font-weight: 900; text-transform: uppercase; font-size: 24px; margin: 0 40px 6px 0; }
+.fb-dialog h4 { font-size: 14px; text-transform: uppercase; letter-spacing: .1em; margin: 18px 0 6px; color: #12a39a; }
+.fb-dialog p, .fb-dialog li { font-size: 15px; line-height: 1.55; }
+.fb-dialog ul { padding-left: 18px; margin: 6px 0; }
+.fb-dialog img { border-radius: 12px; margin: 12px 0; width: 100%; height: auto; }
+.fb-dialog form { display: grid; gap: 10px; margin-top: 14px; }
+.fb-dialog input[type="email"] { height: 50px; border: 1.5px solid #d9dde1; border-radius: 10px; padding: 0 14px; font-size: 16px; }
+.fb-dialog .fb__cta { height: 54px; font-size: 16px; }
+
+.fb-dialog .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+@media (max-width: 1024px) {
+  .fb__lines { grid-template-columns: 1fr 1fr; }
+  .fb__line--performance { grid-column: 1 / -1; }
+}
+@media (max-width: 680px) {
+  .fb { padding-top: 32px; }
+  .fb__lines { grid-template-columns: 1fr; }
+  .fb__line-name { font-size: 30px; }
+  .fb__flavor { font-size: 17px; }
+  .fb__tagline { font-size: 13px; }
+  .fb__steps { margin: 28px auto 32px; }
+  .fb__step-name { font-size: 13px; }
+  .fb__pill { font-size: 11px; padding: 6px 10px; }
+  .fb__perks { font-size: 12px; }
+  .fb__subtotal-label { font-size: 15px; gap: 8px; }
+  .fb__prices { font-size: 20px; }
+  .fb__cta { font-size: 18px; height: 62px; }
+  .fb__sticky.is-visible { display: flex; }
+}
+@media (prefers-reduced-motion: reduce) { .fb * { transition: none !important; } }
+</style>
+<style>
+  body { margin: 0; background: #fff; }
+  .preview-note { background: #0e1a24; color: #fff; font: 600 13px/1.4 Figtree, system-ui, sans-serif; text-align: center; padding: 8px 16px; }
+  pre { background: #f5f7f8; padding: 12px; border-radius: 10px; font-size: 12px; overflow: auto; max-height: 300px; }
+</style>
+</head>
+<body>
+<div class="preview-note">Static preview. Subscription prices simulated at $59.00 less 10%. Live prices come from Loop selling plans in Shopify.</div>
+
+<div class="fb" data-fb>
+  <script type="application/json" data-fb-config>
+    {
+      "previewMode": true,
+      "moneyFormat": "${{amount}}",
+      "discountPercent": 10,
+      "defaultFrequency": 30,
+      "frequencies": [30, 60, 90],
+      "tiers": [
+        { "min": 1, "name": "1 Pack", "pill": "10% Off", "perks": [] },
+        { "min": 2, "name": "2 Packs", "pill": "10% Off", "perks": ["Free Shipping"] },
+        { "min": 3, "name": "3+ Packs", "pill": "10% Off", "perks": ["Free Shipping", "Free Creatine For Life"] }
+      ],
+      "copy": {
+        "ctaSubscribe": "Subscribe & Save",
+        "ctaOneTime": "Add to Cart",
+        "ctaEmpty": "Add a pack to start",
+        "adding": "Adding...",
+        "emptyNudge": "Pick your packs. Mix and match any flavors.",
+        "maxNudge": "Nice! Free Shipping + Free Creatine For Life unlocked."
+      },
+      "lines": [
+        {
+          "key": "energy", "name": "Energy", "badge": "Caffeine", "labelDialog": "fb-label-energy",
+          "desc": "150mg caffeine from coffee beans, plus electrolytes.",
+          "flavors": [
+            { "variantId": 67977031254320, "flavor": "Organic Salty Watermelon", "tagline": "Bold, refreshing, and ready for your day.", "price": 5900,
+              "image": "https://cdn.shopify.com/s/files/1/1000/1973/2784/files/260401-FOR-ENG-30-WTM-2026_1-Front_6bc5f01a-9136-4e66-89a5-64266588d385.webp?v=1791496978&width=500", "plans": [] },
+            { "variantId": 67977031221552, "flavor": "Organic Salty Orange", "tagline": "Bright, citrusy, and ready for your day.", "price": 5900,
+              "image": "https://cdn.shopify.com/s/files/1/1000/1973/2784/files/260401-FOR-ENG-30-ORG-2026_1-Front_053d37d2-3c4d-4b3c-acc6-d67e95d50eb5.webp?v=1791496996&width=500", "plans": [] }
+          ]
+        },
+        {
+          "key": "everyday", "name": "Everyday", "badge": "Caffeine-Free", "labelDialog": "fb-label-everyday",
+          "desc": "Caffeine-free electrolytes with Vitamin D3 and K2.",
+          "flavors": [
+            { "variantId": 67977031614768, "flavor": "Organic Salty Watermelon", "tagline": "Bold, refreshing, and ready for your day.", "price": 5900,
+              "image": "https://cdn.shopify.com/s/files/1/1000/1973/2784/files/260401-FOR-EDY-30-WTM-2026_1-Front_42bbc235-1ed3-45e8-b2c0-3ea3bf5b7e6e.webp?v=1791497044&width=500", "plans": [] },
+            { "variantId": 67977031582000, "flavor": "Organic Salty Orange", "tagline": "Bright, citrusy, and ready for your day.", "price": 5900,
+              "image": "https://cdn.shopify.com/s/files/1/1000/1973/2784/files/260401-FOR-EDY-30-ORG-2026_1-Front_d4d55d4a-fd92-4d2a-a06e-d6d64ebbe0e5.webp?v=1791497033&width=500", "plans": [] }
+          ]
+        },
+        {
+          "key": "performance", "name": "Performance", "comingSoon": true, "waitlistDialog": "fb-waitlist",
+          "desc": "5g creatine plus electrolytes.",
+          "soonText": "Creatine meets clean hydration. Be the first to know when it drops."
+        }
+      ]
+    }
+  </script>
+
+  <div class="fb__wrap">
+    <header>
+      <p class="fb__eyebrow">Customize your subscription</p>
+      <h2 class="fb__title">Build your own bundle</h2>
+      <p class="fb__sub">Clean electrolytes for people who read the label. Mix any flavors, save on every order.</p>
+      <ul class="fb__trust">
+        <li>Save 10% on every order</li>
+        <li>Skip or cancel anytime</li>
+        <li><button type="button" class="fb__link" data-fb-open="fb-guarantee">30-day money-back guarantee</button></li>
+      </ul>
+    </header>
+    <ol class="fb__steps" data-fb-steps aria-label="Bundle rewards"></ol>
+    <div class="fb__lines" data-fb-lines></div>
+    <div class="fb__summary">
+      <p class="fb__nudge" data-fb-nudge aria-live="polite"></p>
+      <fieldset class="fb__freq" data-fb-freq><legend>Deliver every</legend></fieldset>
+      <div class="fb__subtotal">
+        <div class="fb__subtotal-label">Subtotal <span class="fb__pill" data-fb-pill></span></div>
+        <div class="fb__prices"><s data-fb-full></s><span data-fb-total></span></div>
+      </div>
+      <button type="button" class="fb__cta" data-fb-cta disabled>Add a pack to start</button>
+      <button type="button" class="fb__link fb__otp" data-fb-otp disabled></button>
+      <p class="fb__error" data-fb-error role="alert"></p>
+      <p class="fb__legal">
+        Subscriptions renew automatically <span data-fb-freq-text></span> at the price shown, plus applicable tax and shipping, until you cancel.
+        Cancel anytime online in your account before your next billing date.
+        <button type="button" class="fb__link" data-fb-open="fb-howto">How it works</button>
+      </p>
+    </div>
+  </div>
+  <div class="fb__sticky" data-fb-sticky>
+    <div class="fb__sticky-info"><span data-fb-count></span><strong data-fb-total></strong></div>
+    <button type="button" class="fb__cta" data-fb-cta data-fb-short disabled>Add a pack to start</button>
+  </div>
+</div>
+
+<dialog class="fb-dialog" id="fb-label-energy"><div class="fb-dialog__inner">
+  <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+  <h3>Energy Label</h3>
+  <p>150mg caffeine from coffee beans, plus electrolytes.</p>
+  <h4>Electrolyte base</h4>
+  <ul><li>Pink Himalayan Salt (as Ancient Ocean)</li><li>Magnesium Malate</li><li>Coconut Water Powder (as CocOganic Plus)</li><li>Potassium Chloride</li><li>Bamboo Fiber</li><li>Organic Lemon Juice Powder</li></ul>
+  <h4>Energy adds</h4><ul><li>Natural Caffeine from coffee bean</li></ul>
+  <h4>Sweetened with</h4><ul><li>Monk Fruit Extract and Reb M (as OnoSweet)</li></ul>
+  <p>Flavors: Organic Salty Orange, Organic Salty Watermelon. No proprietary blends. No Mumbo Jumbo.</p>
+</div></dialog>
+
+<dialog class="fb-dialog" id="fb-label-everyday"><div class="fb-dialog__inner">
+  <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+  <h3>Everyday Label</h3>
+  <p>Caffeine-free electrolytes with Vitamin D3 and K2.</p>
+  <h4>Electrolyte base</h4>
+  <ul><li>Pink Himalayan Salt (as Ancient Ocean)</li><li>Magnesium Malate</li><li>Coconut Water Powder (as CocOganic Plus)</li><li>Potassium Chloride</li><li>Bamboo Fiber</li><li>Organic Lemon Juice Powder</li></ul>
+  <h4>Everyday adds</h4><ul><li>Vitamin D3</li><li>Vitamin K2 (Menaquinone-7)</li></ul>
+  <h4>Sweetened with</h4><ul><li>Monk Fruit Extract and Reb M (as OnoSweet)</li></ul>
+  <p>Flavors: Organic Salty Orange, Organic Salty Watermelon. Caffeine-free. No Mumbo Jumbo.</p>
+</div></dialog>
+
+<dialog class="fb-dialog" id="fb-howto"><div class="fb-dialog__inner">
+  <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+  <h3>How Subscribe &amp; Save works</h3>
+  <ul>
+    <li><strong>Save 10%</strong> on every pack, every order.</li>
+    <li><strong>Pick your cadence:</strong> ships every 30, 60, or 90 days.</li>
+    <li><strong>Unlock more:</strong> Free Shipping at 2 packs, Free Creatine For Life at 3+ packs.</li>
+    <li><strong>Full control:</strong> skip, swap flavors, change quantity, or cancel anytime from your account. No calls, no emails needed.</li>
+    <li><strong>Reminders:</strong> we email you before each renewal.</li>
+  </ul>
+  <p>Ships within the US only. Questions? <a href="mailto:hello@livefortified.com">hello@livefortified.com</a> or (888) 688-8351.</p>
+</div></dialog>
+
+<dialog class="fb-dialog" id="fb-guarantee"><div class="fb-dialog__inner">
+  <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+  <h3>30-Day Money-Back Guarantee</h3>
+  <p>Not happy for any reason? Contact us within 30 days of delivery and we will refund the purchase price. No return required.</p>
+  <p>Applies to purchases made directly from livefortified.com. A refund does not cancel future subscription deliveries on its own; cancel anytime from your account.</p>
+</div></dialog>
+
+<dialog class="fb-dialog" id="fb-waitlist"><div class="fb-dialog__inner">
+  <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+  <h3>Performance is coming</h3>
+  <p>5g creatine plus electrolytes. Get first access when it drops.</p>
+  <form onsubmit="event.preventDefault(); this.innerHTML='<p><strong>You\'re on the list.</strong> We\'ll email you the moment Performance launches.</p>';">
+    <input type="email" placeholder="you@email.com" aria-label="Email" required>
+    <button type="submit" class="fb__cta">Notify Me</button>
+  </form>
+</div></dialog>
+
+<dialog class="fb-dialog" id="fb-preview"><div class="fb-dialog__inner">
+  <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+  <h3>Preview: cart payload</h3>
+  <p>On Shopify this is POSTed to <code>/cart/add.js</code>, then the shopper goes straight to checkout. Live, each line also carries its Loop <code>selling_plan</code> id.</p>
+  <pre id="fb-preview-payload"></pre>
+</div></dialog>
+
+<script>
+/* Fortified: Build Your Own Bundle (Shopify + Loop selling plans) */
+(function () {
+  'use strict';
+
+  var MAX_QTY = 10;
+  var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+
+  function h(tag, attrs, children) {
+    var el = document.createElement(tag);
+    if (attrs) {
+      Object.keys(attrs).forEach(function (k) {
+        var v = attrs[k];
+        if (v == null || v === false) return;
+        if (k === 'text') el.textContent = v;
+        else if (k === 'html') el.innerHTML = v;
+        else if (k === 'class') el.className = v;
+        else el.setAttribute(k, v === true ? '' : v);
+      });
+    }
+    (children || []).forEach(function (c) { if (c) el.appendChild(c); });
+    return el;
+  }
+
+  function formatMoney(cents, format) {
+    format = format || '${{amount}}';
+    var value = (cents / 100).toFixed(2);
+    var parts = value.split('.');
+    var withCommas = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return format.replace(/\{\{\s*(\w+)\s*\}\}/, function (_, key) {
+      if (key === 'amount_no_decimals') return withCommas;
+      if (key === 'amount_with_comma_separator') return parts[0] + ',' + parts[1];
+      return withCommas + '.' + parts[1];
+    });
+  }
+
+  // Turn a Loop selling plan name/option ("Deliver every 30 days", "1 month") into days.
+  function planDays(plan) {
+    var text = String(plan.days || plan.name || '').toLowerCase();
+    var m = text.match(/(\d+)\s*(day|week|month)/);
+    if (!m) { var n = text.match(/\d+/); return n ? parseInt(n[0], 10) : null; }
+    var num = parseInt(m[1], 10);
+    if (m[2] === 'week') return num * 7;
+    if (m[2] === 'month') return num * 30;
+    return num;
+  }
+
+  function init(root) {
+    var cfgEl = root.querySelector('[data-fb-config]');
+    if (!cfgEl) return;
+    var cfg = JSON.parse(cfgEl.textContent);
+    var money = function (c) { return formatMoney(c, cfg.moneyFormat); };
+    var discount = Number(cfg.discountPercent) || 0;
+    var tiers = cfg.tiers || [];
+
+    // Flatten sellable flavors and normalize their plans.
+    var items = [];
+    cfg.lines.forEach(function (line) {
+      (line.flavors || []).forEach(function (f) {
+        f.line = line;
+        f.qty = 0;
+        f.plans = (f.plans || []).map(function (p) {
+          return { id: p.id, price: p.price, days: planDays(p) };
+        });
+        items.push(f);
+      });
+    });
+
+    // Frequencies offered = those every flavor has a plan for.
+    var freqs = (cfg.frequencies || [30]).filter(function (d) {
+      return items.every(function (f) { return f.plans.some(function (p) { return p.days === d; }); });
+    });
+    var hasPlans = cfg.previewMode || items.every(function (f) { return f.plans.length; });
+    if (cfg.previewMode && !freqs.length) freqs = cfg.frequencies || [30];
+    if (!hasPlans && window.console) console.warn('[Fortified bundle] No Loop selling plans found on one or more variants. Subscribe button falls back to one-time purchase.');
+    var state = { freq: freqs.indexOf(cfg.defaultFrequency) > -1 ? cfg.defaultFrequency : freqs[0] };
+
+    function planFor(f) {
+      if (!f.plans.length) return null;
+      return f.plans.filter(function (p) { return p.days === state.freq; })[0] || f.plans[0];
+    }
+    function subPrice(f) {
+      var p = planFor(f);
+      if (p && p.price != null) return p.price;
+      return Math.round(f.price * (100 - discount) / 100);
+    }
+
+    /* ---------- Render tiers ---------- */
+    var stepsEl = root.querySelector('[data-fb-steps]');
+    var fill = h('span', { class: 'fb__steps-fill', 'aria-hidden': 'true' });
+    stepsEl.appendChild(fill);
+    var stepEls = tiers.map(function (t) {
+      var perks = h('div', { class: 'fb__perks' }, (t.perks || []).map(function (p) { return h('div', { text: '+ ' + p }); }));
+      var li = h('li', { class: 'fb__step' }, [
+        h('span', { class: 'fb__dot', html: CHECK }),
+        h('span', { class: 'fb__step-name', text: t.name }),
+        t.pill ? h('span', { class: 'fb__pill', text: t.pill }) : null,
+        perks
+      ]);
+      stepsEl.appendChild(li);
+      return li;
+    });
+
+    /* ---------- Render product lines ---------- */
+    var linesEl = root.querySelector('[data-fb-lines]');
+    cfg.lines.forEach(function (line) {
+      var head = h('div', { class: 'fb__line-head' }, [
+        h('h3', { class: 'fb__line-name', text: line.name }),
+        h('p', { class: 'fb__line-desc', text: line.desc })
+      ]);
+      var body;
+      if (line.comingSoon) {
+        body = h('div', { class: 'fb__soon' }, [
+          h('span', { class: 'fb__soon-tag', text: 'Coming Soon' }),
+          h('p', { text: line.soonText || '' }),
+          h('button', { type: 'button', class: 'fb__add', 'data-fb-open': line.waitlistDialog, text: 'Notify Me' })
+        ]);
+      } else {
+        body = h('div', { class: 'fb__cards' }, line.flavors.map(renderCard));
+      }
+      linesEl.appendChild(h('section', { class: 'fb__line fb__line--' + line.key, 'aria-label': line.name }, [head, body]));
+    });
+
+    function renderCard(f) {
+      var qtyWrap = h('div', { class: 'fb__qty-slot' });
+      var card = h('article', { class: 'fb__card' }, [
+        h('div', { class: 'fb__card-media' }, [
+          f.image ? h('img', { src: f.image, alt: f.line.name + ' ' + f.flavor, loading: 'lazy', width: '400', height: '400' }) : null,
+          f.line.badge ? h('span', { class: 'fb__badge', text: f.line.badge }) : null
+        ]),
+        h('div', { class: 'fb__card-body' }, [
+          h('h4', { class: 'fb__flavor', text: f.flavor }),
+          h('p', { class: 'fb__tagline', text: f.tagline || '' }),
+          h('button', { type: 'button', class: 'fb__link', 'data-fb-open': f.line.labelDialog, text: 'View Label' }),
+          qtyWrap
+        ])
+      ]);
+      f.card = card;
+      f.slot = qtyWrap;
+      paintQty(f);
+      return card;
+    }
+
+    function paintQty(f) {
+      f.slot.innerHTML = '';
+      f.card.classList.toggle('is-picked', f.qty > 0);
+      var label = f.line.name + ' ' + f.flavor;
+      if (f.qty === 0) {
+        var add = h('button', { type: 'button', class: 'fb__add', 'aria-label': 'Add ' + label, text: 'Add' });
+        add.addEventListener('click', function () { setQty(f, 1, true); });
+        f.slot.appendChild(add);
+        return;
+      }
+      var minus = h('button', { type: 'button', 'aria-label': 'Remove one ' + label, text: '−' });
+      var plus = h('button', { type: 'button', 'aria-label': 'Add one ' + label, text: '+', disabled: f.qty >= MAX_QTY });
+      var out = h('output', { 'aria-live': 'polite', text: String(f.qty) });
+      minus.addEventListener('click', function () { setQty(f, f.qty - 1, f.qty - 1 === 0); });
+      plus.addEventListener('click', function () { setQty(f, f.qty + 1); });
+      f.slot.appendChild(h('div', { class: 'fb__qty', role: 'group', 'aria-label': label + ' quantity' }, [minus, out, plus]));
+    }
+
+    function setQty(f, q, refocus) {
+      f.qty = Math.max(0, Math.min(MAX_QTY, q));
+      paintQty(f);
+      if (refocus) { var b = f.slot.querySelector('button:last-child'); if (b) b.focus(); }
+      update();
+    }
+
+    /* ---------- Frequency ---------- */
+    var freqEl = root.querySelector('[data-fb-freq]');
+    if (freqEl) {
+      if (!hasPlans || freqs.length < 2) freqEl.hidden = true;
+      freqs.forEach(function (d) {
+        var input = h('input', { type: 'radio', name: 'fb-freq', value: String(d), checked: d === state.freq });
+        input.addEventListener('change', function () { state.freq = d; update(); });
+        freqEl.appendChild(h('label', null, [input, h('span', { text: 'Every ' + d + ' days' })]));
+      });
+    }
+
+    /* ---------- Summary ---------- */
+    var $ = function (s) { return root.querySelectorAll(s); };
+    var ctas = $('[data-fb-cta]');
+    var otp = root.querySelector('[data-fb-otp]');
+    var sticky = root.querySelector('[data-fb-sticky]');
+    var errorEl = root.querySelector('[data-fb-error]');
+
+    function totals() {
+      var count = 0, full = 0, sub = 0;
+      items.forEach(function (f) { count += f.qty; full += f.price * f.qty; sub += subPrice(f) * f.qty; });
+      return { count: count, full: full, sub: sub };
+    }
+
+    function activeTierIndex(count) {
+      var idx = -1;
+      tiers.forEach(function (t, i) { if (count >= t.min) idx = i; });
+      return idx;
+    }
+
+    function update() {
+      var t = totals();
+      var ti = activeTierIndex(t.count);
+      stepEls.forEach(function (el, i) { el.classList.toggle('is-on', i <= ti); });
+      fill.style.width = tiers.length > 1 ? (Math.max(ti, 0) / (tiers.length - 1)) * 66.66 + '%' : '0';
+
+      var next = tiers[ti + 1];
+      var nudge = '';
+      if (t.count === 0) nudge = cfg.copy.emptyNudge;
+      else if (next) {
+        var need = next.min - t.count;
+        nudge = 'Add ' + need + ' more pack' + (need > 1 ? 's' : '') + ' to unlock ' + (next.perks || []).slice(-1)[0];
+      } else nudge = cfg.copy.maxNudge;
+      $('[data-fb-nudge]').forEach(function (el) { el.textContent = nudge; });
+
+      var subscribe = hasPlans;
+      $('[data-fb-full]').forEach(function (el) { el.textContent = subscribe && t.count ? money(t.full) : ''; el.hidden = !(subscribe && t.count); });
+      $('[data-fb-total]').forEach(function (el) { el.textContent = money(subscribe ? t.sub : t.full); });
+      $('[data-fb-pill]').forEach(function (el) { el.hidden = !subscribe || !discount; el.textContent = discount + '% OFF'; });
+      $('[data-fb-count]').forEach(function (el) { el.textContent = t.count + ' pack' + (t.count === 1 ? '' : 's'); });
+
+      ctas.forEach(function (b) {
+        b.disabled = t.count === 0;
+        var base = subscribe ? cfg.copy.ctaSubscribe : cfg.copy.ctaOneTime;
+        b.textContent = t.count === 0 ? cfg.copy.ctaEmpty : b.hasAttribute('data-fb-short') ? base : base + ' - ' + money(subscribe ? t.sub : t.full);
+      });
+      if (otp) {
+        otp.hidden = !subscribe;
+        otp.disabled = t.count === 0;
+        otp.textContent = 'One-Time Purchase - ' + money(t.count ? t.full : (items[0] ? items[0].price : 0));
+      }
+      $('[data-fb-freq-text]').forEach(function (el) { el.textContent = state.freq ? 'every ' + state.freq + ' days' : ''; });
+      if (sticky) sticky.classList.toggle('is-visible', t.count > 0);
+      errorEl.textContent = '';
+    }
+
+    /* ---------- Add to cart (Shopify AJAX Cart API) ---------- */
+    function submit(subscribe, btn) {
+      var t = totals();
+      if (!t.count) return;
+      var tier = tiers[activeTierIndex(t.count)];
+      var payload = {
+        items: items.filter(function (f) { return f.qty > 0; }).map(function (f) {
+          var line = { id: f.variantId, quantity: f.qty, properties: { _bundle: 'fortified-byob', _bundle_tier: tier ? tier.name : '' } };
+          var plan = subscribe ? planFor(f) : null;
+          if (plan) line.selling_plan = plan.id;
+          return line;
+        })
+      };
+
+      if (cfg.previewMode) {
+        var pre = document.getElementById('fb-preview-payload');
+        if (pre) { pre.textContent = JSON.stringify(payload, null, 2); openDialog('fb-preview'); }
+        return;
+      }
+
+      var root_ = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+      var label = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = cfg.copy.adding;
+      fetch(root_ + 'cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function (r) {
+        return r.json().then(function (j) { if (!r.ok) throw new Error(j.description || j.message || 'Could not add to cart'); return j; });
+      }).then(function () {
+        window.location.href = cfg.checkoutUrl || root_ + 'checkout';
+      }).catch(function (err) {
+        errorEl.textContent = err.message;
+        btn.disabled = false;
+        btn.textContent = label;
+      });
+    }
+
+    ctas.forEach(function (b) { b.addEventListener('click', function () { submit(hasPlans, b); }); });
+    if (otp) otp.addEventListener('click', function () { submit(false, otp); });
+
+    update();
+  }
+
+  /* ---------- Lightboxes (native <dialog>) ---------- */
+  function openDialog(id) {
+    var d = document.getElementById(id);
+    if (!d) return;
+    if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', '');
+  }
+  document.addEventListener('click', function (e) {
+    var opener = e.target.closest('[data-fb-open]');
+    if (opener) { e.preventDefault(); openDialog(opener.getAttribute('data-fb-open')); return; }
+    var closer = e.target.closest('[data-fb-close]');
+    if (closer) { closer.closest('dialog').close(); return; }
+    if (e.target.tagName === 'DIALOG' && e.target.classList.contains('fb-dialog')) e.target.close();
+  });
+
+  function boot() {
+    document.querySelectorAll('[data-fb]').forEach(init);
+    if (/[?&]customer_posted=true/.test(location.search)) openDialog('fb-waitlist');
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+</body>
+</html>
