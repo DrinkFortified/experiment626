@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fortified Bundle Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shopify/assets/fortified-bundle.css">
+<style>
+  body { margin: 0; background: #fff; }
+  .preview-note { background: #0e1a24; color: #fff; font: 600 13px/1.4 Figtree, system-ui, sans-serif; text-align: center; padding: 8px 16px; }
+  pre { background: #f5f7f8; padding: 12px; border-radius: 10px; font-size: 12px; overflow: auto; max-height: 300px; }
+</style>
+</head>
+<body>
+<div class="preview-note">Static preview. Subscription prices simulated at $59.00 less 10%. Live prices come from Loop selling plans in Shopify.</div>
+
+<div class="fb" data-fb>
+  <script type="application/json" data-fb-config>
+    {
+      "previewMode": true,
+      "moneyFormat": "${{amount}}",
+      "discountPercent": 10,
+      "defaultFrequency": 30,
+      "frequencies": [30, 60, 90],
+      "tiers": [
+        { "min": 1, "name": "1 Pack", "pill": "10% Off", "perks": [] },
+        { "min": 2, "name": "2 Packs", "pill": "10% Off", "perks": ["Free Shipping"] },
+        { "min": 3, "name": "3+ Packs", "pill": "10% Off", "perks": ["Free Shipping", "Free Creatine For Life"] }
+      ],
+      "copy": {
+        "ctaSubscribe": "Subscribe & Save",
+        "ctaOneTime": "Add to Cart",
+        "ctaEmpty": "Add a pack to start",
+        "adding": "Adding...",
+        "emptyNudge": "Pick your packs. Mix and match any flavors.",
+        "maxNudge": "Nice! Free Shipping + Free Creatine For Life unlocked."
+      },
+      "lines": [
+        {
+          "key": "energy", "name": "Energy", "badge": "Caffeine", "labelDialog": "fb-label-energy",
+          "desc": "150mg caffeine from coffee beans, plus electrolytes.",
+          "flavors": [
+            { "variantId": 67977031254320, "flavor": "Organic Salty Watermelon", "tagline": "Bold, refreshing, and ready for your day.", "price": 5900,
+              "image": "https://cdn.shopify.com/s/files/1/1000/1973/2784/files/260401-FOR-ENG-30-WTM-2026_1-Front_6bc5f01a-9136-4e66-89a5-64266588d385.webp?v=1791496978&width=500", "plans": [] },
+            { "variantId": 67977031221552, "flavor": "Organic Salty Orange", "tagline": "Bright, citrusy, and ready for your day.", "price": 5900,
+              "image": "https://cdn.shopify.com/s/files/1/1000/1973/2784/files/260401-FOR-ENG-30-ORG-2026_1-Front_053d37d2-3c4d-4b3c-acc6-d67e95d50eb5.webp?v=1791496996&width=500", "plans": [] }
+          ]
+        },
+        {
+          "key": "everyday", "name": "Everyday", "badge": "Caffeine-Free", "labelDialog": "fb-label-everyday",
+          "desc": "Caffeine-free electrolytes with Vitamin D3 and K2.",
+          "flavors": [
+            { "variantId": 67977031614768, "flavor": "Organic Salty Watermelon", "tagline": "Bold, refreshing, and ready for your day.", "price": 5900,
+              "image": "https://cdn.shopify.com/s/files/1/1000/1973/2784/files/260401-FOR-EDY-30-WTM-2026_1-Front_42bbc235-1ed3-45e8-b2c0-3ea3bf5b7e6e.webp?v=1791497044&width=500", "plans": [] },
+            { "variantId": 67977031582000, "flavor": "Organic Salty Orange", "tagline": "Bright, citrusy, and ready for your day.", "price": 5900,
+              "image": "https://cdn.shopify.com/s/files/1/1000/1973/2784/files/260401-FOR-EDY-30-ORG-2026_1-Front_d4d55d4a-fd92-4d2a-a06e-d6d64ebbe0e5.webp?v=1791497033&width=500", "plans": [] }
+          ]
+        },
+        {
+          "key": "performance", "name": "Performance", "comingSoon": true, "waitlistDialog": "fb-waitlist",
+          "desc": "5g creatine plus electrolytes.",
+          "soonText": "Creatine meets clean hydration. Be the first to know when it drops."
+        }
+      ]
+    }
+  </script>
+
+  <div class="fb__wrap">
+    <header>
+      <p class="fb__eyebrow">Customize your subscription</p>
+      <h2 class="fb__title">Build your own bundle</h2>
+      <p class="fb__sub">Clean electrolytes for people who read the label. Mix any flavors, save on every order.</p>
+      <ul class="fb__trust">
+        <li>Save 10% on every order</li>
+        <li>Skip or cancel anytime</li>
+        <li><button type="button" class="fb__link" data-fb-open="fb-guarantee">30-day money-back guarantee</button></li>
+      </ul>
+    </header>
+    <ol class="fb__steps" data-fb-steps aria-label="Bundle rewards"></ol>
+    <div class="fb__lines" data-fb-lines></div>
+    <div class="fb__summary">
+      <p class="fb__nudge" data-fb-nudge aria-live="polite"></p>
+      <fieldset class="fb__freq" data-fb-freq><legend>Deliver every</legend></fieldset>
+      <div class="fb__subtotal">
+        <div class="fb__subtotal-label">Subtotal <span class="fb__pill" data-fb-pill></span></div>
+        <div class="fb__prices"><s data-fb-full></s><span data-fb-total></span></div>
+      </div>
+      <button type="button" class="fb__cta" data-fb-cta disabled>Add a pack to start</button>
+      <button type="button" class="fb__link fb__otp" data-fb-otp disabled></button>
+      <p class="fb__error" data-fb-error role="alert"></p>
+      <p class="fb__legal">
+        Subscriptions renew automatically <span data-fb-freq-text></span> at the price shown, plus applicable tax and shipping, until you cancel.
+        Cancel anytime online in your account before your next billing date.
+        <button type="button" class="fb__link" data-fb-open="fb-howto">How it works</button>
+      </p>
+    </div>
+  </div>
+  <div class="fb__sticky" data-fb-sticky>
+    <div class="fb__sticky-info"><span data-fb-count></span><strong data-fb-total></strong></div>
+    <button type="button" class="fb__cta" data-fb-cta data-fb-short disabled>Add a pack to start</button>
+  </div>
+</div>
+
+<dialog class="fb-dialog" id="fb-label-energy"><div class="fb-dialog__inner">
+  <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+  <h3>Energy Label</h3>
+  <p>150mg caffeine from coffee beans, plus electrolytes.</p>
+  <h4>Electrolyte base</h4>
+  <ul><li>Pink Himalayan Salt (as Ancient Ocean)</li><li>Magnesium Malate</li><li>Coconut Water Powder (as CocOganic Plus)</li><li>Potassium Chloride</li><li>Bamboo Fiber</li><li>Organic Lemon Juice Powder</li></ul>
+  <h4>Energy adds</h4><ul><li>Natural Caffeine from coffee bean</li></ul>
+  <h4>Sweetened with</h4><ul><li>Monk Fruit Extract and Reb M (as OnoSweet)</li></ul>
+  <p>Flavors: Organic Salty Orange, Organic Salty Watermelon. No proprietary blends. No Mumbo Jumbo.</p>
+</div></dialog>
+
+<dialog class="fb-dialog" id="fb-label-everyday"><div class="fb-dialog__inner">
+  <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+  <h3>Everyday Label</h3>
+  <p>Caffeine-free electrolytes with Vitamin D3 and K2.</p>
+  <h4>Electrolyte base</h4>
+  <ul><li>Pink Himalayan Salt (as Ancient Ocean)</li><li>Magnesium Malate</li><li>Coconut Water Powder (as CocOganic Plus)</li><li>Potassium Chloride</li><li>Bamboo Fiber</li><li>Organic Lemon Juice Powder</li></ul>
+  <h4>Everyday adds</h4><ul><li>Vitamin D3</li><li>Vitamin K2 (Menaquinone-7)</li></ul>
+  <h4>Sweetened with</h4><ul><li>Monk Fruit Extract and Reb M (as OnoSweet)</li></ul>
+  <p>Flavors: Organic Salty Orange, Organic Salty Watermelon. Caffeine-free. No Mumbo Jumbo.</p>
+</div></dialog>
+
+<dialog class="fb-dialog" id="fb-howto"><div class="fb-dialog__inner">
+  <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+  <h3>How Subscribe &amp; Save works</h3>
+  <ul>
+    <li><strong>Save 10%</strong> on every pack, every order.</li>
+    <li><strong>Pick your cadence:</strong> ships every 30, 60, or 90 days.</li>
+    <li><strong>Unlock more:</strong> Free Shipping at 2 packs, Free Creatine For Life at 3+ packs.</li>
+    <li><strong>Full control:</strong> skip, swap flavors, change quantity, or cancel anytime from your account. No calls, no emails needed.</li>
+    <li><strong>Reminders:</strong> we email you before each renewal.</li>
+  </ul>
+  <p>Ships within the US only. Questions? <a href="mailto:hello@livefortified.com">hello@livefortified.com</a> or (888) 688-8351.</p>
+</div></dialog>
+
+<dialog class="fb-dialog" id="fb-guarantee"><div class="fb-dialog__inner">
+  <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+  <h3>30-Day Money-Back Guarantee</h3>
+  <p>Not happy for any reason? Contact us within 30 days of delivery and we will refund the purchase price. No return required.</p>
+  <p>Applies to purchases made directly from livefortified.com. A refund does not cancel future subscription deliveries on its own; cancel anytime from your account.</p>
+</div></dialog>
+
+<dialog class="fb-dialog" id="fb-waitlist"><div class="fb-dialog__inner">
+  <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+  <h3>Performance is coming</h3>
+  <p>5g creatine plus electrolytes. Get first access when it drops.</p>
+  <form onsubmit="event.preventDefault(); this.innerHTML='<p><strong>You\'re on the list.</strong> We\'ll email you the moment Performance launches.</p>';">
+    <input type="email" placeholder="you@email.com" aria-label="Email" required>
+    <button type="submit" class="fb__cta">Notify Me</button>
+  </form>
+</div></dialog>
+
+<dialog class="fb-dialog" id="fb-preview"><div class="fb-dialog__inner">
+  <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+  <h3>Preview: cart payload</h3>
+  <p>On Shopify this is POSTed to <code>/cart/add.js</code>, then the shopper goes straight to checkout. Live, each line also carries its Loop <code>selling_plan</code> id.</p>
+  <pre id="fb-preview-payload"></pre>
+</div></dialog>
+
+<script src="../shopify/assets/fortified-bundle.js"></script>
+</body>
+</html>

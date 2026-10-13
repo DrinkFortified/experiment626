@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "fortified-bundle",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

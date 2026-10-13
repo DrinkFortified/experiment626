@@ -1,0 +1,145 @@
+/* Fortified: Build Your Own Bundle landing */
+.fb {
+  --fb-teal: #12a39a;
+  --fb-teal-dark: #0d8a82;
+  --fb-ink: #0b0b0b;
+  --fb-navy: #0e1a24;
+  --fb-muted: #5b6168;
+  --fb-line: #d9dde1;
+  --fb-bg: #ffffff;
+  --fb-soft: #f5f7f8;
+  --fb-energy: #c8102e;
+  --fb-everyday: #f26a1b;
+  --fb-performance: #121212;
+  --fb-radius: 18px;
+  --fb-font: var(--font-body-family, "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif);
+  --fb-font-head: var(--font-heading-family, "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif);
+  font-family: var(--fb-font);
+  color: var(--fb-ink);
+  background: var(--fb-bg);
+  padding: 48px 16px 140px;
+  -webkit-font-smoothing: antialiased;
+}
+.fb *, .fb *::before, .fb *::after { box-sizing: border-box; }
+.fb button { font-family: inherit; cursor: pointer; }
+.fb img { max-width: 100%; display: block; }
+.fb__wrap { max-width: 1240px; margin: 0 auto; }
+
+/* Header */
+.fb__eyebrow { color: var(--fb-teal); text-transform: uppercase; letter-spacing: .12em; font-weight: 800; font-size: 15px; text-align: center; margin: 0 0 8px; }
+.fb__title { font-family: var(--fb-font-head); font-weight: 900; text-transform: uppercase; text-align: center; font-size: clamp(32px, 6vw, 60px); line-height: 1; letter-spacing: -.01em; margin: 0 0 12px; }
+.fb__sub { text-align: center; color: var(--fb-muted); font-size: 17px; max-width: 620px; margin: 0 auto 8px; }
+.fb__trust { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; list-style: none; padding: 0; margin: 14px 0 0; font-size: 14px; font-weight: 600; }
+.fb__trust li::before { content: "\2713"; color: var(--fb-teal); margin-right: 6px; font-weight: 900; }
+.fb__link { background: none; border: 0; padding: 0; color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+
+/* Tier stepper */
+.fb__steps { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); max-width: 1040px; margin: 40px auto 48px; list-style: none; padding: 0; }
+.fb__steps::before, .fb__steps-fill { content: ""; position: absolute; top: 24px; left: 16.66%; height: 2px; background: var(--fb-line); width: 66.66%; }
+.fb__steps-fill { background: var(--fb-teal); width: 0; transition: width .3s ease; z-index: 1; }
+.fb__step { position: relative; z-index: 2; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.fb__dot { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--fb-line); background: #fff; display: grid; place-items: center; color: #fff; transition: background .2s, border-color .2s; }
+.fb__dot svg { width: 22px; height: 22px; opacity: 0; transition: opacity .2s; }
+.fb__step.is-on .fb__dot { background: var(--fb-teal); border-color: var(--fb-teal); }
+.fb__step.is-on .fb__dot svg { opacity: 1; }
+.fb__step-name { font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: 17px; }
+.fb__pill { display: inline-block; background: var(--fb-teal); color: #fff; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; font-size: 13px; padding: 7px 18px; border-radius: 999px; }
+.fb__perks { font-size: 14px; font-weight: 600; line-height: 1.7; }
+
+/* Product lines */
+.fb__lines { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.fb__line { border-radius: var(--fb-radius); padding: 22px 14px 14px; color: #fff; display: flex; flex-direction: column; }
+.fb__line--energy { background: var(--fb-energy); }
+.fb__line--everyday { background: var(--fb-everyday); }
+.fb__line--performance { background: var(--fb-performance); }
+.fb__line-head { text-align: center; margin-bottom: 18px; }
+.fb__line-name { font-family: var(--fb-font-head); font-weight: 900; text-transform: uppercase; font-size: 36px; line-height: 1; margin: 0 0 8px; }
+.fb__line-desc { margin: 0; font-size: 16px; opacity: .95; }
+.fb__cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 1; }
+.fb__card { background: #fff; color: var(--fb-ink); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; text-align: center; border: 2px solid transparent; transition: border-color .15s; }
+.fb__card.is-picked { border-color: var(--fb-teal); }
+.fb__card-media { position: relative; aspect-ratio: 1 / 1; background: var(--fb-soft); }
+.fb__card-media img { width: 100%; height: 100%; object-fit: cover; }
+.fb__badge { position: absolute; top: 12px; left: 12px; background: #000; color: #fff; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; }
+.fb__card-body { padding: 14px 12px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.fb__flavor { font-weight: 800; font-size: 21px; line-height: 1.15; margin: 0; }
+.fb__tagline { color: var(--fb-muted); font-size: 14px; margin: 0; }
+.fb__card .fb__link { font-size: 16px; font-weight: 600; margin: 4px auto; }
+.fb__qty { margin-top: auto; display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; border: 1.5px solid var(--fb-line); border-radius: 999px; height: 50px; }
+.fb__qty button { background: none; border: 0; height: 100%; font-size: 24px; color: var(--fb-ink); border-radius: 999px; }
+.fb__qty button:disabled { opacity: .3; cursor: default; }
+.fb__qty output { font-size: 22px; font-weight: 600; }
+.fb__qty-slot { margin-top: auto; }
+.fb__add { width: 100%; height: 50px; font-size: 16px; border-radius: 999px; border: 0; background: var(--fb-navy); color: #fff; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+
+/* Coming soon */
+.fb__soon { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; border: 2px dashed rgba(255,255,255,.25); border-radius: 14px; padding: 28px 18px; text-align: center; }
+.fb__soon-tag { background: var(--fb-teal); color: #fff; font-weight: 800; letter-spacing: .12em; font-size: 13px; text-transform: uppercase; padding: 7px 16px; border-radius: 999px; }
+.fb__soon p { margin: 0; opacity: .85; max-width: 280px; }
+.fb__soon .fb__add { width: auto; background: #fff; color: var(--fb-ink); padding: 0 26px; margin: 0; }
+
+/* Summary */
+.fb__summary { max-width: 720px; margin: 40px auto 0; }
+.fb__freq { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; border: 0; padding: 0; }
+.fb__freq legend { width: 100%; text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; font-size: 13px; margin-bottom: 10px; }
+.fb__freq label { position: relative; }
+.fb__freq input { position: absolute; opacity: 0; inset: 0; }
+.fb__freq span { display: inline-block; padding: 9px 16px; border: 1.5px solid var(--fb-line); border-radius: 999px; font-weight: 600; font-size: 14px; cursor: pointer; }
+.fb__freq input:checked + span { border-color: var(--fb-teal); background: var(--fb-teal); color: #fff; }
+.fb__freq input:focus-visible + span { outline: 2px solid var(--fb-navy); outline-offset: 2px; }
+.fb__subtotal { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.fb__subtotal-label { display: flex; align-items: center; gap: 14px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-size: 18px; }
+.fb__prices { font-size: 24px; font-weight: 800; }
+.fb__prices s { color: #9aa0a6; font-weight: 600; font-size: 18px; margin-right: 8px; }
+.fb__cta { width: 100%; height: 72px; border: 0; border-radius: 8px; background: var(--fb-navy); color: #fff; font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: .03em; transition: transform .1s, background .2s; }
+.fb__cta:hover:not(:disabled) { background: #000; }
+.fb__cta:active:not(:disabled) { transform: translateY(1px); }
+.fb__cta:disabled { background: #9aa3ab; cursor: not-allowed; }
+.fb__otp { display: block; margin: 16px auto 0; font-size: 18px; }
+.fb__otp:disabled { opacity: .4; cursor: not-allowed; }
+.fb__nudge { text-align: center; color: var(--fb-teal-dark); font-weight: 700; margin: 0 0 14px; min-height: 1.4em; }
+.fb__legal { font-size: 12.5px; color: var(--fb-muted); text-align: center; line-height: 1.5; margin: 14px auto 0; max-width: 620px; }
+.fb__error { color: var(--fb-energy); text-align: center; font-weight: 600; margin: 10px 0 0; min-height: 1.2em; }
+
+/* Mobile sticky bar */
+.fb__sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; background: #fff; border-top: 1px solid var(--fb-line); padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); display: none; align-items: center; gap: 12px; box-shadow: 0 -6px 20px rgba(0,0,0,.06); }
+.fb__sticky-info { flex: 1; font-size: 13px; line-height: 1.3; }
+.fb__sticky-info strong { display: block; font-size: 18px; }
+.fb__sticky .fb__cta { height: 52px; width: auto; flex: 1.4; font-size: 15px; padding: 0 14px; white-space: nowrap; }
+
+/* Dialogs */
+.fb-dialog { border: 0; border-radius: 18px; padding: 0; width: min(560px, calc(100vw - 32px)); max-height: calc(100vh - 48px); color: #0b0b0b; font-family: var(--font-body-family, "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif); }
+.fb-dialog::backdrop { background: rgba(10, 14, 18, .6); }
+.fb-dialog__inner { padding: 28px 24px 24px; position: relative; }
+.fb-dialog__close { position: absolute; top: 10px; right: 10px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: #f1f3f4; font-size: 22px; line-height: 1; cursor: pointer; }
+.fb-dialog h3 { font-weight: 900; text-transform: uppercase; font-size: 24px; margin: 0 40px 6px 0; }
+.fb-dialog h4 { font-size: 14px; text-transform: uppercase; letter-spacing: .1em; margin: 18px 0 6px; color: #12a39a; }
+.fb-dialog p, .fb-dialog li { font-size: 15px; line-height: 1.55; }
+.fb-dialog ul { padding-left: 18px; margin: 6px 0; }
+.fb-dialog img { border-radius: 12px; margin: 12px 0; width: 100%; height: auto; }
+.fb-dialog form { display: grid; gap: 10px; margin-top: 14px; }
+.fb-dialog input[type="email"] { height: 50px; border: 1.5px solid #d9dde1; border-radius: 10px; padding: 0 14px; font-size: 16px; }
+.fb-dialog .fb__cta { height: 54px; font-size: 16px; }
+
+.fb-dialog .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+@media (max-width: 1024px) {
+  .fb__lines { grid-template-columns: 1fr 1fr; }
+  .fb__line--performance { grid-column: 1 / -1; }
+}
+@media (max-width: 680px) {
+  .fb { padding-top: 32px; }
+  .fb__lines { grid-template-columns: 1fr; }
+  .fb__line-name { font-size: 30px; }
+  .fb__flavor { font-size: 17px; }
+  .fb__tagline { font-size: 13px; }
+  .fb__steps { margin: 28px auto 32px; }
+  .fb__step-name { font-size: 13px; }
+  .fb__pill { font-size: 11px; padding: 6px 10px; }
+  .fb__perks { font-size: 12px; }
+  .fb__subtotal-label { font-size: 15px; gap: 8px; }
+  .fb__prices { font-size: 20px; }
+  .fb__cta { font-size: 18px; height: 62px; }
+  .fb__sticky.is-visible { display: flex; }
+}
+@media (prefers-reduced-motion: reduce) { .fb * { transition: none !important; } }

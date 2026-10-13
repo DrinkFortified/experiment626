@@ -1,0 +1,246 @@
+{%- comment -%}
+  Fortified: Build Your Own Bundle landing section.
+  Reads Loop selling plans straight from each variant's selling_plan_allocations,
+  so prices shown match what Loop charges at checkout.
+{%- endcomment -%}
+
+{{ 'fortified-bundle.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'fortified-bundle.js' | asset_url }}" defer></script>
+
+{%- liquid
+  assign energy = section.settings.energy_product
+  if energy == blank
+    assign energy = all_products['energy-30-day-supply-pack']
+  endif
+  assign everyday = section.settings.everyday_product
+  if everyday == blank
+    assign everyday = all_products['everyday-30-day-supply-pack']
+  endif
+  assign freq_list = section.settings.frequencies | split: ','
+-%}
+
+{%- capture flavors_energy -%}
+  {%- render 'fortified-bundle-flavors', product: energy -%}
+{%- endcapture -%}
+{%- capture flavors_everyday -%}
+  {%- render 'fortified-bundle-flavors', product: everyday -%}
+{%- endcapture -%}
+
+<div class="fb" data-fb id="fb-{{ section.id }}">
+  <script type="application/json" data-fb-config>
+    {
+      "moneyFormat": {{ shop.money_format | json }},
+      "discountPercent": {{ section.settings.discount_percent | json }},
+      "defaultFrequency": {{ section.settings.default_frequency | json }},
+      "frequencies": [{% for f in freq_list %}{{ f | strip | plus: 0 }}{% unless forloop.last %},{% endunless %}{% endfor %}],
+      "checkoutUrl": {{ routes.root_url | append: 'checkout' | replace: '//', '/' | json }},
+      "tiers": [
+        { "min": 1, "name": {{ section.settings.tier1_name | json }}, "pill": {{ section.settings.tier_pill | json }}, "perks": [] },
+        { "min": 2, "name": {{ section.settings.tier2_name | json }}, "pill": {{ section.settings.tier_pill | json }}, "perks": [{{ section.settings.tier2_perk | json }}] },
+        { "min": 3, "name": {{ section.settings.tier3_name | json }}, "pill": {{ section.settings.tier_pill | json }}, "perks": [{{ section.settings.tier2_perk | json }}, {{ section.settings.tier3_perk | json }}] }
+      ],
+      "copy": {
+        "ctaSubscribe": {{ section.settings.cta_subscribe | json }},
+        "ctaOneTime": "Add to Cart",
+        "ctaEmpty": "Add a pack to start",
+        "adding": "Adding...",
+        "emptyNudge": {{ section.settings.empty_nudge | json }},
+        "maxNudge": {{ section.settings.max_nudge | json }}
+      },
+      "lines": [
+        {
+          "key": "energy",
+          "name": "Energy",
+          "desc": {{ section.settings.energy_desc | json }},
+          "badge": {{ section.settings.energy_badge | json }},
+          "labelDialog": "fb-label-energy",
+          "flavors": [{{ flavors_energy }}]
+        },
+        {
+          "key": "everyday",
+          "name": "Everyday",
+          "desc": {{ section.settings.everyday_desc | json }},
+          "badge": {{ section.settings.everyday_badge | json }},
+          "labelDialog": "fb-label-everyday",
+          "flavors": [{{ flavors_everyday }}]
+        },
+        {
+          "key": "performance",
+          "name": "Performance",
+          "desc": {{ section.settings.performance_desc | json }},
+          "comingSoon": true,
+          "soonText": {{ section.settings.performance_soon | json }},
+          "waitlistDialog": "fb-waitlist"
+        }
+      ]
+    }
+  </script>
+
+  <div class="fb__wrap">
+    <header>
+      <p class="fb__eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="fb__title">{{ section.settings.heading }}</h2>
+      <p class="fb__sub">{{ section.settings.subheading }}</p>
+      <ul class="fb__trust">
+        <li>Save {{ section.settings.discount_percent }}% on every order</li>
+        <li>Skip or cancel anytime</li>
+        <li><button type="button" class="fb__link" data-fb-open="fb-guarantee">30-day money-back guarantee</button></li>
+      </ul>
+    </header>
+
+    <ol class="fb__steps" data-fb-steps aria-label="Bundle rewards"></ol>
+
+    <div class="fb__lines" data-fb-lines></div>
+
+    <div class="fb__summary">
+      <p class="fb__nudge" data-fb-nudge aria-live="polite"></p>
+      <fieldset class="fb__freq" data-fb-freq><legend>Deliver every</legend></fieldset>
+      <div class="fb__subtotal">
+        <div class="fb__subtotal-label">Subtotal <span class="fb__pill" data-fb-pill></span></div>
+        <div class="fb__prices"><s data-fb-full></s><span data-fb-total></span></div>
+      </div>
+      <button type="button" class="fb__cta" data-fb-cta disabled>Add a pack to start</button>
+      <button type="button" class="fb__link fb__otp" data-fb-otp disabled></button>
+      <p class="fb__error" data-fb-error role="alert"></p>
+      <p class="fb__legal">
+        Subscriptions renew automatically <span data-fb-freq-text></span> at the price shown, plus applicable tax and shipping, until you cancel.
+        Cancel anytime online in your account before your next billing date.
+        <button type="button" class="fb__link" data-fb-open="fb-howto">How it works</button>
+        {%- if shop.subscription_policy != blank %} &middot; <a href="{{ shop.subscription_policy.url }}">Subscription Policy</a>{% endif %}
+      </p>
+    </div>
+  </div>
+
+  <div class="fb__sticky" data-fb-sticky>
+    <div class="fb__sticky-info"><span data-fb-count></span><strong data-fb-total></strong></div>
+    <button type="button" class="fb__cta" data-fb-cta data-fb-short disabled>Add a pack to start</button>
+  </div>
+</div>
+
+{%- comment -%} Lightboxes {%- endcomment -%}
+<dialog class="fb-dialog" id="fb-label-energy" aria-labelledby="fb-label-energy-t">
+  <div class="fb-dialog__inner">
+    <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+    <h3 id="fb-label-energy-t">Energy Label</h3>
+    {%- if section.settings.energy_label != blank -%}
+      {{ section.settings.energy_label | image_url: width: 1100 | image_tag: loading: 'lazy', alt: 'Energy Supplement Facts', sizes: '(max-width: 600px) 100vw, 560px' }}
+    {%- else -%}
+      <p>{{ section.settings.energy_desc }}</p>
+      <h4>Electrolyte base</h4>
+      <ul><li>Pink Himalayan Salt (as Ancient Ocean)</li><li>Magnesium Malate</li><li>Coconut Water Powder (as CocOganic Plus)</li><li>Potassium Chloride</li><li>Bamboo Fiber</li><li>Organic Lemon Juice Powder</li></ul>
+      <h4>Energy adds</h4>
+      <ul><li>Natural Caffeine from coffee bean</li></ul>
+      <h4>Sweetened with</h4>
+      <ul><li>Monk Fruit Extract and Reb M (as OnoSweet)</li></ul>
+    {%- endif -%}
+    <p>Flavors: Organic Salty Orange, Organic Salty Watermelon. No proprietary blends. No Mumbo Jumbo.</p>
+  </div>
+</dialog>
+
+<dialog class="fb-dialog" id="fb-label-everyday" aria-labelledby="fb-label-everyday-t">
+  <div class="fb-dialog__inner">
+    <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+    <h3 id="fb-label-everyday-t">Everyday Label</h3>
+    {%- if section.settings.everyday_label != blank -%}
+      {{ section.settings.everyday_label | image_url: width: 1100 | image_tag: loading: 'lazy', alt: 'Everyday Supplement Facts', sizes: '(max-width: 600px) 100vw, 560px' }}
+    {%- else -%}
+      <p>{{ section.settings.everyday_desc }}</p>
+      <h4>Electrolyte base</h4>
+      <ul><li>Pink Himalayan Salt (as Ancient Ocean)</li><li>Magnesium Malate</li><li>Coconut Water Powder (as CocOganic Plus)</li><li>Potassium Chloride</li><li>Bamboo Fiber</li><li>Organic Lemon Juice Powder</li></ul>
+      <h4>Everyday adds</h4>
+      <ul><li>Vitamin D3</li><li>Vitamin K2 (Menaquinone-7)</li></ul>
+      <h4>Sweetened with</h4>
+      <ul><li>Monk Fruit Extract and Reb M (as OnoSweet)</li></ul>
+    {%- endif -%}
+    <p>Flavors: Organic Salty Orange, Organic Salty Watermelon. Caffeine-free. No Mumbo Jumbo.</p>
+  </div>
+</dialog>
+
+<dialog class="fb-dialog" id="fb-howto" aria-labelledby="fb-howto-t">
+  <div class="fb-dialog__inner">
+    <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+    <h3 id="fb-howto-t">How Subscribe &amp; Save works</h3>
+    <ul>
+      <li><strong>Save {{ section.settings.discount_percent }}%</strong> on every pack, every order.</li>
+      <li><strong>Pick your cadence:</strong> ships every 30, 60, or 90 days.</li>
+      <li><strong>Unlock more:</strong> {{ section.settings.tier2_perk }} at 2 packs, {{ section.settings.tier3_perk }} at 3+ packs.</li>
+      <li><strong>Full control:</strong> skip, swap flavors, change quantity, or cancel anytime from your account. No calls, no emails needed.</li>
+      <li><strong>Reminders:</strong> we email you before each renewal.</li>
+    </ul>
+    <p>Ships within the US only. Questions? <a href="mailto:hello@livefortified.com">hello@livefortified.com</a> or (888) 688-8351.</p>
+  </div>
+</dialog>
+
+<dialog class="fb-dialog" id="fb-guarantee" aria-labelledby="fb-guarantee-t">
+  <div class="fb-dialog__inner">
+    <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+    <h3 id="fb-guarantee-t">30-Day Money-Back Guarantee</h3>
+    <p>Not happy for any reason? Contact us within 30 days of delivery and we will refund the purchase price. No return required.</p>
+    <p>Applies to purchases made directly from livefortified.com. A refund does not cancel future subscription deliveries on its own; cancel anytime from your account.</p>
+    {%- if shop.refund_policy != blank %}<p><a href="{{ shop.refund_policy.url }}">Read the full Refund Policy</a></p>{% endif %}
+  </div>
+</dialog>
+
+<dialog class="fb-dialog" id="fb-waitlist" aria-labelledby="fb-waitlist-t">
+  <div class="fb-dialog__inner">
+    <button type="button" class="fb-dialog__close" data-fb-close aria-label="Close">&times;</button>
+    <h3 id="fb-waitlist-t">Performance is coming</h3>
+    <p>{{ section.settings.performance_desc }} Get first access when it drops.</p>
+    {%- form 'customer', id: 'fb-waitlist-form' -%}
+      {%- if form.posted_successfully? -%}
+        <p><strong>You're on the list.</strong> We'll email you the moment Performance launches.</p>
+      {%- else -%}
+        <input type="hidden" name="contact[tags]" value="performance-waitlist,newsletter">
+        <label for="fb-waitlist-email" class="visually-hidden">Email</label>
+        <input type="email" id="fb-waitlist-email" name="contact[email]" placeholder="you@email.com" autocomplete="email" required>
+        <button type="submit" class="fb__cta">Notify Me</button>
+        {%- if form.errors -%}<p class="fb__error">{{ form.errors | default_errors }}</p>{%- endif -%}
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</dialog>
+
+{% schema %}
+{
+  "name": "Fortified bundle builder",
+  "tag": "section",
+  "class": "section-fortified-bundle",
+  "settings": [
+    { "type": "header", "content": "Products" },
+    { "type": "product", "id": "energy_product", "label": "Energy product", "info": "Defaults to energy-30-day-supply-pack" },
+    { "type": "product", "id": "everyday_product", "label": "Everyday product", "info": "Defaults to everyday-30-day-supply-pack" },
+    { "type": "image_picker", "id": "energy_label", "label": "Energy Supplement Facts image" },
+    { "type": "image_picker", "id": "everyday_label", "label": "Everyday Supplement Facts image" },
+
+    { "type": "header", "content": "Subscription (Loop)" },
+    { "type": "number", "id": "discount_percent", "label": "Subscribe discount %", "default": 10, "info": "Display fallback only. Live prices come from the Loop selling plan." },
+    { "type": "text", "id": "frequencies", "label": "Delivery frequencies (days)", "default": "30,60,90", "info": "Only frequencies with a matching Loop plan on every variant are shown." },
+    { "type": "number", "id": "default_frequency", "label": "Default frequency (days)", "default": 30 },
+
+    { "type": "header", "content": "Copy" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Customize your subscription" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Build your own bundle" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Clean electrolytes for people who read the label. Mix any flavors, save on every order." },
+    { "type": "text", "id": "cta_subscribe", "label": "Subscribe button", "default": "Subscribe & Save" },
+    { "type": "text", "id": "empty_nudge", "label": "Empty cart nudge", "default": "Pick your packs. Mix and match any flavors." },
+    { "type": "text", "id": "max_nudge", "label": "All rewards unlocked", "default": "Nice! Free Shipping + Free Creatine For Life unlocked." },
+
+    { "type": "header", "content": "Reward tiers" },
+    { "type": "text", "id": "tier_pill", "label": "Tier pill", "default": "10% Off" },
+    { "type": "text", "id": "tier1_name", "label": "Tier 1 name", "default": "1 Pack" },
+    { "type": "text", "id": "tier2_name", "label": "Tier 2 name", "default": "2 Packs" },
+    { "type": "text", "id": "tier2_perk", "label": "Tier 2 perk", "default": "Free Shipping" },
+    { "type": "text", "id": "tier3_name", "label": "Tier 3 name", "default": "3+ Packs" },
+    { "type": "text", "id": "tier3_perk", "label": "Tier 3 perk", "default": "Free Creatine For Life" },
+
+    { "type": "header", "content": "Product lines" },
+    { "type": "text", "id": "energy_desc", "label": "Energy description", "default": "150mg caffeine from coffee beans, plus electrolytes." },
+    { "type": "text", "id": "energy_badge", "label": "Energy badge", "default": "Caffeine" },
+    { "type": "text", "id": "everyday_desc", "label": "Everyday description", "default": "Caffeine-free electrolytes with Vitamin D3 and K2." },
+    { "type": "text", "id": "everyday_badge", "label": "Everyday badge", "default": "Caffeine-Free" },
+    { "type": "text", "id": "performance_desc", "label": "Performance description", "default": "5g creatine plus electrolytes." },
+    { "type": "text", "id": "performance_soon", "label": "Performance coming soon text", "default": "Creatine meets clean hydration. Be the first to know when it drops." }
+  ],
+  "presets": [{ "name": "Fortified bundle builder" }]
+}
+{% endschema %}
