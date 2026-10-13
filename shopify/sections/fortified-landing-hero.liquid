@@ -1,0 +1,73 @@
+{%- comment -%} Fortified landing: hero, trust strip, how it works. {%- endcomment -%}
+{{ 'fortified-landing.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign energy = all_products['energy-30-day-supply-pack']
+  assign everyday = all_products['everyday-30-day-supply-pack']
+-%}
+<div class="fl">
+  <section class="fl-hero">
+    <div class="fl-hero__grid">
+      <div>
+        <p class="fl__eyebrow">{{ section.settings.eyebrow }}</p>
+        <h1 class="fl-hero__title">{{ section.settings.title_1 }}<br><span>{{ section.settings.title_2 }}</span></h1>
+        <p class="fl-hero__sub">{{ section.settings.subheading }}</p>
+        <div class="fl-hero__ctas">
+          <a href="#build" class="fl__btn">{{ section.settings.cta }}</a>
+          <p class="fl-hero__price">From <strong>{{ section.settings.from_price }}</strong>/pack with Subscribe &amp; Save</p>
+        </div>
+        <ul class="fl-hero__checks">
+          <li>No proprietary blends</li>
+          <li>Skip or cancel anytime</li>
+          <li>Free shipping on 2+ packs</li>
+        </ul>
+      </div>
+      <div class="fl-hero__art">
+        <div class="fl-hero__pack">
+          {%- if energy.featured_image -%}{{ energy.featured_image | image_url: width: 600 | image_tag: alt: 'Fortified Energy 30 Day Supply Pack', fetchpriority: 'high', sizes: '(max-width: 900px) 45vw, 280px' }}{%- endif -%}
+          <span>Energy</span>
+        </div>
+        <div class="fl-hero__pack">
+          {%- if everyday.featured_image -%}{{ everyday.featured_image | image_url: width: 600 | image_tag: alt: 'Fortified Everyday 30 Day Supply Pack', fetchpriority: 'high', sizes: '(max-width: 900px) 45vw, 280px' }}{%- endif -%}
+          <span>Everyday</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="fl-trust">
+    <ul>
+      <li>Transparent label</li>
+      <li>Monk fruit sweetened</li>
+      <li>30-day money-back</li>
+      <li>Ships in 1 to 3 days</li>
+    </ul>
+  </div>
+
+  <section class="fl__section">
+    <div class="fl__wrap fl__center">
+      <p class="fl__eyebrow">How Subscribe &amp; Save works</p>
+      <h2 class="fl__h2">Three steps. Zero hassle.</h2>
+      <ol class="fl-steps">
+        <li><h3>Build your bundle</h3><p>Mix Energy and Everyday in Organic Salty Orange and Organic Salty Watermelon. Every pack is a 30 day supply.</p></li>
+        <li><h3>Pick your cadence</h3><p>Ships every 30, 60, or 90 days. Save 10% on every order, plus free shipping at 2+ packs.</p></li>
+        <li><h3>Stay in control</h3><p>Skip, swap flavors, change quantity, or cancel online anytime. We email you before every renewal.</p></li>
+      </ol>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Fortified landing hero",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Clean electrolytes" },
+    { "type": "text", "id": "title_1", "label": "Headline line 1", "default": "Hydration." },
+    { "type": "text", "id": "title_2", "label": "Headline line 2", "default": "No Mumbo Jumbo." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Electrolytes for people who actually read the label. Build your own bundle and save 10% on every order." },
+    { "type": "text", "id": "cta", "label": "Button", "default": "Build Your Bundle" },
+    { "type": "text", "id": "from_price", "label": "From price", "default": "$53.10" }
+  ],
+  "presets": [{ "name": "Fortified landing hero" }]
+}
+{% endschema %}

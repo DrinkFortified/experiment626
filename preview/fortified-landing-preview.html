@@ -3,11 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fortified Bundle Builder</title>
+<title>Fortified Subscribe and Save</title>
+<meta name="description" content="Build your own Fortified electrolyte bundle. Save 10% on every order, free shipping on 2+ packs.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
+body { margin: 0; background: #fff; font-family: "Figtree", system-ui, sans-serif; }
+.pv-note { background: #fff4d6; color: #5a4300; font-size: 12px; text-align: center; padding: 6px 16px; }
+.pv-announce { background: #12a39a; color: #fff; text-align: center; font-weight: 800; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; padding: 10px 16px; }
+.pv-header { position: sticky; top: 0; z-index: 40; background: #fff; border-bottom: 1px solid #e3e6e9; }
+.pv-header div { max-width: 1180px; margin: 0 auto; padding: 0 16px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+.pv-logo { font-weight: 900; font-size: 24px; letter-spacing: .14em; color: #0e1a24; text-decoration: none; }
+.pv-header a.pv-cta { background: #0e1a24; color: #fff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; padding: 11px 18px; border-radius: 6px; }
+.pv-footer { background: #0e1a24; color: #c9d1d8; font-size: 14px; padding: 40px 16px 120px; }
+.pv-footer div { max-width: 1180px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 16px 32px; justify-content: space-between; }
+.pv-footer a { color: #fff; }
+.pv-footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
 /* Fortified: Build Your Own Bundle landing */
 .fb {
   --fb-teal: #12a39a;
@@ -153,17 +165,199 @@
   .fb__sticky.is-visible { display: flex; }
 }
 @media (prefers-reduced-motion: reduce) { .fb * { transition: none !important; } }
-</style>
-<style>
-  body { margin: 0; background: #fff; }
-  .preview-note { background: #0e1a24; color: #fff; font: 600 13px/1.4 Figtree, system-ui, sans-serif; text-align: center; padding: 8px 16px; }
-  pre { background: #f5f7f8; padding: 12px; border-radius: 10px; font-size: 12px; overflow: auto; max-height: 300px; }
+/* Fortified landing page sections (pairs with fortified-bundle.css) */
+.fl {
+  --fl-teal: #12a39a;
+  --fl-teal-soft: #e3f5f3;
+  --fl-ink: #0b0b0b;
+  --fl-navy: #0e1a24;
+  --fl-muted: #5b6168;
+  --fl-line: #e3e6e9;
+  --fl-soft: #f5f7f8;
+  --fl-energy: #c8102e;
+  --fl-everyday: #f26a1b;
+  --fl-font: var(--font-body-family, "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif);
+  --fl-font-head: var(--font-heading-family, "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif);
+  font-family: var(--fl-font);
+  color: var(--fl-ink);
+  -webkit-font-smoothing: antialiased;
+}
+.fl *, .fl *::before, .fl *::after { box-sizing: border-box; }
+.fl img { max-width: 100%; display: block; }
+.fl__wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+.fl__section { padding: 80px 0; }
+.fl__section--soft { background: var(--fl-soft); }
+.fl__eyebrow { color: var(--fl-teal); text-transform: uppercase; letter-spacing: .12em; font-weight: 800; font-size: 14px; margin: 0 0 10px; }
+.fl__h2 { font-family: var(--fl-font-head); font-weight: 900; text-transform: uppercase; font-size: clamp(30px, 4.6vw, 48px); line-height: 1.02; margin: 0 0 14px; letter-spacing: -.01em; }
+.fl__lead { font-size: 18px; color: var(--fl-muted); max-width: 640px; margin: 0; line-height: 1.5; }
+.fl__center { text-align: center; }
+.fl__center .fl__lead { margin: 0 auto; }
+.fl__btn { display: inline-flex; align-items: center; justify-content: center; height: 60px; padding: 0 34px; border-radius: 8px; background: var(--fl-teal); color: #fff; font-weight: 800; font-size: 18px; text-transform: uppercase; letter-spacing: .04em; text-decoration: none; border: 0; cursor: pointer; transition: background .2s, transform .1s; }
+.fl__btn:hover { background: #0d8a82; }
+.fl__btn:active { transform: translateY(1px); }
+.fl__btn--dark { background: var(--fl-navy); }
+.fl__btn--dark:hover { background: #000; }
+.fl__textlink { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+/* Hero */
+.fl-hero { background: var(--fl-navy); color: #fff; overflow: hidden; }
+.fl-hero__grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; padding: 72px 16px 80px; max-width: 1180px; margin: 0 auto; }
+.fl-hero__title { font-family: var(--fl-font-head); font-weight: 900; text-transform: uppercase; font-size: clamp(42px, 7vw, 82px); line-height: .95; letter-spacing: -.02em; margin: 0 0 20px; }
+.fl-hero__title span { color: var(--fl-teal); }
+.fl-hero__sub { font-size: 20px; line-height: 1.45; opacity: .9; margin: 0 0 28px; max-width: 520px; }
+.fl-hero__ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+.fl-hero__price { font-size: 15px; opacity: .85; }
+.fl-hero__price strong { color: #fff; font-size: 18px; }
+.fl-hero__checks { list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 15px; font-weight: 600; }
+.fl-hero__checks li::before { content: "\2713"; color: var(--fl-teal); font-weight: 900; margin-right: 6px; }
+.fl-hero__art { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.fl-hero__pack { background: #fff; border-radius: 22px; padding: 10px; box-shadow: 0 24px 50px rgba(0,0,0,.35); }
+.fl-hero__pack:first-child { transform: rotate(-4deg) translateY(16px); border-top: 6px solid var(--fl-energy); }
+.fl-hero__pack:last-child { transform: rotate(4deg) translateY(-12px); border-top: 6px solid var(--fl-everyday); }
+.fl-hero__pack img { border-radius: 14px; aspect-ratio: 1 / 1; object-fit: contain; width: 100%; height: auto; background: #fff; }
+.fl-hero__pack span { display: block; text-align: center; color: var(--fl-ink); font-weight: 800; text-transform: uppercase; font-size: 14px; letter-spacing: .08em; padding: 10px 0 4px; }
+
+/* Trust strip */
+.fl-trust { background: var(--fl-teal); color: #fff; }
+.fl-trust ul { list-style: none; margin: 0 auto; padding: 16px; max-width: 1180px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: 14px; }
+
+/* Compare */
+.fl-compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 44px; }
+.fl-formula { border-radius: 18px; padding: 28px 24px; color: #fff; display: flex; flex-direction: column; gap: 14px; }
+.fl-formula--energy { background: var(--fl-energy); }
+.fl-formula--everyday { background: var(--fl-everyday); }
+.fl-formula--performance { background: #121212; }
+.fl-formula h3 { font-family: var(--fl-font-head); font-weight: 900; text-transform: uppercase; font-size: 34px; margin: 0; line-height: 1; }
+.fl-formula__tag { align-self: flex-start; background: rgba(0,0,0,.25); padding: 6px 12px; border-radius: 999px; font-weight: 800; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+.fl-formula--performance .fl-formula__tag { background: var(--fl-teal); }
+.fl-formula dl { margin: 0; display: grid; gap: 10px; }
+.fl-formula dl div { display: grid; grid-template-columns: 110px 1fr; gap: 10px; border-top: 1px solid rgba(255,255,255,.25); padding-top: 10px; font-size: 15px; }
+.fl-formula dt { font-weight: 800; text-transform: uppercase; font-size: 12px; letter-spacing: .08em; opacity: .85; padding-top: 2px; }
+.fl-formula dd { margin: 0; }
+.fl-formula__foot { margin-top: auto; display: flex; gap: 16px; align-items: center; padding-top: 8px; }
+.fl-formula__foot a { color: #fff; font-weight: 800; }
+
+/* How it works */
+.fl-steps { list-style: none; padding: 0; margin: 44px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; counter-reset: s; }
+.fl-steps li { background: #fff; border: 1px solid var(--fl-line); border-radius: 18px; padding: 28px 24px; counter-increment: s; }
+.fl-steps li::before { content: counter(s); display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--fl-teal); color: #fff; font-weight: 900; font-size: 20px; margin: 0 auto 16px; }
+.fl-steps h3 { margin: 0 0 6px; font-size: 20px; font-weight: 800; }
+.fl-steps p { margin: 0; color: var(--fl-muted); line-height: 1.5; }
+
+/* Ingredients */
+.fl-ingr { display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; align-items: start; }
+.fl-ingr__list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fl-ingr__list li { background: #fff; border: 1px solid var(--fl-line); border-radius: 12px; padding: 14px 16px; }
+.fl-ingr__list strong { display: block; font-size: 16px; }
+.fl-ingr__list span { color: var(--fl-muted); font-size: 14px; }
+.fl-ingr__list li.is-energy { border-left: 4px solid var(--fl-energy); }
+.fl-ingr__list li.is-everyday { border-left: 4px solid var(--fl-everyday); }
+.fl-ingr__note { margin-top: 18px; font-size: 14px; color: var(--fl-muted); }
+.fl-nope { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 8px; font-weight: 700; }
+.fl-nope li::before { content: "\2715"; color: var(--fl-energy); margin-right: 10px; font-weight: 900; }
+
+/* Guarantee */
+.fl-guarantee { background: var(--fl-navy); color: #fff; border-radius: 24px; padding: 48px 32px; display: grid; grid-template-columns: auto 1fr auto; gap: 32px; align-items: center; }
+.fl-guarantee__seal { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--fl-teal); display: grid; place-items: center; text-align: center; font-weight: 900; text-transform: uppercase; line-height: 1; }
+.fl-guarantee__seal b { display: block; font-size: 40px; color: var(--fl-teal); }
+.fl-guarantee__seal small { font-size: 11px; letter-spacing: .1em; }
+.fl-guarantee h2 { margin: 0 0 8px; font-weight: 900; text-transform: uppercase; font-size: 30px; }
+.fl-guarantee p { margin: 0; opacity: .85; line-height: 1.5; }
+
+/* FAQ */
+.fl-faq { max-width: 820px; margin: 40px auto 0; }
+.fl-faq details { border-bottom: 1px solid var(--fl-line); }
+.fl-faq summary { list-style: none; cursor: pointer; padding: 20px 40px 20px 0; font-weight: 800; font-size: 18px; position: relative; }
+.fl-faq summary::-webkit-details-marker { display: none; }
+.fl-faq summary::after { content: "+"; position: absolute; right: 4px; top: 50%; transform: translateY(-50%); font-size: 26px; font-weight: 400; color: var(--fl-teal); transition: transform .2s; }
+.fl-faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+.fl-faq details p { margin: 0 0 20px; color: var(--fl-muted); line-height: 1.6; }
+
+/* Final CTA */
+.fl-final { background: var(--fl-teal); color: #fff; text-align: center; padding: 72px 16px; }
+.fl-final .fl__h2 { color: #fff; }
+.fl-final p { font-size: 18px; margin: 0 0 26px; opacity: .95; }
+
+@media (max-width: 900px) {
+  .fl-hero__grid { grid-template-columns: 1fr; padding: 48px 16px 64px; gap: 36px; }
+  .fl-hero__art { max-width: 340px; margin: 0 auto; width: 100%; gap: 12px; }
+  .fl-hero__pack:first-child { transform: rotate(-3deg) translateY(8px); }
+  .fl-hero__pack:last-child { transform: rotate(3deg) translateY(-6px); }
+  .fl-trust ul { grid-template-columns: 1fr 1fr; font-size: 12px; }
+  .fl-compare, .fl-steps { grid-template-columns: 1fr; }
+  .fl-ingr { grid-template-columns: 1fr; gap: 28px; }
+  .fl-guarantee { grid-template-columns: 1fr; text-align: center; justify-items: center; padding: 36px 20px; }
+  .fl__section { padding: 56px 0; }
+}
+@media (max-width: 520px) {
+  .fl-ingr__list { grid-template-columns: 1fr; }
+  .fl-hero__sub { font-size: 17px; }
+  .fl__btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .fl * { transition: none !important; } }
+
+html:has(.fl) { scroll-behavior: smooth; }
+#build { scroll-margin-top: 80px; }
+
 </style>
 </head>
 <body>
-<div class="preview-note">Static preview. Subscription prices simulated at $59.00 less 10%. Live prices come from Loop selling plans in Shopify.</div>
+<div class="pv-note">Preview. Subscription prices simulated at $59.00 less 10%. On Shopify, prices come from Loop and checkout is live.</div>
+<div class="pv-announce">Save 10% on every order + free shipping on 2+ packs</div>
+<header class="pv-header"><div><a class="pv-logo" href="#">FORTIFIED</a><a class="pv-cta" href="#build">Build Your Bundle</a></div></header>
+<main>
+<div class="fl">
+  <section class="fl-hero">
+    <div class="fl-hero__grid">
+      <div>
+        <p class="fl__eyebrow">Clean electrolytes</p>
+        <h1 class="fl-hero__title">Hydration.<br><span>No Mumbo Jumbo.</span></h1>
+        <p class="fl-hero__sub">Electrolytes for people who actually read the label. Build your own bundle and save 10% on every order.</p>
+        <div class="fl-hero__ctas">
+          <a href="#build" class="fl__btn">Build Your Bundle</a>
+          <p class="fl-hero__price">From <strong>$53.10</strong>/pack with Subscribe &amp; Save</p>
+        </div>
+        <ul class="fl-hero__checks">
+          <li>No proprietary blends</li>
+          <li>Skip or cancel anytime</li>
+          <li>Free shipping on 2+ packs</li>
+        </ul>
+      </div>
+      <div class="fl-hero__art">
+        <div class="fl-hero__pack">
+          <img src="https://cdn.shopify.com/s/files/1/1000/1973/2784/files/260401-FOR-ENG-30-WTM-2026_1-Front_6bc5f01a-9136-4e66-89a5-64266588d385.webp?v=1791496978&width=600" alt="Fortified Energy 30 Day Supply Pack" width="600" height="600" fetchpriority="high">
+          <span>Energy</span>
+        </div>
+        <div class="fl-hero__pack">
+          <img src="https://cdn.shopify.com/s/files/1/1000/1973/2784/files/260401-FOR-EDY-30-ORG-2026_1-Front_d4d55d4a-fd92-4d2a-a06e-d6d64ebbe0e5.webp?v=1791497033&width=600" alt="Fortified Everyday 30 Day Supply Pack" width="600" height="600" fetchpriority="high">
+          <span>Everyday</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<div class="fb" data-fb>
+  <div class="fl-trust">
+    <ul>
+      <li>Transparent label</li>
+      <li>Monk fruit sweetened</li>
+      <li>30-day money-back</li>
+      <li>Ships in 1 to 3 days</li>
+    </ul>
+  </div>
+
+  <section class="fl__section">
+    <div class="fl__wrap fl__center">
+      <p class="fl__eyebrow">How Subscribe &amp; Save works</p>
+      <h2 class="fl__h2">Three steps. Zero hassle.</h2>
+      <ol class="fl-steps">
+        <li><h3>Build your bundle</h3><p>Mix Energy and Everyday in Organic Salty Orange and Organic Salty Watermelon. Every pack is a 30 day supply.</p></li>
+        <li><h3>Pick your cadence</h3><p>Ships every 30, 60, or 90 days. Save 10% on every order, plus free shipping at 2+ packs.</p></li>
+        <li><h3>Stay in control</h3><p>Skip, swap flavors, change quantity, or cancel online anytime. We email you before every renewal.</p></li>
+      </ol>
+    </div>
+  </section>
+</div>
+<div class="fb" data-fb id="build">
   <script type="application/json" data-fb-config>
     {
       "previewMode": true,
@@ -308,7 +502,130 @@
   <p>On Shopify this is POSTed to <code>/cart/add.js</code>, then the shopper goes straight to checkout. Live, each line also carries its Loop <code>selling_plan</code> id.</p>
   <pre id="fb-preview-payload"></pre>
 </div></dialog>
+<div class="fl">
+  <section class="fl__section fl__section--soft">
+    <div class="fl__wrap">
+      <div class="fl__center">
+        <p class="fl__eyebrow">Choose your formula</p>
+        <h2 class="fl__h2">Same clean base. Different job.</h2>
+        <p class="fl__lead">Both formulas share one transparent electrolyte base. Pick caffeine for a kick or go caffeine-free for every day.</p>
+      </div>
+      <div class="fl-compare">
+        <article class="fl-formula fl-formula--energy">
+          <span class="fl-formula__tag">Caffeine</span>
+          <h3>Energy</h3>
+          <dl>
+            <div><dt>Adds</dt><dd>150mg natural caffeine from coffee bean</dd></div>
+            <div><dt>Base</dt><dd>Higher-sodium electrolyte formula</dd></div>
+            <div><dt>Flavors</dt><dd>Organic Salty Orange, Organic Salty Watermelon</dd></div>
+            <div><dt>Supply</dt><dd>30 day pack</dd></div>
+          </dl>
+          <div class="fl-formula__foot"><a href="#build" class="fl__btn fl__btn--dark">Add Energy</a><button type="button" class="fl__textlink" data-fb-open="fb-label-energy">View Label</button></div>
+        </article>
+        <article class="fl-formula fl-formula--everyday">
+          <span class="fl-formula__tag">Caffeine-Free</span>
+          <h3>Everyday</h3>
+          <dl>
+            <div><dt>Adds</dt><dd>Vitamin D3 and Vitamin K2 (MK-7)</dd></div>
+            <div><dt>Base</dt><dd>Daily electrolyte formula</dd></div>
+            <div><dt>Flavors</dt><dd>Organic Salty Orange, Organic Salty Watermelon</dd></div>
+            <div><dt>Supply</dt><dd>30 day pack</dd></div>
+          </dl>
+          <div class="fl-formula__foot"><a href="#build" class="fl__btn fl__btn--dark">Add Everyday</a><button type="button" class="fl__textlink" data-fb-open="fb-label-everyday">View Label</button></div>
+        </article>
+        <article class="fl-formula fl-formula--performance">
+          <span class="fl-formula__tag">Coming Soon</span>
+          <h3>Performance</h3>
+          <dl>
+            <div><dt>Adds</dt><dd>5g creatine</dd></div>
+            <div><dt>Base</dt><dd>Clean electrolytes</dd></div>
+            <div><dt>Status</dt><dd>In development. Join the list for first access.</dd></div>
+          </dl>
+          <div class="fl-formula__foot"><button type="button" class="fl__btn" data-fb-open="fb-waitlist">Notify Me</button></div>
+        </article>
+      </div>
+    </div>
+  </section>
 
+  <section class="fl__section">
+    <div class="fl__wrap fl-ingr">
+      <div>
+        <p class="fl__eyebrow">Radical transparency</p>
+        <h2 class="fl__h2">Everything on the label. Nothing hidden.</h2>
+        <p class="fl__lead">Every ingredient is listed by name and source. If you can't read it, it's not in the pack.</p>
+        <ul class="fl-nope">
+          <li>No proprietary blends</li>
+          <li>No fillers you can't pronounce</li>
+          <li>No fear-mongering marketing</li>
+        </ul>
+      </div>
+      <div>
+        <ul class="fl-ingr__list">
+          <li><strong>Pink Himalayan Salt</strong><span>as Ancient Ocean</span></li>
+          <li><strong>Magnesium Malate</strong><span>Magnesium</span></li>
+          <li><strong>Coconut Water Powder</strong><span>as CocOganic Plus</span></li>
+          <li><strong>Potassium Chloride</strong><span>Potassium</span></li>
+          <li><strong>Bamboo Fiber</strong><span>Fiber</span></li>
+          <li><strong>Organic Lemon Juice Powder</strong><span>Flavor</span></li>
+          <li><strong>Monk Fruit + Reb M</strong><span>Sweetened with OnoSweet</span></li>
+          <li class="is-energy"><strong>Natural Caffeine</strong><span>From coffee bean. Energy only.</span></li>
+          <li class="is-everyday"><strong>Vitamin D3 + K2</strong><span>Menaquinone-7. Everyday only.</span></li>
+        </ul>
+        <p class="fl-ingr__note">See the full Supplement Facts with <button type="button" class="fl__textlink" data-fb-open="fb-label-energy">Energy</button> or <button type="button" class="fl__textlink" data-fb-open="fb-label-everyday">Everyday</button>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="fl__section" style="padding-top:0">
+    <div class="fl__wrap">
+      <div class="fl-guarantee">
+        <div class="fl-guarantee__seal"><div><b>30</b><small>Day<br>Guarantee</small></div></div>
+        <div>
+          <h2>Love it or it's on us.</h2>
+          <p>Not happy for any reason? Contact us within 30 days of delivery and we'll refund the purchase price. No return required.</p>
+        </div>
+        <a href="#build" class="fl__btn">Try It Risk-Free</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="fl__section fl__section--soft">
+    <div class="fl__wrap">
+      <div class="fl__center">
+        <p class="fl__eyebrow">FAQ</p>
+        <h2 class="fl__h2">Questions, answered.</h2>
+      </div>
+      <div class="fl-faq">
+        <details><summary>What's the difference between Energy and Everyday?</summary><p>Both share the same electrolyte base. Energy is a higher-sodium formula with natural caffeine from coffee bean. Everyday is caffeine-free and adds Vitamin D3 and Vitamin K2.</p></details>
+        <details><summary>Can I mix formulas and flavors?</summary><p>Yes. Mix any combination of Energy and Everyday in Organic Salty Orange and Organic Salty Watermelon. Rewards are based on the total number of packs in your bundle.</p></details>
+        <details><summary>How does Subscribe &amp; Save work?</summary><p>You save 10% on every order and choose delivery every 30, 60, or 90 days. Your subscription renews automatically at the price shown until you cancel, and we email you a reminder before each renewal.</p></details>
+        <details><summary>How do I skip, change, or cancel?</summary><p>Log in at livefortified.com and go to My Subscriptions. You can skip, swap flavors, change quantity, or cancel anytime before your next billing date. No calls or emails required. You can also email hello@livefortified.com or call (888) 688-8351.</p></details>
+        <details><summary>What is Free Creatine For Life?</summary><p>Keep 3 or more packs on an active subscription and we include our single-ingredient Creatine Monohydrate with your orders at no charge, for as long as your subscription stays at 3+ packs.</p></details>
+        <details><summary>What if I don't like it?</summary><p>Contact us within 30 days of delivery and we'll refund the purchase price. No return required. A refund does not cancel future subscription orders on its own, so cancel from your account if you'd like to stop.</p></details>
+        <details><summary>When will my order ship?</summary><p>Orders typically ship within 1 to 3 business days and standard ground delivery usually takes 3 to 7 business days. We ship to all 50 US states and DC.</p></details>
+        <details><summary>When is Performance launching?</summary><p>Soon. <button type="button" class="fl__textlink" data-fb-open="fb-waitlist">Join the list</button> and you'll be the first to know.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="fl-final">
+    <div class="fl__wrap">
+      <h2 class="fl__h2">Read the label. Then drink it.</h2>
+      <p>Build your bundle and save 10% on every order.</p>
+      <a href="#build" class="fl__btn fl__btn--dark">Build Your Bundle</a>
+    </div>
+  </section>
+</div>
+</main>
+<footer class="pv-footer"><div>
+  <p>&copy; 2026 Fortified Brands LLC. No Mumbo Jumbo.</p>
+  <nav>
+    <a href="https://livefortified.com/policies/refund-policy">Refund Policy</a>
+    <a href="https://livefortified.com/policies/shipping-policy">Shipping Policy</a>
+    <a href="https://livefortified.com/policies/subscription-policy">Subscription Policy</a>
+    <a href="mailto:hello@livefortified.com">hello@livefortified.com</a>
+  </nav>
+</div></footer>
 <script>
 /* Fortified: Build Your Own Bundle (Shopify + Loop selling plans) */
 (function () {

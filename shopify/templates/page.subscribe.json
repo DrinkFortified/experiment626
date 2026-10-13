@@ -1,9 +1,8 @@
 {
   "sections": {
-    "main": {
-      "type": "fortified-bundle",
-      "settings": {}
-    }
+    "hero": { "type": "fortified-landing-hero", "settings": {} },
+    "bundle": { "type": "fortified-bundle", "settings": {} },
+    "info": { "type": "fortified-landing-info", "settings": {} }
   },
-  "order": ["main"]
+  "order": ["hero", "bundle", "info"]
 }
