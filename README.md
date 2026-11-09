@@ -29,3 +29,6 @@ Selected packs are added with `/cart/add.js`, each line carrying its Loop `selli
 - Product inventory is currently 0, so adds will fail unless inventory is set or "continue selling when out of stock" is on.
 - Confirm the terms of Free Creatine For Life and edit its FAQ answer in the theme editor.
 - Optional: upload Supplement Facts images in the section settings for the View Label lightboxes.
+
+## Mockups
+- `mockups/purchase-flow/index.html`: standalone design mockup of a streamlined 3-step purchase flow (bundle size, pick packs, delivery) with sticky summary, reward progress bar, express pay buttons, and a simulated one-page checkout. Uses the same palette as the landing sections. Open it directly in a browser; nothing is submitted.

@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fortified Quick Checkout</title>
+<meta name="description" content="Mockup of a streamlined, high-converting Fortified purchase flow using the existing brand palette.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #12a39a;
+  --teal-dark: #0d8a82;
+  --teal-soft: #e3f5f3;
+  --ink: #0b0b0b;
+  --navy: #0e1a24;
+  --muted: #5b6168;
+  --line: #e3e6e9;
+  --soft: #f5f7f8;
+  --energy: #c8102e;
+  --everyday: #f26a1b;
+  --performance: #121212;
+  --radius: 16px;
+  --font: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: var(--font); color: var(--ink); background: #fff; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Mockup ribbon */
+.ribbon { background: #fff7d6; color: #6b5300; font-size: 12.5px; font-weight: 700; text-align: center; padding: 6px 16px; }
+
+/* Announcement + header */
+.announce { background: var(--teal); color: #fff; text-align: center; font-weight: 800; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; padding: 9px 16px; }
+.header { position: sticky; top: 0; z-index: 40; background: #fff; border-bottom: 1px solid var(--line); }
+.header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.logo { font-weight: 900; font-size: 24px; letter-spacing: .14em; color: var(--navy); text-decoration: none; }
+.logo span { color: var(--teal); }
+.header__secure { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--muted); }
+.header__secure svg { width: 16px; height: 16px; color: var(--teal); }
+
+/* Hero (compact so the builder sits above the fold) */
+.hero { background: var(--navy); color: #fff; }
+.hero .wrap { padding-top: 40px; padding-bottom: 40px; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 18px 40px; }
+.hero h1 { font-weight: 900; text-transform: uppercase; font-size: clamp(34px, 6vw, 60px); line-height: .95; letter-spacing: -.02em; margin: 0 0 12px; }
+.hero h1 span { color: var(--teal); }
+.hero p { margin: 0; font-size: 18px; opacity: .88; max-width: 520px; line-height: 1.45; }
+.hero__checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-weight: 700; font-size: 15px; }
+.hero__checks li::before { content: "\2713"; color: var(--teal); font-weight: 900; margin-right: 8px; }
+
+/* Layout */
+.flow { display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: 36px; align-items: start; padding: 36px 16px 80px; }
+.step { border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; margin-bottom: 18px; background: #fff; }
+.step__head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+.step__num { flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--teal); color: #fff; display: grid; place-items: center; font-weight: 900; }
+.step__title { margin: 0; font-size: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: .02em; }
+.step__hint { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+
+/* Step 1: bundle size */
+.tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.tier { position: relative; text-align: left; background: #fff; border: 2px solid var(--line); border-radius: 14px; padding: 18px 16px 16px; color: var(--ink); transition: border-color .15s, box-shadow .15s; }
+.tier:hover { border-color: #b9c1c7; }
+.tier[aria-pressed="true"] { border-color: var(--teal); box-shadow: 0 0 0 4px var(--teal-soft); }
+.tier__flag { position: absolute; top: -11px; left: 14px; background: var(--navy); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
+.tier__flag--best { background: var(--teal); }
+.tier__name { font-weight: 900; font-size: 22px; text-transform: uppercase; }
+.tier__price { margin: 6px 0 10px; font-size: 15px; color: var(--muted); }
+.tier__price b { color: var(--ink); font-size: 18px; }
+.tier__perks { list-style: none; margin: 0; padding: 0; font-size: 13.5px; font-weight: 700; display: grid; gap: 4px; }
+.tier__perks li::before { content: "\2713"; color: var(--teal); font-weight: 900; margin-right: 6px; }
+.tier__perks li.off { color: #a3a9ae; font-weight: 600; }
+.tier__perks li.off::before { content: "\25CB"; color: #c3c8cc; }
+
+/* Step 2: pack slots */
+.slots { display: grid; gap: 12px; }
+.slot { display: grid; grid-template-columns: 76px 1fr; gap: 16px; align-items: center; border: 1px solid var(--line); border-radius: 14px; padding: 12px; background: var(--soft); }
+.slot__img { position: relative; width: 76px; height: 76px; border-radius: 12px; background: #fff; overflow: hidden; border-top: 5px solid var(--energy); }
+.slot__img.is-everyday { border-top-color: var(--everyday); }
+.slot__img img, .slot__img svg { width: 100%; height: 100%; object-fit: contain; }
+.slot__label { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.slot__ctrls { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; }
+.slot > div { min-width: 0; }
+.seg { display: inline-flex; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
+.seg button { border: 0; background: none; border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: 14px; color: var(--muted); white-space: nowrap; }
+.seg button[aria-pressed="true"] { color: #fff; }
+.seg--formula button[data-v="energy"][aria-pressed="true"] { background: var(--energy); }
+.seg--formula button[data-v="everyday"][aria-pressed="true"] { background: var(--everyday); }
+.seg--flavor button[aria-pressed="true"] { background: var(--navy); }
+.slot__meta { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.formula-help { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; font-size: 13.5px; }
+.formula-help div { border-radius: 12px; padding: 12px 14px; color: #fff; }
+.formula-help b { display: block; text-transform: uppercase; letter-spacing: .06em; font-size: 14px; margin-bottom: 2px; }
+
+/* Step 3: delivery */
+.plans { display: grid; gap: 10px; }
+.plan { display: grid; grid-template-columns: 24px 1fr auto; gap: 14px; align-items: center; text-align: left; background: #fff; border: 2px solid var(--line); border-radius: 14px; padding: 16px; color: var(--ink); }
+.plan[aria-checked="true"] { border-color: var(--teal); background: var(--teal-soft); }
+.plan__radio { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #b9c1c7; display: grid; place-items: center; }
+.plan[aria-checked="true"] .plan__radio { border-color: var(--teal); }
+.plan[aria-checked="true"] .plan__radio::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--teal); }
+.plan__name { display: block; font-weight: 800; font-size: 17px; }
+.plan__name em { font-style: normal; background: var(--teal); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; margin-left: 8px; vertical-align: 2px; }
+.plan__sub { display: block; font-size: 13.5px; color: var(--muted); margin-top: 2px; }
+.plan__price { font-weight: 800; font-size: 17px; text-align: right; }
+.plan__price s { display: block; color: #9aa0a6; font-weight: 600; font-size: 13px; }
+.freq { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0 0 38px; font-size: 14px; font-weight: 700; }
+.freq button { border: 1.5px solid var(--line); background: #fff; border-radius: 999px; padding: 7px 14px; font-weight: 700; font-size: 14px; color: var(--ink); }
+.freq button[aria-pressed="true"] { border-color: var(--teal); background: var(--teal); color: #fff; }
+.freq[hidden] { display: none; }
+
+/* Summary */
+.summary { position: sticky; top: 84px; border-radius: var(--radius); background: var(--navy); color: #fff; padding: 24px; }
+.summary h2 { margin: 0 0 16px; font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; }
+.progress { background: rgba(255,255,255,.08); border-radius: 12px; padding: 14px; margin-bottom: 18px; }
+.progress__msg { font-size: 14px; font-weight: 700; margin-bottom: 10px; min-height: 1.3em; }
+.progress__msg b { color: var(--teal); }
+.progress__bar { position: relative; height: 8px; background: rgba(255,255,255,.15); border-radius: 999px; }
+.progress__fill { position: absolute; inset: 0 auto 0 0; background: var(--teal); border-radius: 999px; transition: width .3s ease; }
+.progress__marks { display: flex; justify-content: space-between; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; margin-top: 8px; opacity: .8; }
+.lines { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 10px; }
+.lines li { display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center; font-size: 14px; }
+.lines .thumb { width: 44px; height: 44px; border-radius: 8px; background: #fff; overflow: hidden; border-top: 4px solid var(--energy); }
+.lines .thumb.is-everyday { border-top-color: var(--everyday); }
+.lines .thumb img, .lines .thumb svg { width: 100%; height: 100%; object-fit: contain; }
+.lines strong { display: block; font-size: 14px; }
+.lines span { opacity: .7; font-size: 12.5px; }
+.lines .free { color: var(--teal); font-weight: 800; }
+.totals { border-top: 1px solid rgba(255,255,255,.15); padding-top: 14px; display: grid; gap: 6px; font-size: 14px; }
+.totals div { display: flex; justify-content: space-between; }
+.totals .save { color: var(--teal); font-weight: 700; }
+.totals .grand { font-size: 22px; font-weight: 900; margin-top: 6px; }
+.totals .grand s { font-size: 15px; opacity: .55; font-weight: 600; margin-right: 8px; }
+.cta { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 62px; border: 0; border-radius: 10px; background: var(--teal); color: #fff; font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; margin-top: 18px; transition: background .2s, transform .1s; }
+.cta:hover { background: var(--teal-dark); }
+.cta:active { transform: translateY(1px); }
+.cta svg { width: 18px; height: 18px; }
+.express { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.express button { height: 46px; border-radius: 10px; border: 0; font-weight: 800; font-size: 15px; }
+.express .shop { background: #5a31f4; color: #fff; }
+.express .apple { background: #fff; color: #000; }
+.or { text-align: center; font-size: 12px; opacity: .6; margin-top: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.reassure { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 6px; font-size: 13px; opacity: .9; }
+.reassure li::before { content: "\2713"; color: var(--teal); font-weight: 900; margin-right: 8px; }
+.legal { font-size: 11.5px; opacity: .6; line-height: 1.5; margin: 14px 0 0; }
+
+/* Below the fold */
+.band { background: var(--teal); color: #fff; }
+.band ul { list-style: none; margin: 0 auto; padding: 16px; max-width: 1180px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: 13px; }
+.section { padding: 64px 0; }
+.section--soft { background: var(--soft); }
+.eyebrow { color: var(--teal); text-transform: uppercase; letter-spacing: .12em; font-weight: 800; font-size: 13px; margin: 0 0 8px; }
+.h2 { font-weight: 900; text-transform: uppercase; font-size: clamp(28px, 4vw, 42px); line-height: 1.02; margin: 0 0 24px; }
+.compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.compare article { border-radius: var(--radius); padding: 24px; color: #fff; }
+.compare h3 { margin: 6px 0 10px; font-size: 28px; font-weight: 900; text-transform: uppercase; }
+.compare p { margin: 0; line-height: 1.5; opacity: .95; }
+.tag { display: inline-block; background: rgba(0,0,0,.25); padding: 5px 11px; border-radius: 999px; font-weight: 800; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+.reviews-ph { border: 2px dashed #c3c8cc; border-radius: var(--radius); padding: 28px; text-align: center; color: var(--muted); }
+.reviews-ph b { color: var(--ink); display: block; margin-bottom: 6px; }
+.guarantee { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; background: var(--navy); color: #fff; border-radius: 22px; padding: 36px; }
+.seal { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--teal); display: grid; place-items: center; text-align: center; font-weight: 900; text-transform: uppercase; line-height: 1; }
+.seal b { display: block; font-size: 38px; color: var(--teal); }
+.seal small { font-size: 10.5px; letter-spacing: .1em; }
+.guarantee h2 { margin: 0 0 6px; text-transform: uppercase; font-weight: 900; }
+.guarantee p { margin: 0; opacity: .85; line-height: 1.5; }
+.faq { max-width: 820px; }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { list-style: none; cursor: pointer; padding: 18px 36px 18px 0; font-weight: 800; font-size: 17px; position: relative; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 4px; top: 50%; transform: translateY(-50%); font-size: 24px; color: var(--teal); }
+.faq details[open] summary::after { content: "\2212"; }
+.faq p { margin: 0 0 18px; color: var(--muted); line-height: 1.6; }
+
+/* CRO notes */
+.notes { background: #fffdf3; border-top: 1px solid #efe6bf; }
+.notes ol { margin: 0; padding-left: 20px; display: grid; gap: 10px; line-height: 1.5; color: #3d3a2c; columns: 2; column-gap: 40px; }
+.notes li { break-inside: avoid; margin-bottom: 10px; }
+
+footer { background: var(--navy); color: rgba(255,255,255,.7); font-size: 13px; text-align: center; padding: 28px 16px 110px; }
+
+/* Mobile sticky bar */
+.sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; background: #fff; border-top: 1px solid var(--line); box-shadow: 0 -6px 20px rgba(0,0,0,.08); padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); display: none; align-items: center; gap: 12px; }
+.sticky__info { flex: 1; font-size: 12.5px; line-height: 1.3; color: var(--muted); }
+.sticky__info strong { display: block; font-size: 19px; color: var(--ink); }
+.sticky .cta { margin: 0; height: 52px; width: auto; flex: 1.3; font-size: 15px; }
+
+/* Checkout drawer */
+.drawer { position: fixed; inset: 0; z-index: 60; display: none; }
+.drawer.is-open { display: block; }
+.drawer__scrim { position: absolute; inset: 0; background: rgba(10,14,18,.6); }
+.drawer__panel { position: absolute; top: 0; right: 0; bottom: 0; width: min(520px, 100%); background: #fff; overflow-y: auto; box-shadow: -10px 0 40px rgba(0,0,0,.25); animation: slide .25s ease; }
+@keyframes slide { from { transform: translateX(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+.drawer__top { position: sticky; top: 0; background: #fff; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; z-index: 1; }
+.drawer__top .logo { font-size: 18px; }
+.drawer__close { width: 38px; height: 38px; border-radius: 50%; border: 0; background: var(--soft); font-size: 22px; }
+.drawer__body { padding: 20px; }
+.crumbs { display: flex; gap: 8px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: #a3a9ae; margin-bottom: 18px; }
+.crumbs .on { color: var(--teal); }
+.mini { background: var(--soft); border-radius: 12px; padding: 14px; margin-bottom: 20px; font-size: 14px; display: flex; justify-content: space-between; gap: 12px; }
+.mini b { font-size: 16px; }
+.field { display: grid; gap: 6px; margin-bottom: 12px; min-width: 0; }
+.field input, .field select { width: 100%; min-width: 0; }
+.field label { font-size: 13px; font-weight: 700; }
+.field input, .field select { height: 50px; border: 1.5px solid #d9dde1; border-radius: 10px; padding: 0 14px; font: inherit; font-size: 16px; background: #fff; }
+.field input:focus, .field select:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-soft); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.row3 { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 10px; }
+.fs-title { font-size: 15px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; margin: 20px 0 12px; }
+.check { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; color: var(--muted); margin: 10px 0; line-height: 1.45; }
+.check input { margin-top: 3px; accent-color: var(--teal); }
+.drawer .cta { background: var(--navy); }
+.drawer .cta:hover { background: #000; }
+.done { text-align: center; padding: 30px 10px; }
+.done__icon { width: 72px; height: 72px; border-radius: 50%; background: var(--teal); color: #fff; display: grid; place-items: center; margin: 0 auto 18px; }
+.done__icon svg { width: 36px; height: 36px; }
+.done h3 { margin: 0 0 8px; font-size: 26px; font-weight: 900; text-transform: uppercase; }
+.done p { color: var(--muted); line-height: 1.55; margin: 0 0 10px; }
+.upsell { border: 2px solid var(--line); border-radius: 14px; padding: 16px; margin-top: 18px; text-align: left; display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; }
+.upsell b { display: block; }
+.upsell button { border: 0; background: var(--teal); color: #fff; font-weight: 800; border-radius: 999px; padding: 10px 16px; }
+
+@media (max-width: 980px) {
+  .flow { grid-template-columns: minmax(0, 1fr); padding-top: 24px; }
+  .summary { position: static; }
+  .sticky.is-visible { display: flex; }
+  .compare { grid-template-columns: 1fr; }
+  .band ul { grid-template-columns: 1fr 1fr; font-size: 12px; }
+  .notes ol { columns: 1; }
+}
+@media (max-width: 640px) {
+  .hero .wrap { padding-top: 28px; padding-bottom: 28px; }
+  .hero p { font-size: 16px; }
+  .header__secure span { display: none; }
+  .step { padding: 18px 14px; }
+  .tiers { grid-template-columns: 1fr; gap: 14px; }
+  .tier { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 12px; }
+  .tier__price { margin: 2px 0 0; grid-column: 1; }
+  .tier__perks { grid-column: 1 / -1; margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+  .slot { grid-template-columns: 60px 1fr; gap: 12px; }
+  .slot__img { width: 60px; height: 60px; }
+  .seg button { padding: 7px 10px; font-size: 13px; }
+  .seg--flavor { display: flex; width: 100%; }
+  .seg--flavor button { flex: 1; white-space: normal; line-height: 1.2; }
+  .plan { grid-template-columns: 22px 1fr; }
+  .plan__price { grid-column: 2; text-align: left; }
+  .plan__price s { display: inline; margin-right: 6px; }
+  .formula-help { grid-template-columns: 1fr; }
+  .freq { margin-left: 0; }
+  .guarantee { grid-template-columns: 1fr; justify-items: center; text-align: center; padding: 28px 20px; }
+  .row3 { grid-template-columns: 1fr 1fr; }
+  .row3 .field:first-child { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<div class="ribbon">Design mockup. Prices mirror the current page ($59.00 per pack, 10% off with Subscribe &amp; Save). Checkout screens are simulated.</div>
+<div class="announce">Save 10% on every order + Free Shipping on 2+ packs</div>
+
+<header class="header">
+  <div class="wrap">
+    <a class="logo" href="#">FORTIFIED<span>.</span></a>
+    <div class="header__secure">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      <span>Secure checkout</span>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Hydration.<br><span>No Mumbo Jumbo.</span></h1>
+      <p>Clean electrolytes for people who read the label. Build your box in three taps and check out in under a minute.</p>
+    </div>
+    <ul class="hero__checks">
+      <li>No proprietary blends</li>
+      <li>Skip or cancel online anytime</li>
+      <li>30-day money-back guarantee</li>
+    </ul>
+  </div>
+</section>
+
+<main class="wrap flow" id="build">
+  <div>
+    <!-- Step 1 -->
+    <section class="step" aria-labelledby="s1">
+      <div class="step__head">
+        <div class="step__num">1</div>
+        <div>
+          <h2 class="step__title" id="s1">How many packs?</h2>
+          <p class="step__hint">Each pack is a 30 day supply. Rewards stack as you add packs.</p>
+        </div>
+      </div>
+      <div class="tiers" id="tiers"></div>
+    </section>
+
+    <!-- Step 2 -->
+    <section class="step" aria-labelledby="s2">
+      <div class="step__head">
+        <div class="step__num">2</div>
+        <div>
+          <h2 class="step__title" id="s2">Pick your packs</h2>
+          <p class="step__hint">We prefilled a popular mix. Tap to change formula or organic flavor.</p>
+        </div>
+      </div>
+      <div class="slots" id="slots"></div>
+      <div class="formula-help">
+        <div style="background:var(--energy)"><b>Energy</b>150mg natural caffeine from coffee bean, plus electrolytes.</div>
+        <div style="background:var(--everyday)"><b>Everyday</b>Caffeine-free electrolytes with Vitamin D3 and K2.</div>
+      </div>
+    </section>
+
+    <!-- Step 3 -->
+    <section class="step" aria-labelledby="s3">
+      <div class="step__head">
+        <div class="step__num">3</div>
+        <div>
+          <h2 class="step__title" id="s3">How do you want it?</h2>
+          <p class="step__hint">Most people subscribe. You can skip, swap, or cancel online anytime.</p>
+        </div>
+      </div>
+      <div class="plans" role="radiogroup" aria-labelledby="s3">
+        <button class="plan" role="radio" data-plan="sub" type="button">
+          <span class="plan__radio"></span>
+          <span><span class="plan__name">Subscribe &amp; Save<em>Save 10%</em></span><span class="plan__sub">10% off every order. We email you before each renewal.</span></span>
+          <span class="plan__price" id="priceSub"></span>
+        </button>
+        <div class="freq" id="freq">
+          <span>Deliver every</span>
+          <button type="button" data-days="30">30 days</button>
+          <button type="button" data-days="60">60 days</button>
+          <button type="button" data-days="90">90 days</button>
+        </div>
+        <button class="plan" role="radio" data-plan="otp" type="button">
+          <span class="plan__radio"></span>
+          <span><span class="plan__name">One-time purchase</span><span class="plan__sub">Full price, no subscription.</span></span>
+          <span class="plan__price" id="priceOtp"></span>
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Summary -->
+  <aside class="summary" aria-labelledby="sumTitle" id="summary">
+    <h2 id="sumTitle">Your box</h2>
+    <div class="progress">
+      <div class="progress__msg" id="progMsg"></div>
+      <div class="progress__bar"><div class="progress__fill" id="progFill"></div></div>
+      <div class="progress__marks"><span>1 pack</span><span>Free ship</span><span>Free creatine</span></div>
+    </div>
+    <ul class="lines" id="lines"></ul>
+    <div class="totals">
+      <div><span>Subtotal</span><span id="tSub"></span></div>
+      <div class="save" id="tSaveRow"><span>Subscribe &amp; Save (10%)</span><span id="tSave"></span></div>
+      <div><span>Shipping</span><span id="tShip"></span></div>
+      <div class="grand"><span>Total</span><span id="tTotal"></span></div>
+    </div>
+    <button class="cta" type="button" data-checkout>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      <span id="ctaText">Checkout</span>
+    </button>
+    <div class="or">or pay with</div>
+    <div class="express">
+      <button class="shop" type="button" data-checkout>Shop Pay</button>
+      <button class="apple" type="button" data-checkout>Apple Pay</button>
+    </div>
+    <ul class="reassure">
+      <li>30-day money-back guarantee. No return required.</li>
+      <li>Ships in 1 to 3 business days</li>
+      <li id="cancelNote">Skip or cancel online in two clicks</li>
+    </ul>
+    <p class="legal" id="legal">Subscriptions renew automatically at the price shown, plus applicable tax and shipping, until you cancel. Cancel anytime online in your account before your next billing date.</p>
+  </aside>
+</main>
+
+<div class="band"><ul><li>Transparent label</li><li>Monk fruit sweetened</li><li>30-day money-back</li><li>Ships in 1 to 3 days</li></ul></div>
+
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">Same clean base. Different job.</p>
+    <h2 class="h2">Choose your formula</h2>
+    <div class="compare">
+      <article style="background:var(--energy)"><span class="tag">Caffeine</span><h3>Energy</h3><p>Higher-sodium electrolytes plus 150mg natural caffeine from coffee bean. In Organic Salty Orange and Organic Salty Watermelon.</p></article>
+      <article style="background:var(--everyday)"><span class="tag">Caffeine-Free</span><h3>Everyday</h3><p>Daily electrolytes plus Vitamin D3 and Vitamin K2 (MK-7). In Organic Salty Orange and Organic Salty Watermelon.</p></article>
+      <article style="background:var(--performance)"><span class="tag" style="background:var(--teal)">Coming Soon</span><h3>Performance</h3><p>5g creatine plus clean electrolytes. Free Creatine For Life members get first access.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--soft">
+  <div class="wrap">
+    <p class="eyebrow">Social proof</p>
+    <h2 class="h2">What people are saying</h2>
+    <div class="reviews-ph"><b>Reviews widget slot</b>Connect your reviews app (verified buyer reviews only) here. Placing a star rating near the CTA is one of the highest-impact additions for this flow.</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="guarantee">
+      <div class="seal"><div><b>30</b><small>Day Guarantee</small></div></div>
+      <div>
+        <h2>Love it or it's on us.</h2>
+        <p>Not happy for any reason? Contact us within 30 days of delivery and we'll refund the purchase price. No return required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--soft">
+  <div class="wrap">
+    <p class="eyebrow">FAQ</p>
+    <h2 class="h2">Questions, answered.</h2>
+    <div class="faq">
+      <details><summary>Can I mix formulas and flavors?</summary><p>Yes. Mix any combination of Energy and Everyday in Organic Salty Orange and Organic Salty Watermelon. Rewards are based on the total number of packs.</p></details>
+      <details><summary>How do I skip, change, or cancel?</summary><p>Log in at livefortified.com and go to My Subscriptions. Skip, swap flavors, change quantity, or cancel anytime before your next billing date. No calls or emails required.</p></details>
+      <details><summary>What is Free Creatine For Life?</summary><p>Placeholder: confirm the program terms before launch and edit this answer.</p></details>
+      <details><summary>When will my order ship?</summary><p>Orders typically ship within 1 to 3 business days. Standard ground delivery usually takes 3 to 7 business days. We ship to all 50 US states and DC.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="section notes">
+  <div class="wrap">
+    <p class="eyebrow" style="color:#8a6d00">For the team</p>
+    <h2 class="h2">Why this flow should convert</h2>
+    <ol>
+      <li><b>Builder above the fold.</b> The hero is compressed so step 1 is visible on load. The original page puts the builder fourth.</li>
+      <li><b>Prefilled defaults.</b> 2 packs, a mixed box, and Subscribe &amp; Save every 30 days are selected on load, so a visitor can tap Checkout with zero decisions.</li>
+      <li><b>Bundle size first.</b> Choosing quantity before flavor anchors on the bundle (and its rewards), which tends to lift average order value.</li>
+      <li><b>Visible reward ladder.</b> The progress bar names the next unlock ("Add 1 more pack for Free Shipping") at every step.</li>
+      <li><b>Sticky summary and mobile bar.</b> The total and CTA stay in view on desktop and phone.</li>
+      <li><b>Express pay.</b> Shop Pay and Apple Pay are offered beside the main CTA to skip form filling.</li>
+      <li><b>One-page checkout.</b> Contact, shipping, and payment in one screen, with subscription terms and a consent checkbox shown before purchase.</li>
+      <li><b>Risk reversal next to the money.</b> Guarantee and cancel-anytime copy sit directly under the CTA.</li>
+      <li><b>Post-purchase upsell.</b> The confirmation screen offers a one-tap add for the next shipment.</li>
+      <li><b>Test, do not assume.</b> Validate each change with an A/B test against the current page. Lift varies by traffic and offer.</li>
+    </ol>
+  </div>
+</section>
+
+<footer>&copy; Fortified. Mockup for internal review.</footer>
+
+<div class="sticky" id="sticky">
+  <div class="sticky__info"><span id="sCount"></span><strong id="sTotal"></strong></div>
+  <button class="cta" type="button" data-checkout>Checkout</button>
+</div>
+
+<!-- Simulated checkout -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer__scrim" data-close></div>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="coTitle">
+    <div class="drawer__top">
+      <span class="logo">FORTIFIED<span>.</span></span>
+      <button class="drawer__close" type="button" data-close aria-label="Close">&times;</button>
+    </div>
+    <div class="drawer__body" id="coForm">
+      <div class="crumbs"><span class="on">Box</span><span>&rsaquo;</span><span class="on">Details</span><span>&rsaquo;</span><span>Done</span></div>
+      <h3 id="coTitle" class="sr">Checkout</h3>
+      <div class="mini"><span id="miniDesc"></span><b id="miniTotal"></b></div>
+      <form id="checkoutForm" novalidate>
+        <div class="fs-title">Contact</div>
+        <div class="field"><label for="em">Email</label><input id="em" type="email" autocomplete="email" placeholder="you@example.com"></div>
+        <div class="fs-title">Ship to</div>
+        <div class="row2">
+          <div class="field"><label for="fn">First name</label><input id="fn" autocomplete="given-name"></div>
+          <div class="field"><label for="ln">Last name</label><input id="ln" autocomplete="family-name"></div>
+        </div>
+        <div class="field"><label for="ad">Address</label><input id="ad" autocomplete="street-address" placeholder="Start typing for suggestions"></div>
+        <div class="row3">
+          <div class="field"><label for="ci">City</label><input id="ci" autocomplete="address-level2"></div>
+          <div class="field"><label for="st">State</label><select id="st" autocomplete="address-level1"><option>CA</option><option>NY</option><option>TX</option><option>FL</option></select></div>
+          <div class="field"><label for="zp">ZIP</label><input id="zp" inputmode="numeric" autocomplete="postal-code"></div>
+        </div>
+        <div class="fs-title">Payment</div>
+        <div class="field"><label for="cc">Card number</label><input id="cc" inputmode="numeric" autocomplete="off" placeholder="Simulated field. Do not enter real card data."></div>
+        <div class="row2">
+          <div class="field"><label for="ex">Expiry</label><input id="ex" autocomplete="off" placeholder="MM / YY"></div>
+          <div class="field"><label for="cv">CVC</label><input id="cv" autocomplete="off" placeholder="123"></div>
+        </div>
+        <label class="check" id="consentRow"><input type="checkbox" id="consent" checked> <span id="consentText"></span></label>
+        <button class="cta" type="submit" id="placeBtn">Place order</button>
+        <p class="legal" style="color:var(--muted);opacity:1;text-align:center">Mockup only. Nothing is charged or submitted.</p>
+      </form>
+    </div>
+    <div class="drawer__body done" id="coDone" hidden>
+      <div class="done__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg></div>
+      <h3>You're in.</h3>
+      <p id="doneMsg"></p>
+      <p>Manage everything at livefortified.com under My Subscriptions.</p>
+      <div class="upsell"><span><b>Add 1 more pack to your next shipment</b><span style="color:var(--muted);font-size:13.5px">Organic Salty Orange Everyday, 10% off. One tap, no re-entry.</span></span><button type="button" id="upsellBtn">Add</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var PRICE = 59.00, DISC = 0.10;
+  var IMG = {
+    "energy|watermelon": "https://cdn.shopify.com/s/files/1/1000/1973/2784/files/260401-FOR-ENG-30-WTM-2026_1-Front_6bc5f01a-9136-4e66-89a5-64266588d385.webp?v=1791496978&width=300",
+    "energy|orange": "https://cdn.shopify.com/s/files/1/1000/1973/2784/files/260401-FOR-ENG-30-ORG-2026_1-Front_053d37d2-3c4d-4b3c-acc6-d67e95d50eb5.webp?v=1791496996&width=300",
+    "everyday|watermelon": "https://cdn.shopify.com/s/files/1/1000/1973/2784/files/260401-FOR-EDY-30-WTM-2026_1-Front_42bbc235-1ed3-45e8-b2c0-3ea3bf5b7e6e.webp?v=1791497044&width=300",
+    "everyday|orange": "https://cdn.shopify.com/s/files/1/1000/1973/2784/files/260401-FOR-EDY-30-ORG-2026_1-Front_d4d55d4a-fd92-4d2a-a06e-d6d64ebbe0e5.webp?v=1791497033&width=300"
+  };
+  var FORMULA = { energy: "Energy", everyday: "Everyday" };
+  var FLAVOR = { watermelon: "Organic Salty Watermelon", orange: "Organic Salty Orange" };
+  var COLOR = { energy: "#c8102e", everyday: "#f26a1b", watermelon: "#e8516b", orange: "#f59a2b" };
+  var TIERS = [
+    { n: 1, name: "1 Pack", flag: "", perks: [["10% off with subscription", 1], ["Free Shipping", 0], ["Free Creatine For Life", 0]] },
+    { n: 2, name: "2 Packs", flag: "Most Popular", perks: [["10% off with subscription", 1], ["Free Shipping", 1], ["Free Creatine For Life", 0]] },
+    { n: 3, name: "3 Packs", flag: "Best Value", best: true, perks: [["10% off with subscription", 1], ["Free Shipping", 1], ["Free Creatine For Life", 1]] }
+  ];
+  var DEFAULT_SLOTS = [["energy", "watermelon"], ["everyday", "orange"], ["energy", "orange"]];
+  var state = { count: 2, slots: DEFAULT_SLOTS.map(function (s) { return s.slice(); }), plan: "sub", days: 30 };
+
+  function $(id) { return document.getElementById(id); }
+  function money(v) { return "$" + v.toFixed(2); }
+
+  // Pack illustration fallback, used when product photos cannot load (offline or blocked CDN).
+  function packSvg(formula, flavor) {
+    return '<svg viewBox="0 0 80 80" aria-hidden="true"><rect x="16" y="8" width="48" height="66" rx="8" fill="' + COLOR[formula] + '"/>' +
+      '<rect x="16" y="8" width="48" height="10" rx="4" fill="rgba(0,0,0,.18)"/><circle cx="40" cy="44" r="13" fill="' + COLOR[flavor] + '" stroke="#fff" stroke-width="3"/>' +
+      '<text x="40" y="66" text-anchor="middle" font-family="Figtree,sans-serif" font-size="7" font-weight="900" fill="#fff">' + FORMULA[formula].toUpperCase() + '</text></svg>';
+  }
+  function packImg(formula, flavor) {
+    var alt = FORMULA[formula] + " " + FLAVOR[flavor] + " 30 Day Supply Pack";
+    return '<img src="' + IMG[formula + "|" + flavor] + '" alt="' + alt + '" loading="lazy" data-f="' + formula + '" data-v="' + flavor + '">';
+  }
+  document.addEventListener("error", function (e) {
+    var t = e.target;
+    if (t.tagName === "IMG" && t.dataset.f) t.outerHTML = packSvg(t.dataset.f, t.dataset.v);
+  }, true);
+
+  function totals() {
+    var sub = state.count * PRICE;
+    var save = state.plan === "sub" ? sub * DISC : 0;
+    var freeShip = state.count >= 2;
+    return { sub: sub, save: save, total: sub - save, freeShip: freeShip };
+  }
+
+  function renderTiers() {
+    $("tiers").innerHTML = TIERS.map(function (t) {
+      var per = state.plan === "sub" ? PRICE * (1 - DISC) : PRICE;
+      return '<button class="tier" type="button" data-n="' + t.n + '" aria-pressed="' + (state.count === t.n) + '">' +
+        (t.flag ? '<span class="tier__flag' + (t.best ? " tier__flag--best" : "") + '">' + t.flag + '</span>' : "") +
+        '<div class="tier__name">' + t.name + '</div>' +
+        '<div class="tier__price"><b>' + money(per) + '</b> / pack</div>' +
+        '<ul class="tier__perks">' + t.perks.map(function (p) {
+          var on = p[1] && !(p[0].indexOf("10%") === 0 && state.plan !== "sub");
+          return '<li class="' + (on ? "" : "off") + '">' + p[0] + '</li>';
+        }).join("") + '</ul></button>';
+    }).join("");
+  }
+
+  function renderSlots() {
+    var html = "";
+    for (var i = 0; i < state.count; i++) {
+      var s = state.slots[i];
+      html += '<div class="slot" data-i="' + i + '">' +
+        '<div class="slot__img' + (s[0] === "everyday" ? " is-everyday" : "") + '">' + packImg(s[0], s[1]) + '</div>' +
+        '<div><div class="slot__label">Pack ' + (i + 1) + '</div><div class="slot__ctrls">' +
+        '<div class="seg seg--formula" role="group" aria-label="Formula for pack ' + (i + 1) + '">' +
+          ["energy", "everyday"].map(function (f) { return '<button type="button" data-k="0" data-v="' + f + '" aria-pressed="' + (s[0] === f) + '">' + FORMULA[f] + '</button>'; }).join("") +
+        '</div>' +
+        '<div class="seg seg--flavor" role="group" aria-label="Organic flavor for pack ' + (i + 1) + '">' +
+          ["watermelon", "orange"].map(function (f) { return '<button type="button" data-k="1" data-v="' + f + '" aria-pressed="' + (s[1] === f) + '">' + FLAVOR[f] + '</button>'; }).join("") +
+        '</div></div>' +
+        '<div class="slot__meta">' + FORMULA[s[0]] + ', ' + FLAVOR[s[1]] + ', 30 day supply</div></div></div>';
+    }
+    $("slots").innerHTML = html;
+  }
+
+  function renderPlan() {
+    var t = totals(), full = state.count * PRICE;
+    document.querySelectorAll(".plan").forEach(function (b) { b.setAttribute("aria-checked", String(b.dataset.plan === state.plan)); });
+    $("freq").hidden = state.plan !== "sub";
+    document.querySelectorAll("#freq button").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.dataset.days === state.days)); });
+    $("priceSub").innerHTML = "<s>" + money(full) + "</s>" + money(full * (1 - DISC));
+    $("priceOtp").textContent = money(full);
+  }
+
+  function renderSummary() {
+    var t = totals();
+    var msg;
+    if (state.count === 1) msg = "Add <b>1 more pack</b> to unlock Free Shipping.";
+    else if (state.count === 2) msg = "Free Shipping unlocked. Add <b>1 more pack</b> for Free Creatine For Life.";
+    else msg = "<b>Everything unlocked.</b> Free Shipping + Free Creatine For Life.";
+    $("progMsg").innerHTML = msg;
+    $("progFill").style.width = (state.count === 1 ? 8 : state.count === 2 ? 50 : 100) + "%";
+
+    var rows = "";
+    for (var i = 0; i < state.count; i++) {
+      var s = state.slots[i];
+      rows += '<li><div class="thumb' + (s[0] === "everyday" ? " is-everyday" : "") + '">' + packImg(s[0], s[1]) + '</div>' +
+        '<div><strong>' + FORMULA[s[0]] + '</strong><span>' + FLAVOR[s[1]] + '</span></div><div>' + money(PRICE) + '</div></li>';
+    }
+    if (state.count >= 3) rows += '<li><div class="thumb" style="border-top-color:#12a39a;display:grid;place-items:center;color:#12a39a;font-weight:900">+</div><div><strong>Free Creatine For Life</strong><span>Reward for 3+ packs</span></div><div class="free">FREE</div></li>';
+    $("lines").innerHTML = rows;
+
+    $("tSub").textContent = money(t.sub);
+    $("tSaveRow").style.display = t.save ? "" : "none";
+    $("tSave").textContent = "-" + money(t.save);
+    $("tShip").innerHTML = t.freeShip ? '<span style="color:#12a39a;font-weight:800">FREE</span>' : "Calculated at checkout";
+    $("tTotal").innerHTML = (t.save ? "<s>" + money(t.sub) + "</s>" : "") + money(t.total);
+    $("ctaText").textContent = "Checkout " + money(t.total);
+    var sub = state.plan === "sub";
+    $("cancelNote").style.display = sub ? "" : "none";
+    $("legal").style.display = sub ? "" : "none";
+
+    $("sCount").textContent = state.count + (state.count === 1 ? " pack" : " packs") + (sub ? ", every " + state.days + " days" : ", one-time");
+    $("sTotal").textContent = money(t.total);
+    $("miniDesc").textContent = state.count + (state.count === 1 ? " pack" : " packs") + (sub ? ", Subscribe & Save every " + state.days + " days" : ", one-time purchase") + (t.freeShip ? ", free shipping" : "");
+    $("miniTotal").textContent = money(t.total);
+    $("consentRow").style.display = sub ? "" : "none";
+    $("consentText").textContent = "I agree my subscription renews every " + state.days + " days at " + money(t.total) + " plus applicable tax until I cancel. I can cancel online anytime before my next billing date.";
+  }
+
+  function render() { renderTiers(); renderSlots(); renderPlan(); renderSummary(); }
+
+  $("tiers").addEventListener("click", function (e) {
+    var b = e.target.closest(".tier"); if (!b) return;
+    state.count = +b.dataset.n; render();
+  });
+  $("slots").addEventListener("click", function (e) {
+    var b = e.target.closest(".seg button"); if (!b) return;
+    var i = +b.closest(".slot").dataset.i;
+    state.slots[i][+b.dataset.k] = b.dataset.v;
+    renderSlots(); renderSummary();
+  });
+  document.querySelectorAll(".plan").forEach(function (b) {
+    b.addEventListener("click", function () { state.plan = b.dataset.plan; render(); });
+  });
+  $("freq").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    state.days = +b.dataset.days; renderPlan(); renderSummary();
+  });
+
+  // Mobile sticky bar shows once the summary is out of view.
+  var sticky = $("sticky");
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (en) { sticky.classList.toggle("is-visible", !en[0].isIntersecting); }).observe($("summary"));
+  } else { sticky.classList.add("is-visible"); }
+
+  // Simulated checkout drawer
+  var drawer = $("drawer"), lastFocus = null;
+  function openDrawer() {
+    lastFocus = document.activeElement;
+    $("coForm").hidden = false; $("coDone").hidden = true;
+    drawer.classList.add("is-open"); drawer.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    setTimeout(function () { $("em").focus(); }, 50);
+  }
+  function closeDrawer() {
+    drawer.classList.remove("is-open"); drawer.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (lastFocus) lastFocus.focus();
+  }
+  document.querySelectorAll("[data-checkout]").forEach(function (b) { b.addEventListener("click", openDrawer); });
+  drawer.querySelectorAll("[data-close]").forEach(function (b) { b.addEventListener("click", closeDrawer); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && drawer.classList.contains("is-open")) closeDrawer(); });
+  $("checkoutForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (state.plan === "sub" && !$("consent").checked) { $("consent").focus(); return; }
+    var t = totals();
+    $("doneMsg").textContent = "Order confirmed (simulated). " + state.count + (state.count === 1 ? " pack" : " packs") + " for " + money(t.total) +
+      (state.plan === "sub" ? ". Next shipment in " + state.days + " days, and we'll email you before it renews." : ".");
+    $("coForm").hidden = true; $("coDone").hidden = false;
+    $("upsellBtn").textContent = "Add";
+  });
+  $("upsellBtn").addEventListener("click", function () { this.textContent = "Added ✓"; });
+
+  render();
+})();
+</script>
+</body>
+</html>
