@@ -27,7 +27,8 @@ a { color: inherit; text-decoration-thickness: 1.5px; text-underline-offset: 4px
 button, input, select { font: inherit; color: inherit; }
 button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 ::selection { background: var(--teal); color: var(--ink); }
-:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; border-radius: 4px; }
+:focus-visible { outline: 3px solid var(--teal-ink); outline-offset: 3px; border-radius: 4px; }
+.on-dark :focus-visible, .foot :focus-visible, .field--energy :focus-visible, .field--performance :focus-visible { outline-color: #fff; }
 html { scrollbar-color: var(--ink-2) var(--paper-2); }
 .num { font-variant-numeric: tabular-nums; }
 [hidden] { display: none !important; }
@@ -41,7 +42,7 @@ html { scrollbar-color: var(--ink-2) var(--paper-2); }
 .d3 { font-size: clamp(28px, 3.4vw, 44px); }
 .lede { font-size: clamp(18px, 1.6vw, 21px); line-height: 1.45; max-width: 46ch; margin: 22px 0 0; color: var(--ink-2); text-wrap: pretty; }
 .on-dark .lede, .field--energy .lede, .field--performance .lede { color: rgba(255,255,255,.86); }
-.field--everyday .lede { color: rgba(14,26,36,.82); }
+.field--everyday .lede { color: var(--ink); }
 
 /* Buttons */
 .btn { --bg: var(--ink); --fg: #fff; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; padding: 0 26px; border: 0; border-radius: 10px; background: var(--bg); color: var(--fg); font-weight: 800; font-size: 16px; letter-spacing: .04em; text-transform: uppercase; text-decoration: none; transition: transform .16s var(--ease-out), background-color .2s, box-shadow .2s; touch-action: manipulation; user-select: none; }
@@ -66,7 +67,8 @@ body { padding-top: var(--head); }
 .site-head { background: rgba(251,250,245,.94); backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--rule); }
 .site-head .wrap { display: flex; align-items: center; gap: 28px; height: 68px; }
 .logo { font-weight: 900; letter-spacing: .16em; font-size: 22px; text-decoration: none; display: inline-flex; align-items: baseline; }
-.logo i { font-style: normal; color: var(--teal); }
+.logo i { font-style: normal; color: var(--teal-ink); }
+.foot .logo i, .on-dark .logo i { color: var(--teal); }
 .logo sup { font-size: 10px; letter-spacing: 0; margin-left: 2px; }
 .nav { display: flex; gap: 24px; margin-right: auto; }
 .nav a { font-weight: 700; font-size: 15px; text-decoration: none; padding: 8px 0; position: relative; }
