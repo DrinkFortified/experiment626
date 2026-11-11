@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" data-page="shop" data-type="product">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="page-type" content="product">
+<meta name="site-kind" content="other">
+<meta name="theme-color" content="#fbfaf5">
+<title>Build a Box | Fortified</title>
+<meta name="description" content="Build a box of Fortified electrolytes. Mix Energy and Everyday in Organic Salty Watermelon and Organic Salty Orange. Free Shipping on 2+ packs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div data-head></div>
+
+<main class="builder" data-builder>
+  <div class="wrap">
+    <header class="builder__head">
+      <h1 class="display d2" data-enter>Build a box.</h1>
+      <p class="lede" data-enter style="--d:100ms">Three choices, then checkout. We filled in a popular mix, so you can check out now or change anything.</p>
+    </header>
+
+    <div class="builder__grid">
+      <div class="builder__steps">
+        <section class="step" aria-labelledby="st1">
+          <h2 id="st1" class="step__title"><span class="num">1</span>How many packs?</h2>
+          <div class="sizes" role="group" aria-label="Number of packs" data-bn>
+            <button type="button" data-v="1" aria-pressed="false"><span class="sizes__n num">1</span><span class="sizes__name">pack</span><span class="sizes__each"><b class="num" data-each>$53.10</b> each</span><span class="sizes__perk">Starter</span></button>
+            <button type="button" data-v="2" aria-pressed="true"><span class="sizes__flag">Most popular</span><span class="sizes__n num">2</span><span class="sizes__name">packs</span><span class="sizes__each"><b class="num" data-each>$53.10</b> each</span><span class="sizes__perk">Free Shipping</span></button>
+            <button type="button" data-v="3" aria-pressed="false"><span class="sizes__flag sizes__flag--best">Best value</span><span class="sizes__n num">3</span><span class="sizes__name">packs</span><span class="sizes__each"><b class="num" data-each>$53.10</b> each</span><span class="sizes__perk">Free Shipping + Free Creatine For Life</span></button>
+            <button type="button" data-v="4" aria-pressed="false"><span class="sizes__n num">4</span><span class="sizes__name">packs</span><span class="sizes__each"><b class="num" data-each>$53.10</b> each</span><span class="sizes__perk">Free Shipping + Free Creatine For Life</span></button>
+          </div>
+        </section>
+
+        <section class="step" aria-labelledby="st2">
+          <h2 id="st2" class="step__title"><span class="num">2</span>Pick each pack</h2>
+          <p class="step__hint">Energy has 150mg caffeine. Everyday is caffeine-free. Both come in Organic Salty Watermelon and Organic Salty Orange.</p>
+          <div class="slots" data-slots></div>
+        </section>
+
+        <section class="step" aria-labelledby="st3">
+          <h2 id="st3" class="step__title"><span class="num">3</span>How often?</h2>
+          <div class="seg seg--full plan-seg" role="group" aria-label="Purchase type" data-bp>
+            <button type="button" data-v="sub" aria-pressed="true">Subscribe &amp; Save 10%</button>
+            <button type="button" data-v="otp" aria-pressed="false">One-time</button>
+          </div>
+          <div class="freq-row" data-bdays><span>Deliver every</span>
+            <div class="seg" role="group" aria-label="Delivery frequency">
+              <button type="button" data-v="30" aria-pressed="true">30 days</button>
+              <button type="button" data-v="60" aria-pressed="false">60 days</button>
+              <button type="button" data-v="90" aria-pressed="false">90 days</button>
+            </div>
+          </div>
+          <p class="step__hint">Skip, swap or cancel online anytime. We email you before every renewal.</p>
+        </section>
+      </div>
+
+      <aside class="builder__receipt" data-b-receipt aria-labelledby="rc-h">
+        <div class="sheet-wrap">
+          <div class="sheet">
+            <div class="sheet__head"><div class="sheet__brand">FORTIFIED.</div><div class="sheet__title" id="rc-h">Your box</div><div class="sheet__meta" data-b-meta></div></div>
+            <div data-b-progress></div>
+            <ul class="items" data-b-items aria-live="polite"></ul>
+            <div class="totals num" data-b-totals></div>
+            <button class="btn btn--money btn--block" type="button" data-b-go style="margin-top:18px">Checkout</button>
+            <div class="express express--mini"><button class="shop" type="button" data-b-go>Shop Pay</button><button class="apple" type="button" data-b-go>Apple Pay</button></div>
+            <p class="legal" data-b-legal>Subscriptions renew at the price shown plus tax until you cancel. Cancel online before your next billing date.</p>
+            <ul class="assure">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.8-7 9-4-1.2-7-4.5-7-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>30-day money-back guarantee. No return required.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>Ships in 1 to 3 business days</li>
+            </ul>
+            <div class="barcode" aria-hidden="true"></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="sticky" data-sticky>
+    <div class="sticky__info"><span data-b-sum></span><strong class="num" data-b-total></strong></div>
+    <button class="btn btn--money" type="button" data-b-go>Checkout</button>
+  </div>
+</main>
+
+<div data-foot></div>
+<script src="site.js"></script>
+</body>
+</html>
