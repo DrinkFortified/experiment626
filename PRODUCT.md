@@ -39,8 +39,8 @@ Radical label transparency: every ingredient named with its source, no proprieta
 - **Performance:** coming soon, 5g creatine plus electrolytes. Waitlist only.
 - **Organic flavors:** Organic Salty Watermelon and Organic Salty Orange, for both formulas. Always say "Organic" with a flavor name.
 - **Shared base:** Pink Himalayan Salt (as Ancient Ocean), Magnesium Malate, Coconut Water Powder (as CocOganic Plus), Potassium Chloride, Bamboo Fiber, Organic Lemon Juice Powder. Sweetened with Monk Fruit Extract and Reb M (as OnoSweet).
-- **Price:** $59.00 per 30 Day Supply Pack one-time; 10% off on Subscribe & Save ($53.10).
-- **Offers:** Free Shipping at 2+ packs; Free Creatine For Life at 3+ packs (terms not yet confirmed; must not be described beyond its name).
+- **Price:** $59.00 per 30 Day Supply Pack one-time (full price). Subscribe tiers by total packs in the order (owner, 2026-11-12): 1 pack 10% off ($53.10), 2 packs 15% off ($100.30), 3+ packs 20% off ($141.60 for 3). The option is labeled "Subscribe".
+- **Offers:** Free Creatine For Life at 3+ packs, Subscribe only (terms not yet confirmed; must not be described beyond its name). Free Shipping at 2+ packs on any order *(kept from the previous offer; confirm)*.
 - **Guarantee:** contact within 30 days of delivery for a refund of the purchase price, no return required. A refund does not cancel the subscription on its own.
 - Inventory is currently 0 in Shopify; offers above are display-only until configured in Loop.
 

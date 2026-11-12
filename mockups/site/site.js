@@ -4,6 +4,9 @@
 
   // ---------- Product truth (mirrors PRODUCT.md) ----------
   var PRICE = 59, DISC = 0.10;
+  // Subscribe tiers: 1 pack 10% off, 2 packs 15% off, 3+ packs 20% off + Free Creatine For Life. One-time is full price.
+  function rate(n, plan) { if (plan !== "sub" || n < 1) return 0; return n >= 3 ? 0.20 : n === 2 ? 0.15 : 0.10; }
+  function pct(n) { return Math.round(rate(n, "sub") * 100) + "%"; }
   var CDN = "https://cdn.shopify.com/s/files/1/1000/1973/2784/files/";
   var IMG = {
     "energy|watermelon": CDN + "260401-FOR-ENG-30-WTM-2026_1-Front_6bc5f01a-9136-4e66-89a5-64266588d385.webp?v=1791496978&width=600",
@@ -83,8 +86,8 @@
   if (!cart.lines) cart = { lines: [], plan: "sub", days: 30 };
   function count() { return cart.lines.reduce(function (a, l) { return a + l.qty; }, 0); }
   function totals() {
-    var n = count(), sub = n * PRICE, save = cart.plan === "sub" ? sub * DISC : 0;
-    return { n: n, sub: sub, save: save, total: sub - save, freeShip: n >= 2, creatine: n >= 3 };
+    var n = count(), sub = n * PRICE, r = rate(n, cart.plan), save = sub * r;
+    return { n: n, sub: sub, save: save, r: r, total: sub - save, freeShip: n >= 2, creatine: n >= 3 && cart.plan === "sub" };
   }
   function save() { store.set("ff-cart", cart); }
   function add(f, v, qty, opts) {
@@ -110,7 +113,7 @@
   var head = $("[data-head]");
   if (head) {
     head.outerHTML =
-      '<header class="site-top"><div class="bar">Save 10%<span class="bar__long"> on every order</span> <b>+</b> Free Shipping on 2+ packs</div>' +
+      '<header class="site-top"><div class="bar">Subscribe and save up to 20%<span class="bar__long"> <b>+</b> Free Creatine at 3 packs</span></div>' +
       '<div class="site-head"><div class="wrap">' +
       '<button class="menu-btn" type="button" aria-label="Menu" aria-expanded="false" data-menu><span></span><span></span><span></span></button>' +
       '<a class="logo" href="index.html" aria-label="Fortified home">FORTIFIED<i>.</i></a>' +
@@ -187,14 +190,17 @@
   });
 
   // ---------- Cart receipt ----------
-  function progressHtml(n) {
-    var msg = n === 0 ? "Add a pack to start your box." : n === 1 ? "Add <b>1 more pack</b> for Free Shipping." : n === 2 ? "Free Shipping unlocked. Add <b>1 more</b> for Free Creatine For Life." : "<b>Everything unlocked.</b> Free Shipping and Free Creatine For Life.";
-    var pct = n === 0 ? 0 : n === 1 ? .2 : n === 2 ? .6 : 1;
-    return '<div class="progress"><div class="progress__msg">' + msg + '</div><div class="progress__track"><div class="progress__fill" style="transform:scaleX(' + pct + ')"></div></div></div>';
+  function progressHtml(n, plan) {
+    plan = plan || cart.plan;
+    var msg;
+    if (plan !== "sub") msg = n === 0 ? "Add a pack to start your box." : n === 1 ? "Add <b>1 more pack</b> for Free Shipping. Subscribe to save up to 20%." : "Free Shipping unlocked. <b>Subscribe</b> to save up to 20% + Free Creatine.";
+    else msg = n === 0 ? "Add a pack to start your box." : n === 1 ? "10% off. Add <b>1 more pack</b> for 15% off + Free Shipping." : n === 2 ? "15% off + Free Shipping. Add <b>1 more</b> for 20% off + Free Creatine For Life." : "<b>20% off</b>, Free Shipping and Free Creatine For Life.";
+    var f = n === 0 ? 0 : n === 1 ? 1 / 3 : n === 2 ? 2 / 3 : 1;
+    return '<div class="progress"><div class="progress__msg">' + msg + '</div><div class="progress__track"><div class="progress__fill" style="transform:scaleX(' + f + ')"></div></div></div>';
   }
   function freqHtml() {
     return '<div class="seg seg--full" role="group" aria-label="Purchase type" data-plan>' +
-      '<button type="button" data-v="sub" aria-pressed="' + (cart.plan === "sub") + '">Subscribe &amp; Save 10%</button>' +
+      '<button type="button" data-v="sub" aria-pressed="' + (cart.plan === "sub") + '">Subscribe</button>' +
       '<button type="button" data-v="otp" aria-pressed="' + (cart.plan === "otp") + '">One-time</button></div>' +
       (cart.plan === "sub" ? '<div class="freq-row"><span>Deliver every</span><div class="seg" role="group" aria-label="Delivery frequency" data-days>' +
         [30, 60, 90].map(function (d) { return '<button type="button" data-v="' + d + '" aria-pressed="' + (cart.days === d) + '">' + d + " days</button>"; }).join("") + "</div></div>" : "");
@@ -208,7 +214,7 @@
       foot.innerHTML = ""; return;
     }
     var lines = cart.lines.map(function (l) {
-      var key = l.f + "|" + l.v, each = cart.plan === "sub" ? PRICE * (1 - DISC) : PRICE;
+      var key = l.f + "|" + l.v, each = PRICE * (1 - rate(count(), cart.plan));
       return '<div class="cart-line' + (fresh === key ? " line-in" : "") + '" data-key="' + key + '"><div class="pack">' + packImg(l.f, l.v) + "</div>" +
         "<div><b>" + FORMULA[l.f].name + "</b><small>" + FLAVOR[l.v] + "</small><br>" +
         '<div class="qty"><button type="button" data-dec aria-label="Remove one">&minus;</button><output class="num" aria-live="polite">' + l.qty + '</output><button type="button" data-inc aria-label="Add one">+</button></div></div>' +
@@ -218,7 +224,7 @@
     body.innerHTML = progressHtml(t.n) + lines + '<div style="margin-top:16px">' + freqHtml() + "</div>";
     foot.innerHTML =
       '<div class="total-row"><span>Subtotal</span><span>' + money(t.sub) + "</span></div>" +
-      (t.save ? '<div class="total-row total-row--save"><span>Subscribe &amp; Save</span><span>&minus;' + money(t.save) + "</span></div>" : "") +
+      (t.save ? '<div class="total-row total-row--save"><span>Subscribe ' + Math.round(t.r * 100) + '% off</span><span>&minus;' + money(t.save) + "</span></div>" : "") +
       '<div class="total-row"><span>Shipping</span><span>' + (t.freeShip ? '<b style="color:var(--teal-ink)">FREE</b>' : "Calculated at checkout") + "</span></div>" +
       '<div class="total-row total-row--big"><span>Total</span><span>' + money(t.total) + "</span></div>" +
       '<button class="btn btn--money btn--block" type="button" data-checkout style="margin-top:12px">' + icon("lock") + "Checkout " + money(t.total) + "</button>" +
@@ -241,7 +247,7 @@
         return '<li class="item"><span class="item__name">' + l.qty + "&times; " + FORMULA[l.f].name + "<small>" + FLAVOR[l.v] + '</small></span><span class="item__lead"></span><span class="item__val">' + money(PRICE * l.qty) + "</span></li>";
       }).join("") + (t.creatine ? '<li class="item item--add"><span class="item__name">Free Creatine For Life</span><span class="item__lead"></span><span class="item__val">0.00</span></li>' : "") + "</ul>" +
       '<div class="totals"><div class="total-row"><span>Subtotal</span><span>' + money(t.sub) + "</span></div>" +
-      (t.save ? '<div class="total-row total-row--save"><span>Subscribe &amp; Save 10%</span><span>&minus;' + money(t.save) + "</span></div>" : "") +
+      (t.save ? '<div class="total-row total-row--save"><span>Subscribe ' + Math.round(t.r * 100) + '% off</span><span>&minus;' + money(t.save) + "</span></div>" : "") +
       '<div class="total-row"><span>Shipping</span><span>' + (t.freeShip ? "FREE" : "At checkout") + "</span></div>" +
       '<div class="total-row"><span>Tax</span><span>At checkout</span></div>' +
       '<div class="total-row total-row--big"><span>Total</span><span>' + money(t.total) + "</span></div></div>" +
@@ -267,7 +273,7 @@
           '<button class="btn btn--money btn--block" type="submit" style="margin-top:6px">' + icon("lock") + "Place order " + money(t.total) + "</button>" +
           '<p class="legal" style="text-align:center">Mockup only. Nothing is charged or sent.</p>' +
         "</form></div>" +
-        "<aside>" + receiptHtml("Your box", sub ? "Subscribe &amp; Save" : "One-time") + "</aside></div>" +
+        "<aside>" + receiptHtml("Your box", sub ? "Subscribe" : "One-time") + "</aside></div>" +
       '<div data-co-done hidden></div>';
     lastFocus = lastFocus || document.activeElement;
     $("#cart").classList.remove("is-open"); $("#cart").setAttribute("aria-hidden", "true");
@@ -363,10 +369,12 @@
     var qf = (new URLSearchParams(location.search).get("f") || "energy").toLowerCase();
     if (!FORMULA[qf]) qf = "energy";
     var other = qf === "energy" ? "everyday" : "energy";
+    var mixMode = pd.hasAttribute("data-flavor-mode");
     document.documentElement.setAttribute("data-page", qf);
     $$('.nav a, .mnav a').forEach(function (a) { if (a.getAttribute("href") === "product.html?f=" + qf) a.setAttribute("aria-current", "page"); });
     document.title = FORMULA[qf].name + " | Fortified";
-    var ps = { v: "watermelon", qty: 2, plan: "sub" };
+    var ps = { v: "watermelon", qty: 2, plan: "sub", q: { watermelon: 1, orange: 1 } };
+    var MAXQ = 24;
     $$("[data-field]").forEach(function (el) { el.classList.add("field--" + qf); });
     $$("[data-t]").forEach(function (el) {
       var k = el.getAttribute("data-t"), F = FORMULA[qf], O = FORMULA[other];
@@ -374,33 +382,76 @@
         adds: F.adds.map(function (a) { return a[0]; }).join(" + ") };
       if (map[k] != null) el.textContent = map[k];
     });
-    $$("[data-other-link]").forEach(function (a) { a.href = "product.html?f=" + other; });
+    $$("[data-other-link]").forEach(function (a) { a.href = (mixMode ? "product-flavors.html?f=" : "product.html?f=") + other; });
     $("[data-pd-items]").innerHTML = itemsHtml(qf, true);
     $("[data-other-pack]").setAttribute("data-pack", other + "|watermelon");
-    var drawPd = function () {
-      $("[data-pd-pack]").innerHTML = packImg(qf, ps.v, true);
-      $$("[data-pv] button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === ps.v)); });
-      var qIn = $("#pd-qty"); if (document.activeElement !== qIn) qIn.value = ps.qty;
-      $('[data-pq] [data-step="-1"]').disabled = ps.qty <= 1;
-      $('[data-pq] [data-step="1"]').disabled = ps.qty >= 24;
-      $$("[data-pp] button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === ps.plan)); });
-      $$("[data-plan-info] > div").forEach(function (d) { d.classList.toggle("is-on", d.dataset.for === ps.plan); });
-      $$("[data-plan-info] [data-ship]").forEach(function (s) { s.textContent = ps.qty >= 2 ? "Free Shipping" : "Shipping at checkout. Free on 2+ packs"; s.classList.toggle("is-free", ps.qty >= 2); });
-      var each = ps.plan === "sub" ? PRICE * (1 - DISC) : PRICE, tot = each * ps.qty;
-      $("[data-pd-price]").innerHTML = (ps.plan === "sub" ? "<s>" + money(PRICE * ps.qty) + "</s>" : "") + money(tot);
-      $("[data-pd-perk]").textContent = ps.qty >= 3 ? "Free Shipping + Free Creatine For Life" : ps.qty === 2 ? "Free Shipping. 1 more for Free Creatine" : "Add 1 more pack for Free Shipping";
-      $("[data-pd-add]").innerHTML = icon("plus") + "Add " + ps.qty + (ps.qty === 1 ? " pack" : " packs") + " · " + money(tot);
+    var total = function () { return mixMode ? ps.q.watermelon + ps.q.orange : ps.qty; };
+    $$("[data-flavor-pack]").forEach(function (el) { el.innerHTML = packImg(qf, el.dataset.flavorPack); });
+
+    var drawTiers = function (n) {
+      var sub = ps.plan === "sub";
+      $$("[data-tiers] [data-tier]").forEach(function (t) { var k = +t.dataset.tier; t.classList.toggle("is-on", sub && n >= k); t.classList.toggle("is-next", sub && n + 1 === k); });
+      $$("[data-tiers] .tiers__track i").forEach(function (d, i) { d.classList.toggle("is-on", sub && n >= i + 1); });
+      $("[data-tiers]").classList.toggle("is-off", !sub);
+      $("[data-tiers] .tiers__fill").style.transform = "scaleX(" + (sub ? Math.min(n, 3) / 3 : 0) + ")";
+      var msg;
+      if (!sub) msg = "Tier savings and Free Creatine For Life come with <b>Subscribe</b>.";
+      else if (n >= 3) msg = "<b>20% off + Free Creatine For Life</b> unlocked.";
+      else msg = "Add <b>" + (3 - n) + " more " + (3 - n === 1 ? "pack" : "packs") + "</b> for 20% off + Free Creatine For Life.";
+      $("[data-tiers-msg]").innerHTML = msg;
     };
+
+    var drawPd = function () {
+      var n = total(), r = rate(n, ps.plan), tot = PRICE * n * (1 - r);
+      $("[data-pd-pack]").innerHTML = packImg(qf, ps.v, true);
+      if (mixMode) {
+        $$("[data-fq]").forEach(function (row) {
+          var v = row.dataset.fq, inp = $("input", row);
+          if (document.activeElement !== inp) inp.value = ps.q[v];
+          $('[data-step="-1"]', row).disabled = ps.q[v] <= 0 || n <= 1;
+          $('[data-step="1"]', row).disabled = n >= MAXQ;
+          row.classList.toggle("is-zero", ps.q[v] === 0);
+        });
+      } else {
+        $$("[data-pv] button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === ps.v)); });
+        var qIn = $("#pd-qty"); if (document.activeElement !== qIn) qIn.value = ps.qty;
+        $('[data-pq] [data-step="-1"]').disabled = ps.qty <= 1;
+        $('[data-pq] [data-step="1"]').disabled = ps.qty >= MAXQ;
+      }
+      $$("[data-pp] button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === ps.plan)); });
+      var ship = n >= 2 ? "Free Shipping on this order." : "Shipping is calculated at checkout, free on 2+ packs.";
+      $("[data-plan-note]").innerHTML = ps.plan === "sub"
+        ? "<b>Subscribe:</b> " + Math.round(r * 100) + "% off every order, ships every 30, 60 or 90 days, skip or cancel online anytime. " + ship
+        : "<b>One-time:</b> full price, one delivery, no subscription. " + ship;
+      $("[data-pd-price]").innerHTML = (r ? "<s>" + money(PRICE * n) + "</s>" : "") + money(tot);
+      $("[data-pd-perk]").textContent = n >= 2 ? "Free Shipping" : "Free Shipping at 2+";
+      $("[data-pd-add]").innerHTML = icon("plus") + "Add " + n + (n === 1 ? " pack" : " packs") + " · " + money(tot);
+      drawTiers(n);
+    };
+
     pd.addEventListener("click", function (e) {
       var v = e.target.closest("[data-pv] button"); if (v) { ps.v = v.dataset.v; drawPd(); }
-      var q = e.target.closest("[data-pq] [data-step]"); if (q && !q.disabled) { ps.qty = Math.min(24, Math.max(1, ps.qty + +q.dataset.step)); drawPd(); }
+      var q = e.target.closest("[data-pq] [data-step]"); if (q && !q.disabled) { ps.qty = Math.min(MAXQ, Math.max(1, ps.qty + +q.dataset.step)); drawPd(); }
+      var fq = e.target.closest("[data-fq] [data-step]");
+      if (fq && !fq.disabled) { var fv = fq.closest("[data-fq]").dataset.fq; ps.q[fv] = Math.max(0, ps.q[fv] + +fq.dataset.step); ps.v = ps.q[fv] > 0 ? fv : (fv === "watermelon" ? "orange" : "watermelon"); drawPd(); }
       var p = e.target.closest("[data-pp] button"); if (p) { ps.plan = p.dataset.v; drawPd(); }
-      var pi = e.target.closest("[data-plan-info] > div"); if (pi) { ps.plan = pi.dataset.for; drawPd(); }
-      if (e.target.closest("[data-pd-add]")) { add(qf, ps.v, ps.qty, { plan: ps.plan }); openCart(); }
+      if (e.target.closest("[data-pd-add]")) {
+        if (mixMode) { ["watermelon", "orange"].forEach(function (fv) { if (ps.q[fv]) add(qf, fv, ps.q[fv], { plan: ps.plan }); }); }
+        else add(qf, ps.v, ps.qty, { plan: ps.plan });
+        openCart();
+      }
     });
-    var qInput = $("#pd-qty");
-    qInput.addEventListener("input", function () { var n = parseInt(qInput.value, 10); if (n >= 1) { ps.qty = Math.min(24, n); drawPd(); } });
-    qInput.addEventListener("blur", function () { qInput.value = ps.qty; });
+    if (mixMode) {
+      $$("[data-fq] input").forEach(function (inp) {
+        var fv = inp.closest("[data-fq]").dataset.fq;
+        inp.addEventListener("input", function () { var k = parseInt(inp.value, 10); if (k >= 0) { var o = fv === "watermelon" ? ps.q.orange : ps.q.watermelon; ps.q[fv] = Math.min(MAXQ - o, k); if (ps.q[fv] + o < 1) ps.q[fv] = 1; ps.v = fv; drawPd(); } });
+        inp.addEventListener("blur", function () { inp.value = ps.q[fv]; });
+      });
+    } else {
+      var qInput = $("#pd-qty");
+      qInput.addEventListener("input", function () { var k = parseInt(qInput.value, 10); if (k >= 1) { ps.qty = Math.min(MAXQ, k); drawPd(); } });
+      qInput.addEventListener("blur", function () { qInput.value = ps.qty; });
+    }
     drawPd();
   }
 
@@ -410,7 +461,7 @@
     var bs = { n: 2, slots: [["energy", "watermelon"], ["everyday", "orange"], ["energy", "orange"], ["everyday", "watermelon"]], plan: "sub", days: 30 };
     var drawB = function (changed) {
       $$("[data-bn] button", b).forEach(function (x) { x.setAttribute("aria-pressed", String(+x.dataset.v === bs.n)); });
-      $$("[data-bn] [data-each]", b).forEach(function (x) { x.textContent = money(bs.plan === "sub" ? PRICE * (1 - DISC) : PRICE); });
+      $$("[data-bn] button", b).forEach(function (x) { var k = +x.dataset.v; $("[data-each]", x).textContent = money(PRICE * (1 - rate(k, bs.plan))); });
       var slots = "";
       for (var i = 0; i < bs.n; i++) {
         var s = bs.slots[i];
@@ -423,21 +474,21 @@
       $("[data-bdays]", b).hidden = bs.plan !== "sub";
       $$("[data-bdays] button", b).forEach(function (x) { x.setAttribute("aria-pressed", String(+x.dataset.v === bs.days)); });
       // Receipt
-      var n = bs.n, sub = n * PRICE, sv = bs.plan === "sub" ? sub * DISC : 0, grouped = {};
+      var n = bs.n, sub = n * PRICE, sv = sub * rate(n, bs.plan), grouped = {};
       for (var j = 0; j < n; j++) { var k = bs.slots[j].join("|"); grouped[k] = (grouped[k] || 0) + 1; }
       var items = Object.keys(grouped).map(function (k, i) {
         var p = k.split("|");
         return '<li class="item' + (changed === k ? " line-in" : "") + '"><span class="item__name">' + grouped[k] + "&times; " + FORMULA[p[0]].name + "<small>" + FLAVOR[p[1]] + '</small></span><span class="item__lead"></span><span class="item__val">' + money(PRICE * grouped[k]) + "</span></li>";
       }).join("");
-      if (n >= 3) items += '<li class="item item--add line-in"><span class="item__name">Free Creatine For Life</span><span class="item__lead"></span><span class="item__val">0.00</span></li>';
+      if (n >= 3 && bs.plan === "sub") items += '<li class="item item--add line-in"><span class="item__name">Free Creatine For Life</span><span class="item__lead"></span><span class="item__val">0.00</span></li>';
       $("[data-b-items]", b).innerHTML = items;
-      $("[data-b-meta]", b).textContent = bs.plan === "sub" ? "Subscribe & Save · every " + bs.days + " days" : "One-time order";
+      $("[data-b-meta]", b).textContent = bs.plan === "sub" ? "Subscribe · every " + bs.days + " days" : "One-time order";
       $("[data-b-totals]", b).innerHTML =
         '<div class="total-row"><span>Subtotal</span><span>' + money(sub) + "</span></div>" +
-        (sv ? '<div class="total-row total-row--save"><span>Subscribe &amp; Save 10%</span><span>&minus;' + money(sv) + "</span></div>" : "") +
+        (sv ? '<div class="total-row total-row--save"><span>Subscribe ' + pct(n) + ' off</span><span>&minus;' + money(sv) + "</span></div>" : "") +
         '<div class="total-row"><span>Shipping</span><span>' + (n >= 2 ? "FREE" : "At checkout") + "</span></div>" +
         '<div class="total-row total-row--big"><span>Total</span><span>' + (sv ? "<s>" + money(sub) + "</s>" : "") + money(sub - sv) + "</span></div>";
-      $("[data-b-progress]", b).innerHTML = progressHtml(n);
+      $("[data-b-progress]", b).innerHTML = progressHtml(n, bs.plan);
       $$("[data-b-go]:not(.shop):not(.apple)").forEach(function (g) { g.innerHTML = icon("lock") + "Checkout " + money(sub - sv); });
       $$("[data-b-sum]").forEach(function (g) { g.textContent = n + (n === 1 ? " pack" : " packs") + (bs.plan === "sub" ? ", every " + bs.days + " days" : ", one-time"); });
       $$("[data-b-total]").forEach(function (g) { g.textContent = money(sub - sv); });

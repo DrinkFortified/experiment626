@@ -28,6 +28,16 @@
       <h1 id="pd-h" class="display d1" data-t="name" data-enter>Energy</h1>
       <p class="lede" data-t="line" data-enter style="--d:80ms">150mg natural caffeine from coffee bean, plus electrolytes.</p>
 
+      <div class="tiers" data-tiers data-enter style="--d:110ms" aria-label="Subscribe savings by pack count">
+        <div class="tiers__track" aria-hidden="true"><div class="tiers__fill"></div><i></i><i></i><i></i></div>
+        <ol class="tiers__steps">
+          <li data-tier="1"><b>1 pack</b><span>10% off</span></li>
+          <li data-tier="2"><b>2 packs</b><span>15% off</span></li>
+          <li data-tier="3"><b>3 packs</b><span>20% off + Free Creatine</span></li>
+        </ol>
+        <p class="tiers__msg" data-tiers-msg aria-live="polite"></p>
+      </div>
+
       <div class="pd__opts" data-enter style="--d:140ms">
         <div class="opt"><div class="opt__label">Organic flavor</div>
           <div class="seg seg--full" role="group" aria-label="Organic flavor" data-pv>
@@ -42,10 +52,7 @@
             <button type="button" data-step="1" aria-label="Add a pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
           </div></div>
         <div class="opt"><div class="opt__label">Purchase</div>
-          <div class="plan-info" data-plan-info>
-            <div data-for="sub"><b>Subscribe</b><span>10% off every order</span><span>Ships every 30, 60 or 90 days</span><span>Skip or cancel online anytime</span><span class="plan-info__ship" data-ship></span></div>
-            <div data-for="otp"><b>One-time</b><span>Full price, one delivery</span><span>No subscription</span><span>Reorder whenever you like</span><span class="plan-info__ship" data-ship></span></div>
-          </div>
+          <p class="plan-note" data-plan-note aria-live="polite"></p>
           <div class="seg seg--full" role="group" aria-label="Purchase type" data-pp>
             <button type="button" data-v="sub" aria-pressed="true">Subscribe</button>
             <button type="button" data-v="otp" aria-pressed="false">One-time</button>
