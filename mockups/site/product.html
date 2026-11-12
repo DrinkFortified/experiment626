@@ -35,10 +35,11 @@
             <button type="button" data-v="orange" aria-pressed="false">Organic Salty Orange</button>
           </div></div>
         <div class="opt"><div class="opt__label">Packs <span class="opt__aside" data-pd-perk></span></div>
-          <div class="seg seg--full" role="group" aria-label="Number of packs" data-pq>
-            <button type="button" data-v="1" aria-pressed="false">1</button>
-            <button type="button" data-v="2" aria-pressed="true">2</button>
-            <button type="button" data-v="3" aria-pressed="false">3</button>
+          <div class="stepper" data-pq>
+            <button type="button" data-step="-1" aria-label="Remove a pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+            <label class="sr" for="pd-qty">Number of packs</label>
+            <input id="pd-qty" class="num" type="number" inputmode="numeric" min="1" max="24" value="2">
+            <button type="button" data-step="1" aria-label="Add a pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
           </div></div>
         <div class="opt"><div class="opt__label">Purchase</div>
           <div class="seg seg--full" role="group" aria-label="Purchase type" data-pp>

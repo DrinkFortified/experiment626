@@ -380,19 +380,24 @@
     var drawPd = function () {
       $("[data-pd-pack]").innerHTML = packImg(qf, ps.v, true);
       $$("[data-pv] button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === ps.v)); });
-      $$("[data-pq] button").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.dataset.v === ps.qty)); });
+      var qIn = $("#pd-qty"); if (document.activeElement !== qIn) qIn.value = ps.qty;
+      $('[data-pq] [data-step="-1"]').disabled = ps.qty <= 1;
+      $('[data-pq] [data-step="1"]').disabled = ps.qty >= 24;
       $$("[data-pp] button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === ps.plan)); });
       var each = ps.plan === "sub" ? PRICE * (1 - DISC) : PRICE, tot = each * ps.qty;
       $("[data-pd-price]").innerHTML = (ps.plan === "sub" ? "<s>" + money(PRICE * ps.qty) + "</s>" : "") + money(tot);
-      $("[data-pd-perk]").textContent = ps.qty >= 3 ? "Free Shipping + Free Creatine For Life" : ps.qty === 2 ? "Free Shipping unlocked" : "Add 1 more pack for Free Shipping";
+      $("[data-pd-perk]").textContent = ps.qty >= 3 ? "Free Shipping + Free Creatine For Life" : ps.qty === 2 ? "Free Shipping. 1 more for Free Creatine" : "Add 1 more pack for Free Shipping";
       $("[data-pd-add]").innerHTML = icon("plus") + "Add " + ps.qty + (ps.qty === 1 ? " pack" : " packs") + " · " + money(tot);
     };
     pd.addEventListener("click", function (e) {
       var v = e.target.closest("[data-pv] button"); if (v) { ps.v = v.dataset.v; drawPd(); }
-      var q = e.target.closest("[data-pq] button"); if (q) { ps.qty = +q.dataset.v; drawPd(); }
+      var q = e.target.closest("[data-pq] [data-step]"); if (q && !q.disabled) { ps.qty = Math.min(24, Math.max(1, ps.qty + +q.dataset.step)); drawPd(); }
       var p = e.target.closest("[data-pp] button"); if (p) { ps.plan = p.dataset.v; drawPd(); }
       if (e.target.closest("[data-pd-add]")) { add(qf, ps.v, ps.qty, { plan: ps.plan }); openCart(); }
     });
+    var qInput = $("#pd-qty");
+    qInput.addEventListener("input", function () { var n = parseInt(qInput.value, 10); if (n >= 1) { ps.qty = Math.min(24, n); drawPd(); } });
+    qInput.addEventListener("blur", function () { qInput.value = ps.qty; });
     drawPd();
   }
 
