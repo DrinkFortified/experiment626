@@ -329,7 +329,7 @@
     var html = labelItems(f).map(function (it, i) {
       return '<li class="item' + (it[2] ? " item--add" : "") + '" style="--i:' + i + '"><span class="item__name">' + it[0] + '</span><span class="item__lead"></span><span class="item__val">' + it[1] + "</span></li>";
     }).join("");
-    if (withVoid) html += VOID.map(function (v, i) { return '<li class="item item--void" style="--i:' + (i + 9) + '"><span class="item__name">' + v + '</span><span class="item__lead"></span><span class="item__val">VOID</span></li>'; }).join("");
+    if (withVoid) html += VOID.map(function (v, i) { return '<li class="item item--void" style="--i:' + (i + 9) + '"><span class="item__name">' + v + '</span><span class="item__lead"></span><span class="item__val">None</span></li>'; }).join("");
     return html;
   }
   var hero = $("[data-hero-receipt]");
@@ -382,7 +382,7 @@
         adds: F.adds.map(function (a) { return a[0]; }).join(" + ") };
       if (map[k] != null) el.textContent = map[k];
     });
-    $$("[data-other-link]").forEach(function (a) { a.href = (mixMode ? "product-flavors.html?f=" : "product.html?f=") + other; });
+    $$("[data-other-link]").forEach(function (a) { a.href = "product.html?f=" + other; });
     $("[data-pd-items]").innerHTML = itemsHtml(qf, true);
     $("[data-other-pack]").setAttribute("data-pack", other + "|watermelon");
     var total = function () { return mixMode ? ps.q.watermelon + ps.q.orange : ps.qty; };

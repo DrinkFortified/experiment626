@@ -14,6 +14,7 @@ Delegated: static HTML, CSS and vanilla JS mockups under `mockups/`, built to be
 
 ## Users
 
+- **Primary audience (owner, 2026-11-12): MAHA-aligned moms in the US.** They read every label, avoid synthetic dyes and additives, trust other moms and reviews over brands, and back away from polished, corporate or partisan messaging. Research and sources: `mockups/site/RESEARCH-maha-moms.md`.
 - Adults who drink an electrolyte daily and read supplement labels before they buy. They distrust proprietary blends and hype. *(inferred from copy: "for people who actually read the label")*
 - Two jobs: a morning or pre-workout drink with caffeine (Energy), and an all-day caffeine-free drink (Everyday). *(inferred)*
 - Most arrive on a phone from social or paid ads and decide in one session. *(inferred)*

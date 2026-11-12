@@ -1,42 +1,51 @@
 # Design
 
-## World: The Itemized Receipt
+## World: The kitchen table at golden hour
 
-Fortified's claim is that nothing is hidden. A receipt is the everyday object that proves it: every line accounted for, a total you can check, printed for you to keep. The site is built on receipt paper. The label is the receipt for what is in the pack, and the cart is the receipt for what you are buying, and both print in front of the visitor.
+Audience: moms who read every label before it reaches their family (see `mockups/site/RESEARCH-maha-moms.md`). They trust other moms, real routines and plain facts, and back away from anything that feels glossy, corporate, loud or political. The site should feel like a calm kitchen counter in late-afternoon light: warm linen, soft serif headlines, real photographs of real routines, and the full label laid out like a recipe card.
 
-Seed: seed:d73d3ec503b81724 (assigned direction 4 of 7, degraded roll: no challengers, the roll service was unreachable). Top-ranked alternative kept on file: a Supplement Facts panel world (hairline and heavy rules, label grammar).
+Replaces the earlier "itemized receipt" world (2026-11-11), which the owner rejected. Brand anchors kept: the Fortified wordmark, teal accent, Energy red and Everyday orange for the two formulas, Figtree for body text.
 
-## Palette (owner-pinned brand colors)
+## Palette
 
 | Token | Value | Use |
 |---|---|---|
-| `--paper` | #fbfaf5 | Page ground, receipt paper |
-| `--paper-2` | #f1efe6 | Second ground, recessed areas |
-| `--ink` | #0e1a24 | Navy ink: text, rules, dark sections |
-| `--ink-2` | #46525c | Secondary text on paper (7.3:1) |
-| `--teal` | #12a39a | Brand accent, focus, totals, unlocked rewards. Large text and fills only on paper |
-| `--teal-ink` | #0b7d76 | Teal for small text on paper (4.9:1) |
-| `--energy` | #c8102e | Energy formula field |
-| `--everyday` | #f26a1b | Everyday formula field; text on it is navy, never white |
-| `--performance` | #121212 | Performance (coming soon) field |
+| `--paper` | #f7f1e7 | Page ground (warm linen) |
+| `--paper-2` | #efe5d4 | Recessed bands, chips, inputs |
+| `--card` | #fffcf6 | Cards, label card, order summary |
+| `--ink` | #1d2925 | Text and dark sections (green-leaning navy) |
+| `--ink-2` | #55605a | Secondary text (6.2:1 on paper) |
+| `--teal` | #12a39a | Brand accent fills (bars, dots), never small text |
+| `--teal-ink` | #0b6f69 | Teal text and the primary button |
+| `--honey` | #e7a83e | Ratings, small highlights |
+| `--energy` / `--energy-wash` | #c8102e / #f3d9d3 | Energy formula; wash for its grounds |
+| `--everyday` / `--everyday-wash` | #f26a1b / #f9e1cc | Everyday formula; wash for its grounds |
 
-White text on Everyday orange fails contrast, so orange fields always carry navy ink.
+Formula colors appear full strength only on small marks (chips, pack art). Large grounds use the washes with ink text.
 
 ## Type
 
-Figtree only (owner-pinned). Display: 900, uppercase, tracking -0.03em, line-height 0.92. Body: 400 to 600, 17px, measure under 70ch. Prices, quantities and amounts use `font-variant-numeric: tabular-nums` so receipt columns align. No monospace.
+- Display: Fraunces 600, sentence case, tracking -0.02em, line height 1.02 to 1.1. Warm, bookish, not shouting.
+- Body and UI: Figtree 400 to 700, 17px body, measure under 68ch.
+- Small labels: Figtree 700, 12 to 13px, letter spacing 0.06em, uppercase only for field labels.
+- Prices and counts use tabular figures.
+
+## Shape and depth
+
+- Radius: 20px cards, 14px controls, pill buttons.
+- Shadow: one soft warm shadow, `0 1px 2px rgba(60,40,20,.06), 0 12px 28px -14px rgba(60,40,20,.28)`.
+- Hairlines `#e2d6c2` divide rows; no dashed or dotted receipt rules except the soft leaders in ingredient lists.
 
 ## Signature parts
 
-- **Receipt sheet:** paper card with a torn zigzag top and bottom edge (CSS mask), soft offset shadow, dotted leader lines between item and value, a double rule above totals.
-- **Itemized line:** name left, dotted leader, source or price right. Voided lines (struck through, marked VOID) list what is not in the pack.
-- **Formula fields:** Energy red and Everyday orange as full-bleed grounds, never as accents on cards.
-- **Stamp:** a rotated outline stamp ("NOTHING HIDDEN", "PAID IN FULL") used once per page at most.
+- **Label card:** ingredient name left, source right, soft leaders, then a short "Never in our packs" list. Reads like a recipe card.
+- **Golden-hour frame:** the hero and story photos sit in rounded frames with a warm gradient placeholder until real photography exists.
+- **Proof slots:** reviews, mom stories and lab results get real, sized slots near the buy button. Nothing is invented.
 
 ## Motion
 
-One authored moment: printing. Receipt lines feed in from the top, staggered 40ms, 260ms, ease-out-expo, once per sheet on first view, and new cart lines print in when added. Hover: buttons press to scale 0.97, links draw their underline. Everything else stays still. `prefers-reduced-motion` removes the feed and keeps fades only.
+One authored moment: when packs are added on the product page, the order summary line that changed fades and slides in (240ms, ease-out). Buttons press to 0.97. Everything else is still. Reduced motion removes transforms.
 
-## Components
+## Purchase structure (owner approved, keep)
 
-Buttons: navy pill-free rectangles with 10px radius, 56px tall primary, teal for the money action. Segmented toggles for formula and organic flavor. Cart is a receipt drawer from the right; checkout is a single sheet.
+Product page buy column, top to bottom: name, one-line description, 10/15/20% Subscribe tier bar with the "add N more" line, packs per organic flavor with minus and plus steppers, Purchase label with a one-line plain-text explanation, Subscribe and One-time toggle showing each price, itemized order summary with savings, Add button. Desktop keeps the product visual in view while the column scrolls.

@@ -5,107 +5,67 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="page-type" content="product">
 <meta name="site-kind" content="other">
-<meta name="theme-color" content="#fbfaf5">
-<title>Fortified | Clean Electrolytes. No Mumbo Jumbo.</title>
-<meta name="description" content="Clean electrolytes for people who read the label. Energy and Everyday in Organic Salty Watermelon and Organic Salty Orange. Subscribe and save up to 20%.">
+<meta name="theme-color" content="#f7f1e7">
+<title>Fortified | Electrolytes with nothing to hide</title>
+<meta name="description" content="Electrolytes for families who read every label. Every ingredient named, sweetened with monk fruit, in Organic Salty Watermelon and Organic Salty Orange. Subscribe and save up to 20%.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500..700,0..100&family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css">
 </head>
 <body>
 <div data-head></div>
 
 <main>
-  <!-- Hero: the label prints in front of you, and the action lives on it -->
-  <section class="hero" aria-labelledby="hero-h" style="--hm:2">
-    <div class="wrap hero__grid">
-      <div class="hero__copy">
-        <h1 id="hero-h" class="display d1" data-enter>Hydration.<span>No Mumbo Jumbo.</span></h1>
-        <p class="lede" data-enter style="--d:120ms">Clean electrolytes for people who actually read the label. Here is ours, every line of it. Pick a formula and check it yourself.</p>
-        <div class="hero__actions" data-enter style="--d:200ms">
-          <a class="btn" href="shop.html">Build a box</a>
-          <span class="hero__note">From <b class="num">$53.10</b> a pack with Subscribe</span>
+  <!-- Hero: calm, warm, the product in a golden-hour kitchen -->
+  <section class="h-hero" aria-labelledby="hero-h">
+    <div class="wrap h-hero__grid">
+      <div class="h-hero__copy">
+        <h1 id="hero-h" class="display d1" data-enter>Electrolytes with <em>nothing to hide.</em></h1>
+        <p class="lede" data-enter style="--d:100ms">Every ingredient named, with where it comes from. Sweetened with monk fruit. Made for the mom who reads the back of the pack before anything reaches her family.</p>
+        <div class="h-hero__actions" data-enter style="--d:180ms">
+          <a class="btn btn--money" href="product.html?f=everyday">Shop Everyday</a>
+          <a class="btn btn--ghost" href="product.html?f=energy">Shop Energy</a>
         </div>
-        <ul class="hero__checks" data-enter style="--d:260ms"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>No proprietary blends</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>30-day money-back</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>Ships in 1 to 3 days</li></ul>
+        <p class="h-hero__note" data-enter style="--d:240ms">From <b class="num">$47.20</b> a pack when you subscribe to 3. Skip or cancel online anytime.</p>
       </div>
-
-      <div class="hero__receipt" data-hero-receipt data-enter style="--d:160ms">
-        <div class="sheet-wrap">
-          <div class="sheet print">
-            <div class="hero__controls">
-              <div class="seg seg--formula seg--full" role="group" aria-label="Formula" data-hf>
-                <button type="button" data-v="energy" aria-pressed="true">Energy</button>
-                <button type="button" data-v="everyday" aria-pressed="false">Everyday</button>
-              </div>
-              <div class="seg seg--full" role="group" aria-label="Organic flavor" data-hv>
-                <button type="button" data-v="watermelon" aria-pressed="true">Organic Salty Watermelon</button>
-                <button type="button" data-v="orange" aria-pressed="false">Organic Salty Orange</button>
-              </div>
-            </div>
-            <div class="sheet__head">
-              <div class="sheet__brand">FORTIFIED.</div>
-              <div class="sheet__title">Receipt for <span data-hero-title>Energy</span></div>
-              <div class="sheet__meta" data-hero-meta>Organic Salty Watermelon</div>
-            </div>
-            <ul class="items" data-hero-items aria-label="Everything in the pack"></ul>
-            <div class="totals"><div class="total-row"><span>Proprietary blends</span><span class="num">0</span></div></div>
-            <button class="btn btn--money btn--block" type="button" data-hero-add style="margin-top:18px">Add to box</button>
-            <div class="sheet__foot">30 day supply. Skip or cancel anytime.</div>
-          </div>
+      <figure class="photo h-hero__photo" data-enter style="--d:120ms">
+        <div class="h-hero__packs">
+          <div class="pack" data-pack="everyday|watermelon" data-eager></div>
+          <div class="pack" data-pack="energy|orange" data-eager></div>
         </div>
-      </div>
+        <!-- Client photo slot: golden-hour kitchen counter, a glass of water, both packs, a child's hand reaching in. Replace this gradient. -->
+        <figcaption class="photo__note">Photo slot: golden-hour kitchen counter with both packs</figcaption>
+      </figure>
     </div>
   </section>
 
-  <!-- The fork: two formulas as full color fields -->
-  <section class="fork" aria-labelledby="fork-h" style="--hm:2">
-    <h2 id="fork-h" class="sr">Choose your formula</h2>
-    <div class="split">
-      <a class="field--energy" href="product.html?f=energy"><div><h3 class="display d2">Energy</h3><p>150mg natural caffeine from coffee bean on a higher-sodium electrolyte base. For mornings and hard days.</p><span class="tag">Caffeine</span></div>
-        <figure class="split__pack pack pack--bare" data-pack="energy|orange"></figure>
-        <div class="split__foot"><span class="num">From $53.10</span><span class="split__go">Shop Energy <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></div>
-      </a>
-      <a class="field--everyday" href="product.html?f=everyday"><div><h3 class="display d2">Everyday</h3><p>Caffeine-free electrolytes with Vitamin D3 and K2. Drink it any hour without thinking twice.</p><span class="tag">Caffeine-Free</span></div>
-        <figure class="split__pack pack pack--bare" data-pack="everyday|watermelon"></figure>
-        <div class="split__foot"><span class="num">From $53.10</span><span class="split__go">Shop Everyday <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></div>
-      </a>
-    </div>
-  </section>
+  <!-- Trust row -->
+  <div class="trust" aria-label="What you can count on">
+    <ul>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10v18H7z"/><path d="M10 8h4M10 12h4M10 16h2"/></svg><div>Every ingredient named<span>No proprietary blends</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14M5 19l7-7"/></svg><div>No synthetic dyes<span>Check the label yourself</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg><div>Sweetened with monk fruit<span>Plus Reb M (as OnoSweet)</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.8-7 9-4-1.2-7-4.5-7-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg><div>30-day money-back<span>No return required</span></div></li>
+    </ul>
+  </div>
 
-  <!-- Rewards ladder -->
-  <section class="sec" aria-labelledby="ladder-h" style="--hm:2">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2 id="ladder-h" class="display d2">Mix any packs in one box</h2>
-        <p>Every pack is a 30 day supply. Mix Energy and Everyday in any organic flavor. Subscribe and the discount grows with your box: 10%, 15%, then 20% at 3 packs.</p>
-      </div>
-      <div class="ladder">
-        <div><div class="ladder__qty num">1<small>pack</small></div>
-          <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>10% off with Subscribe</li><li class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/></svg>Free Shipping</li><li class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/></svg>Free Creatine For Life</li></ul>
-          <div class="ladder__price num">$53.10 a box</div></div>
-        <div><div class="ladder__qty num">2<small>packs</small></div>
-          <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>15% off with Subscribe</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>Free Shipping</li><li class="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/></svg>Free Creatine For Life</li></ul>
-          <div class="ladder__price num">$100.30 a box</div></div>
-        <div><div class="ladder__qty num">3<small>packs</small></div>
-          <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>20% off with Subscribe</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>Free Shipping</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>Free Creatine For Life</li></ul>
-          <div class="ladder__price num">$141.60 a box</div></div>
-      </div>
-      <div style="margin-top:36px;display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center"><a class="btn" href="shop.html">Build a box</a><a class="link" href="help.html#subscriptions">How Subscribe works</a></div>
-    </div>
-  </section>
-
-  <!-- The label as proof -->
-  <section class="sec sec--paper2" aria-labelledby="label-h" style="--hm:2">
-    <div class="wrap label-grid">
+  <!-- The label, read in twenty seconds -->
+  <section class="sec" aria-labelledby="label-h">
+    <div class="wrap label-sec">
       <div>
-        <h2 id="label-h" class="display d2">Every line, accounted for.</h2>
-        <p class="lede">Both formulas share one electrolyte base. Every ingredient is listed by name and source. If it is not on the receipt, it is not in the pack.</p>
-        <div style="margin-top:32px;display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center"><a class="btn btn--ghost" href="ingredients.html">Read the full label</a></div>
+        <h2 id="label-h" class="display d2">Read the whole label in twenty seconds.</h2>
+        <p class="lede">Both formulas share one short electrolyte base. Here it is, ingredient by ingredient, with the source we buy.</p>
+        <ul class="never" aria-label="Never in our packs">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg><div>No proprietary blends<small>Every amount comes from the Supplement Facts panel.</small></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg><div>No synthetic dyes<small>Nothing on our label is a color additive.</small></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg><div>No fillers you can&rsquo;t pronounce<small>If it&rsquo;s in the pack, it&rsquo;s on this list.</small></div></li>
+        </ul>
+        <a class="link" href="ingredients.html" style="display:inline-block;margin-top:28px">See where each ingredient comes from</a>
       </div>
-      <div class="sheet-wrap" data-print-on-view>
+      <div class="sheet-wrap">
         <div class="sheet">
-          <div class="sheet__head"><div class="sheet__brand">FORTIFIED.</div><div class="sheet__title">The shared base</div><div class="sheet__meta">Energy and Everyday</div></div>
+          <div class="sheet__head"><div class="sheet__title">The shared base</div><div class="sheet__meta">In both Energy and Everyday</div></div>
           <ul class="items">
             <li class="item"><span class="item__name">Pink Himalayan Salt</span><span class="item__lead"></span><span class="item__val">as Ancient Ocean</span></li>
             <li class="item"><span class="item__name">Magnesium Malate</span><span class="item__lead"></span><span class="item__val">magnesium</span></li>
@@ -114,32 +74,77 @@
             <li class="item"><span class="item__name">Bamboo Fiber</span><span class="item__lead"></span><span class="item__val">fiber</span></li>
             <li class="item"><span class="item__name">Organic Lemon Juice Powder</span><span class="item__lead"></span><span class="item__val">flavor</span></li>
             <li class="item"><span class="item__name">Monk Fruit + Reb M</span><span class="item__lead"></span><span class="item__val">as OnoSweet</span></li>
-            <li class="item item--void"><span class="item__name">Proprietary blends</span><span class="item__lead"></span><span class="item__val">VOID</span></li>
-            <li class="item item--void"><span class="item__name">Fillers you can&rsquo;t pronounce</span><span class="item__lead"></span><span class="item__val">VOID</span></li>
           </ul>
-          <div class="barcode" aria-hidden="true"></div>
+          <div class="totals"><div class="total-row"><span>Energy adds</span><span>150mg caffeine from coffee bean</span></div><div class="total-row"><span>Everyday adds</span><span>Vitamin D3 and K2, no caffeine</span></div></div>
         </div>
-        <span class="stamp" aria-hidden="true">Read<small>the label</small></span>
       </div>
     </div>
   </section>
 
+  <!-- Two formulas -->
+  <section class="sec sec--paper2" aria-labelledby="fx-h">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="fx-h" class="display d2">One for your morning. One for the whole day.</h2><p>Same short label underneath. Pick the one that fits, or mix both in one order.</p></div>
+      <div class="formulas">
+        <a class="formula field--everyday" href="product.html?f=everyday">
+          <div><span class="tag">Caffeine-free</span><h3 class="display d3">Everyday</h3><p>Electrolytes with Vitamin D3 and K2 for any hour, no caffeine.</p><span class="formula__go">Shop Everyday <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></div>
+          <div class="pack pack--bare" data-pack="everyday|orange"></div>
+        </a>
+        <a class="formula field--energy" href="product.html?f=energy">
+          <div><span class="tag">150mg caffeine</span><h3 class="display d3">Energy</h3><p>Natural caffeine from coffee bean with a higher-sodium base, for your morning.</p><span class="formula__go">Shop Energy <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span></div>
+          <div class="pack pack--bare" data-pack="energy|watermelon"></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proof from other moms -->
+  <section class="sec" aria-labelledby="proof-h">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="proof-h" class="display d2">From moms who read labels too.</h2><p>Real reviews from verified buyers, with their photos. Nothing here is written by us.</p></div>
+      <div class="proof">
+        <div class="slot"><div><b>Verified review</b>Photo, first name, how she uses it. From your reviews app.</div></div>
+        <div class="slot"><div><b>Verified review</b>Pull the reviews that mention the label or taste.</div></div>
+        <div class="slot"><div><b>Verified review</b>Show the star average here once you have it.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testing: the trust signal this category runs on -->
+  <section class="sec sec--paper2" aria-labelledby="lab-h">
+    <div class="wrap lab">
+      <div>
+        <h2 id="lab-h" class="display d2">See the lab results, batch by batch.</h2>
+        <p class="lede">Salts can carry heavy metals, so careful parents ask. Publish third-party results for every batch here and link them from each pack.</p>
+      </div>
+      <div class="slot"><div><b>Lab results slot</b>Batch number, test date, lab name, and results for lead, arsenic, cadmium and mercury. Only publish real reports.</div></div>
+    </div>
+  </section>
+
+  <!-- Subscribe tiers -->
+  <section class="sec" aria-labelledby="save-h">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="save-h" class="display d2">Subscribe, and it gets kinder to your budget.</h2><p>Mix formulas and organic flavors. Ships every 30, 60 or 90 days. Skip or cancel online, no phone call.</p></div>
+      <div class="save-tiers">
+        <div class="save-tier"><div class="save-tier__pct num">10%</div><b>1 pack</b><p>$53.10 a month&rsquo;s supply</p></div>
+        <div class="save-tier"><div class="save-tier__pct num">15%</div><b>2 packs</b><p>Free Shipping, $50.15 a pack</p></div>
+        <div class="save-tier save-tier--best"><div class="save-tier__pct num">20%</div><b>3 packs or more</b><p>Free Shipping and Free Creatine For Life, $47.20 a pack</p></div>
+      </div>
+      <div style="margin-top:32px;display:flex;flex-wrap:wrap;gap:12px"><a class="btn btn--money" href="product.html?f=everyday">Start with Everyday</a><a class="btn btn--ghost" href="shop.html">Mix both formulas</a></div>
+    </div>
+  </section>
+
   <!-- Subscription control, shown working -->
-  <section class="sec on-dark" aria-labelledby="ctrl-h" style="--hm:2">
+  <section class="sec on-dark" aria-labelledby="ctrl-h">
     <div class="wrap control-grid">
       <div>
-        <h2 id="ctrl-h" class="display d2">Skip or cancel online in two taps</h2>
-        <p class="lede">Your subscription lives in My Subscriptions, not behind a phone call. We email you before every renewal.</p>
-        <ul class="checklist">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>Ship every 30, 60 or 90 days</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>Swap formulas and organic flavors anytime</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>Cancel online before your next billing date</li>
-        </ul>
+        <h2 id="ctrl-h" class="display d2">You stay in charge of every order.</h2>
+        <p class="lede">Skip a month, swap organic flavors, or cancel in My Subscriptions. We email you before every renewal.</p>
       </div>
       <div class="ui" data-sub-ui aria-label="Example of the My Subscriptions screen">
-        <div class="ui__top">My Subscriptions <span>Next box in 30 days</span></div>
-        <div class="ui__row"><div class="pack" data-pack="energy|watermelon"></div><div><b>Energy</b><small>Organic Salty Watermelon</small></div><span class="num">$53.10</span></div>
-        <div class="ui__row"><div class="pack" data-pack="everyday|orange"></div><div><b>Everyday</b><small>Organic Salty Orange</small></div><span class="num">$53.10</span></div>
+        <div class="ui__top">My Subscriptions <span>Next order in 30 days</span></div>
+        <div class="ui__row"><div class="pack" data-pack="everyday|watermelon"></div><div><b>Everyday</b><small>Organic Salty Watermelon</small></div><span class="num">2 packs</span></div>
+        <div class="ui__row"><div class="pack" data-pack="energy|orange"></div><div><b>Energy</b><small>Organic Salty Orange</small></div><span class="num">1 pack</span></div>
         <div class="ui__acts">
           <button type="button" data-act="skip">Skip</button>
           <button type="button" data-act="swap">Swap</button>
@@ -151,38 +156,40 @@
     </div>
   </section>
 
-
-  <!-- Guarantee and proof -->
-  <section class="sec sec--paper2" aria-labelledby="g-h" style="--hm:1">
-    <div class="wrap proof">
-      <div class="guarantee">
-        <div class="seal"><div><b class="num">30</b><small>Day<br>guarantee</small></div></div>
-        <div><h2 id="g-h" class="display d2">Love it or it&rsquo;s on us.</h2><p class="lede" style="margin-top:14px">Not happy for any reason? Contact us within 30 days of delivery and we&rsquo;ll refund the purchase price. No return required.</p></div>
-        <a class="btn btn--money" href="shop.html">Try it risk-free</a>
+  <!-- Founder -->
+  <section class="sec" aria-labelledby="fd-h">
+    <div class="wrap founder">
+      <figure class="photo"><figcaption class="photo__note">Photo slot: founder at home, natural light</figcaption></figure>
+      <div>
+        <h2 id="fd-h" class="sr">A note from our founder</h2>
+        <p class="quote">&ldquo;Founder note goes here, in their own words: why Fortified exists and why the label comes first.&rdquo;</p>
+        <p class="lede">Placeholder until the real story is written. Keep it short, personal and specific.</p>
+        <a class="link" href="about.html" style="display:inline-block;margin-top:20px">Read our story</a>
       </div>
-      <div class="slot"><div><b>Verified reviews</b>Connect a verified-buyer reviews app (Judge.me, Okendo or Yotpo). Nothing here is invented until real subscribers write it.</div></div>
     </div>
   </section>
 
-  <!-- Short FAQ -->
-  <section class="sec" aria-labelledby="faq-h" style="--hm:1">
+  <!-- FAQ -->
+  <section class="sec sec--paper2" aria-labelledby="faq-h">
     <div class="wrap faq-layout">
-      <div><h2 id="faq-h" class="display d2">Questions, answered.</h2><p class="lede">More in <a class="link" href="help.html">Help</a>, or email <a class="link" href="mailto:hello@livefortified.com">hello@livefortified.com</a>.</p></div>
+      <div><h2 id="faq-h" class="display d2">Questions moms ask us.</h2><p class="lede">More in <a class="link" href="help.html">Help</a>, or email <a class="link" href="mailto:hello@livefortified.com">hello@livefortified.com</a>.</p></div>
       <div class="faq">
         <details><summary>What&rsquo;s the difference between Energy and Everyday?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>Both share the same electrolyte base. Energy is a higher-sodium formula with 150mg natural caffeine from coffee bean. Everyday is caffeine-free and adds Vitamin D3 and Vitamin K2.</p></details>
-        <details><summary>Can I mix formulas and organic flavors?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>Yes. Mix any combination of Energy and Everyday in Organic Salty Orange and Organic Salty Watermelon. Rewards count every pack in your box.</p></details>
+        <details><summary>What is it sweetened with?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>Monk fruit extract and Reb M (as OnoSweet). Every ingredient is listed on the <a class="link" href="ingredients.html">Ingredients</a> page.</p></details>
+        <details><summary>Can I mix formulas and organic flavors?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>Yes. Mix Energy and Everyday in Organic Salty Orange and Organic Salty Watermelon. Your Subscribe savings count every pack in the order.</p></details>
         <details><summary>How do I skip or cancel?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>Log in at livefortified.com and open My Subscriptions. Skip, swap, change quantity or cancel before your next billing date. No calls or emails required.</p></details>
-        <details><summary>When will my order ship?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>Orders ship within 1 to 3 business days. Ground delivery usually takes 3 to 7 business days, to all 50 US states and DC.</p></details>
       </div>
     </div>
   </section>
 
   <!-- Closing -->
-  <section class="sec field--everyday closing" aria-labelledby="close-h">
+  <section class="sec" aria-labelledby="close-h">
     <div class="wrap">
-      <h2 id="close-h" class="display d1">Read the label. Then drink it.</h2>
-      <p class="lede">Build a box in under a minute. Subscribe and save up to 20%.</p>
-      <a class="btn" href="shop.html">Build a box</a>
+      <div class="closing-card">
+        <h2 id="close-h" class="display d2">Read the label. Then pour a glass.</h2>
+        <p class="lede">Try it for 30 days. If it&rsquo;s not for your family, we&rsquo;ll refund you.</p>
+        <a class="btn" href="product.html?f=everyday">Shop Everyday</a>
+      </div>
     </div>
   </section>
 </main>

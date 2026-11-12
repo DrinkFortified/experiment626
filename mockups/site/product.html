@@ -10,19 +10,22 @@
 <meta name="description" content="Fortified electrolytes, 30 Day Supply Pack in Organic Salty Watermelon or Organic Salty Orange.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500..700,0..100&family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css">
 </head>
 <body>
 <div data-head></div>
 
-<main data-product>
+<main data-product data-flavor-mode>
   <!-- Buy: the pack big on its own color, the buy box on paper -->
   <section class="pd" aria-labelledby="pd-h">
     <div class="pd__stage" data-field>
       <div class="pd__crumbs"><a href="index.html">Home</a> / <a href="shop.html">Shop</a> / <span data-t="name">Energy</span></div>
       <span class="tag pd__tag" data-t="badge">Caffeine</span>
-      <figure class="pd__pack pack pack--bare" data-pd-pack data-enter></figure>
+      <div class="pd__stack" data-pd-stack data-enter>
+        <figure class="pd__stackpack" data-stack="watermelon"><div class="pack pack--bare" data-stack-img></div><span class="pd__count num" aria-hidden="true"></span><figcaption>Organic Salty Watermelon</figcaption></figure>
+        <figure class="pd__stackpack" data-stack="orange"><div class="pack pack--bare" data-stack-img></div><span class="pd__count num" aria-hidden="true"></span><figcaption>Organic Salty Orange</figcaption></figure>
+      </div>
     </div>
     <div class="pd__buy">
       <h1 id="pd-h" class="display d1" data-t="name" data-enter>Energy</h1>
@@ -38,27 +41,46 @@
       </div>
 
       <div class="pd__opts" data-enter style="--d:140ms">
-        <div class="opt"><div class="opt__label">Organic flavor</div>
-          <div class="seg seg--full" role="group" aria-label="Organic flavor" data-pv>
-            <button type="button" data-v="watermelon" aria-pressed="true">Organic Salty Watermelon</button>
-            <button type="button" data-v="orange" aria-pressed="false">Organic Salty Orange</button>
-          </div></div>
-        <div class="opt"><div class="opt__label">Packs <span class="opt__aside" data-pd-perk></span></div>
-          <div class="stepper" data-pq>
-            <button type="button" data-step="-1" aria-label="Remove a pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
-            <label class="sr" for="pd-qty">Number of packs</label>
-            <input id="pd-qty" class="num" type="number" inputmode="numeric" min="1" max="24" value="2">
-            <button type="button" data-step="1" aria-label="Add a pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="opt"><div class="opt__label">Organic flavors <span class="opt__aside" data-pd-perk></span></div>
+          <div class="flavor-rows">
+          <div class="flavor-row" data-fq="watermelon">
+            <div class="pack" data-flavor-pack="watermelon"></div>
+            <div class="flavor-row__name"><b>Organic Salty Watermelon</b><span data-fq-sub="watermelon"></span></div>
+            <div class="stepper stepper--sm">
+              <button type="button" data-step="-1" aria-label="Remove a Organic Salty Watermelon pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+              <label class="sr" for="fq-watermelon">Organic Salty Watermelon packs</label>
+              <input id="fq-watermelon" class="num" type="number" inputmode="numeric" min="0" max="24" value="1">
+              <button type="button" data-step="1" aria-label="Add a Organic Salty Watermelon pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+            </div>
+          </div>
+          <div class="flavor-row" data-fq="orange">
+            <div class="pack" data-flavor-pack="orange"></div>
+            <div class="flavor-row__name"><b>Organic Salty Orange</b><span data-fq-sub="orange"></span></div>
+            <div class="stepper stepper--sm">
+              <button type="button" data-step="-1" aria-label="Remove a Organic Salty Orange pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+              <label class="sr" for="fq-orange">Organic Salty Orange packs</label>
+              <input id="fq-orange" class="num" type="number" inputmode="numeric" min="0" max="24" value="1">
+              <button type="button" data-step="1" aria-label="Add a Organic Salty Orange pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+            </div>
+          </div>
           </div></div>
         <div class="opt"><div class="opt__label">Purchase</div>
           <p class="plan-note" data-plan-note aria-live="polite"></p>
           <div class="seg seg--full" role="group" aria-label="Purchase type" data-pp>
-            <button type="button" data-v="sub" aria-pressed="true">Subscribe</button>
-            <button type="button" data-v="otp" aria-pressed="false">One-time</button>
+            <button type="button" data-v="sub" aria-pressed="true"><span>Subscribe</span><small class="num" data-plan-price="sub"></small></button>
+            <button type="button" data-v="otp" aria-pressed="false"><span>One-time</span><small class="num" data-plan-price="otp"></small></button>
           </div></div>
-        <div class="pd__price-row"><div class="pd__price num" data-pd-price></div><span class="pd__save num" data-pd-save></span></div>
+        <div class="sheet-wrap pd-receipt">
+          <div class="sheet">
+            <div class="pd-receipt__head"><b>Your order</b><span data-pd-receipt-meta></span></div>
+            <ul class="items" data-pd-receipt aria-live="polite"></ul>
+            <div class="totals"><div class="total-row total-row--big"><span>Total</span><span class="num" data-pd-price></span></div></div>
+            <span class="pd__save num" data-pd-save></span>
+          </div>
+        </div>
         <button class="btn btn--money btn--block" type="button" data-pd-add>Add to box</button>
-        <p class="pd__fine">30 day supply per pack. Skip, swap or cancel online anytime. Want to mix formulas? <a class="link" href="shop.html">Build a box</a>.</p>
+        <div class="pd-proof"><span class="stars" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg></span><span>Review slot: star average and review count from your verified reviews app.</span></div>
+        <p class="pd__fine">Mix organic flavors in one order. 30 day supply per pack. Skip, swap or cancel online anytime. Want to mix formulas? <a class="link" href="shop.html">Build a box</a>.</p>
       </div>
     </div>
   </section>
@@ -73,7 +95,7 @@
       </div>
       <div class="sheet-wrap" data-print-on-view>
         <div class="sheet">
-          <div class="sheet__head"><div class="sheet__brand">FORTIFIED.</div><div class="sheet__title">Receipt for <span data-t="name">Energy</span></div><div class="sheet__meta">Per serving</div></div>
+          <div class="sheet__head"><div class="sheet__brand">FORTIFIED.</div><div class="sheet__title">Inside <span data-t="name">Energy</span></div><div class="sheet__meta">Per serving</div></div>
           <ul class="items" data-pd-items></ul>
           <div class="barcode" aria-hidden="true"></div>
         </div>
