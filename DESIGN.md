@@ -91,3 +91,20 @@ Supersedes the orange accent above. Keeps the audit's cream base and the navy an
 | teal | #00aba3 | Logo dot only |
 
 Imagery: real pouch renders (transparent) on styled counters, the brand's fruit photography for the formula tiles, and the actual back of the pouch beside the ingredient list. Files in `mockups/site/img/`, compressed to under 1MB total.
+
+## Palette v4: measured segment colors (2026-11-12, current)
+
+The owner judged v3 (navy and berry-rose) unlike any competitor. v4 takes every main color directly from the measured homepages and uses color in blocks the way those sites do. Verified by running the same area-weighted color measurement on the mockup: its top colors are #d4e0af, #f4e9a4, #f6c29f, #fdfaf4, #ddee9d, #0f4034, #ef5223, all measured values from the segment sites (see `mockups/site/screens/palette-comparison.png`).
+
+| Token | Value | Measured on | Use |
+|---|---|---|---|
+| `--paper` | #fdfaf4 | Branch Basics | Page ground |
+| `--ink` | #0f4034 | Primal Kitchen | Text, primary buttons, dark bands, footer |
+| `--chartreuse` | #ddee9d | Branch Basics | Announcement bar, best-value tier, buttons on dark |
+| `--lime` | #a5cf46 | Primal Kitchen | Savings bar fill |
+| `--sage` | #d4e0af | Primal Kitchen | Label section band |
+| `--butter` | #f4e9a4 | Primal Kitchen | Promise band, Everyday product stage |
+| `--peach` | #f6c29f | Branch Basics | Proof band, Energy product stage, formula image tiles |
+| `--tomato` | #ef5223 | Ballerina Farm | Logo dot, cart count, drop cap |
+| `--accent` / `--accent-ink` | #c64a1c / #9c3a17 | tomato deepened for text contrast | Italic display words; small accent text |
+| `--caramel` | #c47d3e | Ballerina Farm | Review stars |

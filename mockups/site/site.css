@@ -1172,3 +1172,93 @@ body { background: var(--paper); }
 /* Savings and cart accents */
 .item--save .item__name, .item--save .item__val, .total-row--save, .pd__save, .opt__aside, .sizes__perk { color: var(--accent-ink); }
 .p-never li span:last-child { color: var(--accent-ink); }
+
+/* ======================================================================
+   PALETTE v4 (2026-11-12): taken directly from the measured segment sites.
+   Ground: Branch Basics #fdfaf4 / Ballerina Farm #fffbf0.
+   Anchor: Primal Kitchen forest #0f4034, Primally Pure moss #4f5c43.
+   Bright: Branch Basics chartreuse #ddee9d, Primal Kitchen lime #a5cf46.
+   Warm: Ballerina Farm tomato #ef5223 and caramel #c47d3e,
+         Branch Basics peach #f6c29f, Primal Kitchen butter #f4e9a4, sage #d4e0af.
+   Color is used in blocks (bars, tiles, bands), the way those sites use it.
+   ====================================================================== */
+:root {
+  --paper: #fdfaf4;
+  --paper-2: #f3ead8;
+  --card: #fffdf8;
+  --ink: #0f4034;          /* forest: text, buttons, footer */
+  --ink-2: #4b5a52;
+  --rule: #e4dac6;
+  --moss: #4f5c43;
+  --chartreuse: #ddee9d;
+  --lime: #a5cf46;
+  --tomato: #ef5223;
+  --caramel: #c47d3e;
+  --peach: #f6c29f;
+  --butter: #f4e9a4;
+  --sage: #d4e0af;
+  --accent: #c64a1c;       /* tomato, deepened for text on cream (4.6:1) */
+  --accent-ink: #b0421a;   /* small text (5.3:1) */
+}
+body { color: var(--ink); background: var(--paper); }
+.display em { color: var(--accent); }
+.lede { color: var(--ink-2); }
+
+/* Header: lime announcement bar, cream nav, as on Primal Kitchen */
+.bar { background: var(--chartreuse); color: var(--ink); }
+.bar b { color: var(--tomato); }
+.site-head { background: rgba(253,250,244,.97); }
+.logo i { color: var(--tomato); }
+.cart-count { background: var(--tomato); color: #fff; }
+
+/* Buttons: forest primary, chartreuse secondary */
+.btn--money { --bg: var(--ink); --fg: #fdfaf4; }
+.btn--money:hover { --bg: #0a2e25; }
+.btn--ghost { --fg: var(--ink); }
+.closing-card .btn, .on-dark .btn--paper { --bg: var(--chartreuse); --fg: var(--ink); }
+
+/* Section bands in the segment's tile colors */
+.sec--paper2 { background: var(--paper-2); }
+section[aria-labelledby="label-h"] { background: var(--sage); }
+section[aria-labelledby="pr-h"] { background: var(--butter); }
+section[aria-labelledby="proof-h"] { background: var(--peach); }
+.p-close { background: var(--ink); color: #fdfaf4; }
+.p-close .display em { color: var(--chartreuse); }
+.p-close .lede { color: rgba(253,250,244,.82); }
+.p-close .btn--money { --bg: var(--chartreuse); --fg: var(--ink); }
+.on-dark, .foot { background: var(--ink); }
+.on-dark .display em { color: var(--chartreuse); }
+.foot .logo i { color: var(--chartreuse); }
+.news .btn--money { --bg: var(--chartreuse); --fg: var(--ink); }
+.p-tiers .is-best { background: var(--chartreuse); }
+.p-tiers .is-best .p-tiers__pct { color: var(--ink); font-style: italic; }
+.p-tiers > div.is-best { padding-left: 28px; padding-right: 28px; }
+.p-handnote, .letter__sign { color: var(--accent-ink); }
+.letter__body p:first-child::first-letter { color: var(--tomato); }
+.backpack .p-handnote { background: var(--sage); }
+.p-never li span:last-child, .item--add .item__name::before { color: var(--accent-ink); }
+
+/* Counter scenes: peach and caramel light */
+.set { background: linear-gradient(180deg, #fdf0e2 0%, #fae3cb 58%, #e2b98c 58.2%, #d6a874 100%); }
+.p-formula__img { background: var(--peach); }
+
+/* Product page */
+.pd__stage, .field--everyday.pd__stage { background: linear-gradient(180deg, #fbf3d2 0%, #f4e9a4 62%, #e3cf7c 62.2%, #d9c26b 100%); }
+.field--energy.pd__stage { background: linear-gradient(180deg, #fde9dc 0%, #f6c29f 62%, #e3a77f 62.2%, #d99a71 100%); }
+.field--energy .tag, .field--everyday .tag { color: var(--ink); }
+.progress__fill, .tiers__steps li.is-on .tiers__seg { background: var(--lime); }
+.tiers__steps li.is-next .tiers__seg { background: repeating-linear-gradient(90deg, var(--lime) 0 3px, transparent 3px 7px); }
+.tiers__steps li.is-on span { color: var(--ink); }
+.opt__aside, .sizes__perk, .item--save .item__name, .item--save .item__val, .total-row--save, .pd__save { color: var(--accent-ink); }
+.pd__count { background: var(--ink); color: #fdfaf4; }
+.pd-receipt .sheet { border-top-color: var(--ink); }
+.pd-proof .stars { color: var(--caramel); }
+[data-pp] button[aria-pressed="true"], .seg button[aria-pressed="true"] { background: var(--ink); }
+.stepper.stepper--sm button:hover:not(:disabled) { background: var(--ink); }
+.ui__toast { background: var(--chartreuse); }
+.seg--formula button[data-v="energy"][aria-pressed="true"] { background: var(--ink); color: #fff; }
+.seg--formula button[data-v="everyday"][aria-pressed="true"] { background: var(--ink); color: #fff; }
+::selection { background: var(--chartreuse); color: var(--ink); }
+:root { --accent-ink: #9c3a17; }
+section[aria-labelledby="proof-h"] blockquote { color: var(--ink); }
+section[aria-labelledby="label-h"] .lede, section[aria-labelledby="pr-h"] p { color: #33433b; }
