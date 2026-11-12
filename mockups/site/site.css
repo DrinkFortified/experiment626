@@ -605,3 +605,51 @@ html[data-page="home"] .hero__receipt { margin-bottom: 0; }
 .stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .stepper input:focus-visible { outline-offset: -3px; }
 @media (max-width: 640px) { .pd__pack { width: min(58%, 250px); } .pd__stage { padding-bottom: 20px; } }
+
+/* ---------- Per-flavor product page polish ---------- */
+/* Stage: one pack per organic flavor in the order, fanned when both are in */
+.pd__stack { position: relative; width: min(86%, 600px); aspect-ratio: 1.25; }
+.pd__stackpack { position: absolute; top: 4%; left: 50%; width: 62%; margin: 0; transform: translateX(-50%); transition: transform .5s var(--ease-out), opacity .3s var(--ease-out); }
+.pd__stackpack .pack { width: 100%; }
+.pd__stackpack figcaption { position: absolute; left: 0; right: 0; bottom: -6px; text-align: center; font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; opacity: .9; }
+.pd__stack[data-n="2"] [data-stack="watermelon"] { transform: translateX(-88%) rotate(-6deg); }
+.pd__stack[data-n="2"] [data-stack="orange"] { transform: translateX(-12%) rotate(6deg) translateY(6%); }
+.pd__stackpack.is-out { opacity: 0; transform: translateX(-50%) scale(.9); pointer-events: none; }
+.pd__count { position: absolute; top: 8%; right: 10%; min-width: 52px; height: 52px; padding: 0 10px; border-radius: 26px; display: grid; place-items: center; background: var(--paper); color: var(--ink); font-weight: 900; font-size: 20px; box-shadow: 0 8px 18px -8px rgba(14,26,36,.5); }
+.field--everyday .pd__count { background: var(--ink); color: #fff; }
+
+/* Desktop: the stage stays in view while the buy column scrolls */
+@media (min-width: 1001px) {
+  [data-flavor-mode] .pd { align-items: start; }
+  [data-flavor-mode] .pd__stage { position: sticky; top: var(--head); height: calc(100svh - var(--head)); }
+  [data-flavor-mode] .pd__buy { align-self: start; padding-top: clamp(40px, 5vw, 64px); }
+}
+
+/* Purchase toggle shows each option's price */
+[data-pp] button { display: grid; place-content: center; gap: 1px; min-height: 56px; }
+[data-pp] button small { font-size: 13px; font-weight: 600; opacity: .8; font-variant-numeric: tabular-nums; }
+
+/* Order receipt in the buy box */
+.pd-receipt { margin-top: 6px; }
+.pd-receipt .sheet { --tooth: 7px; padding: 22px 20px 20px; }
+.pd-receipt__head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 10px; margin-bottom: 4px; border-bottom: 2px dashed var(--rule); }
+.pd-receipt__head b { font-size: 13px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
+.pd-receipt__head span { font-size: 13px; color: var(--ink-2); }
+.pd-receipt .item { font-size: 14.5px; padding: 5px 0; }
+.item--save .item__name, .item--save .item__val { color: var(--teal-ink); font-weight: 700; }
+.pd-receipt .totals { margin-top: 8px; padding-top: 8px; }
+.pd-receipt .total-row--big { font-size: 22px; align-items: baseline; }
+.pd-receipt .total-row--big s { font-size: 15px; }
+.pd-receipt .pd__save { margin-top: 10px; }
+[data-flavor-mode] .flavor-row { padding: 14px 0; }
+
+@media (max-width: 1000px) {
+  .pd__stack { width: min(92%, 440px); }
+}
+@media (max-width: 640px) {
+  .pd__stack { width: 100%; aspect-ratio: 1.6; }
+  .pd__stackpack { width: 50%; top: 0; }
+  .pd__stackpack figcaption { display: none; }
+  .pd__count { min-width: 40px; height: 40px; font-size: 16px; top: 4%; }
+}
+@media (prefers-reduced-motion: reduce) { .pd__stackpack { transition: opacity .2s; } }

@@ -22,7 +22,10 @@
     <div class="pd__stage" data-field>
       <div class="pd__crumbs"><a href="index.html">Home</a> / <a href="shop.html">Shop</a> / <span data-t="name">Energy</span></div>
       <span class="tag pd__tag" data-t="badge">Caffeine</span>
-      <figure class="pd__pack pack pack--bare" data-pd-pack data-enter></figure>
+      <div class="pd__stack" data-pd-stack data-enter>
+        <figure class="pd__stackpack" data-stack="watermelon"><div class="pack pack--bare" data-stack-img></div><span class="pd__count num" aria-hidden="true"></span><figcaption>Organic Salty Watermelon</figcaption></figure>
+        <figure class="pd__stackpack" data-stack="orange"><div class="pack pack--bare" data-stack-img></div><span class="pd__count num" aria-hidden="true"></span><figcaption>Organic Salty Orange</figcaption></figure>
+      </div>
     </div>
     <div class="pd__buy">
       <h1 id="pd-h" class="display d1" data-t="name" data-enter>Energy</h1>
@@ -64,10 +67,17 @@
         <div class="opt"><div class="opt__label">Purchase</div>
           <p class="plan-note" data-plan-note aria-live="polite"></p>
           <div class="seg seg--full" role="group" aria-label="Purchase type" data-pp>
-            <button type="button" data-v="sub" aria-pressed="true">Subscribe</button>
-            <button type="button" data-v="otp" aria-pressed="false">One-time</button>
+            <button type="button" data-v="sub" aria-pressed="true"><span>Subscribe</span><small class="num" data-plan-price="sub"></small></button>
+            <button type="button" data-v="otp" aria-pressed="false"><span>One-time</span><small class="num" data-plan-price="otp"></small></button>
           </div></div>
-        <div class="pd__price-row"><div class="pd__price num" data-pd-price></div><span class="pd__save num" data-pd-save></span></div>
+        <div class="sheet-wrap pd-receipt">
+          <div class="sheet">
+            <div class="pd-receipt__head"><b>Your order</b><span data-pd-receipt-meta></span></div>
+            <ul class="items" data-pd-receipt aria-live="polite"></ul>
+            <div class="totals"><div class="total-row total-row--big"><span>Total</span><span class="num" data-pd-price></span></div></div>
+            <span class="pd__save num" data-pd-save></span>
+          </div>
+        </div>
         <button class="btn btn--money btn--block" type="button" data-pd-add>Add to box</button>
         <p class="pd__fine">Mix organic flavors in one order. 30 day supply per pack. Skip, swap or cancel online anytime. Want to mix formulas? <a class="link" href="shop.html">Build a box</a>.</p>
       </div>

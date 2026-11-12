@@ -56,7 +56,7 @@
   function packSvg(f, v) {
     var c = FORMULA[f].color, ink = FORMULA[f].ink, fl = v === "orange" ? "#f59a2b" : "#e8516b";
     return '<svg viewBox="0 0 200 200" role="img" aria-label="' + esc(FORMULA[f].name + " " + FLAVOR[v]) + ' pack">' +
-      '<path d="M52 26h96l8 14v134a8 8 0 0 1-8 8H52a8 8 0 0 1-8-8V40z" fill="' + c + '"/><path d="M52 26h96l8 14H44z" fill="rgba(0,0,0,.18)"/>' +
+      '<path d="M52 26h96l8 14v134a8 8 0 0 1-8 8H52a8 8 0 0 1-8-8V40z" fill="' + c + '" stroke="rgba(255,255,255,.85)" stroke-width="4" stroke-linejoin="round"/><path d="M52 26h96l8 14H44z" fill="rgba(0,0,0,.18)"/>' +
       '<text x="100" y="74" text-anchor="middle" font-family="Figtree,sans-serif" font-weight="900" font-size="13" letter-spacing="2.5" fill="' + ink + '">FORTIFIED</text>' +
       '<circle cx="100" cy="112" r="24" fill="' + fl + '" stroke="' + ink + '" stroke-width="3"/>' +
       '<text x="100" y="160" text-anchor="middle" font-family="Figtree,sans-serif" font-weight="900" font-size="15" fill="' + ink + '">' + FORMULA[f].name.toUpperCase() + "</text></svg>";
@@ -387,6 +387,7 @@
     $("[data-other-pack]").setAttribute("data-pack", other + "|watermelon");
     var total = function () { return mixMode ? ps.q.watermelon + ps.q.orange : ps.qty; };
     $$("[data-flavor-pack]").forEach(function (el) { el.innerHTML = packImg(qf, el.dataset.flavorPack); });
+    $$("[data-stack]").forEach(function (fig) { $("[data-stack-img]", fig).innerHTML = packImg(qf, fig.dataset.stack, true); });
 
     var drawTiers = function (n) {
       var sub = ps.plan === "sub";
@@ -401,7 +402,28 @@
 
     var drawPd = function () {
       var n = total(), r = rate(n, ps.plan), tot = PRICE * n * (1 - r);
-      $("[data-pd-pack]").innerHTML = packImg(qf, ps.v, true);
+      var packEl = $("[data-pd-pack]"); if (packEl) packEl.innerHTML = packImg(qf, ps.v, true);
+      var stack = $("[data-pd-stack]");
+      if (stack) {
+        var shown = 0;
+        $$("[data-stack]", stack).forEach(function (fig) { var k = ps.q[fig.dataset.stack]; fig.classList.toggle("is-out", !k); $(".pd__count", fig).textContent = "×" + k; if (k) shown++; });
+        stack.setAttribute("data-n", shown);
+      }
+      $$("[data-plan-price]").forEach(function (el) { el.textContent = money(PRICE * n * (1 - rate(n, el.dataset.planPrice))); });
+      var rc = $("[data-pd-receipt]");
+      if (rc) {
+        var prev = ps.lines || {}, now = {}, html = "";
+        var line = function (key, name, val, cls) {
+          now[key] = name + val;
+          html += '<li class="item' + (cls ? " " + cls : "") + (prev[key] !== now[key] ? " line-in" : "") + '"><span class="item__name">' + name + '</span><span class="item__lead"></span><span class="item__val">' + val + "</span></li>";
+        };
+        ["watermelon", "orange"].forEach(function (fv) { if (ps.q[fv]) line(fv, ps.q[fv] + "× " + FLAVOR[fv], money(PRICE * ps.q[fv])); });
+        if (r) line("save", "Subscribe " + Math.round(r * 100) + "% off", "&minus;" + money(PRICE * n * r), "item--save");
+        if (ps.plan === "sub" && n >= 3) line("creatine", "Free Creatine For Life", "FREE", "item--add");
+        line("ship", "Shipping", n >= 2 ? "FREE" : "At checkout");
+        rc.innerHTML = html; ps.lines = now;
+        $("[data-pd-receipt-meta]").textContent = FORMULA[qf].name + " · " + (ps.plan === "sub" ? "Subscribe" : "One-time");
+      }
       if (mixMode) {
         $$("[data-fq]").forEach(function (row) {
           var v = row.dataset.fq, inp = $("input", row);
