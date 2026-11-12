@@ -9,28 +9,31 @@
   function pct(n) { return Math.round(rate(n, "sub") * 100) + "%"; }
   var CDN = "https://cdn.shopify.com/s/files/1/1000/1973/2784/files/";
   var IMG = {
-    "energy|watermelon": CDN + "260401-FOR-ENG-30-WTM-2026_1-Front_6bc5f01a-9136-4e66-89a5-64266588d385.webp?v=1791496978&width=600",
-    "energy|orange": CDN + "260401-FOR-ENG-30-ORG-2026_1-Front_053d37d2-3c4d-4b3c-acc6-d67e95d50eb5.webp?v=1791496996&width=600",
-    "everyday|watermelon": CDN + "260401-FOR-EDY-30-WTM-2026_1-Front_42bbc235-1ed3-45e8-b2c0-3ea3bf5b7e6e.webp?v=1791497044&width=600",
-    "everyday|orange": CDN + "260401-FOR-EDY-30-ORG-2026_1-Front_d4d55d4a-fd92-4d2a-a06e-d6d64ebbe0e5.webp?v=1791497033&width=600"
+    "energy|watermelon": "img/energy-watermelon-front.webp",
+    "energy|orange": "img/energy-orange-front.webp",
+    "everyday|watermelon": "img/everyday-watermelon-front.webp",
+    "everyday|orange": "img/everyday-orange-front.webp"
   };
   var FORMULA = {
-    energy: { name: "Energy", badge: "Caffeine", color: "#c8102e", ink: "#fff",
+    energy: { name: "Energy", badge: "Caffeine", color: "#bf5a7b", ink: "#fff",
       line: "150mg natural caffeine from coffee bean, plus electrolytes.",
-      adds: [["Natural Caffeine", "coffee bean, 150mg"]], base: "Higher-sodium formula" },
-    everyday: { name: "Everyday", badge: "Caffeine-Free", color: "#f26a1b", ink: "#0e1a24",
+      adds: [["Natural Caffeine", "coffee bean, 150mg"]], base: "1,200mg sodium electrolyte formula" },
+    everyday: { name: "Everyday", badge: "Caffeine-Free", color: "#eab044", ink: "#0e1a24",
       line: "Caffeine-free electrolytes with Vitamin D3 and K2.",
-      adds: [["Vitamin D3", "cholecalciferol"], ["Vitamin K2", "as MK-7"]], base: "Daily formula" }
+      adds: [["Vitamin D3", "25mcg"], ["Vitamin K2", "as MK-7"]], base: "1,200mg sodium electrolyte formula" }
   };
   var FLAVOR = { watermelon: "Organic Salty Watermelon", orange: "Organic Salty Orange" };
   var BASE = [
     ["Pink Himalayan Salt", "as Ancient Ocean"],
     ["Magnesium Malate", "magnesium"],
     ["Coconut Water Powder", "as CocOganic Plus"],
+    ["Organic Lemon Juice Powder", "flavor"],
     ["Potassium Chloride", "potassium"],
     ["Bamboo Fiber", "fiber"],
-    ["Organic Lemon Juice Powder", "flavor"],
-    ["Monk Fruit + Reb M", "as OnoSweet"]
+    ["Organic Flavors", "flavor"],
+    ["Malic Acid", "tartness"],
+    ["Reb M, fermented", "as OnoSweet"],
+    ["Monk Fruit Extract", "sweetener"]
   ];
   var VOID = ["Proprietary blends", "Hidden fillers", "Fear-mongering marketing"];
 
@@ -131,7 +134,7 @@
       '<div><h4>Shop</h4><ul><li><a href="shop.html">Build a box</a></li><li><a href="product.html?f=energy">Energy</a></li><li><a href="product.html?f=everyday">Everyday</a></li><li><a href="performance.html">Performance</a></li></ul></div>' +
       '<div><h4>Learn</h4><ul><li><a href="ingredients.html">Ingredients</a></li><li><a href="about.html">About</a></li><li><a href="help.html#faq">FAQ</a></li></ul></div>' +
       '<div><h4>Help</h4><ul><li><a href="help.html#subscriptions">My Subscriptions</a></li><li><a href="help.html#shipping">Shipping</a></li><li><a href="mailto:hello@livefortified.com">hello@livefortified.com</a></li><li><a href="tel:+18886888351">(888) 688-8351</a></li></ul></div>' +
-      '</div><div class="foot__legal"><span>&copy; 2026 FORTIFIED&reg;. Design mockup for internal review: checkout is simulated and nothing is charged.</span><span>These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</span></div></div></footer>';
+      '</div><div class="foot__legal"><span>&copy; 2026 FORTIFIED&reg;. Design mockup for internal review: checkout is simulated and nothing is charged.</span><span>Nutrition Facts and ingredients are shown as printed on each pouch.</span></div></div></footer>';
   }
 
   // Overlays: scrim, cart drawer, checkout, toast
@@ -384,6 +387,7 @@
     });
     $$("[data-other-link]").forEach(function (a) { a.href = "product.html?f=" + other; });
     $("[data-pd-items]").innerHTML = itemsHtml(qf, true);
+    $$("[data-backpack]").forEach(function (im) { im.src = "img/" + qf + "-orange-back.webp"; });
     $("[data-other-pack]").setAttribute("data-pack", other + "|watermelon");
     var total = function () { return mixMode ? ps.q.watermelon + ps.q.orange : ps.qty; };
     $$("[data-flavor-pack]").forEach(function (el) { el.innerHTML = packImg(qf, el.dataset.flavorPack); });

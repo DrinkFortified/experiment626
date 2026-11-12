@@ -74,3 +74,20 @@ Measured from Ballerina Farm, Branch Basics, Primal Kitchen, Primally Pure, Just
 | teal | #00aba3 | Logo dot only, as on the live store |
 
 Counter scenes warm toward peach and caramel. Replaces the ivory, oat and evergreen values above.
+
+## Palette v3: competitor pattern plus the real pack colors (2026-11-12)
+
+Supersedes the orange accent above. Keeps the audit's cream base and the navy anchor, takes the accents from the pouches.
+
+| Token | Value | Source and use |
+|---|---|---|
+| `--paper` | #fdf9f2 | Cream base (competitor pattern) |
+| `--paper-2` | #f8eedd | Oat bands |
+| `--ink` | #0b1c29 | Fortified navy anchor: text, buttons, bar, footer |
+| `--accent` | #c9476a | Berry-rose from the Energy pouch: italic display words, 20% figure |
+| `--accent-ink` | #a83558 | Same hue for small text: savings, "never", signature |
+| `--honey` | #eab044 | Everyday pouch: highlights, stars, the start of the savings bar gradient |
+| `--butter` / `--rose-wash` | #fcefcd / #f8e1e7 | Everyday and Energy grounds; product stages take each pouch's tone |
+| teal | #00aba3 | Logo dot only |
+
+Imagery: real pouch renders (transparent) on styled counters, the brand's fruit photography for the formula tiles, and the actual back of the pouch beside the ingredient list. Files in `mockups/site/img/`, compressed to under 1MB total.

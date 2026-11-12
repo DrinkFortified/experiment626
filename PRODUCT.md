@@ -69,3 +69,14 @@ Radical label transparency: every ingredient named with its source, no proprieta
 ## Accessibility & Inclusion
 
 WCAG 2.1 AA for contrast, keyboard use and touch targets (44px minimum). *(inferred standard)*
+
+## Label facts (read from the printed pouch images on drinkfortified.com, 2026-11-12)
+
+These supersede earlier lines above where they differ.
+- Panel type: **Nutrition Facts** (not Supplement Facts). 30 servings, 1 stick pack (6.4g), 10 calories, 0g total sugars, 0g added sugars.
+- Both formulas per stick: sodium 1,200mg, potassium 200mg, magnesium 150mg, chloride 1,940mg. Energy is **not** higher in sodium than Everyday.
+- Energy adds Natural Caffeine (from Coffee Bean), 150mg. Everyday adds Vitamin D3 25mcg (1,000 IU) and Vitamin K2 (Menaquinone-7).
+- Shared ingredients in printed order: Pink Himalayan Salt (as Ancient Ocean), Magnesium Malate, Coconut Water Powder (as CocOganic Plus), Organic Lemon Juice Powder, Potassium Chloride, Bamboo Fiber, Organic Flavors, Malic Acid, Reb M 95% Fermented (as OnoSweet), Monk Fruit Extract.
+- Printed caution: consult a healthcare professional before use if pregnant, nursing, taking medication or with a medical condition; Energy contains caffeine.
+- Printed "No Worries Promise": no sugar, no dyes, no GMOs, no silicon dioxide, no citric acid, among others.
+- Pack colors: Energy rose #dd667c to berry #bf5a7b to plum #806793; Everyday sunshine #f0c850 to honey #eab044 to tangerine #d97435; flavor bands coral #d67b73 (watermelon) and amber #d8862b (orange).

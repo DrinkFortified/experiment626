@@ -32,13 +32,14 @@
         </div>
       </div>
       <figure class="set p-hero__set" data-enter style="--d:200ms" aria-label="Fortified Everyday and Energy packs on a kitchen counter">
-        <div class="set__packs">
-          <div class="set__pack"><div class="pack" data-pack="energy|watermelon" data-eager></div></div>
-          <div class="set__pack"><div class="pack" data-pack="everyday|orange" data-eager></div></div>
-          <div class="set__pack"><div class="pack" data-pack="everyday|watermelon" data-eager></div></div>
+        <div class="set__packs set__packs--hero">
+          <img class="set__stick" src="img/energy-watermelon-stick.webp" alt="" aria-hidden="true">
+          <div class="set__pack"><img src="img/energy-orange-front.webp" alt="Fortified Energy, Organic Salty Orange, 30 stick pack pouch" fetchpriority="high"></div>
+          <div class="set__pack set__pack--lead"><img src="img/everyday-watermelon-front.webp" alt="Fortified Everyday, Organic Salty Watermelon, 30 stick pack pouch" fetchpriority="high"></div>
+          <img class="set__stick set__stick--r" src="img/everyday-orange-stick.webp" alt="" aria-hidden="true">
         </div>
         <!-- Client photo slot: replace this styled set with a photograph of the packs on a real kitchen counter in late-afternoon light. -->
-        <figcaption class="set__note">Styled set. Replace with your counter photograph.</figcaption>
+        <figcaption class="set__note">Product renders on a styled counter. Swap for a real counter photograph.</figcaption>
       </figure>
     </div>
   </section>
@@ -65,13 +66,19 @@
     <div class="wrap p-label">
       <div>
         <h2 id="label-h" class="display d2">The whole label, <em>read in a minute.</em></h2>
-        <p class="lede">Both formulas share one short electrolyte base. This is all of it.</p>
+        <p class="lede">Both formulas share one short electrolyte base. This is every ingredient, in the order printed on the pack.</p>
+        <dl class="numbers" aria-label="Per stick pack">
+          <div><dt>Sodium</dt><dd class="num">1,200mg</dd></div>
+          <div><dt>Potassium</dt><dd class="num">200mg</dd></div>
+          <div><dt>Magnesium</dt><dd class="num">150mg</dd></div>
+          <div><dt>Sugar</dt><dd class="num">0g</dd></div>
+        </dl>
         <ul class="p-never" aria-label="Never in our packs">
           <li><span>Proprietary blends</span><span>never</span></li>
           <li><span>Synthetic dyes</span><span>never</span></li>
           <li><span>Fillers you can&rsquo;t pronounce</span><span>never</span></li>
         </ul>
-        <span class="p-handnote">Read the back first.</span>
+        <figure class="backpack"><img src="img/everyday-orange-back.webp" alt="Back of the Everyday pouch showing the Nutrition Facts panel and ingredient list" loading="lazy"><figcaption class="p-handnote">Read the back first.</figcaption></figure>
       </div>
       <div class="sheet-wrap">
         <div class="sheet">
@@ -80,12 +87,15 @@
             <li class="item"><span class="item__name">Pink Himalayan Salt</span><span class="item__lead"></span><span class="item__val">as Ancient Ocean</span></li>
             <li class="item"><span class="item__name">Magnesium Malate</span><span class="item__lead"></span><span class="item__val">magnesium</span></li>
             <li class="item"><span class="item__name">Coconut Water Powder</span><span class="item__lead"></span><span class="item__val">as CocOganic Plus</span></li>
+            <li class="item"><span class="item__name">Organic Lemon Juice Powder</span><span class="item__lead"></span><span class="item__val">flavor</span></li>
             <li class="item"><span class="item__name">Potassium Chloride</span><span class="item__lead"></span><span class="item__val">potassium</span></li>
             <li class="item"><span class="item__name">Bamboo Fiber</span><span class="item__lead"></span><span class="item__val">fiber</span></li>
-            <li class="item"><span class="item__name">Organic Lemon Juice Powder</span><span class="item__lead"></span><span class="item__val">flavor</span></li>
-            <li class="item"><span class="item__name">Monk Fruit + Reb M</span><span class="item__lead"></span><span class="item__val">as OnoSweet</span></li>
+            <li class="item"><span class="item__name">Organic Flavors</span><span class="item__lead"></span><span class="item__val">flavor</span></li>
+            <li class="item"><span class="item__name">Malic Acid</span><span class="item__lead"></span><span class="item__val">tartness</span></li>
+            <li class="item"><span class="item__name">Reb M, fermented</span><span class="item__lead"></span><span class="item__val">as OnoSweet</span></li>
+            <li class="item"><span class="item__name">Monk Fruit Extract</span><span class="item__lead"></span><span class="item__val">sweetener</span></li>
             <li class="item item--add"><span class="item__name">Energy adds Natural Caffeine</span><span class="item__lead"></span><span class="item__val">coffee bean, 150mg</span></li>
-            <li class="item item--add"><span class="item__name">Everyday adds Vitamin D3 + K2</span><span class="item__lead"></span><span class="item__val">K2 as MK-7</span></li>
+            <li class="item item--add"><span class="item__name">Everyday adds Vitamin D3 + K2</span><span class="item__lead"></span><span class="item__val">D3 25mcg, K2 as MK-7</span></li>
           </ul>
           <a class="link" href="ingredients.html" style="display:inline-block;margin-top:22px">Where each ingredient comes from</a>
         </div>
@@ -99,11 +109,11 @@
       <div class="sec-head"><h2 id="fx-h" class="display d2">One for the whole day. <em>One for your morning.</em></h2><p>The same short label underneath. Mix both in one order if your house needs both.</p></div>
       <div class="p-formulas">
         <a class="p-formula" href="product.html?f=everyday">
-          <div class="set set--everyday"><div class="set__packs"><div class="set__pack"><div class="pack" data-pack="everyday|watermelon"></div></div><div class="set__pack"><div class="pack" data-pack="everyday|orange"></div></div></div></div>
+          <figure class="p-formula__img"><img src="img/everyday-watermelon-square.webp" alt="Everyday stick pack with fresh watermelon" loading="lazy"></figure>
           <div class="p-formula__text"><div><h3 class="display d3">Everyday</h3><p>Caffeine-free, with Vitamin D3 and K2.</p></div><span class="p-formula__go">Shop</span></div>
         </a>
         <a class="p-formula" href="product.html?f=energy">
-          <div class="set set--energy"><div class="set__packs"><div class="set__pack"><div class="pack" data-pack="energy|orange"></div></div><div class="set__pack"><div class="pack" data-pack="energy|watermelon"></div></div></div></div>
+          <figure class="p-formula__img"><img src="img/energy-orange-square.webp" alt="Energy stick pack with fresh orange slices" loading="lazy"></figure>
           <div class="p-formula__text"><div><h3 class="display d3">Energy</h3><p>150mg caffeine from coffee bean.</p></div><span class="p-formula__go">Shop</span></div>
         </a>
       </div>
