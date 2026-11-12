@@ -29,22 +29,21 @@
       <p class="lede" data-t="line" data-enter style="--d:80ms">150mg natural caffeine from coffee bean, plus electrolytes.</p>
 
       <div class="tiers" data-tiers data-enter style="--d:110ms" aria-label="Subscribe savings by pack count">
-        <div class="tiers__track" aria-hidden="true"><div class="tiers__fill"></div><i></i><i></i><i></i></div>
         <ol class="tiers__steps">
-          <li data-tier="1"><b>1 pack</b><span>10% off</span></li>
-          <li data-tier="2"><b>2 packs</b><span>15% off</span></li>
-          <li data-tier="3"><b>3 packs</b><span>20% off + Free Creatine</span></li>
+          <li data-tier="1"><i class="tiers__seg" aria-hidden="true"></i><b>1 pack</b><span>10% off</span></li>
+          <li data-tier="2"><i class="tiers__seg" aria-hidden="true"></i><b>2 packs</b><span>15% off</span></li>
+          <li data-tier="3"><i class="tiers__seg" aria-hidden="true"></i><b>3 packs</b><span>20% off + Free Creatine</span></li>
         </ol>
         <p class="tiers__msg" data-tiers-msg aria-live="polite"></p>
       </div>
 
       <div class="pd__opts" data-enter style="--d:140ms">
-        <div class="opt"><div class="opt__label">Packs by organic flavor <span class="opt__aside" data-pd-perk></span></div>
+        <div class="opt"><div class="opt__label">Organic flavors <span class="opt__aside" data-pd-perk></span></div>
           <div class="flavor-rows">
           <div class="flavor-row" data-fq="watermelon">
             <div class="pack" data-flavor-pack="watermelon"></div>
-            <b>Organic Salty Watermelon</b>
-            <div class="stepper">
+            <div class="flavor-row__name"><b>Organic Salty Watermelon</b><span data-fq-sub="watermelon"></span></div>
+            <div class="stepper stepper--sm">
               <button type="button" data-step="-1" aria-label="Remove a Organic Salty Watermelon pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
               <label class="sr" for="fq-watermelon">Organic Salty Watermelon packs</label>
               <input id="fq-watermelon" class="num" type="number" inputmode="numeric" min="0" max="24" value="1">
@@ -53,8 +52,8 @@
           </div>
           <div class="flavor-row" data-fq="orange">
             <div class="pack" data-flavor-pack="orange"></div>
-            <b>Organic Salty Orange</b>
-            <div class="stepper">
+            <div class="flavor-row__name"><b>Organic Salty Orange</b><span data-fq-sub="orange"></span></div>
+            <div class="stepper stepper--sm">
               <button type="button" data-step="-1" aria-label="Remove a Organic Salty Orange pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
               <label class="sr" for="fq-orange">Organic Salty Orange packs</label>
               <input id="fq-orange" class="num" type="number" inputmode="numeric" min="0" max="24" value="1">
@@ -68,9 +67,9 @@
             <button type="button" data-v="sub" aria-pressed="true">Subscribe</button>
             <button type="button" data-v="otp" aria-pressed="false">One-time</button>
           </div></div>
-        <div class="pd__price num" data-pd-price></div>
+        <div class="pd__price-row"><div class="pd__price num" data-pd-price></div><span class="pd__save num" data-pd-save></span></div>
         <button class="btn btn--money btn--block" type="button" data-pd-add>Add to box</button>
-        <p class="pd__fine">Experimental layout: set a count for each organic flavor. 30 day supply per pack. Skip, swap or cancel online anytime. Want to mix formulas? <a class="link" href="shop.html">Build a box</a>.</p>
+        <p class="pd__fine">Mix organic flavors in one order. 30 day supply per pack. Skip, swap or cancel online anytime. Want to mix formulas? <a class="link" href="shop.html">Build a box</a>.</p>
       </div>
     </div>
   </section>

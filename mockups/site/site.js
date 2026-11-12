@@ -391,9 +391,7 @@
     var drawTiers = function (n) {
       var sub = ps.plan === "sub";
       $$("[data-tiers] [data-tier]").forEach(function (t) { var k = +t.dataset.tier; t.classList.toggle("is-on", sub && n >= k); t.classList.toggle("is-next", sub && n + 1 === k); });
-      $$("[data-tiers] .tiers__track i").forEach(function (d, i) { d.classList.toggle("is-on", sub && n >= i + 1); });
       $("[data-tiers]").classList.toggle("is-off", !sub);
-      $("[data-tiers] .tiers__fill").style.transform = "scaleX(" + (sub ? Math.min(n, 3) / 3 : 0) + ")";
       var msg;
       if (!sub) msg = "Tier savings and Free Creatine For Life come with <b>Subscribe</b>.";
       else if (n >= 3) msg = "<b>20% off + Free Creatine For Life</b> unlocked.";
@@ -424,6 +422,9 @@
         ? "<b>Subscribe:</b> " + Math.round(r * 100) + "% off every order, ships every 30, 60 or 90 days, skip or cancel online anytime. " + ship
         : "<b>One-time:</b> full price, one delivery, no subscription. " + ship;
       $("[data-pd-price]").innerHTML = (r ? "<s>" + money(PRICE * n) + "</s>" : "") + money(tot);
+      var saveEl = $("[data-pd-save]");
+      if (saveEl) { saveEl.textContent = r ? "You save " + money(PRICE * n * r) : ""; saveEl.hidden = !r; }
+      $$("[data-fq-sub]").forEach(function (el) { var k = ps.q[el.dataset.fqSub]; el.textContent = k ? k + (k === 1 ? " pack · " : " packs · ") + money(PRICE * k * (1 - r)) : "Not in this order"; });
       $("[data-pd-perk]").textContent = n >= 2 ? "Free Shipping" : "Free Shipping at 2+";
       $("[data-pd-add]").innerHTML = icon("plus") + "Add " + n + (n === 1 ? " pack" : " packs") + " · " + money(tot);
       drawTiers(n);
