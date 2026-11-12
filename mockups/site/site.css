@@ -559,6 +559,14 @@ html[data-page="home"] .hero__receipt { margin-bottom: 0; }
 @media (max-width: 520px) { .bar__long { display: none; } .bar { font-size: 12px; } }
 .perf .d1 { font-size: clamp(44px, 6.2vw, 96px); }
 
+/* Purchase type explainer (product buy box) */
+.plan-info { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; margin-bottom: 8px; }
+.plan-info > div { display: grid; align-content: start; gap: 3px; padding: 12px 14px; border-radius: 10px; border: 1.5px solid var(--rule); font-size: 13.5px; line-height: 1.35; color: var(--ink-2); cursor: pointer; transition: border-color .2s, background-color .2s; }
+.plan-info > div.is-on { border-color: var(--ink); background: #fff; }
+.plan-info b { color: var(--ink); font-size: 14px; text-transform: uppercase; letter-spacing: .06em; font-weight: 800; margin-bottom: 2px; }
+.plan-info__ship { margin-top: 4px; font-weight: 700; color: var(--ink); }
+.plan-info__ship.is-free { color: var(--teal-ink); }
+
 /* Pack quantity stepper (product buy box) */
 .stepper { display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; align-items: stretch; height: 56px; padding: 4px; gap: 4px; border-radius: 12px; background: var(--paper-2); border: 1px solid var(--rule); }
 .stepper button { border: 0; border-radius: 8px; background: var(--ink); color: #fff; display: grid; place-items: center; transition: transform .16s var(--ease-out), background-color .2s, color .2s; touch-action: manipulation; }

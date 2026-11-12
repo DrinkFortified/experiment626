@@ -384,6 +384,8 @@
       $('[data-pq] [data-step="-1"]').disabled = ps.qty <= 1;
       $('[data-pq] [data-step="1"]').disabled = ps.qty >= 24;
       $$("[data-pp] button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === ps.plan)); });
+      $$("[data-plan-info] > div").forEach(function (d) { d.classList.toggle("is-on", d.dataset.for === ps.plan); });
+      $$("[data-plan-info] [data-ship]").forEach(function (s) { s.textContent = ps.qty >= 2 ? "Free Shipping" : "Shipping at checkout. Free on 2+ packs"; s.classList.toggle("is-free", ps.qty >= 2); });
       var each = ps.plan === "sub" ? PRICE * (1 - DISC) : PRICE, tot = each * ps.qty;
       $("[data-pd-price]").innerHTML = (ps.plan === "sub" ? "<s>" + money(PRICE * ps.qty) + "</s>" : "") + money(tot);
       $("[data-pd-perk]").textContent = ps.qty >= 3 ? "Free Shipping + Free Creatine For Life" : ps.qty === 2 ? "Free Shipping. 1 more for Free Creatine" : "Add 1 more pack for Free Shipping";
@@ -393,6 +395,7 @@
       var v = e.target.closest("[data-pv] button"); if (v) { ps.v = v.dataset.v; drawPd(); }
       var q = e.target.closest("[data-pq] [data-step]"); if (q && !q.disabled) { ps.qty = Math.min(24, Math.max(1, ps.qty + +q.dataset.step)); drawPd(); }
       var p = e.target.closest("[data-pp] button"); if (p) { ps.plan = p.dataset.v; drawPd(); }
+      var pi = e.target.closest("[data-plan-info] > div"); if (pi) { ps.plan = pi.dataset.for; drawPd(); }
       if (e.target.closest("[data-pd-add]")) { add(qf, ps.v, ps.qty, { plan: ps.plan }); openCart(); }
     });
     var qInput = $("#pd-qty");

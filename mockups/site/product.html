@@ -42,8 +42,12 @@
             <button type="button" data-step="1" aria-label="Add a pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
           </div></div>
         <div class="opt"><div class="opt__label">Purchase</div>
+          <div class="plan-info" data-plan-info>
+            <div data-for="sub"><b>Subscribe</b><span>10% off every order</span><span>Ships every 30, 60 or 90 days</span><span>Skip or cancel online anytime</span><span class="plan-info__ship" data-ship></span></div>
+            <div data-for="otp"><b>One-time</b><span>Full price, one delivery</span><span>No subscription</span><span>Reorder whenever you like</span><span class="plan-info__ship" data-ship></span></div>
+          </div>
           <div class="seg seg--full" role="group" aria-label="Purchase type" data-pp>
-            <button type="button" data-v="sub" aria-pressed="true">Subscribe &amp; Save 10%</button>
+            <button type="button" data-v="sub" aria-pressed="true">Subscribe</button>
             <button type="button" data-v="otp" aria-pressed="false">One-time</button>
           </div></div>
         <div class="pd__price num" data-pd-price></div>
