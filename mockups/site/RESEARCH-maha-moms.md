@@ -57,3 +57,21 @@ Compiled 2026-11-12 from web search results. Two primary pages (Center for Food 
 - [Organic electrolyte powders roundup (The Good Trade)](https://www.thegoodtrade.com/features/organic-electrolyte-powder/)
 - [PFAS and fluoride in powdered electrolytes (Mamavation)](https://mamavation.com/product-investigations/pfas-forever-chemicals-fluoride-powdered-electrolytes.html)
 - [Just Ingredients electrolyte powder test (Tamara Rubin)](https://tamararubin.com/2025/07/just-ingredients-mango-lemonade-electrolyte-powder)
+
+## Competitor color audit (2026-11-12)
+
+Homepages loaded in a real browser at 1440px; colors are the ones covering the most screen area, plus button and text colors. Perelel showed a blank page to the automated browser and Truvani would not connect, so they are not included.
+
+| Brand | Background | Deep anchor | Warm accents | Type |
+|---|---|---|---|---|
+| Ballerina Farm | cream #fffbf0 | denim blue #486295, dark brown #382014 | tomato #ef5223, caramel #c47d3e | condensed bold sans + mono |
+| Branch Basics | cream #fdfaf4 | cognac brown #9a6a47, ink #28291e | chartreuse #ddee9d, peach #f6c29f, oat #ede1c6 | sans + light serif |
+| Primal Kitchen | off-white #fefefb, oat #f3f1e8 | forest green #0f4034 | lime #a5cf46, butter #f4e9a4, sage #d4e0af, peach #f1c699, burnt orange #c65500 | bold extended sans |
+| Primally Pure | white, linen #e9e3db | moss #4f5c43 | sand #cbbea5 | light serif + italic, mono |
+| Just Ingredients | cream #fdf9f5, oat #f3e9dc | near-black #111111 | coral to orange gradient in the hero | bold condensed caps |
+| Redmond (Re-Lyte) | white | deep teal #0e2a30, brick red #a22c2a | ocean blue #005b98, leaf green #8fad3d | Montserrat |
+| Fortified today (drinkfortified.com) | white | navy #0b1c29 | orange #f76515, teal #00aba3, sky #7eb8c8 | Brother 1816 bold caps |
+
+**Pattern:** a bright warm cream base (not grey beige), one deep earthy anchor (forest, moss, denim, brown or near-black) for text and buttons, and one or two confident food-colored accents (tomato, lime, peach, caramel). Real, warm product and food photography carries most of the color. Nobody in this set leans on muted all-beige pages.
+
+**What Fortified should take from it:** keep the bright cream base, use its own navy #0b1c29 as the deep anchor (it sits naturally next to Ballerina Farm's denim and Redmond's deep teal), and let the warm orange from the packs be the confident accent, with peach as the soft wash. Teal stays as a small brand mark.

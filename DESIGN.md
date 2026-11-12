@@ -58,3 +58,19 @@ Product page buy column, top to bottom: name, one-line description, 10/15/20% Su
 - **Product as still life:** until real photography exists, packs stand on a styled counter in window light (gradients and soft contact shadows) instead of empty placeholder frames.
 - **Proof stays honest:** reviews and lab results are quiet italic lines that say where the real content goes. Nothing is invented.
 - **Palette:** ivory #f5f0e7, oat #ece4d6, ink #1b2621, evergreen #1f4d45 for italic accents; formula colors only on the packs and small marks.
+
+## Palette, revised from the competitor audit (2026-11-12)
+
+Measured from Ballerina Farm, Branch Basics, Primal Kitchen, Primally Pure, Just Ingredients and Redmond (see `mockups/site/RESEARCH-maha-moms.md`). They share a bright warm cream base, one deep earthy anchor and one or two confident food-colored accents. Fortified's version:
+
+| Token | Value | Use |
+|---|---|---|
+| `--paper` | #fdf9f2 | Bright cream page ground |
+| `--paper-2` | #f6ecdc | Oat bands |
+| `--ink` | #0b1c29 | Fortified navy: text, buttons, header bar, footer (the brand's own anchor) |
+| `--accent` | #e2541f | Warm pack-orange for italic display type and highlights (large text only) |
+| `--accent-ink` | #b8430f | Orange for small text: savings, "never", signature (5.2:1 on cream) |
+| `--peach` | #f9e0c9 | Soft wash, selection, confirmations |
+| teal | #00aba3 | Logo dot only, as on the live store |
+
+Counter scenes warm toward peach and caramel. Replaces the ivory, oat and evergreen values above.

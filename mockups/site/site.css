@@ -1039,3 +1039,52 @@ body { font-size: 16.5px; line-height: 1.65; letter-spacing: .005em; }
 .set { margin: 0; }
 .tiers__steps li.is-on span, .tiers__steps li.is-next span { font-weight: 500; }
 @media (max-width: 640px) { .set__note { display: none; } .p-hero__set { aspect-ratio: 4 / 3.4; } }
+
+/* ======================================================================
+   PALETTE from the competitor audit (RESEARCH-maha-moms.md, 2026-11-12)
+   Bright cream base, Fortified navy anchor, warm pack-orange accent,
+   peach wash, teal kept as a small brand mark.
+   ====================================================================== */
+:root {
+  --paper: #fdf9f2;
+  --paper-2: #f6ecdc;
+  --card: #fffdf8;
+  --ink: #0b1c29;
+  --ink-2: #4c5866;
+  --rule: #e9dcc7;
+  --accent: #e2541f;      /* large type only (3.6:1 on cream) */
+  --accent-ink: #b8430f;  /* small text (5.2:1 on cream) */
+  --peach: #f9e0c9;
+  --evergreen: var(--accent);
+  --teal-ink: #0b1c29;
+}
+body { background: var(--paper); }
+::selection { background: var(--peach); color: var(--ink); }
+.display em { color: var(--accent); }
+.letter__body p:first-child::first-letter { color: var(--accent); }
+.letter__sign, .p-handnote { color: var(--accent-ink); }
+.p-never li span:last-child { color: var(--accent-ink); }
+.p-tiers .is-best .p-tiers__pct { color: var(--accent); }
+.bar { background: var(--ink); }
+.bar b { color: #f6c29f; }
+.logo i, .foot .logo i { color: #00aba3; }
+.sec--paper2 { background: var(--paper-2); }
+.on-dark, .foot { background: var(--ink); }
+.btn--money { --bg: var(--ink); --fg: #fff; }
+.btn--money:hover { --bg: #13304a; }
+.closing-card { background: var(--ink); }
+.item--add .item__name::before, .item--save .item__name, .item--save .item__val { color: var(--accent-ink); }
+.pd__save { color: var(--accent-ink); }
+.total-row--save { color: var(--accent-ink); }
+.progress__fill, .tiers__steps li.is-on .tiers__seg { background: var(--accent); }
+.tiers__steps li.is-next .tiers__seg { background: repeating-linear-gradient(90deg, var(--accent) 0 3px, transparent 3px 7px); }
+.opt__aside, .sizes__perk { color: var(--accent-ink); }
+.ui__toast { background: var(--peach); }
+.cart-count { background: var(--accent-ink); color: #fff; }
+/* Counter scenes warm toward peach and caramel */
+.set { background: linear-gradient(180deg, #fbeedd 0%, #f7e3c9 58%, #e3c39b 58.2%, #d8b384 100%); }
+.set--everyday { background: linear-gradient(180deg, #fbe8d4 0%, #f8dcc0 58%, #e6bd92 58.2%, #dcae7d 100%); }
+.set--energy { background: linear-gradient(180deg, #fbe4dc 0%, #f6d5c9 58%, #dfb2a0 58.2%, #d3a18d 100%); }
+.pd__stage, .field--everyday.pd__stage { background: linear-gradient(180deg, #fbe8d4 0%, #f8dcc0 62%, #e6bd92 62.2%, #dcae7d 100%); }
+.field--energy.pd__stage { background: linear-gradient(180deg, #fbe4dc 0%, #f6d5c9 62%, #dfb2a0 62.2%, #d3a18d 100%); }
+.p-hero__set { margin-top: clamp(40px, 5vw, 72px); }
