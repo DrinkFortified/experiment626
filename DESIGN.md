@@ -49,3 +49,12 @@ One authored moment: when packs are added on the product page, the order summary
 ## Purchase structure (owner approved, keep)
 
 Product page buy column, top to bottom: name, one-line description, 10/15/20% Subscribe tier bar with the "add N more" line, packs per organic flavor with minus and plus steppers, Purchase label with a one-line plain-text explanation, Subscribe and One-time toggle showing each price, itemized order summary with savings, Add button. Desktop keeps the product visual in view while the column scrolls.
+
+## Premium layer (owner asked for premium and personal, 2026-11-12)
+
+- **Restraint over decoration:** hairlines and white space instead of cards, tints and dashed boxes. One dark button style, square corners (3px), tracked uppercase labels.
+- **Type:** Fraunces drops to weight 300 to 400 with tight tracking; italic carries emphasis. A handwritten face (Caveat) appears only for the letter signature and one margin note.
+- **Personal voice:** a short first-person letter sits right after the hero and is signed by hand. It uses only facts the brand stands behind; swap in the founder's own name and words when ready.
+- **Product as still life:** until real photography exists, packs stand on a styled counter in window light (gradients and soft contact shadows) instead of empty placeholder frames.
+- **Proof stays honest:** reviews and lab results are quiet italic lines that say where the real content goes. Nothing is invented.
+- **Palette:** ivory #f5f0e7, oat #ece4d6, ink #1b2621, evergreen #1f4d45 for italic accents; formula colors only on the packs and small marks.
