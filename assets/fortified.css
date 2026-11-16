@@ -22,7 +22,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: var(--head); }
 body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.55 var(--font); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
-img { max-width: 100%; display: block; }
+img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
 button, input, select { font: inherit; color: inherit; }
 button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
@@ -1582,3 +1582,7 @@ section[aria-labelledby="faq-h"] { background: #f3f6f8; } section[aria-labelledb
   .pd__stackpack figcaption { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .pd__stackpack { transition: opacity .2s; } }
+
+/* ---------- v10: homepage image fixes ---------- */
+.backpack img { height: auto; box-shadow: none; border-radius: 0; filter: drop-shadow(0 22px 24px rgba(11, 28, 41, .22)); }
+.set__packs--hero .set__pack img, .set__stick { height: auto; }
