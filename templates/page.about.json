@@ -1,0 +1,57 @@
+{
+  "sections": {
+    "letter": {
+      "type": "ff-letter",
+      "settings": {}
+    },
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "promise": {
+      "type": "ff-promise",
+      "blocks": {
+        "p0": {
+          "type": "promise",
+          "settings": {
+            "title": "Every ingredient named",
+            "text": "With its source. No proprietary blends, ever."
+          }
+        },
+        "p1": {
+          "type": "promise",
+          "settings": {
+            "title": "Sweetened with monk fruit",
+            "text": "Monk fruit extract and Reb M, as listed on the label."
+          }
+        },
+        "p2": {
+          "type": "promise",
+          "settings": {
+            "title": "Skip or cancel online",
+            "text": "In your account, before you are billed. No phone call."
+          }
+        },
+        "p3": {
+          "type": "promise",
+          "settings": {
+            "title": "Thirty days to decide",
+            "text": "Not for your family? We refund you. No return required."
+          }
+        }
+      },
+      "block_order": [
+        "p0",
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "letter",
+    "main",
+    "promise"
+  ]
+}

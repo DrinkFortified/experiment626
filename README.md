@@ -1,0 +1,38 @@
+# Fortified Shopify theme
+
+A complete Online Store 2.0 theme built from the mockup in `mockups/site`. White background, live store colors (navy #0b1c29, teal #00aba3, orange #f76515, sky #7eb8c8), Bricolage Grotesque and Figtree type.
+
+## Install
+
+1. Shopify admin > Online Store > Themes > Add theme > Upload zip file, and choose `fortified-theme.zip` from the repo root. It installs **unpublished**.
+2. Click **Customize** to preview and edit every section (text, images, ticker claims, FAQ, ingredients).
+3. Optional pages: create pages with handles `ingredients`, `about` and `help`, and assign the templates `page.ingredients`, `page.about` and `page.help`.
+4. Menus: the header uses `main-menu` and the footer uses `footer`. If those are empty, built-in links to Everyday, Energy, Ingredients, About and Help are shown.
+5. Publish when it looks right.
+
+Or with the Shopify CLI: `shopify theme push --unpublished --path theme`.
+
+## How the buy box works
+
+- Each product's variants (the organic flavors) get a minus and plus stepper.
+- The purchase toggle reads the product's Loop selling plans. The plan whose name contains 90, "3 month" or "quarter" becomes **Every 3 months**; the other becomes **Monthly**. One-time is hidden if the product requires a subscription.
+- Prices come from Shopify's selling plan allocations, so the page shows exactly what checkout charges. With the current Loop setup that is Monthly 10% ($53.10) and Every 3 months 20% ($47.20).
+- Every 3 months tops the box up to at least 3 packs.
+- **Add to box** posts all flavors in one request to `/cart/add.js` with the selling plan id, then opens the cart drawer, which reads and updates the real cart (`/cart.js`, `/cart/change.js`). Checkout goes to Shopify checkout.
+
+## Settings (Theme settings > Offers)
+
+- Free Shipping and Free Creatine For Life pack counts drive the progress messages only. Set real shipping rates and the creatine offer in Shopify and Loop.
+- "Show 10 / 15 / 20% volume tiers" is off by default because Loop does not currently have quantity tiers. Turn it on only after a matching quantity discount exists.
+
+## Tested
+
+- Shopify Theme Check: 0 errors (3 warnings for loading Google Fonts).
+- Buy box and cart drawer driven in Chromium with the live Everyday product data and a simulated cart API: correct prices for each plan, correct variant ids, quantities and selling plan ids sent, drawer totals correct.
+- Not yet tested on the real store. Preview it unpublished before going live.
+
+## Before publishing
+
+- Upload reviews app blocks into the product section (it accepts app blocks).
+- Confirm the Free Creatine For Life terms and the 30-day guarantee wording.
+- Check product media: each variant should have its own image so the flavor rows and pack stage show the right pouch.

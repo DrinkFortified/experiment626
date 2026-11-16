@@ -1,0 +1,40 @@
+<section class="sec" aria-labelledby="fx-h">
+  <div class="wrap">
+    <div class="sec-head"><h2 id="fx-h" class="display d2">{{ section.settings.heading }} <em>{{ section.settings.heading_accent }}</em></h2><p>{{ section.settings.text }}</p></div>
+    <div class="p-formulas">
+      {%- for block in section.blocks limit: 2 -%}
+        {%- assign p = all_products[block.settings.product] -%}
+        <a class="p-formula" href="{% if p %}{{ p.url }}{% else %}/products/{{ block.settings.product }}{% endif %}" {{ block.shopify_attributes }}>
+          <figure class="p-formula__img">
+            {%- if block.settings.image != blank -%}{{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy' }}
+            {%- else -%}<img src="{{ block.settings.fallback | asset_url }}" alt="" loading="lazy" width="800" height="800">{%- endif -%}
+          </figure>
+          <div class="p-formula__text"><div><h3 class="display d3">{{ block.settings.title }}</h3><p>{{ block.settings.line }}</p></div><span class="p-formula__go">Shop</span></div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Two formulas",
+  "max_blocks": 2,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "One for the whole day." },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent", "default": "One for your morning." },
+    { "type": "text", "id": "text", "label": "Text", "default": "The same short label underneath. Mix both in one order if your house needs both." }
+  ],
+  "blocks": [ { "type": "formula", "name": "Formula", "settings": [
+    { "type": "text", "id": "product", "label": "Product handle", "default": "everyday" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Everyday" },
+    { "type": "text", "id": "line", "label": "Line", "default": "Caffeine-free, with Vitamin D3 and K2." },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "select", "id": "fallback", "label": "Default image", "default": "ff-everyday-watermelon-square.webp", "options": [
+      { "value": "ff-everyday-watermelon-square.webp", "label": "Everyday watermelon" }, { "value": "ff-everyday-orange-square.webp", "label": "Everyday orange" },
+      { "value": "ff-energy-orange-square.webp", "label": "Energy orange" }, { "value": "ff-energy-watermelon-square.webp", "label": "Energy watermelon" } ] } ] } ],
+  "presets": [ { "name": "Two formulas", "blocks": [
+    { "type": "formula", "settings": { "product": "everyday", "title": "Everyday", "line": "Caffeine-free, with Vitamin D3 and K2.", "fallback": "ff-everyday-watermelon-square.webp" } },
+    { "type": "formula", "settings": { "product": "energy", "title": "Energy", "line": "150mg caffeine from coffee bean.", "fallback": "ff-energy-orange-square.webp" } } ] } ]
+}
+{% endschema %}

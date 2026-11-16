@@ -1,0 +1,21 @@
+<section class="sec" aria-labelledby="letter-h" id="letter-{{ section.id }}">
+  <div class="wrap">
+    <article class="letter">
+      <h2 id="letter-h" class="sr">{{ section.settings.title }}</h2>
+      <div class="letter__body">{{ section.settings.body }}</div>
+      {%- if section.settings.signature != blank -%}<span class="letter__sign">{{ section.settings.signature }}</span>{%- endif -%}
+    </article>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Letter",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Hidden title", "default": "A note from Fortified" },
+    { "type": "richtext", "id": "body", "label": "Letter", "default": "<p>We started Fortified for the person who reads the back of the pack before anything else. The one who sets it down when a list runs long, or hides behind a blend.</p><p>So we made the label first. Every ingredient is named, with the source we buy it from. If it isn’t on that list, it isn’t in the pack.</p><p>We hope it earns a place on your counter.</p>" },
+    { "type": "text", "id": "signature", "label": "Signature", "default": "The Fortified family" }
+  ],
+  "presets": [ { "name": "Letter" } ]
+}
+{% endschema %}

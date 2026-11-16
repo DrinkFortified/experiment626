@@ -1,0 +1,128 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "label": {
+      "type": "ff-label",
+      "blocks": {
+        "i0": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Pink Himalayan Salt",
+            "source": "as Ancient Ocean",
+            "added": false
+          }
+        },
+        "i1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Magnesium Malate",
+            "source": "magnesium",
+            "added": false
+          }
+        },
+        "i2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Coconut Water Powder",
+            "source": "as CocOganic Plus",
+            "added": false
+          }
+        },
+        "i3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Organic Lemon Juice Powder",
+            "source": "flavor",
+            "added": false
+          }
+        },
+        "i4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Potassium Chloride",
+            "source": "potassium",
+            "added": false
+          }
+        },
+        "i5": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Bamboo Fiber",
+            "source": "fiber",
+            "added": false
+          }
+        },
+        "i6": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Organic Flavors",
+            "source": "flavor",
+            "added": false
+          }
+        },
+        "i7": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Malic Acid",
+            "source": "tartness",
+            "added": false
+          }
+        },
+        "i8": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Reb M, fermented",
+            "source": "as OnoSweet",
+            "added": false
+          }
+        },
+        "i9": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Monk Fruit Extract",
+            "source": "sweetener",
+            "added": false
+          }
+        },
+        "i10": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Energy adds Natural Caffeine",
+            "source": "coffee bean, 150mg",
+            "added": true
+          }
+        },
+        "i11": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Everyday adds Vitamin D3 + K2",
+            "source": "D3 25mcg, K2 as MK-7",
+            "added": true
+          }
+        }
+      },
+      "block_order": [
+        "i0",
+        "i1",
+        "i2",
+        "i3",
+        "i4",
+        "i5",
+        "i6",
+        "i7",
+        "i8",
+        "i9",
+        "i10",
+        "i11"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "label"
+  ]
+}

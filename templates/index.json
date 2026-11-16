@@ -1,0 +1,355 @@
+{
+  "sections": {
+    "hero": {
+      "type": "ff-hero",
+      "settings": {}
+    },
+    "ticker": {
+      "type": "ff-ticker",
+      "blocks": {
+        "c0": {
+          "type": "claim",
+          "settings": {
+            "text": "0g sugar"
+          }
+        },
+        "c1": {
+          "type": "claim",
+          "settings": {
+            "text": "No dyes"
+          }
+        },
+        "c2": {
+          "type": "claim",
+          "settings": {
+            "text": "Every ingredient named"
+          }
+        },
+        "c3": {
+          "type": "claim",
+          "settings": {
+            "text": "Organic flavors"
+          }
+        },
+        "c4": {
+          "type": "claim",
+          "settings": {
+            "text": "Monk fruit sweetened"
+          }
+        },
+        "c5": {
+          "type": "claim",
+          "settings": {
+            "text": "1,200mg sodium"
+          }
+        },
+        "c6": {
+          "type": "claim",
+          "settings": {
+            "text": "Skip or cancel online"
+          }
+        },
+        "c7": {
+          "type": "claim",
+          "settings": {
+            "text": "30 days to decide"
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ],
+      "settings": {}
+    },
+    "letter": {
+      "type": "ff-letter",
+      "settings": {}
+    },
+    "label": {
+      "type": "ff-label",
+      "blocks": {
+        "i0": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Pink Himalayan Salt",
+            "source": "as Ancient Ocean",
+            "added": false
+          }
+        },
+        "i1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Magnesium Malate",
+            "source": "magnesium",
+            "added": false
+          }
+        },
+        "i2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Coconut Water Powder",
+            "source": "as CocOganic Plus",
+            "added": false
+          }
+        },
+        "i3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Organic Lemon Juice Powder",
+            "source": "flavor",
+            "added": false
+          }
+        },
+        "i4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Potassium Chloride",
+            "source": "potassium",
+            "added": false
+          }
+        },
+        "i5": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Bamboo Fiber",
+            "source": "fiber",
+            "added": false
+          }
+        },
+        "i6": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Organic Flavors",
+            "source": "flavor",
+            "added": false
+          }
+        },
+        "i7": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Malic Acid",
+            "source": "tartness",
+            "added": false
+          }
+        },
+        "i8": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Reb M, fermented",
+            "source": "as OnoSweet",
+            "added": false
+          }
+        },
+        "i9": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Monk Fruit Extract",
+            "source": "sweetener",
+            "added": false
+          }
+        },
+        "i10": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Energy adds Natural Caffeine",
+            "source": "coffee bean, 150mg",
+            "added": true
+          }
+        },
+        "i11": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Everyday adds Vitamin D3 + K2",
+            "source": "D3 25mcg, K2 as MK-7",
+            "added": true
+          }
+        }
+      },
+      "block_order": [
+        "i0",
+        "i1",
+        "i2",
+        "i3",
+        "i4",
+        "i5",
+        "i6",
+        "i7",
+        "i8",
+        "i9",
+        "i10",
+        "i11"
+      ],
+      "settings": {}
+    },
+    "formulas": {
+      "type": "ff-formulas",
+      "blocks": {
+        "f0": {
+          "type": "formula",
+          "settings": {
+            "product": "everyday",
+            "title": "Everyday",
+            "line": "Caffeine-free, with Vitamin D3 and K2.",
+            "fallback": "ff-everyday-watermelon-square.webp"
+          }
+        },
+        "f1": {
+          "type": "formula",
+          "settings": {
+            "product": "energy",
+            "title": "Energy",
+            "line": "150mg caffeine from coffee bean.",
+            "fallback": "ff-energy-orange-square.webp"
+          }
+        }
+      },
+      "block_order": [
+        "f0",
+        "f1"
+      ],
+      "settings": {}
+    },
+    "promise": {
+      "type": "ff-promise",
+      "blocks": {
+        "p0": {
+          "type": "promise",
+          "settings": {
+            "title": "Every ingredient named",
+            "text": "With its source. No proprietary blends, ever."
+          }
+        },
+        "p1": {
+          "type": "promise",
+          "settings": {
+            "title": "Sweetened with monk fruit",
+            "text": "Monk fruit extract and Reb M, as listed on the label."
+          }
+        },
+        "p2": {
+          "type": "promise",
+          "settings": {
+            "title": "Skip or cancel online",
+            "text": "In your account, before you are billed. No phone call."
+          }
+        },
+        "p3": {
+          "type": "promise",
+          "settings": {
+            "title": "Thirty days to decide",
+            "text": "Not for your family? We refund you. No return required."
+          }
+        }
+      },
+      "block_order": [
+        "p0",
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {}
+    },
+    "tiers": {
+      "type": "ff-tiers",
+      "blocks": {
+        "t0": {
+          "type": "tier",
+          "settings": {
+            "big": "Full",
+            "title": "One-time",
+            "text": "$59.00 a pack, no subscription."
+          }
+        },
+        "t1": {
+          "type": "tier",
+          "settings": {
+            "big": "10%",
+            "title": "Monthly",
+            "text": "$53.10 a pack, ships every 30 days."
+          }
+        },
+        "t2": {
+          "type": "tier",
+          "settings": {
+            "big": "20%",
+            "title": "Every 3 months",
+            "text": "3 packs at $47.20 each, plus Free Creatine For Life."
+          }
+        }
+      },
+      "block_order": [
+        "t0",
+        "t1",
+        "t2"
+      ],
+      "settings": {}
+    },
+    "control": {
+      "type": "ff-control",
+      "settings": {}
+    },
+    "faq": {
+      "type": "ff-faq",
+      "blocks": {
+        "q0": {
+          "type": "qa",
+          "settings": {
+            "q": "What is the difference between Energy and Everyday?",
+            "a": "<p>Both share the same electrolyte base and 1,200mg sodium. Energy adds 150mg natural caffeine from coffee bean. Everyday is caffeine-free and adds Vitamin D3 and Vitamin K2.</p>"
+          }
+        },
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "What is it sweetened with?",
+            "a": "<p>Monk fruit extract and Reb M (as OnoSweet). 0g sugar per stick pack.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "How does Every 3 months work?",
+            "a": "<p>We ship a 90 day supply in one box every 3 months at 20% off. Skip, swap organic flavors or cancel in your account anytime.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "How do I skip or cancel?",
+            "a": "<p>Log in to your account and open your subscription. Skip, swap, change quantity or cancel before your next billing date.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q0",
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {}
+    },
+    "closing": {
+      "type": "ff-closing",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "ticker",
+    "letter",
+    "label",
+    "formulas",
+    "promise",
+    "tiers",
+    "control",
+    "faq",
+    "closing"
+  ]
+}
