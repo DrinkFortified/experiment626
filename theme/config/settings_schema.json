@@ -20,7 +20,9 @@
     "settings": [
       { "type": "paragraph", "content": "These numbers drive the progress messages in the cart and on product pages. They are messages only: set the real discounts and shipping rates in Loop and Shopify." },
       { "type": "range", "id": "free_shipping_packs", "label": "Free Shipping from (packs)", "min": 1, "max": 6, "step": 1, "default": 2 },
-      { "type": "range", "id": "creatine_packs", "label": "Free Creatine For Life from (packs)", "min": 1, "max": 6, "step": 1, "default": 3 },
+      { "type": "range", "id": "creatine_packs", "label": "Free Creatine For Life from (subscription packs)", "min": 1, "max": 6, "step": 1, "default": 3 },
+      { "type": "checkbox", "id": "creatine_auto", "label": "Add Free Creatine to the cart automatically", "info": "Adds 1 creatine when the cart has that many subscription packs and removes it when it drops below.", "default": true },
+      { "type": "product", "id": "creatine_product", "label": "Free creatine product", "info": "Blank uses the product with handle creatine. It should cost $0 and have Loop plans for monthly and quarterly delivery." },
       { "type": "checkbox", "id": "volume_tiers", "label": "Show 10 / 15 / 20% volume tiers on Monthly", "info": "Only turn on after a matching quantity discount exists in Loop or Shopify. Your current Loop plans are Every 30 Days 10% and Every 90 Days 20%.", "default": false }
     ]
   }
