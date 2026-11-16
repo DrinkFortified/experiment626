@@ -22,16 +22,22 @@ Or with the Shopify CLI: `shopify theme push --unpublished --path theme`.
 - Every 3 months is only a delivery frequency: any number of packs, no minimum.
 - **Add to box** posts all flavors in one request to `/cart/add.js` with the selling plan id, then opens the cart drawer, which reads and updates the real cart (`/cart.js`, `/cart/change.js`). Checkout goes to Shopify checkout.
 
-## Free Creatine For Life
+## Free Creatine For Life of Subscription
 
 - When the cart holds 3 or more subscription packs (Monthly or Every 3 months, Everyday and Energy combined), the theme adds 1 creatine (`/products/creatine`, $0) automatically. Below 3 it removes it. One-time packs do not count.
 - It is added on the creatine product's matching Loop plan: "Monthly Creatine" when most packs are Monthly, "Quarterly Creatine" when most are Every 3 months.
 - This runs on every page load, after Add to box, and after every quantity change in the cart drawer or cart page. Settings: Theme settings > Offers (pack count, on/off, creatine product).
 - It is enforced by the theme only. Anyone can still add the $0 creatine with a direct cart link, so add a Shopify cart and checkout validation rule if that matters.
 
+## 2nd creatine bag on Every 3 months
+
+- When the cart holds Free Creatine For Life of Subscription on the Quarterly plan, the cart offers 1 more creatine bag at 50% off (one pouch is 45 servings, so 2 cover 90 days).
+- It adds the `creatine-v2` product ($59) on its 90 day Loop plan. Only 1 is allowed, and it is removed automatically if the order stops qualifying.
+- **Off by default.** The cart shows the price Shopify returns, so turn it on (Theme settings > Offers > Offer a 2nd creatine bag) only after the 50% discount exists. Today the creatine-v2 Loop plans (Deliver every 30/60/90 Days) carry no discount, so the bag would cost $59.
+
 ## Settings (Theme settings > Offers)
 
-- Free Shipping and Free Creatine For Life pack counts drive the progress messages only. Set real shipping rates and the creatine offer in Shopify and Loop.
+- Free Shipping and Free Creatine For Life of Subscription pack counts drive the progress messages only. Set real shipping rates and the creatine offer in Shopify and Loop.
 - "Show 10 / 15 / 20% volume tiers" is off by default because Loop does not currently have quantity tiers. Turn it on only after a matching quantity discount exists.
 
 ## Tested
@@ -43,5 +49,5 @@ Or with the Shopify CLI: `shopify theme push --unpublished --path theme`.
 ## Before publishing
 
 - Upload reviews app blocks into the product section (it accepts app blocks).
-- Confirm the Free Creatine For Life terms and the 30-day guarantee wording.
+- Confirm the Free Creatine For Life of Subscription terms and the 30-day guarantee wording.
 - Keep the "Front" pouch renders on each product: the stage and flavor rows use them.

@@ -11,13 +11,41 @@
           if cp == blank
             assign cp = all_products['creatine']
           endif
+          assign up = settings.creatine_upsell_product
+          if up == blank
+            assign up = all_products['creatine-v2']
+          endif
+          assign has_up = false
+          assign q_free = false
+          for item in cart.items
+            if up.id and item.product_id == up.id
+              assign has_up = true
+            endif
+            if cp.id and item.product_id == cp.id and item.selling_plan_allocation
+              assign spn = item.selling_plan_allocation.selling_plan.name | downcase
+              if spn contains 'quarter' or spn contains '90'
+                assign q_free = true
+              endif
+            endif
+          endfor
         -%}
         {%- for item in cart.items -%}
           {%- if cp.id and item.product_id == cp.id and settings.creatine_auto -%}
           <div class="cart-line cart-line--gift">
             <div class="pack">{%- if item.image -%}{{ item.image | image_url: width: 160 | image_tag: alt: '' }}{%- endif -%}</div>
-            <div><b>Free Creatine For Life</b><small>{{ 'cart.creatine_line' | t }}</small><input type="hidden" name="updates[]" value="{{ item.quantity }}"></div>
+            <div><b>Free Creatine For Life of Subscription</b><small>{{ 'cart.creatine_line' | t }}</small><input type="hidden" name="updates[]" value="{{ item.quantity }}"></div>
             <div class="cart-line__price">FREE</div>
+          </div>
+          {%- continue -%}
+          {%- endif -%}
+          {%- if settings.creatine_upsell and up.id and item.product_id == up.id -%}
+          <div class="cart-line cart-line--gift">
+            <div class="pack">{%- if item.image -%}{{ item.image | image_url: width: 160 | image_tag: alt: '' }}{%- endif -%}</div>
+            <div><b>2nd creatine bag</b><small>Every 3 months &middot; {{ settings.creatine_upsell_pct }}% off</small><br>
+              <label class="sr" for="q-{{ forloop.index }}">Quantity</label>
+              <input id="q-{{ forloop.index }}" class="num" type="number" name="updates[]" value="{{ item.quantity }}" min="0" max="1" style="width:72px;height:40px;margin-top:6px">
+            </div>
+            <div class="cart-line__price">{%- if item.original_line_price > item.final_line_price -%}<s>{{ item.original_line_price | money }}</s>{%- endif -%}{{ item.final_line_price | money }}</div>
           </div>
           {%- continue -%}
           {%- endif -%}
@@ -30,6 +58,13 @@
             <div class="cart-line__price">{%- if item.original_line_price > item.final_line_price -%}<s>{{ item.original_line_price | money }}</s>{%- endif -%}{{ item.final_line_price | money }}</div>
           </div>
         {%- endfor -%}
+        {%- if settings.creatine_upsell and q_free and has_up == false and up.first_available_variant -%}
+          {%- assign up_now = 100 | minus: settings.creatine_upsell_pct | times: up.first_available_variant.price | divided_by: 100 -%}
+          <div class="upsell">
+            <div><b>Add a 2nd creatine bag, {{ settings.creatine_upsell_pct }}% off</b><small>One pouch is 45 servings. A 2nd bag covers your full 90 days, every 3 months.</small></div>
+            <button type="button" class="btn btn--ghost upsell__btn" data-upsell-add>Add <s>{{ up.first_available_variant.price | money }}</s> {{ up_now | money }}</button>
+          </div>
+        {%- endif -%}
         <div class="total-row total-row--big" style="margin-top:20px"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></div>
         <p class="legal">{{ 'cart.taxes' | t }}</p>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
