@@ -5,7 +5,7 @@
   // ---------- Product truth (mirrors PRODUCT.md) ----------
   var PRICE = 59, DISC = 0.10;
   // Subscribe tiers: 1 pack 10% off, 2 packs 15% off, 3+ packs 20% off + Free Creatine For Life. One-time is full price.
-  function rate(n, plan) { if (plan !== "sub" || n < 1) return 0; return n >= 3 ? 0.20 : n === 2 ? 0.15 : 0.10; }
+  function rate(n, plan) { if (!plan || plan === "otp" || n < 1) return 0; return n >= 3 ? 0.20 : n === 2 ? 0.15 : 0.10; }
   function pct(n) { return Math.round(rate(n, "sub") * 100) + "%"; }
   var CDN = "https://cdn.shopify.com/s/files/1/1000/1973/2784/files/";
   var IMG = {
@@ -205,7 +205,7 @@
     return '<div class="seg seg--full" role="group" aria-label="Purchase type" data-plan>' +
       '<button type="button" data-v="sub" aria-pressed="' + (cart.plan === "sub") + '">Subscribe</button>' +
       '<button type="button" data-v="otp" aria-pressed="' + (cart.plan === "otp") + '">One-time</button></div>' +
-      (cart.plan === "sub" ? '<div class="freq-row"><span>Deliver every</span><div class="seg" role="group" aria-label="Delivery frequency" data-days>' +
+      (cart.plan === "sub" && cart.days === 90 && count() >= 3 ? '<p class="freq-q3">3 months of hydration in one box, delivered every 3 months.</p>' : "") + (cart.plan === "sub" ? '<div class="freq-row"><span>Deliver every</span><div class="seg" role="group" aria-label="Delivery frequency" data-days>' +
         [30, 60, 90].map(function (d) { return '<button type="button" data-v="' + d + '" aria-pressed="' + (cart.days === d) + '">' + d + " days</button>"; }).join("") + "</div></div>" : "");
   }
   function renderCart(fresh) {
@@ -394,7 +394,7 @@
     $$("[data-stack]").forEach(function (fig) { $("[data-stack-img]", fig).innerHTML = packImg(qf, fig.dataset.stack, true); });
 
     var drawTiers = function (n) {
-      var sub = ps.plan === "sub";
+      var sub = ps.plan !== "otp";
       $$("[data-tiers] [data-tier]").forEach(function (t) { var k = +t.dataset.tier; t.classList.toggle("is-on", sub && n >= k); t.classList.toggle("is-next", sub && n + 1 === k); });
       $("[data-tiers]").classList.toggle("is-off", !sub);
       var msg;
@@ -413,7 +413,7 @@
         $$("[data-stack]", stack).forEach(function (fig) { var k = ps.q[fig.dataset.stack]; fig.classList.toggle("is-out", !k); $(".pd__count", fig).textContent = "×" + k; if (k) shown++; });
         stack.setAttribute("data-n", shown);
       }
-      $$("[data-plan-price]").forEach(function (el) { el.textContent = money(PRICE * n * (1 - rate(n, el.dataset.planPrice))); });
+      $$("[data-plan-price]").forEach(function (el) { var k = el.dataset.planPrice === "q3" ? Math.max(n, 3) : n; el.textContent = money(PRICE * k * (1 - rate(k, el.dataset.planPrice))); });
       var rc = $("[data-pd-receipt]");
       if (rc) {
         var prev = ps.lines || {}, now = {}, html = "";
@@ -423,16 +423,16 @@
         };
         ["watermelon", "orange"].forEach(function (fv) { if (ps.q[fv]) line(fv, ps.q[fv] + "× " + FLAVOR[fv], money(PRICE * ps.q[fv])); });
         if (r) line("save", "Subscribe " + Math.round(r * 100) + "% off", "&minus;" + money(PRICE * n * r), "item--save");
-        if (ps.plan === "sub" && n >= 3) line("creatine", "Free Creatine For Life", "FREE", "item--add");
+        if (ps.plan !== "otp" && n >= 3) line("creatine", "Free Creatine For Life", "FREE", "item--add");
         line("ship", "Shipping", n >= 2 ? "FREE" : "At checkout");
         rc.innerHTML = html; ps.lines = now;
-        $("[data-pd-receipt-meta]").textContent = FORMULA[qf].name + " · " + (ps.plan === "sub" ? "Subscribe" : "One-time");
+        $("[data-pd-receipt-meta]").textContent = FORMULA[qf].name + " · " + (ps.plan === "q3" ? "3 packs every 3 months" : ps.plan === "sub" ? "Subscribe" : "One-time");
       }
       if (mixMode) {
         $$("[data-fq]").forEach(function (row) {
           var v = row.dataset.fq, inp = $("input", row);
           if (document.activeElement !== inp) inp.value = ps.q[v];
-          $('[data-step="-1"]', row).disabled = ps.q[v] <= 0 || n <= 1;
+          $('[data-step="-1"]', row).disabled = ps.q[v] <= 0 || n <= (ps.plan === "q3" ? 3 : 1);
           $('[data-step="1"]', row).disabled = n >= MAXQ;
           row.classList.toggle("is-zero", ps.q[v] === 0);
         });
@@ -444,7 +444,9 @@
       }
       $$("[data-pp] button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === ps.plan)); });
       var ship = n >= 2 ? "Free Shipping on this order." : "Shipping is calculated at checkout, free on 2+ packs.";
-      $("[data-plan-note]").innerHTML = ps.plan === "sub"
+      $("[data-plan-note]").innerHTML = ps.plan === "q3"
+        ? "<b>3 packs every 3 months:</b> a 90 day supply in one box, 20% off, Free Shipping and Free Creatine For Life. Skip or cancel online anytime."
+        : ps.plan === "sub"
         ? "<b>Subscribe:</b> " + Math.round(r * 100) + "% off every order, ships every 30, 60 or 90 days, skip or cancel online anytime. " + ship
         : "<b>One-time:</b> full price, one delivery, no subscription. " + ship;
       $("[data-pd-price]").innerHTML = (r ? "<s>" + money(PRICE * n) + "</s>" : "") + money(tot);
@@ -461,10 +463,16 @@
       var q = e.target.closest("[data-pq] [data-step]"); if (q && !q.disabled) { ps.qty = Math.min(MAXQ, Math.max(1, ps.qty + +q.dataset.step)); drawPd(); }
       var fq = e.target.closest("[data-fq] [data-step]");
       if (fq && !fq.disabled) { var fv = fq.closest("[data-fq]").dataset.fq; ps.q[fv] = Math.max(0, ps.q[fv] + +fq.dataset.step); ps.v = ps.q[fv] > 0 ? fv : (fv === "watermelon" ? "orange" : "watermelon"); drawPd(); }
-      var p = e.target.closest("[data-pp] button"); if (p) { ps.plan = p.dataset.v; drawPd(); }
+      var p = e.target.closest("[data-pp] button");
+      if (p) {
+        ps.plan = p.dataset.v;
+        if (ps.plan === "q3" && total() < 3) { if (mixMode) ps.q[ps.v] += 3 - total(); else ps.qty = 3; }
+        drawPd();
+      }
       if (e.target.closest("[data-pd-add]")) {
-        if (mixMode) { ["watermelon", "orange"].forEach(function (fv) { if (ps.q[fv]) add(qf, fv, ps.q[fv], { plan: ps.plan }); }); }
-        else add(qf, ps.v, ps.qty, { plan: ps.plan });
+        var o = ps.plan === "q3" ? { plan: "sub", days: 90 } : { plan: ps.plan };
+        if (mixMode) { ["watermelon", "orange"].forEach(function (fv) { if (ps.q[fv]) add(qf, fv, ps.q[fv], o); }); }
+        else add(qf, ps.v, ps.qty, o);
         openCart();
       }
     });
@@ -550,6 +558,23 @@
     var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { el.classList.add("print"); io.disconnect(); } }, { threshold: .25 });
     io.observe(el);
   });
+
+  // ---------- Scroll reveal: content rises in once as it enters ----------
+  (function () {
+    if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var els = $$("main .sec .wrap > *, main .sec-head > *, .p-formulas > *, .p-tiers > *, .p-promise > *, .p-proof > *, .ing-row, .faq details");
+    els.forEach(function (el) {
+      if (el.closest("[data-enter]")) return;
+      el.setAttribute("data-reveal", "");
+      var sib = el.parentElement ? Array.prototype.indexOf.call(el.parentElement.children, el) : 0;
+      el.style.setProperty("--ri", Math.min(sib, 5));
+    });
+    document.documentElement.classList.add("reveal-on");
+    var io = new IntersectionObserver(function (en) {
+      en.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); } });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    $$("[data-reveal]").forEach(function (el) { io.observe(el); });
+  })();
 
   hydratePacks(document);
   $$("[data-count]").forEach(function (c) { c.textContent = count(); });

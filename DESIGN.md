@@ -125,3 +125,11 @@ Owner asked for more color, informed by Gen Z preferences. See the Gen Z section
 | `--pop-blush` | #fbd3df | Proof band, 15% tier |
 
 Stickers may only carry claims printed on the pack.
+
+## v6: sans serif, motion, more color (2026-11-16, current)
+
+- **Type:** Bricolage Grotesque 800 for display (no italics; emphasis by color), Figtree for body. Serif and handwriting faces removed.
+- **Motion (animate skill rules):** content rises in once on scroll (700ms strong ease-out, 70ms stagger); hero packs and stickers float gently; a claims ticker scrolls linearly; buttons and cards lift 2 to 4px on hover-capable devices and press to 0.97. Transform and opacity only. All of it is off under prefers-reduced-motion.
+- **Color:** hero wash in blush and butter, blush letter band, sky FAQ band, aubergine ticker and footer, berry-to-aubergine closing band. Pill buttons and rounded tiles.
+- **Purchase:** a third plan, "Every 3 months", sets the box to at least 3 packs, ships every 90 days, 20% off with Free Shipping and Free Creatine For Life; added to the cart as Subscribe at 90 days.
+- **Contrast:** fixed after the impeccable detector; the two remaining flags are large display text above 3:1.
