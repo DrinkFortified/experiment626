@@ -1,0 +1,47 @@
+{%- comment -%}
+  Finds the transparent pouch render for a variant: a product image whose file
+  name contains "front" and the flavor (orange / ORG, watermelon / WTM).
+  Falls back to any "front" image, then the variant or product image.
+  Renders nothing; sets the variable through capture in the caller:
+  {% capture src %}{% render 'ff-pouch-image', product: p, variant: v, width: 900 %}{% endcapture %}
+{%- endcomment -%}
+{%- liquid
+  assign t = variant.title | downcase
+  assign tok1 = 'x-none-x'
+  assign tok2 = 'x-none-x'
+  if t contains 'watermelon'
+    assign tok1 = 'watermelon'
+    assign tok2 = '-wtm-'
+  elsif t contains 'orange'
+    assign tok1 = 'orange'
+    assign tok2 = '-org-'
+  endif
+  assign found = nil
+  assign any_front = nil
+  for m in product.media
+    if m.media_type == 'image'
+      assign fname = m.preview_image.src | split: '?' | first | split: '/' | last | downcase
+      if fname contains 'front'
+        if any_front == nil
+          assign any_front = m.preview_image
+        endif
+        if fname contains tok1 or fname contains tok2
+          assign found = m.preview_image
+          break
+        endif
+      endif
+    endif
+  endfor
+  if found == nil
+    assign found = any_front
+  endif
+  if found == nil and variant.featured_image
+    assign found = variant.featured_image
+  endif
+  if found == nil
+    assign found = product.featured_image
+  endif
+  if found
+    echo found | image_url: width: width
+  endif
+-%}

@@ -120,20 +120,21 @@
     var P = JSON.parse(dataEl.textContent);
     var V = {}; P.variants.forEach(function (v) { V[v.id] = v; });
     var MAXQ = 24;
-    var hasSub = !!P.monthly, hasQ3 = !!P.quarterly;
+    var hasSub = !!$('[data-pp] [data-v="sub"]', pd);
     var st = { plan: hasSub ? "sub" : "otp", q: {} };
     $$("[data-fq]", pd).forEach(function (row) { st.q[row.dataset.fq] = +$("input", row).value || 0; });
     var total = function () { return Object.keys(st.q).reduce(function (a, k) { return a + st.q[k]; }, 0); };
     var tierRate = function (n) { return n >= 3 ? 0.20 : n === 2 ? 0.15 : 0.10; };
 
     // Unit price in cents for a variant on a plan, from Shopify's selling plan allocations.
+    // Each variant carries its own product's plan ids, so Everyday and Energy can share one order.
+    function planId(v, plan) { var id = plan === "q3" ? v.quarterly : plan === "sub" ? v.monthly : null; return id ? String(id) : null; }
     function unit(v, plan, n) {
       if (plan === "otp") return v.price;
-      if (plan === "q3") return v.plans[String(P.quarterly)] != null ? v.plans[String(P.quarterly)] : v.price;
-      if (P.volumeTiers) return Math.round(v.price * (1 - tierRate(n)));
-      return v.plans[String(P.monthly)] != null ? v.plans[String(P.monthly)] : v.price;
+      if (plan === "sub" && P.volumeTiers) return Math.round(v.price * (1 - tierRate(n)));
+      var id = planId(v, plan);
+      return id && v.plans[id] != null ? v.plans[id] : v.price;
     }
-    function planId(plan) { return plan === "q3" ? P.quarterly : plan === "sub" ? P.monthly : null; }
 
     function draw() {
       var n = total(), full = 0, tot = 0;
@@ -147,7 +148,7 @@
       $$("[data-fq]", pd).forEach(function (row) {
         var id = row.dataset.fq, k = st.q[id], v = V[id], inp = $("input", row);
         if (document.activeElement !== inp) inp.value = k;
-        $('[data-step="-1"]', row).disabled = k <= 0 || n <= (st.plan === "q3" ? 3 : 1);
+        $('[data-step="-1"]', row).disabled = k <= 0 || n <= 1;
         $('[data-step="1"]', row).disabled = n >= MAXQ || !v.available;
         row.classList.toggle("is-zero", k === 0);
         $("[data-fq-sub]", row).textContent = k ? k + (k === 1 ? " pack \u00b7 " : " packs \u00b7 ") + money(unit(v, st.plan, n) * k) : (v.available ? "Not in this order" : "Sold out");
@@ -155,15 +156,14 @@
       // Plan toggle and prices
       $$("[data-pp] button", pd).forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === st.plan)); });
       $$("[data-plan-price]", pd).forEach(function (el) {
-        var plan = el.dataset.planPrice, m = plan === "q3" ? Math.max(n, 3) : n, sum = 0;
+        var plan = el.dataset.planPrice, sum = 0;
         var ids = Object.keys(st.q).filter(function (id) { return st.q[id] > 0; });
-        if (!ids.length) ids = [Object.keys(st.q)[0]];
-        var extra = m - n;
-        ids.forEach(function (id, i) { sum += unit(V[id], plan, m) * (st.q[id] + (i === 0 ? extra : 0)); });
+        if (ids.length) ids.forEach(function (id) { sum += unit(V[id], plan, n) * st.q[id]; });
+        else sum = unit(V[Object.keys(st.q)[0]], plan, 1);
         el.textContent = money(sum);
       });
       var ship = n >= (FF.freeShipAt || 2) ? "Free Shipping on this order." : "Free Shipping from " + (FF.freeShipAt || 2) + " packs.";
-      var note = st.plan === "q3" ? "<b>Every 3 months:</b> a 90 day supply in one box, " + P.quarterlyPct + "% off, plus Free Creatine For Life. Skip or cancel online anytime. " + ship
+      var note = st.plan === "q3" ? "<b>Every 3 months:</b> ships every 90 days, any number of packs, " + P.quarterlyPct + "% off, plus Free Creatine For Life. Skip or cancel online anytime. " + ship
         : st.plan === "sub" ? "<b>Monthly:</b> " + (P.volumeTiers ? "up to 20%" : P.monthlyPct + "%") + " off every order, ships every 30 days, skip or cancel online anytime. " + ship
         : "<b>One-time:</b> full price, one delivery, no subscription. " + ship;
       $("[data-plan-note]", pd).innerHTML = note;
@@ -174,7 +174,7 @@
       if (tm) tm.innerHTML = st.plan === "q3" ? "<b>Best value unlocked:</b> " + P.quarterlyPct + "% off and Free Creatine For Life." : st.plan === "sub" ? "Switch to <b>Every 3 months</b> for " + P.quarterlyPct + "% off and Free Creatine For Life." : "Savings and Free Creatine For Life come with a subscription.";
       // Receipt
       var rc = $("[data-pd-receipt]", pd), html = "";
-      Object.keys(st.q).forEach(function (id) { if (st.q[id]) html += '<li class="item"><span class="item__name">' + st.q[id] + "\u00d7 " + esc(flavorName(V[id].title)) + '</span><span class="item__lead"></span><span class="item__val">' + money(V[id].price * st.q[id]) + "</span></li>"; });
+      Object.keys(st.q).forEach(function (id) { if (st.q[id]) html += '<li class="item"><span class="item__name">' + st.q[id] + "\u00d7 " + esc((V[id].formula ? V[id].formula + " " : "") + flavorName(V[id].title)) + '</span><span class="item__lead"></span><span class="item__val">' + money(V[id].price * st.q[id]) + "</span></li>"; });
       if (save > 0) html += '<li class="item item--save"><span class="item__name">Subscription savings</span><span class="item__lead"></span><span class="item__val">&minus;' + money(save) + "</span></li>";
       if (st.plan === "q3" || (st.plan === "sub" && n >= (FF.creatineAt || 3))) html += '<li class="item item--add"><span class="item__name">Free Creatine For Life</span><span class="item__lead"></span><span class="item__val">FREE</span></li>';
       html += '<li class="item"><span class="item__name">Shipping</span><span class="item__lead"></span><span class="item__val">' + (on2 ? "FREE" : "At checkout") + "</span></li>";
@@ -192,11 +192,6 @@
       var p = e.target.closest("[data-pp] button");
       if (p) {
         st.plan = p.dataset.v;
-        if (st.plan === "q3" && total() < 3) {
-          var ids = Object.keys(st.q).filter(function (k) { return V[k].available; });
-          var pick = ids.filter(function (k) { return st.q[k] > 0; })[0] || ids[0];
-          if (pick) st.q[pick] += 3 - total();
-        }
         draw();
       }
     });
@@ -208,8 +203,8 @@
     var form = $("[data-ff-form]", pd);
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var items = [], sp = planId(st.plan), err = $("[data-pd-error]", pd);
-      Object.keys(st.q).forEach(function (id) { if (st.q[id] > 0) { var it = { id: +id, quantity: st.q[id] }; if (sp) it.selling_plan = +sp; items.push(it); } });
+      var items = [], err = $("[data-pd-error]", pd);
+      Object.keys(st.q).forEach(function (id) { if (st.q[id] > 0) { var it = { id: +id, quantity: st.q[id] }, sp = planId(V[id], st.plan); if (sp) it.selling_plan = +sp; items.push(it); } });
       if (!items.length) return;
       var btn = $("[data-pd-add]", pd); btn.disabled = true; btn.textContent = "Adding\u2026"; err.hidden = true;
       fetch(FF.routes.cartAdd, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ items: items }) })

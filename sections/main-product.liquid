@@ -1,9 +1,10 @@
 {%- comment -%}
-  Product buy page. Approved structure: name, one-line description, savings bar,
-  a stepper per organic flavor (one row per variant), purchase toggle
+  Product buy page. Structure: name, one-line description, savings bar, a stepper
+  per organic flavor of this formula, then the other formula's flavors underneath
+  (Everyday shows Energy, Energy shows Everyday), purchase toggle
   (Monthly / Every 3 months / One-time), plain-text plan note, order summary, Add.
-  Plans come from the product's Loop selling plans: the plan named with 90 days
-  or 3 months is "Every 3 months", the other is "Monthly".
+  Every 3 months is only a delivery frequency: any number of packs.
+  Images: the transparent pouch render ("Front" image) for each flavor.
 {%- endcomment -%}
 {%- liquid
   assign formula = section.settings.formula
@@ -14,52 +15,60 @@
       assign formula = 'everyday'
     endif
   endif
-  assign monthly_id = ''
-  assign quarterly_id = ''
-  assign monthly_pct = 0
-  assign quarterly_pct = 0
-  for group in product.selling_plan_groups
-    for plan in group.selling_plans
-      assign pn = plan.name | downcase
-      assign pct = 0
-      if plan.price_adjustments.size > 0 and plan.price_adjustments.first.value_type == 'percentage'
-        assign pct = plan.price_adjustments.first.value
-      endif
-      if pn contains '90' or pn contains '3 month' or pn contains 'quarter'
-        assign quarterly_id = plan.id
-        assign quarterly_pct = pct
-      elsif monthly_id == ''
-        assign monthly_id = plan.id
-        assign monthly_pct = pct
-      endif
-    endfor
-  endfor
-  assign first_variant = product.selected_or_first_available_variant
-  assign short_title = product.title | split: ' by ' | first | split: ' Hydration' | first | split: ' Electrolyte' | first
-  assign heading = section.settings.heading | default: short_title
   if formula == 'energy'
+    assign other_handle = section.settings.other_handle | default: 'everyday'
+    assign this_label = 'Energy'
+    assign other_label = 'Everyday'
     assign badge = section.settings.badge | default: 'Caffeine'
     assign line = section.settings.line | default: '150mg natural caffeine from coffee bean, plus electrolytes.'
+    assign other_line = 'Caffeine-free, with Vitamin D3 and K2.'
   else
+    assign other_handle = section.settings.other_handle | default: 'energy'
+    assign this_label = 'Everyday'
+    assign other_label = 'Energy'
     assign badge = section.settings.badge | default: 'Caffeine-free'
     assign line = section.settings.line | default: 'Caffeine-free electrolytes with Vitamin D3 and K2.'
+    assign other_line = '150mg caffeine from coffee bean.'
   endif
+  assign other = all_products[other_handle]
+  if other.id == product.id
+    assign other = nil
+  endif
+  assign short_title = product.title | split: ' by ' | first | split: ' Hydration' | first | split: ' Electrolyte' | first
+  assign heading = section.settings.heading | default: short_title
+  assign first_variant = product.selected_or_first_available_variant
+  capture plans
+    render 'ff-plan-ids', product: product
+  endcapture
+  assign plan_parts = plans | split: '|'
+  assign monthly_pct = plan_parts[2]
+  assign quarterly_pct = plan_parts[3]
 -%}
 
 <div data-product data-flavor-mode>
 <section class="pd" aria-labelledby="pd-h-{{ section.id }}">
   <div class="pd__stage field--{{ formula }}" data-field>
-    <div class="pd__crumbs"><a href="{{ routes.root_url }}">Home</a> / {{ product.title | split: ' by ' | first | escape }}</div>
+    <div class="pd__crumbs"><a href="{{ routes.root_url }}">Home</a> / {{ heading | escape }}</div>
     <span class="tag pd__tag">{{ badge }}</span>
     <div class="pd__stack" data-pd-stack>
-      {%- for variant in product.variants limit: 2 -%}
-        {%- assign vmedia = variant.featured_media | default: product.featured_media -%}
+      {%- for variant in product.variants -%}
+        {%- capture src -%}{%- render 'ff-pouch-image', product: product, variant: variant, width: 1000 -%}{%- endcapture -%}
         <figure class="pd__stackpack" data-stack="{{ variant.id }}">
-          <div class="pack pack--bare">{%- if vmedia -%}{{ vmedia | image_url: width: 900 | image_tag: loading: 'eager', alt: variant.title, sizes: '(max-width: 1000px) 45vw, 380px' }}{%- endif -%}</div>
+          <div class="pack pack--bare">{%- if src != blank -%}<img src="{{ src }}" alt="{{ this_label }} {{ variant.title | escape }} pouch" width="1000" height="1017"{% if forloop.first %} fetchpriority="high"{% else %} loading="lazy"{% endif %}>{%- endif -%}</div>
           <span class="pd__count num" aria-hidden="true"></span>
-          <figcaption>{% unless variant.title contains 'Organic' %}Organic {% endunless %}{{ variant.title }}</figcaption>
+          <figcaption>{{ this_label }} &middot; {{ variant.title }}</figcaption>
         </figure>
       {%- endfor -%}
+      {%- if other -%}
+        {%- for variant in other.variants -%}
+          {%- capture src -%}{%- render 'ff-pouch-image', product: other, variant: variant, width: 1000 -%}{%- endcapture -%}
+          <figure class="pd__stackpack is-out" data-stack="{{ variant.id }}">
+            <div class="pack pack--bare">{%- if src != blank -%}<img src="{{ src }}" alt="{{ other_label }} {{ variant.title | escape }} pouch" width="1000" height="1017" loading="lazy">{%- endif -%}</div>
+            <span class="pd__count num" aria-hidden="true"></span>
+            <figcaption>{{ other_label }} &middot; {{ variant.title }}</figcaption>
+          </figure>
+        {%- endfor -%}
+      {%- endif -%}
     </div>
   </div>
 
@@ -71,35 +80,35 @@
       <ol class="tiers__steps">
         <li data-tier="1"><i class="tiers__seg" aria-hidden="true"></i><b>Monthly</b><span>{{ monthly_pct }}% off</span></li>
         <li data-tier="2"><i class="tiers__seg" aria-hidden="true"></i><b>{{ settings.free_shipping_packs }}+ packs</b><span>Free Shipping</span></li>
-        <li data-tier="3"><i class="tiers__seg" aria-hidden="true"></i><b>Every 3 months</b><span>{{ quarterly_pct }}% off + Free Creatine</span></li>
+        <li data-tier="3"><i class="tiers__seg" aria-hidden="true"></i><b>Every 3 months</b><span>{{ quarterly_pct }}% off</span></li>
       </ol>
       <p class="tiers__msg" data-tiers-msg aria-live="polite"></p>
     </div>
 
     {%- form 'product', product, class: 'pd__opts', data-ff-form: '' -%}
-      <div class="opt"><div class="opt__label">{{ 'product.flavors' | t }} <span class="opt__aside" data-pd-perk></span></div>
+      <div class="opt"><div class="opt__label">{{ this_label }} &middot; {{ 'product.flavors' | t }} <span class="opt__aside" data-pd-perk></span></div>
         <div class="flavor-rows">
           {%- for variant in product.variants -%}
-            {%- assign vmedia = variant.featured_media | default: product.featured_media -%}
-            <div class="flavor-row" data-fq="{{ variant.id }}">
-              <div class="pack">{%- if vmedia -%}{{ vmedia | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}</div>
-              <div class="flavor-row__name"><b>{% unless variant.title contains 'Organic' %}Organic {% endunless %}{{ variant.title }}</b><span data-fq-sub="{{ variant.id }}"></span></div>
-              <div class="stepper stepper--sm">
-                <button type="button" data-step="-1" aria-label="Remove a {{ variant.title | escape }} pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
-                <label class="sr" for="fq-{{ variant.id }}">{{ variant.title }} packs</label>
-                <input id="fq-{{ variant.id }}" class="num" type="number" inputmode="numeric" min="0" max="24" value="{% if variant.id == first_variant.id %}2{% else %}0{% endif %}"{% unless variant.available %} disabled{% endunless %}>
-                <button type="button" data-step="1" aria-label="Add a {{ variant.title | escape }} pack"{% unless variant.available %} disabled{% endunless %}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
-              </div>
-            </div>
+            {%- if variant.id == first_variant.id -%}{%- assign q = 2 -%}{%- else -%}{%- assign q = 0 -%}{%- endif -%}
+            {%- render 'ff-flavor-row', product: product, variant: variant, qty: q, formula_label: '' -%}
           {%- endfor -%}
         </div></div>
+
+      {%- if other -%}
+        <div class="opt opt--other"><div class="opt__label">Add {{ other_label }} <span class="opt__aside opt__aside--quiet">{{ other_line }}</span></div>
+          <div class="flavor-rows">
+            {%- for variant in other.variants -%}
+              {%- render 'ff-flavor-row', product: other, variant: variant, qty: 0, formula_label: other_label -%}
+            {%- endfor -%}
+          </div></div>
+      {%- endif -%}
 
       <div class="opt"><div class="opt__label">{{ 'product.purchase' | t }}</div>
         <p class="plan-note" data-plan-note aria-live="polite"></p>
         <div class="seg seg--full" role="group" aria-label="Purchase type" data-pp>
-          {%- if monthly_id != '' -%}<button type="button" data-v="sub" aria-pressed="true"><span>Monthly</span><small class="num" data-plan-price="sub"></small></button>{%- endif -%}
-          {%- if quarterly_id != '' -%}<button type="button" data-v="q3" aria-pressed="false" class="pp-q3"><span>Every 3 months</span><small class="num"><span class="pp-sub">3 packs · </span><span data-plan-price="q3"></span></small></button>{%- endif -%}
-          {%- unless product.requires_selling_plan -%}<button type="button" data-v="otp" aria-pressed="{% if monthly_id == '' %}true{% else %}false{% endif %}"><span>One-time</span><small class="num" data-plan-price="otp"></small></button>{%- endunless -%}
+          {%- if plan_parts[0] != blank -%}<button type="button" data-v="sub" aria-pressed="true"><span>Monthly</span><small class="num" data-plan-price="sub"></small></button>{%- endif -%}
+          {%- if plan_parts[1] != blank -%}<button type="button" data-v="q3" aria-pressed="false" class="pp-q3"><span>Every 3 months</span><small class="num" data-plan-price="q3"></small></button>{%- endif -%}
+          {%- unless product.requires_selling_plan -%}<button type="button" data-v="otp" aria-pressed="{% if plan_parts[0] == blank %}true{% else %}false{% endif %}"><span>One-time</span><small class="num" data-plan-price="otp"></small></button>{%- endunless -%}
         </div></div>
 
       <div class="sheet-wrap pd-receipt">
@@ -120,25 +129,27 @@
   </div>
 </section>
 
+{%- capture other_plans -%}{%- if other -%}{%- render 'ff-plan-ids', product: other -%}{%- endif -%}{%- endcapture -%}
+{%- assign other_parts = other_plans | split: '|' -%}
 <script type="application/json" data-product-json>
 {
-  "title": {{ product.title | json }},
   "formula": {{ formula | json }},
-  "monthly": {{ monthly_id | json }},
-  "quarterly": {{ quarterly_id | json }},
-  "monthlyPct": {{ monthly_pct | json }},
-  "quarterlyPct": {{ quarterly_pct | json }},
+  "monthlyPct": {{ monthly_pct | default: 0 | json }},
+  "quarterlyPct": {{ quarterly_pct | default: 0 | json }},
   "volumeTiers": {{ settings.volume_tiers | json }},
   "variants": [
     {%- for variant in product.variants -%}
-    {
-      "id": {{ variant.id }},
-      "title": {{ variant.title | json }},
-      "available": {{ variant.available | json }},
-      "price": {{ variant.price }},
-      "plans": { {%- for a in variant.selling_plan_allocations -%}{{ a.selling_plan.id | append: '' | json }}: {{ a.price }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%} }
-    }{%- unless forloop.last -%},{%- endunless -%}
+    { "id": {{ variant.id }}, "formula": {{ this_label | json }}, "title": {{ variant.title | json }}, "available": {{ variant.available | json }}, "price": {{ variant.price }},
+      "monthly": {{ plan_parts[0] | json }}, "quarterly": {{ plan_parts[1] | json }},
+      "plans": { {%- for a in variant.selling_plan_allocations -%}{{ a.selling_plan.id | append: '' | json }}: {{ a.price }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%} } }{%- unless forloop.last -%},{%- endunless -%}
     {%- endfor -%}
+    {%- if other -%}
+      {%- for variant in other.variants -%}
+    ,{ "id": {{ variant.id }}, "formula": {{ other_label | json }}, "title": {{ variant.title | json }}, "available": {{ variant.available | json }}, "price": {{ variant.price }},
+      "monthly": {{ other_parts[0] | json }}, "quarterly": {{ other_parts[1] | json }},
+      "plans": { {%- for a in variant.selling_plan_allocations -%}{{ a.selling_plan.id | append: '' | json }}: {{ a.price }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%} } }
+      {%- endfor -%}
+    {%- endif -%}
   ]
 }
 </script>
@@ -148,12 +159,13 @@
 {
   "name": "Product buy box",
   "settings": [
-    { "type": "select", "id": "formula", "label": "Color scheme", "default": "auto", "options": [ { "value": "auto", "label": "From product handle" }, { "value": "everyday", "label": "Everyday (orange)" }, { "value": "energy", "label": "Energy (sky)" } ] },
-    { "type": "text", "id": "heading", "label": "Heading (blank uses product title)" },
-    { "type": "text", "id": "line", "label": "One-line description" },
+    { "type": "select", "id": "formula", "label": "Formula", "default": "auto", "options": [ { "value": "auto", "label": "From product handle" }, { "value": "everyday", "label": "Everyday (orange)" }, { "value": "energy", "label": "Energy (sky)" } ] },
+    { "type": "text", "id": "other_handle", "label": "Other formula product handle (blank: automatic)", "info": "Shown underneath this formula so both can go in one order." },
+    { "type": "text", "id": "heading", "label": "Heading (blank uses the short product title)" },
+    { "type": "text", "id": "line", "label": "One-line description (blank uses the formula default)" },
     { "type": "text", "id": "badge", "label": "Badge (blank uses the formula default)" },
-    { "type": "richtext", "id": "reviews_line", "label": "Reviews line or app block text" },
-    { "type": "text", "id": "caution", "label": "Caution", "default": "As printed on the pack: consult your healthcare professional before use if you are pregnant, nursing, taking medication or have a medical condition." }
+    { "type": "richtext", "id": "reviews_line", "label": "Reviews line" },
+    { "type": "text", "id": "caution", "label": "Caution", "default": "As printed on the pack: consult your healthcare professional before use if you are pregnant, nursing, taking medication or have a medical condition. Energy contains caffeine." }
   ],
   "blocks": [ { "type": "@app" } ]
 }

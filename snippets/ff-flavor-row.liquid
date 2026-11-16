@@ -1,0 +1,16 @@
+{%- comment -%} One stepper row for a variant. Params: product, variant, qty, formula_label {%- endcomment -%}
+{%- capture thumb -%}{%- render 'ff-pouch-image', product: product, variant: variant, width: 200 -%}{%- endcapture -%}
+<div class="flavor-row" data-fq="{{ variant.id }}">
+  <div class="pack">{%- if thumb != blank -%}<img src="{{ thumb }}" alt="" loading="lazy" width="200" height="203">{%- endif -%}</div>
+  <div class="flavor-row__name">
+    {%- if formula_label != blank -%}<small class="flavor-row__formula flavor-row__formula--{{ formula_label | handle }}">{{ formula_label }}</small>{%- endif -%}
+    <b>{% unless variant.title contains 'Organic' %}Organic {% endunless %}{{ variant.title }}</b>
+    <span data-fq-sub="{{ variant.id }}"></span>
+  </div>
+  <div class="stepper stepper--sm">
+    <button type="button" data-step="-1" aria-label="Remove a {{ formula_label }} {{ variant.title | escape }} pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+    <label class="sr" for="fq-{{ variant.id }}">{{ formula_label }} {{ variant.title }} packs</label>
+    <input id="fq-{{ variant.id }}" class="num" type="number" inputmode="numeric" min="0" max="24" value="{{ qty }}"{% unless variant.available %} disabled{% endunless %}>
+    <button type="button" data-step="1" aria-label="Add a {{ formula_label }} {{ variant.title | escape }} pack"{% unless variant.available %} disabled{% endunless %}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+  </div>
+</div>
