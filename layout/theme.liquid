@@ -25,11 +25,30 @@
   <div class="toast" role="status" aria-live="polite" data-toast></div>
   <script>
     window.FF = {
-      routes: { cartAdd: {{ routes.cart_add_url | append: '.js' | json }}, cart: {{ routes.cart_url | append: '.js' | json }}, cartChange: {{ routes.cart_change_url | append: '.js' | json }}, checkout: '/checkout' },
+      routes: { cartAdd: {{ routes.cart_add_url | append: '.js' | json }}, cart: {{ routes.cart_url | append: '.js' | json }}, cartChange: {{ routes.cart_change_url | append: '.js' | json }}, cartUpdate: {{ routes.cart_update_url | append: '.js' | json }}, checkout: '/checkout' },
       money: {{ shop.money_format | json }},
       freeShipAt: {{ settings.free_shipping_packs | default: 2 }},
       creatineAt: {{ settings.creatine_packs | default: 3 }},
-      text: { empty: {{ 'cart.empty' | t | json }}, perk1: {{ 'cart.perk_ship' | t | json }}, perk2: {{ 'cart.perk_creatine' | t | json }}, done: {{ 'cart.all_unlocked' | t | json }} }
+      {%- liquid
+        assign cp = settings.creatine_product
+        if cp == blank
+          assign cp = all_products['creatine']
+        endif
+        assign cm = ''
+        assign cq = ''
+        for g in cp.selling_plan_groups
+          for p in g.selling_plans
+            assign pn = p.name | downcase
+            if pn contains 'quarter' or pn contains '90' or pn contains '3 month'
+              assign cq = p.id
+            else
+              assign cm = p.id
+            endif
+          endfor
+        endfor
+      -%}
+      creatine: {% if settings.creatine_auto and cp.id and cp.first_available_variant %}{ id: {{ cp.first_available_variant.id }}, monthly: {{ cm | json }}, quarterly: {{ cq | json }} }{% else %}null{% endif %},
+      text: { empty: {{ 'cart.empty' | t | json }}, perk1: {{ 'cart.perk_ship' | t | json }}, perk2: {{ 'cart.perk_creatine' | t | json }}, done: {{ 'cart.all_unlocked' | t | json }}, creatine: {{ 'cart.creatine_line' | t | json }} }
     };
   </script>
   <script src="{{ 'fortified-theme.js' | asset_url }}" defer></script>

@@ -22,6 +22,13 @@ Or with the Shopify CLI: `shopify theme push --unpublished --path theme`.
 - Every 3 months is only a delivery frequency: any number of packs, no minimum.
 - **Add to box** posts all flavors in one request to `/cart/add.js` with the selling plan id, then opens the cart drawer, which reads and updates the real cart (`/cart.js`, `/cart/change.js`). Checkout goes to Shopify checkout.
 
+## Free Creatine For Life
+
+- When the cart holds 3 or more subscription packs (Monthly or Every 3 months, Everyday and Energy combined), the theme adds 1 creatine (`/products/creatine`, $0) automatically. Below 3 it removes it. One-time packs do not count.
+- It is added on the creatine product's matching Loop plan: "Monthly Creatine" when most packs are Monthly, "Quarterly Creatine" when most are Every 3 months.
+- This runs on every page load, after Add to box, and after every quantity change in the cart drawer or cart page. Settings: Theme settings > Offers (pack count, on/off, creatine product).
+- It is enforced by the theme only. Anyone can still add the $0 creatine with a direct cart link, so add a Shopify cart and checkout validation rule if that matters.
+
 ## Settings (Theme settings > Offers)
 
 - Free Shipping and Free Creatine For Life pack counts drive the progress messages only. Set real shipping rates and the creatine offer in Shopify and Loop.

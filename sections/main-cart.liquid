@@ -1,4 +1,4 @@
-<section class="sec" style="padding-top:clamp(48px,6vw,96px)">
+<section class="sec" data-cart-page style="padding-top:clamp(48px,6vw,96px)">
   <div class="wrap" style="max-width:820px">
     <h1 class="display d2">{{ 'cart.title' | t }}</h1>
     {%- if cart.item_count == 0 -%}
@@ -6,7 +6,21 @@
       <p style="margin-top:24px"><a class="btn btn--money" href="/products/everyday">Shop Everyday</a></p>
     {%- else -%}
       <form action="{{ routes.cart_url }}" method="post" novalidate>
+        {%- liquid
+          assign cp = settings.creatine_product
+          if cp == blank
+            assign cp = all_products['creatine']
+          endif
+        -%}
         {%- for item in cart.items -%}
+          {%- if cp.id and item.product_id == cp.id and settings.creatine_auto -%}
+          <div class="cart-line cart-line--gift">
+            <div class="pack">{%- if item.image -%}{{ item.image | image_url: width: 160 | image_tag: alt: '' }}{%- endif -%}</div>
+            <div><b>Free Creatine For Life</b><small>{{ 'cart.creatine_line' | t }}</small><input type="hidden" name="updates[]" value="{{ item.quantity }}"></div>
+            <div class="cart-line__price">FREE</div>
+          </div>
+          {%- continue -%}
+          {%- endif -%}
           <div class="cart-line">
             <div class="pack">{%- if item.image -%}{{ item.image | image_url: width: 160 | image_tag: alt: item.title }}{%- endif -%}</div>
             <div><b>{{ item.product.title | split: ' by ' | first }}</b><small>{% unless item.variant.title contains 'Organic' %}Organic {% endunless %}{{ item.variant.title }}{% if item.selling_plan_allocation %} · {{ item.selling_plan_allocation.selling_plan.name }}{% endif %}</small><br>

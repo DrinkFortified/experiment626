@@ -1586,3 +1586,8 @@ section[aria-labelledby="faq-h"] { background: #f3f6f8; } section[aria-labelledb
 /* ---------- v10: homepage image fixes ---------- */
 .backpack img { height: auto; box-shadow: none; border-radius: 0; filter: drop-shadow(0 22px 24px rgba(11, 28, 41, .22)); }
 .set__packs--hero .set__pack img, .set__stick { height: auto; }
+
+/* ---------- v11: free creatine cart line ---------- */
+.cart-line--gift { background: rgba(0, 171, 163, .07); border-radius: 14px; padding-left: 10px; padding-right: 10px; }
+.cart-line--gift b { color: #0b1c29; }
+.cart-line--gift .cart-line__price { color: #00857f; font-weight: 800; }
