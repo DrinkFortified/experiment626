@@ -133,3 +133,12 @@ Stickers may only carry claims printed on the pack.
 - **Color:** hero wash in blush and butter, blush letter band, sky FAQ band, aubergine ticker and footer, berry-to-aubergine closing band. Pill buttons and rounded tiles.
 - **Purchase:** a third plan, "Every 3 months", sets the box to at least 3 packs, ships every 90 days, 20% off with Free Shipping and Free Creatine For Life; added to the cart as Subscribe at 90 days.
 - **Contrast:** fixed after the impeccable detector; the two remaining flags are large display text above 3:1.
+
+## v7: no beige (2026-11-16, current)
+
+Owner: the oat/beige box color (#f3ead8, and the beige hairlines #e4dac6) looks cheap and is not a brand color. Removed everywhere; a scan of every page now finds no beige or tan surface.
+
+- Boxes and controls are white, with a pearl tint `#f6f1f8` and fine edges `#ecdfea` (a faint pouch pink).
+- Selected toggles use a berry-to-plum gradient with a soft colored shadow; the order summary is white with a berry top rule.
+- Thumbnails sit on white-to-blush (watermelon) or white-to-butter (orange); the Free Creatine tile is lemon-lime.
+- Do not reintroduce oat, sand, tan or kraft tones.
