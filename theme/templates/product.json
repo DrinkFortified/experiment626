@@ -1,0 +1,169 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {}
+    },
+    "label": {
+      "type": "ff-label",
+      "blocks": {
+        "i0": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Pink Himalayan Salt",
+            "source": "as Ancient Ocean",
+            "added": false
+          }
+        },
+        "i1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Magnesium Malate",
+            "source": "magnesium",
+            "added": false
+          }
+        },
+        "i2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Coconut Water Powder",
+            "source": "as CocOganic Plus",
+            "added": false
+          }
+        },
+        "i3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Organic Lemon Juice Powder",
+            "source": "flavor",
+            "added": false
+          }
+        },
+        "i4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Potassium Chloride",
+            "source": "potassium",
+            "added": false
+          }
+        },
+        "i5": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Bamboo Fiber",
+            "source": "fiber",
+            "added": false
+          }
+        },
+        "i6": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Organic Flavors",
+            "source": "flavor",
+            "added": false
+          }
+        },
+        "i7": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Malic Acid",
+            "source": "tartness",
+            "added": false
+          }
+        },
+        "i8": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Reb M, fermented",
+            "source": "as OnoSweet",
+            "added": false
+          }
+        },
+        "i9": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Monk Fruit Extract",
+            "source": "sweetener",
+            "added": false
+          }
+        },
+        "i10": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Energy adds Natural Caffeine",
+            "source": "coffee bean, 150mg",
+            "added": true
+          }
+        },
+        "i11": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Everyday adds Vitamin D3 + K2",
+            "source": "D3 25mcg, K2 as MK-7",
+            "added": true
+          }
+        }
+      },
+      "block_order": [
+        "i0",
+        "i1",
+        "i2",
+        "i3",
+        "i4",
+        "i5",
+        "i6",
+        "i7",
+        "i8",
+        "i9",
+        "i10",
+        "i11"
+      ],
+      "settings": {}
+    },
+    "faq": {
+      "type": "ff-faq",
+      "blocks": {
+        "q0": {
+          "type": "qa",
+          "settings": {
+            "q": "What is the difference between Energy and Everyday?",
+            "a": "<p>Both share the same electrolyte base and 1,200mg sodium. Energy adds 150mg natural caffeine from coffee bean. Everyday is caffeine-free and adds Vitamin D3 and Vitamin K2.</p>"
+          }
+        },
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "What is it sweetened with?",
+            "a": "<p>Monk fruit extract and Reb M (as OnoSweet). 0g sugar per stick pack.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "How does Every 3 months work?",
+            "a": "<p>We ship a 90 day supply in one box every 3 months at 20% off. Skip, swap organic flavors or cancel in your account anytime.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "How do I skip or cancel?",
+            "a": "<p>Log in to your account and open your subscription. Skip, swap, change quantity or cancel before your next billing date.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q0",
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "label",
+    "faq"
+  ]
+}

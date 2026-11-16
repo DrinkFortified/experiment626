@@ -1,0 +1,21 @@
+<section class="sec" style="padding-top:clamp(48px,6vw,96px)">
+  <div class="wrap">
+    <h1 class="display d2" style="margin-bottom:32px">{{ collection.title | default: 'Shop' }}</h1>
+    {%- paginate collection.products by 12 -%}
+      <div class="p-formulas">
+        {%- for product in collection.products -%}
+          <a class="p-formula" href="{{ product.url }}">
+            <figure class="p-formula__img">{%- if product.featured_media -%}{{ product.featured_media | image_url: width: 900 | image_tag: loading: 'lazy' }}{%- endif -%}</figure>
+            <div class="p-formula__text"><div><h3 class="display d3">{{ product.title | split: ' by ' | first }}</h3><p>{{ product.price | money }}</p></div><span class="p-formula__go">Shop</span></div>
+          </a>
+        {%- else -%}
+          <p class="lede">No products yet.</p>
+        {%- endfor -%}
+      </div>
+      {%- if paginate.pages > 1 -%}<div style="margin-top:32px">{{ paginate | default_pagination }}</div>{%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+{% schema %}
+{ "name": "Collection", "settings": [] }
+{% endschema %}

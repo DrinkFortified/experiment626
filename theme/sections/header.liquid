@@ -1,0 +1,47 @@
+{%- liquid
+  assign menu = linklists[section.settings.menu]
+-%}
+<header class="site-top">
+  {%- if section.settings.announcement != blank -%}
+    <div class="bar">{{ section.settings.announcement }}</div>
+  {%- endif -%}
+  <div class="site-head">
+    <div class="wrap">
+      <button class="menu-btn" type="button" aria-label="{{ 'general.menu' | t }}" aria-expanded="false" data-menu><span></span><span></span><span></span></button>
+      <a class="logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">FORTIFIED<i>.</i></a>
+      <nav class="nav" aria-label="Main">
+        {%- if menu.links.size > 0 -%}
+          {%- for link in menu.links -%}
+            <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+          {%- endfor -%}
+        {%- else -%}
+          <a href="/products/everyday">Everyday</a><a href="/products/energy">Energy</a><a href="/pages/ingredients">Ingredients</a><a href="/pages/about">About</a><a href="/pages/help">Help</a>
+        {%- endif -%}
+      </nav>
+      <div class="head-actions">
+        <a class="cart-btn" href="{{ routes.cart_url }}" data-open-cart aria-label="{{ 'cart.title' | t }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <span class="cart-label">{{ 'general.box' | t }}</span><span class="cart-count num" data-count>{{ cart.item_count }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+<nav class="mnav" aria-label="Mobile">
+  {%- if menu.links.size > 0 -%}
+    {%- for link in menu.links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
+  {%- else -%}
+    <a href="/products/everyday">Everyday</a><a href="/products/energy">Energy</a><a href="/pages/ingredients">Ingredients</a><a href="/pages/about">About</a><a href="/pages/help">Help</a>
+  {%- endif -%}
+</nav>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "ff-header",
+  "settings": [
+    { "type": "text", "id": "announcement", "label": "Announcement bar", "default": "Subscribe every 3 months and save 20%" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" }
+  ]
+}
+{% endschema %}

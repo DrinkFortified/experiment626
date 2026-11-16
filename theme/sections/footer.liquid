@@ -1,0 +1,46 @@
+{%- assign menu = linklists[section.settings.menu] -%}
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div>
+        <a class="logo" href="{{ routes.root_url }}">FORTIFIED<i>.</i></a>
+        <p style="max-width:36ch;margin:14px 0 0">{{ section.settings.tagline }}</p>
+        {%- form 'customer', class: 'news' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label class="sr" for="news-email">Email</label>
+          <input id="news-email" type="email" name="contact[email]" autocomplete="email" placeholder="Email for drops and restocks" required>
+          <button class="btn btn--money" type="submit">Join</button>
+          {%- if form.posted_successfully? -%}<p role="status" style="margin:8px 0 0">You&rsquo;re on the list.</p>{%- endif -%}
+        {%- endform -%}
+      </div>
+      <div><h4>Shop</h4><ul>
+        {%- if menu.links.size > 0 -%}
+          {%- for link in menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+        {%- else -%}
+          <li><a href="/products/everyday">Everyday</a></li><li><a href="/products/energy">Energy</a></li><li><a href="/pages/ingredients">Ingredients</a></li>
+        {%- endif -%}
+      </ul></div>
+      <div><h4>Help</h4><ul>
+        <li><a href="/pages/help">FAQ</a></li>
+        <li><a href="{{ routes.account_url }}">My Subscriptions</a></li>
+        <li><a href="mailto:{{ settings.support_email }}">{{ settings.support_email }}</a></li>
+        <li>{{ settings.support_phone }}</li>
+      </ul></div>
+      <div><h4>Policies</h4><ul>
+        {%- for policy in shop.policies -%}<li><a href="{{ policy.url }}">{{ policy.title }}</a></li>{%- endfor -%}
+      </ul></div>
+    </div>
+    <div class="foot__legal"><span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</span><span>{{ section.settings.legal }}</span></div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Shop menu", "default": "footer" },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Clean electrolytes for people who read the label. Hydration. No Mumbo Jumbo." },
+    { "type": "text", "id": "legal", "label": "Legal line", "default": "Nutrition Facts and ingredients are shown as printed on each pouch." }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,26 @@
+{
+  "general": {
+    "page": "Page {{ page }}",
+    "skip": "Skip to content",
+    "menu": "Menu",
+    "close": "Close",
+    "box": "Box"
+  },
+  "cart": {
+    "title": "Your box",
+    "empty": "Your box is empty. Pick a formula and an organic flavor.",
+    "perk_ship": "Add 1 more pack for Free Shipping.",
+    "perk_creatine": "Free Shipping unlocked. Add 1 more for Free Creatine For Life.",
+    "all_unlocked": "Free Shipping and Free Creatine For Life unlocked.",
+    "subtotal": "Subtotal",
+    "checkout": "Checkout",
+    "taxes": "Taxes and shipping calculated at checkout.",
+    "remove": "Remove"
+  },
+  "product": {
+    "add": "Add to box",
+    "sold_out": "Sold out",
+    "flavors": "Organic flavors",
+    "purchase": "Purchase"
+  }
+}

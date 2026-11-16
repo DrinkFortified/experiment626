@@ -1487,3 +1487,69 @@ section[aria-labelledby="label-h"] .item__val, section[aria-labelledby="label-h"
 .cart-line .pack[style] { background: linear-gradient(160deg, var(--pop-lime), #c9e65a) !important; color: var(--ink) !important; }
 .freq-row { flex-wrap: wrap; } .freq-row > span { white-space: nowrap; }
 .drawer__top, .drawer__foot { border-color: var(--edge); }
+/* ======================================================================
+   v8 (2026-11-16): live store colors on white. Layout and UX unchanged.
+   Measured on drinkfortified.com: white, navy #0b1c29, teal #00aba3,
+   orange #f76515, sky #7eb8c8, gray #f3f3f3.
+   ====================================================================== */
+:root {
+  --paper: #ffffff; --paper-2: #f3f6f8; --card: #ffffff; --pearl: #f3f6f8; --edge: #dde8ed; --rule: #e3ebef;
+  --ink: #0b1c29; --ink-2: #4a5763;
+  --teal: #00aba3; --teal-dark: #007f79; --orange: #f76515; --orange-ink: #c2490a; --sky: #7eb8c8;
+  --sky-wash: #e8f3f7; --teal-wash: #e3f6f4; --orange-wash: #fff1e7;
+  --pop-berry: #007f79; --pop-magenta: #f76515; --pop-sun: #7eb8c8; --pop-tangerine: #f76515;
+  --pop-plum: #163349; --pop-aubergine: #0b1c29; --pop-lime: #00aba3; --pop-blush: #e8f3f7;
+  --accent: #007f79; --accent-ink: #007f79;
+}
+body, .p-hero, .site-head, .drawer, .checkout, .checkout__head { background-color: #fff; }
+.site-head { background: rgba(255,255,255,.95); }
+.display em { color: var(--orange-ink); }
+.bar { background: var(--ink); color: #fff; } .bar b { color: var(--teal); }
+.logo i, .foot .logo i { color: var(--teal); }
+.cart-count { background: var(--teal); color: var(--ink); }
+.btn--money { --bg: var(--teal); --fg: var(--ink); } .btn--money:hover { --bg: #00978f; }
+@media (hover: hover) and (pointer: fine) { .btn:hover { box-shadow: 0 10px 20px -10px rgba(0,171,163,.6); } }
+.p-hero { background: radial-gradient(60% 55% at 90% 0%, var(--sky-wash) 0%, transparent 70%), radial-gradient(55% 45% at 0% 35%, var(--orange-wash) 0%, transparent 70%), #fff; }
+.p-hero__set { background: linear-gradient(120deg, #cfe7ef 0%, #eaf5f8 45%, #ffe2cc 100%); }
+.sticker--a { background: var(--teal); color: var(--ink); } .sticker--b { background: var(--orange); color: var(--ink); }
+.ticker { background: var(--ink); border-block-color: var(--teal); } .ticker__track span { color: #fff; } .ticker__track span:nth-child(4n+2) { color: var(--teal); } .ticker__track span:nth-child(4n+3) { color: #ff9a5c; }
+section[aria-labelledby="letter-h"] { background: linear-gradient(180deg, #fff 0%, var(--sky-wash) 100%); }
+.letter__body p:first-child::first-letter { color: var(--orange); } .letter__sign { color: var(--teal-dark); }
+section[aria-labelledby="label-h"] { background: var(--teal-wash); }
+section[aria-labelledby="label-h"] .display em { color: var(--orange-ink); }
+section[aria-labelledby="label-h"] .p-never li span:last-child { color: var(--orange-ink); }
+.backpack .p-handnote { background: var(--teal); color: var(--ink); }
+.p-formula:nth-child(1) { background: linear-gradient(160deg, #ffb27f, var(--orange)); color: var(--ink); }
+.p-formula:nth-child(1) .p-formula__text p { color: var(--ink); }
+.p-formula:nth-child(2) { background: linear-gradient(160deg, #1d4a66, var(--ink)); color: #fff; }
+.p-formula__img { background: #fff; }
+section[aria-labelledby="pr-h"] { background: var(--orange); } section[aria-labelledby="pr-h"] .display em { color: #fff; } section[aria-labelledby="pr-h"] .display { color: var(--ink); }
+.p-tiers > div:nth-child(1) { background: var(--sky-wash); } .p-tiers > div:nth-child(2) { background: var(--teal-wash); } .p-tiers > div.is-best { background: var(--ink); }
+.p-tiers .is-best .p-tiers__pct { color: var(--teal); }
+section[aria-labelledby="proof-h"] { background: var(--sky-wash); }
+.on-dark { background: var(--ink); } .on-dark .display em { color: var(--teal); } .ui__toast, .freq-q3 { background: var(--teal-wash); }
+section[aria-labelledby="faq-h"] { background: #f3f6f8; } section[aria-labelledby="faq-h"] .faq { border-top-color: var(--ink); }
+.sec--paper2 { background: #f3f6f8; }
+.p-close { background-color: var(--ink); background-image: linear-gradient(120deg, var(--ink) 0%, #123a52 60%, #00635e 100%); } .p-close .display em { color: var(--teal); } .p-close .lede { color: #dbe9ee; } .p-close .btn--money { --bg: var(--teal); --fg: var(--ink); }
+.foot { background: var(--ink); } .news .btn--money { --bg: var(--teal); --fg: var(--ink); }
+.perf { background: linear-gradient(140deg, var(--ink) 0%, #123a52 60%, #00635e 120%); }
+.contact__card { background: #fff; border-color: var(--ink); } .contact__card:nth-child(2) { background: var(--sky-wash); } .contact__card:nth-child(3) { background: var(--teal-wash); }
+.split .field--energy, .field--energy { background: linear-gradient(150deg, #cfe7ef, #9fcbd8); } .split .field--everyday, .field--everyday { background: linear-gradient(150deg, #ffe2cc, #ffb27f); }
+.pd__stage, .field--everyday.pd__stage { background: linear-gradient(160deg, #fff1e7 0%, #ffd2b3 55%, #ffb27f 100%); }
+.field--energy.pd__stage { background: linear-gradient(160deg, #eaf5f8 0%, #cfe7ef 55%, #9fcbd8 100%); }
+.pd__count { background: var(--ink); color: #fff; }
+.tiers__steps li.is-on .tiers__seg, .progress__fill { background: linear-gradient(90deg, var(--teal), var(--orange)); } .tiers__steps li.is-next .tiers__seg { background: repeating-linear-gradient(90deg, var(--teal) 0 3px, transparent 3px 7px); }
+.seg button[aria-pressed="true"], [data-pp] button[aria-pressed="true"] { background: var(--ink); color: #fff; box-shadow: 0 6px 14px -6px rgba(11,28,41,.5); }
+.pp-q3::after { background: var(--orange); color: var(--ink); }
+.seg, [data-pp], .stepper:not(.stepper--sm) { box-shadow: inset 0 1px 2px rgba(11,28,41,.05), 0 8px 20px -14px rgba(0,171,163,.4); }
+.flavor-row .pack, .cart-line .pack, .slotrow .pack, .ui__row .pack { background: linear-gradient(160deg, #fff, var(--sky-wash)); } .flavor-row[data-fq="orange"] .pack { background: linear-gradient(160deg, #fff, var(--orange-wash)); }
+.cart-line .pack[style] { background: linear-gradient(160deg, var(--teal), #4fd0c8) !important; }
+.pd-receipt .sheet { border-top-color: var(--teal); box-shadow: 0 18px 40px -26px rgba(11,28,41,.35); }
+.stepper.stepper--sm button { box-shadow: inset 0 0 0 1.5px var(--ink); color: var(--ink); } .stepper.stepper--sm button:not(:disabled):hover { background: var(--ink); color: #fff; }
+.opt__aside, .sizes__perk, .item--save .item__name, .item--save .item__val, .total-row--save, .pd__save, .item--add .item__name::before { color: var(--teal-dark); }
+.pd-proof .stars { color: var(--orange); }
+.sizes button[aria-pressed="true"] { border-color: var(--ink); box-shadow: 0 0 0 3px var(--teal-wash); }
+.field--energy .tag, .field--everyday .tag { color: var(--ink); background: rgba(255,255,255,.7); }
+::selection { background: var(--teal); color: var(--ink); }
+:root { --chartreuse: #00aba3; --lime: #00aba3; --sage: #e3f6f4; --butter: #fff1e7; --peach: #e8f3f7; --tomato: #f76515; }
+.on-dark .btn--paper, .closing-card .btn { --bg: var(--teal); --fg: var(--ink); }
