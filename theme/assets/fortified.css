@@ -1591,3 +1591,9 @@ section[aria-labelledby="faq-h"] { background: #f3f6f8; } section[aria-labelledb
 .cart-line--gift { background: rgba(0, 171, 163, .07); border-radius: 14px; padding-left: 10px; padding-right: 10px; }
 .cart-line--gift b { color: #0b1c29; }
 .cart-line--gift .cart-line__price { color: #00857f; font-weight: 800; }
+.upsell { margin-top: 14px; padding: 14px; display: grid; gap: 10px; border: 1.5px dashed rgba(0, 171, 163, .55); border-radius: 14px; background: #fff; }
+.upsell b { display: block; font-size: 15px; color: #0b1c29; }
+.upsell small { display: block; margin-top: 2px; font-size: 13px; color: rgba(11, 28, 41, .7); }
+.upsell__btn { justify-self: start; min-height: 40px; padding: 0 16px; }
+.upsell__btn s { opacity: .55; margin-right: 4px; font-weight: 500; }
+.linkish { background: none; border: 0; padding: 0; margin-top: 4px; font: inherit; font-size: 12.5px; text-decoration: underline; color: rgba(11, 28, 41, .7); cursor: pointer; }

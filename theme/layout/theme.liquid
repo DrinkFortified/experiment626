@@ -47,6 +47,23 @@
           endfor
         endfor
       -%}
+      {%- liquid
+        assign up = settings.creatine_upsell_product
+        if up == blank
+          assign up = all_products['creatine-v2']
+        endif
+        assign up_plan = ''
+        for g in up.selling_plan_groups
+          for p in g.selling_plans
+            assign pn = p.name | downcase
+            if pn contains '90' or pn contains 'quarter' or pn contains '3 month'
+              assign up_plan = p.id
+            endif
+          endfor
+        endfor
+        assign up_pct = settings.creatine_upsell_pct | default: 50
+      -%}
+      upsell: {% if settings.creatine_upsell and up.id and up.first_available_variant and up_plan != '' %}{ id: {{ up.first_available_variant.id }}, plan: {{ up_plan | json }}, price: {{ up.first_available_variant.price }}, pct: {{ up_pct }} }{% else %}null{% endif %},
       creatine: {% if settings.creatine_auto and cp.id and cp.first_available_variant %}{ id: {{ cp.first_available_variant.id }}, monthly: {{ cm | json }}, quarterly: {{ cq | json }} }{% else %}null{% endif %},
       text: { empty: {{ 'cart.empty' | t | json }}, perk1: {{ 'cart.perk_ship' | t | json }}, perk2: {{ 'cart.perk_creatine' | t | json }}, done: {{ 'cart.all_unlocked' | t | json }}, creatine: {{ 'cart.creatine_line' | t | json }} }
     };

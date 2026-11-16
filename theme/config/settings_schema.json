@@ -20,9 +20,13 @@
     "settings": [
       { "type": "paragraph", "content": "These numbers drive the progress messages in the cart and on product pages. They are messages only: set the real discounts and shipping rates in Loop and Shopify." },
       { "type": "range", "id": "free_shipping_packs", "label": "Free Shipping from (packs)", "min": 1, "max": 6, "step": 1, "default": 2 },
-      { "type": "range", "id": "creatine_packs", "label": "Free Creatine For Life from (subscription packs)", "min": 1, "max": 6, "step": 1, "default": 3 },
-      { "type": "checkbox", "id": "creatine_auto", "label": "Add Free Creatine to the cart automatically", "info": "Adds 1 creatine when the cart has that many subscription packs and removes it when it drops below.", "default": true },
+      { "type": "range", "id": "creatine_packs", "label": "Free Creatine For Life of Subscription from (subscription packs)", "min": 1, "max": 6, "step": 1, "default": 3 },
+      { "type": "checkbox", "id": "creatine_auto", "label": "Add Free Creatine For Life of Subscription to the cart automatically", "info": "Adds 1 creatine when the cart has that many subscription packs and removes it when it drops below.", "default": true },
       { "type": "product", "id": "creatine_product", "label": "Free creatine product", "info": "Blank uses the product with handle creatine. It should cost $0 and have Loop plans for monthly and quarterly delivery." },
+      { "type": "header", "content": "2nd creatine bag (Every 3 months)" },
+      { "type": "checkbox", "id": "creatine_upsell", "label": "Offer a 2nd creatine bag in the cart", "info": "Shown when the cart has Free Creatine For Life of Subscription on Every 3 months. Turn on only after the matching discount exists in Shopify or Loop, so checkout charges what the cart shows.", "default": false },
+      { "type": "product", "id": "creatine_upsell_product", "label": "2nd bag product", "info": "Blank uses the product with handle creatine-v2. It needs a 90 day Loop plan." },
+      { "type": "range", "id": "creatine_upsell_pct", "label": "2nd bag discount shown", "min": 5, "max": 90, "step": 5, "unit": "%", "default": 50 },
       { "type": "checkbox", "id": "volume_tiers", "label": "Show 10 / 15 / 20% volume tiers on Monthly", "info": "Only turn on after a matching quantity discount exists in Loop or Shopify. Your current Loop plans are Every 30 Days 10% and Every 90 Days 20%.", "default": false }
     ]
   }
