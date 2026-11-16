@@ -1,0 +1,27 @@
+{%- comment -%}
+  Outputs "monthlyId|quarterlyId|monthlyPct|quarterlyPct" for a product's Loop selling plans.
+  The plan whose name mentions 90, 3 month or quarter is "Every 3 months"; the other is "Monthly".
+{%- endcomment -%}
+{%- liquid
+  assign m_id = ''
+  assign q_id = ''
+  assign m_pct = 0
+  assign q_pct = 0
+  for group in product.selling_plan_groups
+    for plan in group.selling_plans
+      assign pn = plan.name | downcase
+      assign pct = 0
+      if plan.price_adjustments.size > 0 and plan.price_adjustments.first.value_type == 'percentage'
+        assign pct = plan.price_adjustments.first.value
+      endif
+      if pn contains '90' or pn contains '3 month' or pn contains 'quarter'
+        assign q_id = plan.id
+        assign q_pct = pct
+      elsif m_id == ''
+        assign m_id = plan.id
+        assign m_pct = pct
+      endif
+    endfor
+  endfor
+  echo m_id | append: '|' | append: q_id | append: '|' | append: m_pct | append: '|' | append: q_pct
+-%}

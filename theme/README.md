@@ -15,9 +15,11 @@ Or with the Shopify CLI: `shopify theme push --unpublished --path theme`.
 ## How the buy box works
 
 - Each product's variants (the organic flavors) get a minus and plus stepper.
+- The other formula is listed underneath (Everyday shows Energy, Energy shows Everyday) so both can go in one order. Each item is added with its own product's selling plan. The other product's handle is detected automatically and can be set in the section settings.
+- Images: each flavor uses the transparent pouch render whose file name contains "Front" and the flavor (ORG or WTM). If none is found it falls back to the variant image.
 - The purchase toggle reads the product's Loop selling plans. The plan whose name contains 90, "3 month" or "quarter" becomes **Every 3 months**; the other becomes **Monthly**. One-time is hidden if the product requires a subscription.
 - Prices come from Shopify's selling plan allocations, so the page shows exactly what checkout charges. With the current Loop setup that is Monthly 10% ($53.10) and Every 3 months 20% ($47.20).
-- Every 3 months tops the box up to at least 3 packs.
+- Every 3 months is only a delivery frequency: any number of packs, no minimum.
 - **Add to box** posts all flavors in one request to `/cart/add.js` with the selling plan id, then opens the cart drawer, which reads and updates the real cart (`/cart.js`, `/cart/change.js`). Checkout goes to Shopify checkout.
 
 ## Settings (Theme settings > Offers)
@@ -35,4 +37,4 @@ Or with the Shopify CLI: `shopify theme push --unpublished --path theme`.
 
 - Upload reviews app blocks into the product section (it accepts app blocks).
 - Confirm the Free Creatine For Life terms and the 30-day guarantee wording.
-- Check product media: each variant should have its own image so the flavor rows and pack stage show the right pouch.
+- Keep the "Front" pouch renders on each product: the stage and flavor rows use them.
