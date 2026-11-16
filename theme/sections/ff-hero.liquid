@@ -16,10 +16,10 @@
         {{ section.settings.photo | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', style: 'width:100%;height:100%;object-fit:cover', sizes: '100vw' }}
       {%- else -%}
         <div class="set__packs set__packs--hero">
-          <img class="set__stick" src="{{ 'ff-energy-watermelon-stick.webp' | asset_url }}" alt="" width="300" height="1076">
+          <img class="set__stick" src="{{ 'ff-energy-watermelon-stick.webp' | asset_url }}" alt="" width="300" height="1075">
           <div class="set__pack"><img src="{{ 'ff-energy-orange-front.webp' | asset_url }}" alt="Fortified Energy pouch" width="885" height="900" fetchpriority="high"></div>
           <div class="set__pack set__pack--lead"><img src="{{ 'ff-everyday-watermelon-front.webp' | asset_url }}" alt="Fortified Everyday pouch" width="885" height="900" fetchpriority="high"></div>
-          <img class="set__stick set__stick--r" src="{{ 'ff-everyday-orange-stick.webp' | asset_url }}" alt="" width="300" height="1076">
+          <img class="set__stick set__stick--r" src="{{ 'ff-everyday-orange-stick.webp' | asset_url }}" alt="" width="300" height="1075">
         </div>
       {%- endif -%}
       {%- if section.settings.sticker_1 != blank -%}<span class="sticker sticker--a"><span><b>{{ section.settings.sticker_1 }}</b>{{ section.settings.sticker_1_sub }}</span></span>{%- endif -%}
