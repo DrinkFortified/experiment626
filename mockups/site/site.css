@@ -1262,3 +1262,93 @@ section[aria-labelledby="proof-h"] { background: var(--peach); }
 :root { --accent-ink: #9c3a17; }
 section[aria-labelledby="proof-h"] blockquote { color: var(--ink); }
 section[aria-labelledby="label-h"] .lede, section[aria-labelledby="pr-h"] p { color: #33433b; }
+
+/* ======================================================================
+   PALETTE v5 "Pack-forward pop" (2026-11-16): Gen Z saturation on the
+   MAHA trust base. Colors sampled from the Fortified pouches and the
+   brand's fruit photography; cream base and forest text kept.
+   ====================================================================== */
+:root {
+  --pop-magenta: #e6427a;   /* Energy pouch pink, Poppi-adjacent */
+  --pop-berry: #c42a63;     /* magenta deepened for text and buttons (5.2:1 cream, 5.5:1 with white) */
+  --pop-plum: #806793;      /* Energy pouch base */
+  --pop-aubergine: #2d1a3d; /* deep plum for dark bands */
+  --pop-sun: #f6c445;       /* Everyday pouch yellow */
+  --pop-tangerine: #f78523; /* Everyday fruit photo */
+  --pop-lime: #d9f075;      /* lemon-lime */
+  --pop-blush: #fbd3df;
+  --accent: var(--pop-berry);
+  --accent-ink: var(--pop-berry);
+}
+.display em { color: var(--pop-berry); }
+
+/* Header */
+.bar { background: var(--pop-sun); color: var(--ink); }
+.bar b { color: var(--pop-berry); }
+.logo i { color: var(--pop-magenta); }
+.cart-count { background: var(--pop-berry); color: #fff; }
+
+/* Buttons: the money action is berry */
+.btn--money { --bg: var(--pop-berry); --fg: #fff; }
+.btn--money:hover { --bg: #a61f51; }
+
+/* Hero: the counter sits in pack-colored light, plus sticker badges */
+.p-hero__set { background: linear-gradient(115deg, #f9b7cb 0%, #fbd2a4 48%, #fde58f 100%); }
+.p-hero__set::before { opacity: .55; }
+.p-hero__set::after { background: linear-gradient(180deg, rgba(120,40,60,.16), transparent 45%); }
+.sticker { position: absolute; z-index: 3; width: 112px; height: 112px; border-radius: 50%; display: grid; place-items: center; text-align: center; font-weight: 800; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; line-height: 1.05; box-shadow: 0 10px 22px -10px rgba(60,20,40,.5); }
+.sticker b { display: block; font-family: var(--serif); font-size: 34px; font-weight: 600; letter-spacing: -.02em; text-transform: none; }
+.sticker--a { top: 9%; left: 6%; background: var(--pop-lime); color: var(--ink); transform: rotate(-10deg); }
+.sticker--b { top: 12%; right: 7%; background: var(--pop-berry); color: #fff; transform: rotate(9deg); }
+
+/* Bands: flavor-coded color fields */
+section[aria-labelledby="label-h"] { background: var(--pop-lime); }
+section[aria-labelledby="label-h"] .lede { color: #2c3a14; }
+.backpack .p-handnote { background: var(--pop-lime); }
+section[aria-labelledby="fx-h"] { background: var(--paper); }
+.p-formula { border-radius: 4px; padding: 18px 18px 6px; color: var(--ink); }
+.p-formula:nth-child(1) { background: linear-gradient(160deg, var(--pop-sun), var(--pop-tangerine)); }
+.p-formula:nth-child(2) { background: linear-gradient(160deg, var(--pop-magenta), var(--pop-plum)); color: #fff; }
+.p-formula:nth-child(2) .p-formula__text p { color: rgba(255,255,255,.9); }
+.p-formula__text { border-bottom: 0; }
+.p-formula__text p { color: #3a2a0c; }
+section[aria-labelledby="pr-h"] { background: var(--pop-tangerine); }
+section[aria-labelledby="pr-h"] .display em { color: var(--pop-aubergine); }
+section[aria-labelledby="pr-h"] p { color: #2a1a05; }
+section[aria-labelledby="pr-h"] .p-promise { border-top-color: var(--ink); }
+section[aria-labelledby="proof-h"] { background: var(--pop-blush); }
+
+/* Tiers: three colors climbing to the best value */
+.p-tiers { border-top: 0; border-bottom: 0; gap: 10px; }
+.p-tiers > div, .p-tiers > div + div { border: 0; padding: 26px 24px; border-radius: 4px; }
+.p-tiers > div:nth-child(1) { background: var(--pop-sun); }
+.p-tiers > div:nth-child(2) { background: var(--pop-blush); }
+.p-tiers > div.is-best { background: var(--pop-plum); color: #fff; }
+.p-tiers .is-best .p-tiers__pct { color: #fff; }
+.p-tiers .is-best p { color: rgba(255,255,255,.88); }
+
+/* Dark bands go aubergine, footer stays forest */
+.on-dark { background: var(--pop-aubergine); }
+.on-dark .display em { color: var(--pop-sun); }
+.ui__toast { background: var(--pop-lime); }
+.p-close { background: linear-gradient(120deg, var(--pop-magenta) 0%, var(--pop-tangerine) 60%, var(--pop-sun) 100%); color: var(--pop-aubergine); }
+.p-close .display em { color: #fff; }
+.p-close .lede { color: var(--pop-aubergine); }
+.p-close .btn--money { --bg: var(--pop-aubergine); --fg: #fff; }
+.letter__body p:first-child::first-letter { color: var(--pop-magenta); }
+.letter__sign { color: var(--pop-berry); }
+
+/* Product page: stages in each pouch's own saturated light */
+.pd__stage, .field--everyday.pd__stage { background: linear-gradient(160deg, #fde79a 0%, #f9c76a 55%, #f5a24a 100%); }
+.field--energy.pd__stage { background: linear-gradient(160deg, #fbc4d4 0%, #ef8fb0 55%, #b98fc2 100%); }
+.pd__stage::before { opacity: .45; }
+.pd__count { background: var(--pop-berry); color: #fff; }
+.tiers__steps li.is-on .tiers__seg, .progress__fill { background: linear-gradient(90deg, var(--pop-sun), var(--pop-magenta)); }
+.tiers__steps li.is-next .tiers__seg { background: repeating-linear-gradient(90deg, var(--pop-magenta) 0 3px, transparent 3px 7px); }
+.field--everyday .tag, .field--energy .tag { color: var(--ink); background: rgba(255,255,255,.6); }
+.pd-proof .stars { color: var(--pop-sun); }
+.opt__aside, .item--save .item__name, .item--save .item__val, .total-row--save, .pd__save, .p-never li span:last-child, .item--add .item__name::before { color: var(--pop-berry); }
+::selection { background: var(--pop-sun); color: var(--ink); }
+@media (max-width: 640px) { .sticker { width: 84px; height: 84px; font-size: 10.5px; } .sticker b { font-size: 26px; } }
+[data-pp] button[aria-pressed="true"] { background: var(--pop-berry); color: #fff; }
+.stepper.stepper--sm button:not(:disabled):hover { background: var(--pop-berry); box-shadow: none; color: #fff; }

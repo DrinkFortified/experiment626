@@ -108,3 +108,20 @@ The owner judged v3 (navy and berry-rose) unlike any competitor. v4 takes every 
 | `--tomato` | #ef5223 | Ballerina Farm | Logo dot, cart count, drop cap |
 | `--accent` / `--accent-ink` | #c64a1c / #9c3a17 | tomato deepened for text contrast | Italic display words; small accent text |
 | `--caramel` | #c47d3e | Ballerina Farm | Review stars |
+
+## Palette v5: pack-forward pop (2026-11-16, current)
+
+Owner asked for more color, informed by Gen Z preferences. See the Gen Z section in `mockups/site/RESEARCH-maha-moms.md`. Base stays cream #fdfaf4 with forest #0f4034 text and footer; saturation comes from the pouches.
+
+| Token | Value | Use |
+|---|---|---|
+| `--pop-berry` | #c42a63 | Primary buttons, italic display words, savings text (5.2:1 on cream) |
+| `--pop-magenta` | #e6427a | Logo dot, drop cap, gradients, Energy color |
+| `--pop-sun` | #f6c445 | Announcement bar, 10% tier, Everyday color |
+| `--pop-tangerine` | #f78523 | Promise band, Everyday gradient |
+| `--pop-plum` | #806793 | 20% tier, Energy gradient |
+| `--pop-aubergine` | #2d1a3d | Subscription demo band, text on gradients |
+| `--pop-lime` | #d9f075 | Label band, "0g sugar" sticker |
+| `--pop-blush` | #fbd3df | Proof band, 15% tier |
+
+Stickers may only carry claims printed on the pack.

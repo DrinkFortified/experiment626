@@ -75,3 +75,18 @@ Homepages loaded in a real browser at 1440px; colors are the ones covering the m
 **Pattern:** a bright warm cream base (not grey beige), one deep earthy anchor (forest, moss, denim, brown or near-black) for text and buttons, and one or two confident food-colored accents (tomato, lime, peach, caramel). Real, warm product and food photography carries most of the color. Nobody in this set leans on muted all-beige pages.
 
 **What Fortified should take from it:** keep the bright cream base, use its own navy #0b1c29 as the deep anchor (it sits naturally next to Ballerina Farm's denim and Redmond's deep teal), and let the warm orange from the packs be the confident accent, with peach as the soft wash. Teal stays as a small brand mark.
+
+## Gen Z color research (2026-11-16)
+
+**Evidence quality:** no rigorous, large-sample study isolates Gen Z color preferences. Findings below are directional.
+- A 2026 SPIE conference paper reports Gen Z favors visually engaging colors tied to self-expression, with effects that depend on product category.
+- Trendalytics' 2026 to 2028 forecast names citrus yellow, electric blue and bold magenta (commercial forecast, not a survey).
+- Fast Company's coverage of the Mio rebrand describes Gen Z wanting maximalism and bright colors over minimalism.
+- Better-for-you beverage brands give each flavor its own color instead of one signature color (CBX strategist via BeverageDaily). Poppi is described as bold and playful; Olipop's 2026 Collins redesign moved to saturated, 60s and 70s pop art color.
+- Unofficial Poppi colors: pink #E6427A, sunshine yellow #F6C445 (fan brand guide, not official).
+- Overly polished, corporate design reads as out of touch to Gen Z (industry article), which agrees with the MAHA finding.
+- The widely quoted "51% choose brands by color" figure is mostly millennials, not Gen Z, so it was not used.
+
+**Limit:** the Gen Z brand homepages (Poppi, Olipop, Bloom, Liquid I.V., LMNT) were added to the network allowlist, but the automated color measurement was blocked by this session's permission check, so their colors were not measured directly.
+
+**Applied (palette v5, "pack-forward pop"):** keep the MAHA trust base (cream ground, forest text, plain label, no politics) and add Gen Z saturation taken from Fortified's own pouches, which already sit in that range: magenta #e6427a and berry #c42a63, sunshine #f6c445, tangerine #f78523, plum #806793, lemon-lime #d9f075. Each formula gets its own color field, bands are saturated, and two sticker badges use only claims printed on the pack (0g sugar, no dyes).
