@@ -111,7 +111,12 @@ section[data-check-section] .promise__check path { stroke: #00aba3; }
 .bld .btn--money { --bg: var(--navy); --fg: #fff; }
 
 /* Design pass: shared orange accents become teal (formula colors are separate and stay) */
-:root { --orange: #00aba3; --tomato: #00aba3; }
+:root { --tomato: #00aba3; }
+/* --orange stays orange: the Everyday formula card is drawn with it. Only non-formula uses move to teal. */
+.tiers__steps li.is-on .tiers__seg, .progress__fill { background: var(--teal); }
+.tiers__steps li.is-next .tiers__seg { background: repeating-linear-gradient(90deg, var(--teal) 0 3px, transparent 3px 7px); }
+.pp-q3::after { background: var(--teal); color: #fff; }
+.sticker--b { background: var(--teal); }
 :root:has(.ofr--bfcm), :root:has(.ofr--halloween) { --cmp-accent: #00aba3; }
 .hz-play__spark, .hz-ring__core, .cr-offer__badge, .pd__gift-badge, .tiers__gift b { background: #00aba3; color: #fff; }
 .p-tiers .tier:not(.is-best), .p-tiers__card:not(.is-best) { background: #f5f5f5; }
