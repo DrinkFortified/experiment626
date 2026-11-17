@@ -1,4 +1,58 @@
-<section class="sec sec--paper2" aria-labelledby="label-h" data-hl-section>
+<section class="sec sec--paper2" aria-labelledby="label-h" data-hl-section data-spill>
+{%- liquid
+  assign show_sticks = section.settings.show_sticks
+  assign stick_l = ''
+  assign stick_r = ''
+  if show_sticks
+    for m in all_products['everyday'].media
+      assign fn = m.preview_image.src | split: '?' | first | split: '/' | last | downcase
+      if fn contains 'pdp_01' and fn contains 'watermelon'
+        assign stick_l = m.preview_image | image_url: width: 500
+        break
+      endif
+    endfor
+    for m in all_products['energy'].media
+      assign fn = m.preview_image.src | split: '?' | first | split: '/' | last | downcase
+      if fn contains 'pdp_01' and fn contains 'orange'
+        assign stick_r = m.preview_image | image_url: width: 500
+        break
+      endif
+    endfor
+    if stick_l == ''
+      assign stick_l = 'ff-everyday-watermelon-stick.webp' | asset_url
+    endif
+    if stick_r == ''
+      assign stick_r = 'ff-energy-orange-stick.webp' | asset_url
+    endif
+  endif
+-%}
+{%- if show_sticks -%}
+<div class="lfx" aria-hidden="true">
+  <div class="lfx-side lfx-side--l">
+    <img class="lfx-stick" src="{{ stick_l }}" alt="" width="432" height="1548" loading="lazy">
+    <div class="lfx-salt">{%- for i in (1..26) -%}{%- liquid
+      assign x = i | times: 37 | modulo: 22 | plus: 2
+      assign y = i | times: 53 | modulo: 100 | times: 2 | plus: 26 | plus: x
+      assign z = i | times: 29 | modulo: 5 | plus: 3
+      assign r = i | times: 71 | modulo: 180
+      assign d = i | times: 47 | modulo: 100 | times: 14
+      assign m3 = i | modulo: 3
+    -%}<i class="lfx-grain{% if m3 == 0 %} lfx-grain--pink{% endif %}" style="--x:{{ x }}px;--y:{{ y }}px;--z:{{ z }}px;--r:{{ r }}deg;--d:{{ d }}ms"></i>{%- endfor -%}</div>
+  </div>
+  <div class="lfx-side lfx-side--r">
+    <img class="lfx-stick" src="{{ stick_r }}" alt="" width="432" height="1548" loading="lazy">
+    <div class="lfx-salt">{%- for i in (1..26) -%}{%- liquid
+      assign x = i | times: 41 | modulo: 22 | plus: 2 | times: -1
+      assign y = i | times: 59 | modulo: 100 | times: 2 | plus: 26 | minus: x
+      assign z = i | times: 31 | modulo: 5 | plus: 3
+      assign r = i | times: 67 | modulo: 180
+      assign d = i | times: 43 | modulo: 100 | times: 14
+      assign m3 = i | modulo: 3
+    -%}<i class="lfx-grain{% if m3 == 1 %} lfx-grain--pink{% endif %}" style="--x:{{ x }}px;--y:{{ y }}px;--z:{{ z }}px;--r:{{ r }}deg;--d:{{ d }}ms"></i>{%- endfor -%}</div>
+  </div>
+</div>
+{%- endif -%}
+
   <div class="wrap p-label">
     <div>
       <h2 id="label-h" class="display d2">{{ section.settings.heading }} <em>{{ section.settings.heading_accent }}</em></h2>
@@ -53,6 +107,7 @@
     { "type": "text", "id": "potassium", "label": "Potassium", "default": "200mg" },
     { "type": "text", "id": "magnesium", "label": "Magnesium", "default": "150mg" },
     { "type": "text", "id": "sugar", "label": "Sugar", "default": "0g" },
+    { "type": "checkbox", "id": "show_sticks", "label": "Show the Everyday and Energy sticks spilling salt", "default": true },
     { "type": "checkbox", "id": "show_back", "label": "Show the back of pack image", "info": "Turn off when the 3D pouch turn section is on the page.", "default": true },
     { "type": "image_picker", "id": "back_image", "label": "Back of pack image" },
     { "type": "text", "id": "list_title", "label": "List title", "default": "The shared base" },

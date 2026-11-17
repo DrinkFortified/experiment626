@@ -13,7 +13,7 @@
           {%- if form.posted_successfully? -%}<p role="status" style="margin:8px 0 0">You&rsquo;re on the list.</p>{%- endif -%}
         {%- endform -%}
       </div>
-      <div><h4>Shop</h4><ul>
+      <div><h4>Explore</h4><ul>
         {%- if menu.links.size > 0 -%}
           {%- for link in menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
         {%- else -%}
@@ -22,8 +22,9 @@
       </ul></div>
       <div><h4>Help</h4><ul>
         <li><a href="/pages/help">FAQ</a></li>
-        <li><a href="{{ routes.account_url }}">My Subscriptions</a></li>
-        <li><a href="mailto:{{ settings.support_email }}">{{ settings.support_email }}</a></li>
+        <li><a href="/a/loop_subscriptions/customer">Manage subscription</a></li>
+        <li><a href="{{ routes.account_url }}">Account</a></li>
+        {%- if settings.support_email != blank -%}<li><a href="mailto:{{ settings.support_email }}">{{ settings.support_email }}</a></li>{%- endif -%}
         <li>{{ settings.support_phone }}</li>
       </ul></div>
       <div><h4>Policies</h4><ul>
@@ -38,7 +39,7 @@
 {
   "name": "Footer",
   "settings": [
-    { "type": "link_list", "id": "menu", "label": "Shop menu", "default": "footer" },
+    { "type": "link_list", "id": "menu", "label": "Site menu", "default": "fortified-footer" },
     { "type": "text", "id": "tagline", "label": "Tagline", "default": "Clean electrolytes for people who read the label. Hydration. No Mumbo Jumbo." },
     { "type": "text", "id": "legal", "label": "Legal line", "default": "Nutrition Facts and ingredients are shown as printed on each pouch." }
   ]

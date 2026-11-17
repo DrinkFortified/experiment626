@@ -2,7 +2,14 @@
   "type": "header",
   "name": "Header group",
   "sections": {
-    "header": { "type": "header", "settings": {} }
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "fortified-header"
+      }
+    }
   },
-  "order": ["header"]
+  "order": [
+    "header"
+  ]
 }

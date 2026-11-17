@@ -424,6 +424,17 @@
     io.observe(sec);
   });
 
+  // ---------- Label section: sticks slide in and spill salt, once ----------
+  $$("[data-spill]").forEach(function (sec) {
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || !("IntersectionObserver" in window) || !sec.querySelector(".lfx")) return;
+    sec.classList.add("js-spill");
+    var io = new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting) { sec.classList.add("is-spilled"); io.disconnect(); }
+    }, { threshold: .2 });
+    io.observe(sec);
+  });
+
   // ---------- Rotating hero ----------
   $$("[data-hero-rotate]").forEach(function (hero) {
     var slides = $$("[data-hero-slide]", hero), dots = $$("[data-hero-dot]", hero), pauseBtn = $("[data-hero-pause]", hero);
