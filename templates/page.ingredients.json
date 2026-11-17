@@ -1,8 +1,88 @@
 {
   "sections": {
-    "main": {
-      "type": "main-page",
-      "settings": {}
+    "hero": {
+      "type": "ff-page-hero",
+      "settings": {
+        "tone": "wash",
+        "eyebrow": "Ingredients",
+        "heading": "Every ingredient,",
+        "heading_accent": "named.",
+        "text": "<p>Everyday and Energy share one short electrolyte base. Everyday adds Vitamin D3 and K2. Energy adds natural caffeine from coffee bean. Creatine is one ingredient. Here is all of it, with sources.</p>",
+        "button": "Shop Everyday",
+        "link": "/products/everyday",
+        "button2": "Shop Energy",
+        "link2": "/products/energy",
+        "asset": "ff-everyday-orange-back.webp",
+        "alt": "Back of the Everyday pouch with the full ingredient list"
+      },
+      "blocks": {
+        "cx0": {
+          "type": "chip",
+          "settings": {
+            "value": "1,200mg",
+            "label": "sodium per serving"
+          }
+        },
+        "cx1": {
+          "type": "chip",
+          "settings": {
+            "value": "0g",
+            "label": "sugar"
+          }
+        },
+        "cx2": {
+          "type": "chip",
+          "settings": {
+            "value": "10",
+            "label": "ingredients in the shared base"
+          }
+        },
+        "lx3": {
+          "type": "link",
+          "settings": {
+            "label": "The label",
+            "url": "#label"
+          }
+        },
+        "lx4": {
+          "type": "link",
+          "settings": {
+            "label": "Ingredient by ingredient",
+            "url": "#ingredients"
+          }
+        },
+        "lx5": {
+          "type": "link",
+          "settings": {
+            "label": "Side by side",
+            "url": "#compare"
+          }
+        },
+        "lx6": {
+          "type": "link",
+          "settings": {
+            "label": "What we leave out",
+            "url": "#left-out"
+          }
+        },
+        "lx7": {
+          "type": "link",
+          "settings": {
+            "label": "Questions",
+            "url": "#ingredient-faq"
+          }
+        }
+      },
+      "block_order": [
+        "cx0",
+        "cx1",
+        "cx2",
+        "lx3",
+        "lx4",
+        "lx5",
+        "lx6",
+        "lx7"
+      ]
     },
     "label": {
       "type": "ff-label",
@@ -118,11 +198,343 @@
         "i10",
         "i11"
       ],
-      "settings": {}
+      "settings": {
+        "show_back": false
+      }
+    },
+    "cards": {
+      "type": "ff-ingredients",
+      "settings": {
+        "anchor": "ingredients",
+        "out_anchor": "left-out",
+        "out_heading": "What we leave out",
+        "out_list": "Proprietary blends\nAdded sugar\nSucralose and aspartame\nSynthetic caffeine anhydrous\nSynthetic dyes\nFillers you can’t pronounce",
+        "note": "Amounts are per serving, as printed on the pack. The label on your pouch is always the final word."
+      },
+      "blocks": {
+        "i0": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Pink Himalayan Salt",
+            "amount": "1,200mg sodium",
+            "formula": "base",
+            "source": "Ancient Ocean Pink Himalayan Salt",
+            "why": "Sodium is the electrolyte you lose most in sweat. This salt is the main source of the sodium in every stick."
+          }
+        },
+        "i1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Magnesium Malate",
+            "amount": "150mg magnesium",
+            "formula": "base",
+            "source": "Magnesium bound to malic acid",
+            "why": "Magnesium rounds out the electrolyte base. We use malate, not the cheaper oxide."
+          }
+        },
+        "i2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Coconut Water Powder",
+            "amount": "",
+            "formula": "base",
+            "source": "CocOganic Plus, from real coconut water",
+            "why": "A potassium source from coconut water, working with potassium chloride below."
+          }
+        },
+        "i3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Potassium Chloride",
+            "amount": "200mg potassium",
+            "formula": "base",
+            "source": "Potassium",
+            "why": "Together with coconut water powder, it brings the base to 200mg of potassium."
+          }
+        },
+        "i4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Organic Lemon Juice Powder",
+            "amount": "",
+            "formula": "base",
+            "source": "Dried organic lemon juice",
+            "why": "Brightens the organic flavor. It is lemon juice, dried."
+          }
+        },
+        "i5": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Organic Flavors",
+            "amount": "",
+            "formula": "base",
+            "source": "Organic Salty Orange or Organic Salty Watermelon",
+            "why": "The taste of each pack. Organic flavors, as printed on the label."
+          }
+        },
+        "i6": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Malic Acid",
+            "amount": "",
+            "formula": "base",
+            "source": "Fruit acid",
+            "why": "Gives the drink its clean, tart finish."
+          }
+        },
+        "i7": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Bamboo Fiber",
+            "amount": "",
+            "formula": "base",
+            "source": "Plant fiber",
+            "why": "A plant fiber. Small amount, listed in full like everything else."
+          }
+        },
+        "i8": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Reb M, fermented",
+            "amount": "",
+            "formula": "base",
+            "source": "OnoSweet",
+            "why": "Sweetness without sugar, made by fermentation."
+          }
+        },
+        "i9": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Monk Fruit Extract",
+            "amount": "",
+            "formula": "base",
+            "source": "Monk fruit",
+            "why": "Sweetness from monk fruit. With Reb M, it keeps every stick at 0g sugar."
+          }
+        },
+        "i10": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Vitamin D3",
+            "amount": "25mcg",
+            "formula": "everyday",
+            "source": "As cholecalciferol",
+            "why": "The form of vitamin D your skin makes from sunlight. In every Everyday stick."
+          }
+        },
+        "i11": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Vitamin K2",
+            "amount": "",
+            "formula": "everyday",
+            "source": "As MK-7",
+            "why": "Paired with D3 in every Everyday stick."
+          }
+        },
+        "i12": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Natural Caffeine",
+            "amount": "150mg",
+            "formula": "energy",
+            "source": "From coffee bean",
+            "why": "Caffeine from coffee bean, never synthetic caffeine anhydrous. Everyday has none."
+          }
+        },
+        "i13": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Creatine Monohydrate",
+            "amount": "5g",
+            "formula": "creatine",
+            "source": "The only ingredient",
+            "why": "One scoop per serving, 45 servings per pouch. Unflavored, so it mixes into water, coffee or your Everyday."
+          }
+        }
+      },
+      "block_order": [
+        "i0",
+        "i1",
+        "i2",
+        "i3",
+        "i4",
+        "i5",
+        "i6",
+        "i7",
+        "i8",
+        "i9",
+        "i10",
+        "i11",
+        "i12",
+        "i13"
+      ]
+    },
+    "compare": {
+      "type": "ff-compare",
+      "settings": {
+        "anchor": "compare",
+        "heading": "Three formulas,",
+        "heading_accent": "side by side.",
+        "text": "Same base for Everyday and Energy. One difference each. Creatine stands alone.",
+        "note": "Per serving. Prices are for one pouch, one-time."
+      },
+      "blocks": {
+        "r0": {
+          "type": "row",
+          "settings": {
+            "label": "Caffeine",
+            "v1": "no",
+            "v2": "150mg, coffee bean",
+            "v3": "no"
+          }
+        },
+        "r1": {
+          "type": "row",
+          "settings": {
+            "label": "Sodium",
+            "v1": "1,200mg",
+            "v2": "1,200mg",
+            "v3": "no"
+          }
+        },
+        "r2": {
+          "type": "row",
+          "settings": {
+            "label": "Potassium",
+            "v1": "200mg",
+            "v2": "200mg",
+            "v3": "no"
+          }
+        },
+        "r3": {
+          "type": "row",
+          "settings": {
+            "label": "Magnesium",
+            "v1": "150mg",
+            "v2": "150mg",
+            "v3": "no"
+          }
+        },
+        "r4": {
+          "type": "row",
+          "settings": {
+            "label": "Vitamin D3 + K2",
+            "v1": "yes",
+            "v2": "no",
+            "v3": "no"
+          }
+        },
+        "r5": {
+          "type": "row",
+          "settings": {
+            "label": "Creatine monohydrate",
+            "v1": "no",
+            "v2": "no",
+            "v3": "5g"
+          }
+        },
+        "r6": {
+          "type": "row",
+          "settings": {
+            "label": "Sugar",
+            "v1": "0g",
+            "v2": "0g",
+            "v3": "0g"
+          }
+        },
+        "r7": {
+          "type": "row",
+          "settings": {
+            "label": "Flavor",
+            "v1": "Organic Salty Orange, Organic Salty Watermelon",
+            "v2": "Organic Salty Orange, Organic Salty Watermelon",
+            "v3": "Unflavored"
+          }
+        }
+      },
+      "block_order": [
+        "r0",
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5",
+        "r6",
+        "r7"
+      ]
+    },
+    "faq": {
+      "type": "ff-faq",
+      "settings": {
+        "heading": "Ingredient",
+        "heading_accent": "questions.",
+        "anchor": "ingredient-faq",
+        "tone": "paper2",
+        "schema_markup": true
+      },
+      "blocks": {
+        "q0": {
+          "type": "qa",
+          "settings": {
+            "q": "Is there any sugar?",
+            "a": "<p>No. 0g sugar per serving. Everyday and Energy are sweetened with monk fruit extract and Reb M.</p>"
+          }
+        },
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "Why 1,200mg of sodium?",
+            "a": "<p>Sodium is the main electrolyte lost in sweat, so it leads the base. If you watch your sodium for a medical reason, talk to your healthcare professional before use.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "Where does the caffeine in Energy come from?",
+            "a": "<p>Coffee bean. 150mg per stick, never synthetic caffeine anhydrous. Everyday is caffeine-free.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "Can I mix creatine into Everyday or Energy?",
+            "a": "<p>Yes. The creatine is unflavored, so it stirs into water, coffee, a shake or your stick of Everyday or Energy.</p>"
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "q": "Where can I see the full facts panel?",
+            "a": "<p>On each product page (tap Read the back on the pouch) and printed on every pack.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q0",
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ]
+    },
+    "closing": {
+      "type": "ff-closing",
+      "settings": {
+        "heading": "Read the label.",
+        "heading_accent": "Then pour a glass.",
+        "text": "45 days to decide. If it is not for your family, we will refund you.",
+        "button": "Shop Everyday",
+        "link": "/products/everyday"
+      }
     }
   },
   "order": [
-    "main",
-    "label"
+    "hero",
+    "label",
+    "cards",
+    "compare",
+    "faq",
+    "closing"
   ]
 }

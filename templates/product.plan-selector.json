@@ -219,7 +219,7 @@
       "type": "ff-howto",
       "settings": {
         "file_name": "howto-energy.png",
-        "steps": "pour|One stick into cold water.|howto-pour-energy.png\nshake|Until it dissolves.|howto-shake.png\nenjoy|150mg natural caffeine.|howto-enjoy.png",
+        "steps": "pour|One stick into cold water.|howto-pour-energy-v2.png\nshake|Until it dissolves.|howto-shake.png\nenjoy|150mg natural caffeine.|howto-enjoy.png",
         "alt": "A Fortified Energy stick pouring into a glass of water, a hand shaking the bottle, and a smiling woman holding the drink.",
         "only_handle": "energy",
         "cta": "Build my box",

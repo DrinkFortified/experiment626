@@ -565,25 +565,27 @@
     packs.forEach(apply);
   });
 
-  // ---------- Label rows highlight as the page scrolls ----------
+  // ---------- Label rows light up one after the other, on a timer ----------
+  // Starts once the section is in view and runs on its own, so every row gets its
+  // moment even if the visitor stops scrolling. Each row stays marked as read.
   $$("[data-hl-section]").forEach(function (sec) {
-    var rows = $$("[data-hl]", sec), on = false, ticking = false;
+    var rows = $$("[data-hl]", sec);
     if (!rows.length) return;
-    function frame() {
-      ticking = false;
-      // Rows light one at a time across the section's scroll, in reading order.
-      var vh = window.innerHeight, rc = sec.getBoundingClientRect();
-      var prog = Math.min(1, Math.max(0, (vh * .8 - rc.top) / Math.max(1, rc.height + vh * .1)));
-      var cur = Math.round(prog * rows.length) - 1;
-      rows.forEach(function (r, i) { r.classList.toggle("is-read", i <= cur); r.classList.toggle("is-on", i === cur); });
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function allRead() { rows.forEach(function (r) { r.classList.add("is-read"); r.classList.remove("is-on"); }); }
+    if (reduce || !("IntersectionObserver" in window)) { allRead(); return; }
+    var i = -1, timer = null, STEP = 420;
+    function step() {
+      if (i >= 0) rows[i].classList.remove("is-on");
+      i++;
+      if (i >= rows.length) { timer = null; return; }
+      rows[i].classList.add("is-read", "is-on");
+      timer = setTimeout(step, i === rows.length - 1 ? STEP * 2 : STEP);
     }
-    function req() { if (on && !ticking) { ticking = true; requestAnimationFrame(frame); } }
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (es) { on = es[0].isIntersecting; req(); }, { rootMargin: "20% 0px 20% 0px" }).observe(sec);
-    } else { on = true; }
-    window.addEventListener("scroll", req, { passive: true });
-    window.addEventListener("resize", req);
-    req();
+    var io = new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting && i < 0 && !timer) { timer = setTimeout(step, 250); io.disconnect(); }
+    }, { threshold: .2 });
+    io.observe(sec);
   });
 
   // ---------- Promise checklist: wavy line draws, checks tick in ----------
@@ -769,6 +771,22 @@
     dlg.addEventListener("close", function () { document.documentElement.classList.remove("story-open"); var b = $("[data-card-open]", cards[cur]); if (b) b.focus(); });
   });
 
+  // ---------- Ingredients page: filter cards by formula ----------
+  $$("[data-ing]").forEach(function (sec) {
+    var btns = $$("[data-ing-f]", sec), cards = $$("[data-in]", sec), live = $("[data-ing-live]", sec);
+    btns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        var f = b.getAttribute("data-ing-f"), n = 0;
+        btns.forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+        cards.forEach(function (c) {
+          var on = f === "all" || c.getAttribute("data-in").split(" ").indexOf(f) > -1;
+          c.hidden = !on; if (on) { n++; c.classList.remove("is-pop"); void c.offsetWidth; c.classList.add("is-pop"); }
+        });
+        if (live) live.textContent = n + " ingredients shown";
+      });
+    });
+  });
+
   // ---------- Creatine story sections: reveal once in view ----------
   (function () {
     var secs = $$("[data-crf]"); if (!secs.length) return;
@@ -782,7 +800,7 @@
   (function () {
     var reduce = (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || !("IntersectionObserver" in window);
     if (reduce) return;
-    $$(".crf__h").forEach(function (h) {
+    $$(".crf__h, [data-words]").forEach(function (h) {
       if (h.classList.contains("is-split") || h.children.length) return;
       var words = h.textContent.trim().split(/\s+/);
       h.setAttribute("aria-label", h.textContent.trim());

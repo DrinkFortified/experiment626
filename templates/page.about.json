@@ -1,12 +1,111 @@
 {
   "sections": {
+    "hero": {
+      "type": "ff-page-hero",
+      "settings": {
+        "tone": "paper",
+        "eyebrow": "About Fortified",
+        "heading": "Built for",
+        "heading_accent": "label-readers.",
+        "text": "<p>Fortified is hydration for the person who flips the pack over before anything else. Every ingredient named, with its source, in honest amounts.</p>",
+        "button": "Shop the formulas",
+        "link": "/collections/all",
+        "button2": "See every ingredient",
+        "link2": "/pages/ingredients",
+        "image_file": "Everyday9.png",
+        "asset": "ff-everyday-watermelon-front.webp",
+        "alt": "A woman drinking Fortified Everyday outdoors"
+      },
+      "blocks": {
+        "cx0": {
+          "type": "chip",
+          "settings": {
+            "value": "0g",
+            "label": "sugar in every stick"
+          }
+        },
+        "cx1": {
+          "type": "chip",
+          "settings": {
+            "value": "USA",
+            "label": "made in a cGMP facility"
+          }
+        },
+        "cx2": {
+          "type": "chip",
+          "settings": {
+            "value": "45",
+            "label": "days to decide"
+          }
+        }
+      },
+      "block_order": [
+        "cx0",
+        "cx1",
+        "cx2"
+      ]
+    },
     "letter": {
       "type": "ff-letter",
       "settings": {}
     },
-    "main": {
-      "type": "main-page",
-      "settings": {}
+    "mission": {
+      "type": "ff-statement",
+      "settings": {
+        "tone": "ink",
+        "eyebrow": "Our mission",
+        "statement": "Inspire people to live better, healthier lives through body, mind and spirit.",
+        "sub": "Starting with what is in your glass."
+      }
+    },
+    "made": {
+      "type": "ff-steps",
+      "settings": {
+        "anchor": "how-its-made",
+        "tone": "paper2",
+        "eyebrow": "From raw ingredient to stick pack",
+        "heading": "How it",
+        "heading_accent": "is made.",
+        "text": "A short list, on purpose. Here is what happens before a stick reaches your glass.",
+        "button": "Read every ingredient",
+        "link": "/pages/ingredients"
+      },
+      "blocks": {
+        "s0": {
+          "type": "step",
+          "settings": {
+            "title": "Start from the label",
+            "text": "One short electrolyte base, then one addition per formula. If an ingredient does not pull its weight, it does not go in."
+          }
+        },
+        "s1": {
+          "type": "step",
+          "settings": {
+            "title": "Test before it goes in",
+            "text": "Raw ingredients are third-party tested before they are blended."
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "title": "Make it in the USA",
+            "text": "Blended and packed in a cGMP-compliant facility in the USA."
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "title": "Print every milligram",
+            "text": "No proprietary blends. What the front of the pouch says matches the facts panel on the back."
+          }
+        }
+      },
+      "block_order": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ]
     },
     "promise": {
       "type": "ff-promise",
@@ -47,11 +146,24 @@
         "p3"
       ],
       "settings": {}
+    },
+    "closing": {
+      "type": "ff-closing",
+      "settings": {
+        "heading": "Questions?",
+        "heading_accent": "We answer them honestly.",
+        "text": "Ingredients, orders, subscriptions. A real person reads every message.",
+        "button": "Visit Help",
+        "link": "/pages/help"
+      }
     }
   },
   "order": [
+    "hero",
     "letter",
-    "main",
-    "promise"
+    "mission",
+    "made",
+    "promise",
+    "closing"
   ]
 }

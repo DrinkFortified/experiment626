@@ -1,0 +1,41 @@
+{%- comment -%} Numbered steps with an optional side note. Used for "How it's made" and "Manage your subscription". {%- endcomment -%}
+{%- assign st = section.settings -%}
+<section class="sec stp{% if st.tone == 'paper2' %} sec--paper2{% endif %}" id="{{ st.anchor | default: section.id }}" aria-labelledby="stp-h-{{ section.id }}" data-crf>
+  <div class="wrap stp__grid">
+    <div class="stp__head">
+      {%- if st.eyebrow != blank -%}<p class="iph__eye">{{ st.eyebrow }}</p>{%- endif -%}
+      <h2 id="stp-h-{{ section.id }}" class="display d2">{{ st.heading }} <em>{{ st.heading_accent }}</em></h2>
+      {%- if st.text != blank -%}<p class="lede">{{ st.text }}</p>{%- endif -%}
+      {%- if st.button != blank -%}<a class="btn btn--money stp__btn" href="{{ st.link | default: '/account' }}">{{ st.button }}</a>{%- endif -%}
+    </div>
+    <ol class="stp__list" role="list">
+      {%- for b in section.blocks -%}
+      <li class="stp__item" style="--i:{{ forloop.index0 }}" {{ b.shopify_attributes }}>
+        <span class="stp__n num" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+        <div><h3 class="stp__t">{{ b.settings.title }}</h3><p>{{ b.settings.text }}</p></div>
+      </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Numbered steps",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor id" },
+    { "type": "select", "id": "tone", "label": "Background", "default": "paper", "options": [ { "value": "paper", "label": "Paper" }, { "value": "paper2", "label": "Paper 2" } ] },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "How it" },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent", "default": "is made." },
+    { "type": "textarea", "id": "text", "label": "Text" },
+    { "type": "text", "id": "button", "label": "Button" },
+    { "type": "url", "id": "link", "label": "Button link" }
+  ],
+  "blocks": [ { "type": "step", "name": "Step", "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "Step" },
+    { "type": "textarea", "id": "text", "label": "Text" }
+  ] } ],
+  "presets": [ { "name": "Numbered steps" } ]
+}
+{% endschema %}

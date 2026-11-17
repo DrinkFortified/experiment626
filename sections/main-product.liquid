@@ -36,7 +36,6 @@
   endif
   assign short_title = product.title | split: ' by ' | first | split: ' Hydration' | first | split: ' Electrolyte' | first
   assign heading = section.settings.heading | default: short_title
-  assign first_variant = product.selected_or_first_available_variant
   capture plans
     render 'ff-plan-ids', product: product
   endcapture
@@ -98,7 +97,7 @@
       <div class="opt"><div class="opt__label">{{ this_label }} &middot; {{ 'product.flavors' | t }} <span class="opt__aside" data-pd-perk></span></div>
         <div class="flavor-rows">
           {%- for variant in product.variants -%}
-            {%- if variant.id == first_variant.id -%}{%- assign q = 2 -%}{%- else -%}{%- assign q = 0 -%}{%- endif -%}
+            {%- assign q = 0 -%}
             {%- render 'ff-flavor-row', product: product, variant: variant, qty: q, formula_label: '' -%}
           {%- endfor -%}
         </div></div>

@@ -1,0 +1,67 @@
+{%- comment -%} Help topic cards that jump to each FAQ group, plus a contact card. {%- endcomment -%}
+{%- assign st = section.settings -%}
+<section class="sec hlp" aria-labelledby="hlp-h-{{ section.id }}" data-crf>
+  <div class="wrap">
+    <h2 id="hlp-h-{{ section.id }}" class="sr">{{ st.heading }}</h2>
+    <div class="hlp__grid">
+      <ul class="hlp__topics" role="list">
+        {%- for b in section.blocks -%}
+        <li style="--i:{{ forloop.index0 }}" {{ b.shopify_attributes }}>
+          <a class="hlp-card" href="{{ b.settings.url }}">
+            <span class="hlp-card__ic" aria-hidden="true">{%- case b.settings.icon -%}
+              {%- when 'box' -%}<svg viewBox="0 0 24 24"><path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/></svg>
+              {%- when 'repeat' -%}<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 9M20 4v5h-5M20 12a8 8 0 0 1-13.7 5.6L4 15M4 20v-5h5"/></svg>
+              {%- when 'gift' -%}<svg viewBox="0 0 24 24"><path d="M4 11h16v10H4zM3 7h18v4H3zM12 7v14M12 7S10.5 3 8 3.5 7.5 7 12 7zM12 7s1.5-4 4-3.5S16.5 7 12 7z"/></svg>
+              {%- when 'leaf' -%}<svg viewBox="0 0 24 24"><path d="M5 19C5 10 11 4 20 4c0 9-6 15-15 15zM5 19l8-8"/></svg>
+              {%- else -%}<svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-7-10.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 7 3.5C19 16.6 12 21 12 21z"/></svg>
+            {%- endcase -%}</span>
+            <span class="hlp-card__t">{{ b.settings.title }}</span>
+            <span class="hlp-card__d">{{ b.settings.text }}</span>
+            <span class="hlp-card__go" aria-hidden="true">&rarr;</span>
+          </a>
+        </li>
+        {%- endfor -%}
+      </ul>
+      <aside class="hlp-contact" aria-labelledby="hlp-c-{{ section.id }}">
+        <p class="iph__eye">{{ st.contact_eyebrow }}</p>
+        <h3 id="hlp-c-{{ section.id }}" class="hlp-contact__h">{{ st.contact_heading }}</h3>
+        <p>{{ st.contact_text }}</p>
+        <dl class="hlp-contact__dl">
+          {%- assign em = st.email | default: settings.support_email -%}
+          {%- if em != blank -%}<div><dt>Email</dt><dd><a class="link" href="mailto:{{ em }}">{{ em }}</a></dd></div>{%- endif -%}
+          {%- if st.hours != blank -%}<div><dt>Hours</dt><dd>{{ st.hours }}</dd></div>{%- endif -%}
+          {%- if st.reply != blank -%}<div><dt>Reply time</dt><dd>{{ st.reply }}</dd></div>{%- endif -%}
+        </dl>
+        <div class="hlp-contact__actions">
+          {%- if st.contact_url != blank -%}<a class="btn btn--money btn--block" href="{{ st.contact_url }}">{{ st.contact_button }}</a>{%- endif -%}
+          <a class="btn btn--ghost btn--block" href="{{ routes.account_url }}">{{ st.account_button }}</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Help topics",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Hidden heading", "default": "Help topics" },
+    { "type": "text", "id": "contact_eyebrow", "label": "Contact eyebrow", "default": "Real people" },
+    { "type": "text", "id": "contact_heading", "label": "Contact heading", "default": "Still stuck? Write to us." },
+    { "type": "textarea", "id": "contact_text", "label": "Contact text", "default": "A real person reads every message and answers ingredients, orders and subscription questions." },
+    { "type": "text", "id": "email", "label": "Email (blank uses the theme setting)" },
+    { "type": "text", "id": "hours", "label": "Hours", "default": "Monday to Friday, 9am to 5pm CT" },
+    { "type": "text", "id": "reply", "label": "Reply time", "default": "Within one business day" },
+    { "type": "text", "id": "contact_button", "label": "Contact button", "default": "Contact us" },
+    { "type": "url", "id": "contact_url", "label": "Contact link", "default": "/pages/contact" },
+    { "type": "text", "id": "account_button", "label": "Account button", "default": "Manage my subscription" }
+  ],
+  "blocks": [ { "type": "topic", "name": "Topic", "settings": [
+    { "type": "select", "id": "icon", "label": "Icon", "default": "box", "options": [ { "value": "box", "label": "Box" }, { "value": "repeat", "label": "Repeat" }, { "value": "gift", "label": "Gift" }, { "value": "leaf", "label": "Leaf" }, { "value": "heart", "label": "Heart" } ] },
+    { "type": "text", "id": "title", "label": "Title", "default": "Orders and shipping" },
+    { "type": "text", "id": "text", "label": "Text" },
+    { "type": "text", "id": "url", "label": "Link (#anchor or URL)", "default": "#orders" }
+  ] } ],
+  "presets": [ { "name": "Help topics" } ]
+}
+{% endschema %}
