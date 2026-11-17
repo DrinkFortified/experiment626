@@ -124,7 +124,9 @@
         "i10",
         "i11"
       ],
-      "settings": {}
+      "settings": {
+        "cta": "Shop Energy"
+      }
     },
     "faq": {
       "type": "ff-faq",
@@ -175,7 +177,9 @@
         "crops": "0.56,0,0.44,1",
         "alt": "Fortified Energy stick in Organic Salty Orange with fresh orange slices",
         "heading": "Energy + electrolytes. Every ingredient has a job.",
-        "items": "bolt|Energy & alertness|150mg of caffeine helps increase alertness and reduce feelings of tiredness.|\ndrop|Hydration support|Sodium helps support fluid balance and replaces sodium lost through sweat.|\nmuscle|Muscle function|Potassium and magnesium support normal muscle function.|\nnosugar|Zero added sugar|Sweetened with monk fruit and fermented Reb M.|\nshield|Formula clarity|No proprietary blends. Know what goes into your drink.|"
+        "items": "bolt|Energy & alertness|150mg of caffeine helps increase alertness and reduce feelings of tiredness.|\ndrop|Hydration support|Sodium helps support fluid balance and replaces sodium lost through sweat.|\nmuscle|Muscle function|Potassium and magnesium support normal muscle function.|\nnosugar|Zero added sugar|Sweetened with monk fruit and fermented Reb M.|\nshield|Formula clarity|No proprietary blends. Know what goes into your drink.|",
+        "cta": "Choose my flavors",
+        "cta_note": "Free Creatine For Life of Subscription with 3+ packs"
       }
     },
     "story_only": {
@@ -185,7 +189,8 @@
         "stick": "ff-energy-orange",
         "heading": "Real coffee-bean caffeine. More than an energy mix.",
         "items": "150mg natural caffeine\nSodium + potassium + magnesium\n0g added sugar\nNo artificial colors\nNo sucralose or aspartame\nNo proprietary blends",
-        "body": "<p>Electrolytes and caffeine. Together in one convenient stick.</p>"
+        "body": "<p>Electrolytes and caffeine. Together in one convenient stick.</p>",
+        "cta": "Try Energy"
       }
     },
     "story_compare": {
@@ -196,7 +201,8 @@
         "heading": "Know what powers you.",
         "tagline": "Inside Fortified Energy",
         "items": "Caffeine from coffee beans|150mg\nSodium, potassium + magnesium|check\nAdded sugar|0g\nSucralose or aspartame|None\nArtificial colors|None\nProprietary blends|None",
-        "body": "<p>Your energy formula. Fully disclosed.</p>"
+        "body": "<p>Your energy formula. Fully disclosed.</p>",
+        "cta": "Start my box"
       }
     },
     "story_consistency": {
@@ -206,7 +212,9 @@
         "file_name": "Energy7-clean.png",
         "heading": "Bring the water. We'll bring the energy.",
         "body": "<p>Coffee-bean caffeine for an energy lift. Electrolytes to support hydration.*</p><p>FORTIFIED keeps it straightforward: 150mg natural caffeine. Zero added sugar. No proprietary blends.</p>",
-        "tagline": "Tear. Pour. Get Fortified."
+        "tagline": "Tear. Pour. Get Fortified.",
+        "cta": "Get Energy",
+        "cta_note": "Free Creatine For Life of Subscription with 3+ packs"
       }
     },
     "howto": {
@@ -214,7 +222,9 @@
       "settings": {
         "file_name": "howto-energy.png",
         "steps": "pour|One stick into cold water.\nshake|Until it dissolves.\nenjoy|150mg natural caffeine.",
-        "alt": "A Fortified Energy stick pouring into a glass of water, a hand shaking the bottle, and a smiling woman holding the drink."
+        "alt": "A Fortified Energy stick pouring into a glass of water, a hand shaking the bottle, and a smiling woman holding the drink.",
+        "cta": "Build my box",
+        "cta_note": "Free Creatine For Life of Subscription with 3+ packs"
       }
     }
   },

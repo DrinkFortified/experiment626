@@ -3260,3 +3260,19 @@ html.story-open { overflow: hidden; }
 .pd__buy .plan-note { font-size: 13.5px; line-height: 1.45; margin-bottom: 8px; }
 /* no size animation on the pinned bar (sizes change instantly so the reserved space is exact) */
 .pd__buy .tiers, .pd__buy .tiers.is-stuck { transition: box-shadow .3s; }
+
+/* "Jump to buy" buttons in product page sections */
+.buy-cta { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: clamp(28px, 4vw, 44px) auto 0; padding: 0 16px; text-align: center; }
+.buy-cta__btn { display: inline-flex; align-items: center; gap: 10px; min-height: 54px; padding-inline: 28px; }
+.buy-cta__btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: transform .3s cubic-bezier(.23, 1, .32, 1); }
+.buy-cta__btn:hover svg { transform: translateY(-3px); }
+.buy-cta__note { margin: 0; font-size: 13px; opacity: .72; }
+.buy-cta--dark .buy-cta__note { color: #fff; }
+.crf--consistency .buy-cta, .hwt .buy-cta { position: relative; z-index: 1; }
+.crf--five .buy-cta { margin-top: 20px; }
+#buy { scroll-margin-top: calc(var(--head) + 12px); outline: none; }
+#buy.is-flash { animation: buy-flash 1.4s ease-out; }
+@keyframes buy-flash { 0% { box-shadow: 0 0 0 0 rgba(0, 171, 163, .55); } 40% { box-shadow: 0 0 0 10px rgba(0, 171, 163, .18); } 100% { box-shadow: 0 0 0 0 rgba(0, 171, 163, 0); } }
+.cr-buy#buy.is-flash { border-radius: 24px; }
+@media (prefers-reduced-motion: reduce) { #buy.is-flash { animation: none; } }
+#buy { scroll-margin-top: 12px; }

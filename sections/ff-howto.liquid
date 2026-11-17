@@ -29,6 +29,7 @@
     </ol>
     <p class="visually-hidden">{{ section.settings.alt }}</p>
   </div>
+  {%- render 'ff-buy-cta', label: section.settings.cta, note: section.settings.cta_note -%}
 </section>
 {%- endif -%}
 
@@ -41,7 +42,10 @@
     { "type": "text", "id": "heading", "label": "Heading", "default": "hydration made easy" },
     { "type": "textarea", "id": "steps", "label": "Steps, one per line: word|short line", "default": "pour|One stick into cold water.\nshake|Until it dissolves.\nenjoy|Any time of day." },
     { "type": "text", "id": "alt", "label": "Photo description (read by search engines and screen readers)", "default": "A stick pack pouring into a glass of water, a hand shaking the bottle, and a smiling woman holding the drink." },
-    { "type": "text", "id": "only_handle", "label": "Only show on products whose handle contains" }
+    { "type": "text", "id": "only_handle", "label": "Only show on products whose handle contains" },
+    { "type": "header", "content": "Buy button" },
+    { "type": "text", "id": "cta", "label": "Button text (blank hides it)", "info": "Scrolls back up to the buy box. Only shows on product pages." },
+    { "type": "text", "id": "cta_note", "label": "Small line under the button" }
   ],
   "presets": [ { "name": "How to use (3 panels)" } ]
 }

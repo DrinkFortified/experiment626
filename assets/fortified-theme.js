@@ -886,6 +886,20 @@
     apply();
   });
 
+  // ---------- "Jump to buy" buttons: smooth scroll to the buy box and flash it ----------
+  (function () {
+    var box = document.getElementById("buy"), btns = $$("[data-buy-cta]");
+    if (!box) { btns.forEach(function (b) { b.hidden = true; }); return; }
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest("[data-to-buy]"); if (!a) return;
+      e.preventDefault();
+      var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+      box.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      box.classList.remove("is-flash"); void box.offsetWidth;
+      setTimeout(function () { box.classList.add("is-flash"); try { box.focus({ preventScroll: true }); } catch (x) {} }, reduce ? 0 : 650);
+    });
+  })();
+
   // ---------- Rotating hero ----------
   $$("[data-hero-rotate]").forEach(function (hero) {
     var slides = $$("[data-hero-slide]", hero), dots = $$("[data-hero-dot]", hero), pauseBtn = $("[data-hero-pause]", hero);

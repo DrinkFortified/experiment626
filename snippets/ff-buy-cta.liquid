@@ -1,0 +1,10 @@
+{%- comment -%}
+  "Jump to buy" button for story sections on product pages. Params: label, note (optional), tone ('dark' on navy).
+  Hidden by the script on pages without a buy box (#buy).
+{%- endcomment -%}
+{%- if label != blank -%}
+<div class="buy-cta{% if tone == 'dark' %} buy-cta--dark{% endif %}" data-buy-cta>
+  <a class="btn btn--money buy-cta__btn" href="#buy" data-to-buy>{{ label }}<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
+  {%- if note != blank -%}<p class="buy-cta__note">{{ note }}</p>{%- endif -%}
+</div>
+{%- endif -%}
