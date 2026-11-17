@@ -3666,3 +3666,12 @@ h1, h2, h3, .display, .crf__h, .art__title, .blg__h, .ofr__h, .cof__h, .hwt__tit
 /* PDP: placeholder pouch while the box is empty */
 .pd__ph { pointer-events: none; transition: opacity .35s var(--ease-out), transform .35s var(--ease-out); }
 .pd__ph.is-out { display: none; }
+
+/* Free Creatine seal: turns slowly on its own (no scroll) */
+@keyframes cof-spin-back { from { transform: scale(1.1) rotate(0deg); } to { transform: scale(1.1) rotate(-360deg); } }
+@keyframes cof-spin-front { from { transform: scale(.78) rotate(10deg); } to { transform: scale(.78) rotate(370deg); } }
+@keyframes cof-sway { from { rotate: -11deg; } to { rotate: -5deg; } }
+.cof__seal-back { transform-origin: 50% 50%; transform-box: fill-box; animation: cof-spin-back 40s linear infinite; }
+.cof__seal-front { transform-origin: 50% 50%; transform-box: fill-box; animation: cof-spin-front 28s linear infinite; }
+.cof__seal-txt { animation: cof-sway 3.2s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) { .cof__seal-back, .cof__seal-front, .cof__seal-txt { animation: none; } }
