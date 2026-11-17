@@ -97,7 +97,8 @@
       <p class="pd__error" data-pd-error role="alert" hidden></p>
       {%- render 'ff-trust-row' -%}
     </form>
-    {%- if section.settings.caution != blank -%}<p class="pd__fine">{{ section.settings.caution }}</p>{%- endif -%}
+    <p class="pd__fine pd__caution"><b>Energy contains caffeine.</b> Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.</p>
+    <p class="pd__fine pd__caution"><b>Everyday:</b> Consult your healthcare professional before use if you have any questions or concerns. Especially if you are pregnant, nursing, taking medication, or have a medical condition.</p>
   </div>
 </section>
 
@@ -141,7 +142,7 @@
     { "type": "text", "id": "line_b", "label": "Second product line", "default": "150mg caffeine from coffee bean" },
     { "type": "range", "id": "start_b", "label": "Starting packs (first flavor)", "min": 0, "max": 6, "step": 1, "default": 1 },
     { "type": "select", "id": "default_plan", "label": "Selected to start", "default": "q3", "options": [ { "value": "sub", "label": "Monthly" }, { "value": "q3", "label": "Every 3 months" }, { "value": "otp", "label": "One-time" } ] },
-    { "type": "text", "id": "caution", "label": "Caution", "default": "As printed on the pack: consult your healthcare professional before use if you are pregnant, nursing, taking medication or have a medical condition. Energy contains caffeine." }
+    { "type": "textarea", "id": "caution", "label": "Caution", "default": "Energy: Contains caffeine. Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children. Everyday: Consult your healthcare professional before use if you have any questions or concerns. Especially if you are pregnant, nursing, taking medication, or have a medical condition." }
   ],
   "presets": [ { "name": "Bundle builder" } ]
 }

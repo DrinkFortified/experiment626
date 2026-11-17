@@ -139,6 +139,7 @@
     h += '<div><p class="qb__label">Purchase</p><div class="qb__plans">' + plans.map(function (x) { return '<button type="button" class="qb__plan" data-qb-plan="' + x[0] + '" aria-pressed="' + (x[0] === qb.plan) + '">' + x[1] + '<small>' + money(qbUnit(v, prod, x[0], n) * n) + '</small></button>'; }).join("") + '</div></div>';
     var cre = n >= (FF.creatineAt || 3) && qb.plan !== "otp";
     h += '<p class="qb__note">' + (qb.plan === "otp" ? (n >= 2 ? "15% off and Free Shipping on 2+ packs." : "Shipping $5.99, free from 2 packs.") : (cre ? "Free Shipping, plus Free Creatine For Life of Subscription." : "Free Shipping. Free Creatine For Life of Subscription from 3 packs.")) + ' Cancel at any time.</p>';
+    if (/energy/i.test(prod.label)) h += '<p class="qb__fine"><b>Contains caffeine.</b> Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.</p>';
     h += '<button type="button" class="btn btn--money btn--block" data-qb-add>Add ' + n + (n === 1 ? " pack" : " packs") + ' · ' + money(qbUnit(v, prod, qb.plan, n) * n) + '</button>';
     if (QB.creatine) h += '<div class="qb__cr">' + (QB.creatine.img ? '<img src="' + esc(QB.creatine.img) + '" alt="" loading="lazy">' : "<span></span>") + '<div><b>Creatine Monohydrate</b><small>One-time pouch, 45 servings · ' + money(QB.creatine.price) + '</small></div><button type="button" class="btn btn--ghost" data-qb-cr>Add</button></div>';
     return h + '</div>';
@@ -196,6 +197,7 @@
     if (!plans.some(function (x) { return x[0] === cu.plan; })) cu.plan = plans[0][0];
     h += '<div><p class="qb__label">How often</p><div class="qb__plans">' + plans.map(function (x) { return '<button type="button" class="qb__plan" data-cu-plan="' + x[0] + '" aria-pressed="' + (x[0] === cu.plan) + '"><span>' + x[1] + '</span><small class="num">' + money(qbUnit(v, prod, x[0], n) * n) + '</small></button>'; }).join("") + '</div></div>';
     h += '<p class="qb__note">Renews automatically ' + (cu.plan === "q3" ? "every 90 days" : "every 30 days") + ' at the price shown until you cancel. Free Shipping. Skip or cancel online anytime.</p>';
+    if (/energy/i.test(prod.label)) h += '<p class="qb__fine"><b>Contains caffeine.</b> Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.</p>';
     h += '<button type="button" class="btn btn--money btn--block" data-cu-add>Subscribe to ' + n + ' packs · creatine free</button>';
     return h + '</div>';
   }

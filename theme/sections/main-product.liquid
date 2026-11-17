@@ -134,7 +134,8 @@
 
     {%- for block in section.blocks -%}{% render block %}{%- endfor -%}
     {%- if section.settings.reviews_line != blank -%}<div class="pd-proof">{{ section.settings.reviews_line }}</div>{%- endif -%}
-    {%- if section.settings.caution != blank -%}<p class="pd__fine">{{ section.settings.caution }}</p>{%- endif -%}
+    {%- if formula == 'energy' -%}<p class="pd__fine pd__caution"><b>Contains caffeine.</b> {{ section.settings.caution_energy | default: 'Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.' }}</p>
+    {%- elsif section.settings.caution != blank -%}<p class="pd__fine pd__caution">{{ section.settings.caution }}</p>{%- endif -%}
   </div>
 </section>
 
@@ -174,7 +175,8 @@
     { "type": "text", "id": "line", "label": "One-line description (blank uses the formula default)" },
     { "type": "text", "id": "badge", "label": "Badge (blank uses the formula default)" },
     { "type": "richtext", "id": "reviews_line", "label": "Reviews line" },
-    { "type": "text", "id": "caution", "label": "Caution", "default": "As printed on the pack: consult your healthcare professional before use if you are pregnant, nursing, taking medication or have a medical condition. Energy contains caffeine." }
+    { "type": "text", "id": "caution", "label": "Caution (Everyday and other non-caffeine products)", "default": "Consult your healthcare professional before use if you have any questions or concerns. Especially if you are pregnant, nursing, taking medication, or have a medical condition." },
+    { "type": "textarea", "id": "caution_energy", "label": "Caffeine statement (Energy)", "info": "Shown after a bold Contains caffeine. on every Energy page. Keep it word for word with the pack.", "default": "Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children." }
   ],
   "blocks": [ { "type": "@app" } ]
 }
