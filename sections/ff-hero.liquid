@@ -33,8 +33,8 @@
   endif
   assign studio_photo = section.settings.photo
   assign studio_src = ''
-  assign studio_w = 1320
-  assign studio_h = 1443
+  assign studio_w = 964
+  assign studio_h = 1073
   if studio_photo != blank
     assign studio_src = studio_photo | image_url: width: 1800
     assign studio_w = studio_photo.width
@@ -151,6 +151,19 @@
         <div class="hz-stage hz-stage--life">
           <figure class="hz-life hz-life--studio">
             <img class="hz-life__img" src="{{ studio_src }}" alt="{{ section.settings.photo_alt | escape }}" width="{{ studio_w }}" height="{{ studio_h }}" loading="lazy">
+            {%- if studio_photo == 'builtin' -%}
+            <span class="hz-play" aria-hidden="true">
+              <i class="hz-play__ring"></i>
+              <i class="hz-play__spark" style="--x:76%;--y:9%;--d:0s"></i>
+              <i class="hz-play__spark hz-play__spark--sm" style="--x:50%;--y:14%;--d:.7s"></i>
+              <i class="hz-play__spark" style="--x:86%;--y:33%;--d:1.3s"></i>
+              <span class="hz-play__chip hz-play__chip--a" style="--x:24%;--y:30%;--d:.2s"><b>0g</b> sugar</span>
+              <span class="hz-play__chip hz-play__chip--b" style="--x:80%;--y:56%;--d:.45s"><b>1,200mg</b> sodium</span>
+              <span class="hz-play__chip hz-play__chip--c" style="--x:-22%;--y:80%;--d:.7s">every ingredient <b>named</b></span>
+              <svg class="hz-play__arrow" viewBox="0 0 220 140"><path d="M200 20 C 150 10, 70 20, 40 100" pathLength="1"/><path d="M28 82 L40 104 L60 88" pathLength="1"/></svg>
+              <span class="hz-play__note">read every word</span>
+            </span>
+            {%- endif -%}
           </figure>
         </div>
         {%- else -%}
@@ -213,7 +226,7 @@
       "type": "text",
       "id": "photo_alt",
       "label": "Photo description",
-      "default": "A woman holding a Fortified Everyday stick in Organic Salty Watermelon"
+      "default": "A woman reading the label through a magnifying glass, holding a Fortified Everyday stick"
     },
     {
       "type": "text",
