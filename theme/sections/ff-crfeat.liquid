@@ -1,0 +1,110 @@
+{%- comment -%}
+  Creatine story sections, one per card from the product's card images.
+  Text is real HTML (indexable); photography comes from the card files, cropped
+  to areas without baked-in text. Styles: habit, consistency, research, five, pure.
+  Items, one per line: habit "Label|Title|Text", research "icon|Title|Text", pure "Text".
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign src = st.image
+  if src == blank and st.file_name != blank
+    for m in product.media
+      if m.media_type == 'image'
+        assign fn = m.preview_image.src | split: '?' | first | split: '/' | last
+        if fn contains st.file_name
+          assign src = m.preview_image
+          break
+        endif
+      endif
+    endfor
+    if src == blank
+      assign src = images[st.file_name]
+    endif
+  endif
+  assign cre = images['Creatine_PDP_01.webp']
+  assign lines = st.items | newline_to_br | split: '<br />'
+-%}
+<section class="crf crf--{{ st.style }}" data-crf data-sp aria-labelledby="crf-h-{{ section.id }}">
+  {%- case st.style -%}
+
+  {%- when 'habit' -%}
+  <div class="wrap crf__grid">
+    <div class="crf__copy">
+      <h2 id="crf-h-{{ section.id }}" class="crf__h">{{ st.heading }}</h2>
+      <ol class="crf-time">
+        {%- for l in lines -%}{%- assign p = l | strip | split: '|' -%}{%- if p.size > 1 -%}
+        <li class="crf-time__step" style="--i:{{ forloop.index0 }}"><span class="crf-time__dot" aria-hidden="true"></span><div><p class="crf-time__row"><span class="crf-time__tag">{{ p[0] }}</span><b>{{ p[1] }}</b></p><p class="crf-time__txt">{{ p[2] }}</p></div></li>
+        {%- endif -%}{%- endfor -%}
+      </ol>
+    </div>
+    <div class="crf__media crf__media--pouch">{%- if cre -%}<span class="hz-crop">{{ cre | image_url: width: 1200 | image_tag: loading: 'lazy', alt: 'Fortified Creatine Monohydrate pouch' }}</span>{%- endif -%}<i class="crf__floor" aria-hidden="true"></i></div>
+  </div>
+
+  {%- when 'consistency' -%}
+  {%- if src -%}<div class="crf__bg" aria-hidden="true"><img src="{{ src | image_url: width: 1400 }}" alt="" loading="lazy" width="1400" height="1400"></div>{%- endif -%}
+  <div class="wrap crf__center">
+    <h2 id="crf-h-{{ section.id }}" class="crf__h">{{ st.heading }}</h2>
+    <div class="crf__body">{{ st.body }}</div>
+    <img class="crf__logo" src="{{ 'ff-logo-white.webp' | asset_url }}" alt="Fortified" width="1200" height="214" loading="lazy">
+    {%- if st.tagline != blank -%}<p class="crf__tag">{{ st.tagline }}</p>{%- endif -%}
+  </div>
+
+  {%- when 'research' -%}
+  <div class="wrap crf__grid">
+    <div class="crf__copy">
+      <h2 id="crf-h-{{ section.id }}" class="crf__h">{{ st.heading }}</h2>
+      <ul class="crf-ico">
+        {%- for l in lines -%}{%- assign p = l | strip | split: '|' -%}{%- if p.size > 1 -%}{%- assign ic = p[0] | strip -%}
+        <li style="--i:{{ forloop.index0 }}"><span class="crf-ico__i">{%- render 'ff-icon', name: ic -%}</span><div><b>{{ p[1] }}</b><span>{{ p[2] }}</span></div></li>
+        {%- endif -%}{%- endfor -%}
+      </ul>
+      {%- if st.body != blank -%}<div class="crf__note">{{ st.body }}</div>{%- endif -%}
+    </div>
+    <div class="crf__media crf__media--photo">
+      {%- if src -%}<div class="crf-crop" style="--cx:.59;--cy:.02;--cw:.41;--ch:.98"><img src="{{ src | image_url: width: 1800 }}" alt="Creatine being scooped into a Fortified bottle of water" loading="lazy" width="1800" height="1800"></div>{%- endif -%}
+      <span class="crf-pour" aria-hidden="true">{%- for i in (1..14) -%}<i style="--d:{{ i | times: 97 | modulo: 1300 }}ms;--x:{{ i | times: 37 | modulo: 9 | minus: 4 }}px"></i>{%- endfor -%}</span>
+    </div>
+  </div>
+
+  {%- when 'five' -%}
+  <div class="wrap crf__center">
+    <h2 id="crf-h-{{ section.id }}" class="crf__h crf__h--big">{{ st.heading }}</h2>
+  </div>
+  {%- if src -%}<div class="crf-strip"><div class="crf-crop" style="--cx:0;--cy:.27;--cw:1;--ch:.47"><img src="{{ src | image_url: width: 2000 }}" alt="A hand holding a 5 gram scoop of creatine" loading="lazy" width="2000" height="2000"></div></div>{%- endif -%}
+  <div class="wrap crf__center">
+    <div class="crf__body">{{ st.body }}</div>
+    {%- if st.tagline != blank -%}<p class="crf__tag">{{ st.tagline }}</p>{%- endif -%}
+  </div>
+
+  {%- when 'pure' -%}
+  <div class="wrap">
+    <h2 id="crf-h-{{ section.id }}" class="crf__h crf__h--center">{{ st.heading }}</h2>
+    {%- assign half = lines.size | plus: 1 | divided_by: 2 -%}
+    <div class="crf-pure">
+      <ul class="crf-pure__co crf-pure__co--l">{%- for l in lines limit: half -%}{%- if l != blank -%}<li style="--i:{{ forloop.index0 }}">{{ l | strip }}</li>{%- endif -%}{%- endfor -%}</ul>
+      <div class="crf-pure__mid">
+        <svg class="crf-pure__arc" viewBox="0 0 400 520" aria-hidden="true" focusable="false"><path d="M120 40 C 10 160, 10 360, 120 480" pathLength="1"/><path d="M280 40 C 390 160, 390 360, 280 480" pathLength="1"/></svg>
+        {%- if src -%}<div class="crf-crop" style="--cx:.31;--cy:.195;--cw:.38;--ch:.645"><img src="{{ src | image_url: width: 1800 }}" alt="A hand holding the Fortified Creatine Monohydrate pouch" loading="lazy" width="1800" height="1800"></div>{%- endif -%}
+      </div>
+      <ul class="crf-pure__co crf-pure__co--r">{%- for l in lines offset: half -%}{%- if l != blank -%}<li style="--i:{{ forloop.index0 }}">{{ l | strip }}</li>{%- endif -%}{%- endfor -%}</ul>
+    </div>
+    <div class="crf__body crf__body--center">{{ st.body }}</div>
+  </div>
+  {%- endcase -%}
+</section>
+
+{% schema %}
+{
+  "name": "Creatine story",
+  "settings": [
+    { "type": "select", "id": "style", "label": "Style", "default": "habit", "options": [ { "value": "habit", "label": "Habit timeline (2 columns)" }, { "value": "consistency", "label": "Consistency (dark, full width)" }, { "value": "research", "label": "Research list with photo (2 columns)" }, { "value": "five", "label": "5 grams (photo band)" }, { "value": "pure", "label": "Pure, callouts around the pouch" } ] },
+    { "type": "image_picker", "id": "image", "label": "Photo" },
+    { "type": "text", "id": "file_name", "label": "Photo file name (used when Photo is blank)", "info": "Looks in this product's images first, then Files. Example: Card14.png" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Heading" },
+    { "type": "textarea", "id": "items", "label": "Items, one per line" },
+    { "type": "richtext", "id": "body", "label": "Text" },
+    { "type": "text", "id": "tagline", "label": "Tagline" }
+  ],
+  "presets": [ { "name": "Creatine story" } ]
+}
+{% endschema %}
