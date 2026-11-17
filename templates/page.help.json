@@ -101,7 +101,7 @@
           "settings": {
             "icon": "heart",
             "title": "Returns",
-            "text": "45 days to decide. How refunds work.",
+            "text": "45 days from delivery. No return required.",
             "url": "#returns"
           }
         }
@@ -361,20 +361,44 @@
           "type": "qa",
           "settings": {
             "q": "What is the 45 day promise?",
-            "a": "<p>If Fortified is not for your family, write to us within 45 days of your order and we will refund you. No return required.</p>"
+            "a": "<p>If Fortified is not for you, contact us within 45 days of delivery and we will refund the purchase price. No return required: keep, share or discard it. Requests after 45 days from the delivery date cannot be honored.</p>"
           }
         },
         "q1": {
           "type": "qa",
           "settings": {
-            "q": "My order arrived damaged or wrong.",
-            "a": "<p>Send us your order number and a photo, and we will make it right.</p>"
+            "q": "How do I ask for a refund?",
+            "a": "<p>Email <a href=\"mailto:hello@livefortified.com\">hello@livefortified.com</a> with your order number and a short note. Refunds go back to your original payment method within 5 to 10 business days after approval; bank posting times vary.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "Does a refund cancel my subscription?",
+            "a": "<p>No. A refund on a subscription order does not cancel future deliveries. Cancel in your account before your next billing date.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "I bought it from another store.",
+            "a": "<p>The 45 day promise covers orders placed on livefortified.com. Purchases from a marketplace or another retailer follow that retailer’s return policy.</p>"
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "q": "My order arrived damaged or defective.",
+            "a": "<p>Contact us right away at <a href=\"mailto:hello@livefortified.com\">hello@livefortified.com</a> and we will replace it at no cost or refund you. <a href=\"/policies/refund-policy\">Read the full refund policy</a>.</p>"
           }
         }
       },
       "block_order": [
         "q0",
-        "q1"
+        "q1",
+        "q2",
+        "q3",
+        "q4"
       ]
     },
     "promise": {
@@ -430,4 +454,3 @@
     "promise"
   ]
 }
-
