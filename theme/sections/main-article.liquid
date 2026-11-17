@@ -41,7 +41,7 @@
 <article class="art art--{{ th }}{% if has_card %} art--card{% endif %}" data-article itemscope itemtype="https://schema.org/BlogPosting">
   <header class="art__hero">
     {%- if th == 'bold' and article.image -%}
-      <div class="art__bg">{{ article.image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', alt: '' }}</div>
+      <div class="art__bg">{{ article.image | image_url: width: 3000 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', alt: '' }}</div>
     {%- endif -%}
     <div class="wrap art__hero-in">
       <div class="art__hero-copy">
@@ -57,7 +57,7 @@
         </p>
       </div>
       {%- if th != 'bold' and article.image -%}
-        <figure class="art__img">{{ article.image | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 990px) 60vw, 100vw', alt: article.image.alt, itemprop: 'image' }}</figure>
+        <figure class="art__img">{{ article.image | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 990px) 60vw, 100vw', alt: article.image.alt | default: article.title, itemprop: 'image' }}</figure>
       {%- endif -%}
     </div>
   </header>
@@ -114,7 +114,7 @@
             assign short = cp.title | split: ' by ' | first
           -%}
           <p class="art-card__eye">{{ st.card_eyebrow | default: 'Mentioned in this article' }}</p>
-          <a class="art-card__img" href="{{ cp.url }}">{%- if pimg != blank -%}<img src="{{ pimg }}" alt="{{ short | escape }}" width="700" height="712" loading="lazy">{%- elsif cp.featured_image -%}{{ cp.featured_image | image_url: width: 700 | image_tag: loading: 'lazy' }}{%- endif -%}</a>
+          <a class="art-card__img" href="{{ cp.url }}">{%- if pimg != blank -%}<img src="{{ pimg }}" alt="{{ short | escape }}" width="700" height="712" loading="lazy">{%- elsif cp.featured_image -%}{{ cp.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: short }}{%- endif -%}</a>
           <p class="art-card__title"><a href="{{ cp.url }}">{{ short }}</a></p>
           <p class="art-card__price"><b class="num">{{ cp.price | money }}</b>{%- if q_pct != blank and q_pct != '0' -%}<span>Save up to {{ q_pct }}% with a subscription</span>{%- endif -%}</p>
           <ul class="art-card__pts">

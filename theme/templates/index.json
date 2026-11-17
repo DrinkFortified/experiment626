@@ -52,7 +52,7 @@
         "c7": {
           "type": "claim",
           "settings": {
-            "text": "30 days to decide"
+            "text": "45 days to decide"
           }
         }
       },
@@ -247,7 +247,7 @@
         "p3": {
           "type": "promise",
           "settings": {
-            "title": "Thirty days to decide",
+            "title": "45 days to decide",
             "text": "Not for your family? We refund you. No return required."
           }
         }

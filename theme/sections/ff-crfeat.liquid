@@ -51,7 +51,7 @@
   </div>
 
   {%- when 'consistency' -%}
-  {%- if src -%}<div class="crf__bg" aria-hidden="true"><img src="{{ src | image_url: width: 1400 }}" alt="" loading="lazy" width="1400" height="1400"></div>{%- endif -%}
+  {%- if src -%}<div class="crf__bg" aria-hidden="true"><img src="{{ src | image_url: width: 2400 }}" srcset="{{ src | image_url: width: 1200 }} 1200w, {{ src | image_url: width: 1800 }} 1800w, {{ src | image_url: width: 2400 }} 2400w" sizes="100vw" alt="" loading="lazy" width="2400" height="2400"></div>{%- endif -%}
   <div class="wrap crf__center">
     <h2 id="crf-h-{{ section.id }}" class="crf__h">{{ st.heading }}</h2>
     <div class="crf__body">{{ st.body }}</div>

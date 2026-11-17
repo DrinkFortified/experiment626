@@ -56,8 +56,14 @@
     </div>
     <figure class="cof__photo">
       <span class="cof__ring" aria-hidden="true"></span>
-      <img src="{{ photo_src }}" alt="{{ st.alt | escape }}" width="{{ pw }}" height="{{ ph }}" loading="lazy">
-      <span class="cof__stamp" aria-hidden="true"><b>FREE</b><small>every delivery</small></span>
+      <span class="cof__pic">
+        <img src="{{ photo_src }}" alt="{{ st.alt | escape }}" width="{{ pw }}" height="{{ ph }}" loading="lazy">
+        <span class="cof__seal" aria-hidden="true" style="--sx:{{ st.seal_x }}%;--sy:{{ st.seal_y }}%">
+          <svg class="cof__seal-back" viewBox="-6 -6 112 112"><path d="M57.6 6.7 Q68.1 0.2 72.0 11.9 Q84.1 9.4 83.7 21.7 Q95.9 23.5 91.3 35.0 Q102.2 40.8 94.0 50.0 Q102.2 59.2 91.3 65.0 Q95.9 76.5 83.7 78.3 Q84.1 90.6 72.0 88.1 Q68.1 99.8 57.6 93.3 Q50.0 103.0 42.4 93.3 Q31.9 99.8 28.0 88.1 Q15.9 90.6 16.3 78.3 Q4.1 76.5 8.7 65.0 Q-2.2 59.2 6.0 50.0 Q-2.2 40.8 8.7 35.0 Q4.1 23.5 16.3 21.7 Q15.9 9.4 28.0 11.9 Q31.9 0.2 42.4 6.7 Q50.0 -3.0 57.6 6.7 Z"/></svg>
+          <svg class="cof__seal-front" viewBox="0 0 100 100"><path d="M57.6 6.7 Q68.1 0.2 72.0 11.9 Q84.1 9.4 83.7 21.7 Q95.9 23.5 91.3 35.0 Q102.2 40.8 94.0 50.0 Q102.2 59.2 91.3 65.0 Q95.9 76.5 83.7 78.3 Q84.1 90.6 72.0 88.1 Q68.1 99.8 57.6 93.3 Q50.0 103.0 42.4 93.3 Q31.9 99.8 28.0 88.1 Q15.9 90.6 16.3 78.3 Q4.1 76.5 8.7 65.0 Q-2.2 59.2 6.0 50.0 Q-2.2 40.8 8.7 35.0 Q4.1 23.5 16.3 21.7 Q15.9 9.4 28.0 11.9 Q31.9 0.2 42.4 6.7 Q50.0 -3.0 57.6 6.7 Z"/><circle cx="50" cy="50" r="36" /></svg>
+          <span class="cof__seal-txt"><b>FREE</b><small>every delivery</small></span>
+        </span>
+      </span>
     </figure>
   </div>
 </section>
@@ -76,7 +82,9 @@
     { "type": "checkbox", "id": "pdp_scroll", "label": "On product pages, scroll up to the buy box instead", "default": true },
     { "type": "text", "id": "cta_pdp", "label": "Button on product pages", "default": "Build my 3 pack box" },
     { "type": "text", "id": "creatine_handle", "label": "Creatine product handle", "default": "creatine-v2" },
-    { "type": "text", "id": "only_handle", "label": "On product pages, only show when the handle contains" }
+    { "type": "text", "id": "only_handle", "label": "On product pages, only show when the handle contains" },
+    { "type": "range", "id": "seal_x", "label": "Seal position across the photo (%)", "min": 0, "max": 100, "step": 1, "default": 37 },
+    { "type": "range", "id": "seal_y", "label": "Seal position down the photo (%)", "min": 0, "max": 100, "step": 1, "default": 30 }
   ],
   "presets": [ { "name": "Free Creatine offer" } ]
 }
