@@ -79,11 +79,13 @@
           <div class="hz-scene" data-hx-scene>
             {%- if p_energy -%}
             <div class="hz-pack hz-pack--a" data-hx-pack>
+              {%- render 'ff-burst', flavor: 'orange' -%}
               <div class="hz-rise"><div class="hz-float"><div class="hz-spin" data-hx-spin>{%- render 'ff-bag3d', product: p_energy, flavor: 'orange', width: 1100, loading: 'eager' -%}</div></div></div>
             </div>
             {%- endif -%}
             {%- if p_every -%}
             <div class="hz-pack hz-pack--b" data-hx-pack>
+              {%- render 'ff-burst', flavor: 'watermelon' -%}
               <div class="hz-rise"><div class="hz-float"><div class="hz-spin" data-hx-spin>{%- render 'ff-bag3d', product: p_every, flavor: 'watermelon', width: 1100, loading: 'eager' -%}</div></div></div>
             </div>
             {%- endif -%}
@@ -120,6 +122,7 @@
               {%- if p_every -%}<div class="hz-opack" style="--k:2"><div class="hz-rise"><div class="hz-float">{%- render 'ff-bag3d', product: p_every, flavor: 'orange', width: 800 -%}</div></div></div>{%- endif -%}
             </div>
             <div class="hz-gift">
+              {%- render 'ff-burst', flavor: 'powder' -%}
               <div class="hz-rise"><div class="hz-float">
                 {%- if cre_img != blank -%}
                   {{ cre_img | image_url: width: 900 | image_tag: loading: 'lazy', alt: 'Fortified Creatine Monohydrate pouch' }}

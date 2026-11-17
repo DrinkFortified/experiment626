@@ -43,6 +43,11 @@ Or with the Shopify CLI: `shopify theme push --unpublished --path theme`.
 - Reduced motion or no JavaScript: a still view of the back with the list beside it.
 - The flat back image in the label section is hidden on the homepage (label section setting "Show the back of pack image").
 
+## Pricing and shipping shown on the product page
+
+- One-time: 1 pack full price + $5.99 shipping; 2+ packs 15% off (Shopify automatic discount "2+ packs 15% (one-time)") and free shipping (Shopify free shipping over $99).
+- Monthly: 10% off 1 pack, 15% off 2+ (the 15% tier must be set in Loop; until it is, checkout charges 10%). Every 3 months: 20%. Subscriptions always ship free (Shopify "FREE SHIPPING" automatic discount for subscriptions).
+
 ## Settings (Theme settings > Offers)
 
 - Free Shipping and Free Creatine For Life of Subscription pack counts drive the progress messages only. Set real shipping rates and the creatine offer in Shopify and Loop.

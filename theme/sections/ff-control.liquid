@@ -8,8 +8,9 @@
       <div class="ui__top">My Subscriptions <span>Next order in 3 months</span></div>
       <div class="ui__row"><div class="pack"><img src="{{ 'ff-everyday-watermelon-front.webp' | asset_url }}" alt="" loading="lazy" width="885" height="900"></div><div><b>Everyday</b><small>Organic Salty Watermelon</small></div><span class="num">2 packs</span></div>
       <div class="ui__row"><div class="pack"><img src="{{ 'ff-energy-orange-front.webp' | asset_url }}" alt="" loading="lazy" width="885" height="900"></div><div><b>Energy</b><small>Organic Salty Orange</small></div><span class="num">1 pack</span></div>
-      <div class="ui__acts"><button type="button" data-act="skip">Skip</button><button type="button" data-act="swap">Swap</button><button type="button" data-act="delay">3 months</button><button type="button" data-act="cancel">Cancel</button></div>
+      <div class="ui__acts"><button type="button" data-act="skip">Skip</button><button type="button" data-act="swap">Swap</button><button type="button" data-act="pause">Pause</button><button type="button" data-act="gift">Gift</button></div>
       <div class="ui__toast" data-ui-toast aria-live="polite">Try it. Tap any action.</div>
+      <p class="ui__fine">Cancel at any time.</p>
     </div>
   </div>
 </section>
@@ -20,7 +21,7 @@
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "You stay in charge" },
     { "type": "text", "id": "heading_accent", "label": "Heading accent", "default": "of every order." },
-    { "type": "textarea", "id": "text", "label": "Text", "default": "Skip, swap organic flavors or cancel in your account. We email you before every renewal." }
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Skip, swap organic flavors, pause, or send the next box as a gift, all in your account. We email you before every renewal." }
   ],
   "presets": [ { "name": "Subscription control" } ]
 }

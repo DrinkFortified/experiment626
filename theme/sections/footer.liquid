@@ -3,7 +3,7 @@
   <div class="wrap">
     <div class="foot__grid">
       <div>
-        <a class="logo" href="{{ routes.root_url }}">FORTIFIED<i>.</i></a>
+        <a class="logo logo--img" href="{{ routes.root_url }}"><img src="{{ 'ff-logo-white.webp' | asset_url }}" alt="Fortified" width="1200" height="214" loading="lazy"></a>
         <p style="max-width:36ch;margin:14px 0 0">{{ section.settings.tagline }}</p>
         {%- form 'customer', class: 'news' -%}
           <input type="hidden" name="contact[tags]" value="newsletter">

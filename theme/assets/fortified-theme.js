@@ -209,13 +209,14 @@
     var st = { plan: hasSub ? "sub" : "otp", q: {} };
     $$("[data-fq]", pd).forEach(function (row) { st.q[row.dataset.fq] = +$("input", row).value || 0; });
     var total = function () { return Object.keys(st.q).reduce(function (a, k) { return a + st.q[k]; }, 0); };
-    var tierRate = function (n) { return n >= 3 ? 0.20 : n === 2 ? 0.15 : 0.10; };
+    var tierRate = function (n) { return n >= 2 ? 0.15 : 0.10; };
+    var OTP_MULTI = 0.15, SHIP_OTP = 599;
 
     // Unit price in cents for a variant on a plan, from Shopify's selling plan allocations.
     // Each variant carries its own product's plan ids, so Everyday and Energy can share one order.
     function planId(v, plan) { var id = plan === "q3" ? v.quarterly : plan === "sub" ? v.monthly : null; return id ? String(id) : null; }
     function unit(v, plan, n) {
-      if (plan === "otp") return v.price;
+      if (plan === "otp") return n >= 2 ? Math.round(v.price * (1 - OTP_MULTI)) : v.price;
       if (plan === "sub" && P.volumeTiers) return Math.round(v.price * (1 - tierRate(n)));
       var id = planId(v, plan);
       return id && v.plans[id] != null ? v.plans[id] : v.price;
@@ -247,15 +248,17 @@
         else sum = unit(V[Object.keys(st.q)[0]], plan, 1);
         el.textContent = money(sum);
       });
-      var ship = n >= (FF.freeShipAt || 2) ? "Free Shipping on this order." : "Free Shipping from " + (FF.freeShipAt || 2) + " packs.";
+      // Shipping: subscriptions always ship free; one-time ships free from 2 packs, otherwise $5.99.
+      var freeShip = st.plan !== "otp" || n >= 2, shipCost = freeShip ? 0 : SHIP_OTP;
+      var ship = st.plan !== "otp" ? "Free Shipping on every delivery." : n >= 2 ? "Free Shipping on this order." : "Shipping " + money(SHIP_OTP) + ", free from 2 packs.";
       var creAt = FF.creatineAt || 3, creOn = st.plan !== "otp" && n >= creAt;
       var cre = creOn ? "Free Creatine For Life of Subscription included." : "Free Creatine For Life of Subscription with " + creAt + " or more packs" + (n ? " (add " + (creAt - n) + " more)." : ".");
       var note = st.plan === "q3" ? "<b>Every 3 months:</b> ships every 90 days, any number of packs, " + P.quarterlyPct + "% off. " + cre + " Skip or cancel online anytime. " + ship
-        : st.plan === "sub" ? "<b>Monthly:</b> " + (P.volumeTiers ? "up to 20%" : P.monthlyPct + "%") + " off every order, ships every 30 days. " + cre + " Skip or cancel online anytime. " + ship
-        : "<b>One-time:</b> full price, one delivery, no subscription. " + ship;
+        : st.plan === "sub" ? "<b>Monthly:</b> " + (P.volumeTiers ? "10% off 1 pack, 15% off 2 or more" : P.monthlyPct + "% off") + ", ships every 30 days. " + cre + " Skip or cancel online anytime. " + ship
+        : "<b>One-time:</b> one delivery, no subscription. 15% off 2 or more packs. " + ship;
       $("[data-plan-note]", pd).innerHTML = note;
       // Savings bar
-      var on1 = st.plan !== "otp", on2 = n >= (FF.freeShipAt || 2), on3 = st.plan === "q3";
+      var on1 = st.plan !== "otp", on2 = n >= 2, on3 = st.plan === "q3";
       $$("[data-tier]", pd).forEach(function (t) { var k = +t.dataset.tier; var on = k === 1 ? on1 : k === 2 ? on2 : on3; t.classList.toggle("is-on", on); t.classList.toggle("is-next", !on && (k === 2 ? on1 : k === 3 ? on1 && on2 : true)); });
       var tm = $("[data-tiers-msg]", pd);
       if (tm) tm.innerHTML = st.plan === "otp" ? "Savings and Free Creatine For Life of Subscription come with a subscription."
@@ -264,14 +267,14 @@
       // Receipt
       var rc = $("[data-pd-receipt]", pd), html = "";
       Object.keys(st.q).forEach(function (id) { if (st.q[id]) html += '<li class="item"><span class="item__name">' + st.q[id] + "\u00d7 " + esc((V[id].formula ? V[id].formula + " " : "") + flavorName(V[id].title)) + '</span><span class="item__lead"></span><span class="item__val">' + money(V[id].price * st.q[id]) + "</span></li>"; });
-      if (save > 0) html += '<li class="item item--save"><span class="item__name">Subscription savings</span><span class="item__lead"></span><span class="item__val">&minus;' + money(save) + "</span></li>";
+      if (save > 0) html += '<li class="item item--save"><span class="item__name">' + (st.plan === "otp" ? "2+ pack savings" : "Subscription savings") + '</span><span class="item__lead"></span><span class="item__val">&minus;' + money(save) + "</span></li>";
       if (creOn) html += '<li class="item item--add"><span class="item__name">Free Creatine For Life of Subscription</span><span class="item__lead"></span><span class="item__val">FREE</span></li>';
-      html += '<li class="item"><span class="item__name">Shipping</span><span class="item__lead"></span><span class="item__val">' + (on2 ? "FREE" : "At checkout") + "</span></li>";
+      html += '<li class="item"><span class="item__name">Shipping</span><span class="item__lead"></span><span class="item__val">' + (freeShip ? "FREE" : money(shipCost)) + "</span></li>";
       rc.innerHTML = html;
       $("[data-pd-receipt-meta]", pd).textContent = st.plan === "q3" ? "Every 3 months" : st.plan === "sub" ? "Monthly" : "One-time";
-      $("[data-pd-price]", pd).innerHTML = (save > 0 ? "<s>" + money(full) + "</s>" : "") + money(tot);
+      $("[data-pd-price]", pd).innerHTML = (save > 0 ? "<s>" + money(full + shipCost) + "</s>" : "") + money(tot + shipCost);
       var sv = $("[data-pd-save]", pd); sv.textContent = save > 0 ? "You save " + money(save) : ""; sv.hidden = !(save > 0);
-      var perk = $("[data-pd-perk]", pd); if (perk) perk.textContent = on2 ? "Free Shipping" : "Free Shipping at " + (FF.freeShipAt || 2) + "+";
+      var perk = $("[data-pd-perk]", pd); if (perk) perk.textContent = freeShip ? "Free Shipping" : "Free Shipping at 2+";
       var add = $("[data-pd-add]", pd); add.disabled = n < 1; add.textContent = n ? "Add " + n + (n === 1 ? " pack" : " packs") + " \u00b7 " + money(tot) : "Choose a flavor";
     }
 
@@ -304,6 +307,13 @@
     draw();
   }
 
+  // Fruit settles behind a pouch while its back shows; white powder bursts on each turn.
+  function burstTurn(b, back) {
+    if (!b) return;
+    b.classList.toggle("is-fruit", back);
+    b.classList.remove("is-pop"); void b.offsetWidth; b.classList.add("is-pop");
+  }
+
   // ---------- Hero 3D pouches: lean toward the pointer, drag or press to turn over ----------
   $$("[data-hx-stage]").forEach(function (stage) {
     var scene = $("[data-hx-scene]", stage), turnBtn = $("[data-hx-turn]", stage), turnLabel = $("[data-hx-turn-label]", stage);
@@ -311,11 +321,13 @@
     var packs = $$("[data-hx-pack]", stage).map(function (el) {
       var bag = $("[data-bag3d]", el), spinEl = $("[data-hx-spin]", el);
       var rest = parseFloat(getComputedStyle(el).getPropertyValue("--rest")) || 0;
-      return { el: el, bag: bag, spinEl: spinEl, rest: rest, spin: 0, raf: 0 };
+      return { el: el, bag: bag, spinEl: spinEl, rest: rest, spin: 0, raf: 0, back: false, burst: $("[data-burst]", el) };
     });
     function apply(pk) {
       pk.spinEl.style.setProperty("--spin", pk.spin.toFixed(2) + "deg");
-      if (pk.bag) pk.bag.classList.toggle("show-back", Math.cos((pk.rest + pk.spin) * Math.PI / 180) < 0);
+      var back = Math.cos((pk.rest + pk.spin) * Math.PI / 180) < 0;
+      if (pk.bag) pk.bag.classList.toggle("show-back", back);
+      if (back !== pk.back) { pk.back = back; burstTurn(pk.burst, back); }
     }
     function ease(t) { return 1 - Math.pow(1 - t, 3); }
     // Turn a pouch to an angle; the face swaps exactly when the pouch passes edge-on.
@@ -490,7 +502,7 @@
   $$("[data-turn]").forEach(function (sec) {
     var bag = $("[data-turn-bag]", sec), zoom = $("[data-turn-zoom]", sec), card = $("[data-turn-card]", sec);
     var bar = $("[data-turn-bar]", sec), floor = $("[data-turn-floor]", sec), stage = $(".turn__stage", sec), plate = $("[data-turn-plate]", sec);
-    var steps = $$("[data-turn-step]", sec);
+    var steps = $$("[data-turn-step]", sec), tBurst = $("[data-burst]", sec), tBack = false;
     if (!bag || !zoom) return;
     var wIn = +sec.getAttribute("data-width") || 7.5, dIn = +sec.getAttribute("data-depth") || 1;
     // Ingredient block on the back render, as fractions of the pouch face.
@@ -523,7 +535,9 @@
       var turn = ease(seg(p, .06, .46)), z = ease(seg(p, .6, .88));
       var a = -24 + 204 * turn, tilt = 7 * (1 - ease(seg(p, .4, .58)));
       bag.style.transform = "rotateX(" + tilt.toFixed(2) + "deg) rotateY(" + a.toFixed(2) + "deg)";
-      bag.classList.toggle("show-back", Math.cos(a * Math.PI / 180) < 0);
+      var isBack = Math.cos(a * Math.PI / 180) < 0;
+      bag.classList.toggle("show-back", isBack);
+      if (isBack !== tBack) { tBack = isBack; burstTurn(tBurst, isBack); }
       var bw = bag.offsetWidth, bh = bag.offsetHeight, sw = stage.clientWidth, sh = stage.clientHeight;
       var small = window.innerWidth <= 860;
       var targetW = Math.min(sw * (small ? .86 : .62), 560);
@@ -556,7 +570,7 @@
   // ---------- Subscription demo (home) ----------
   var ui = $("[data-sub-ui]");
   if (ui) {
-    var msgs = { skip: "Next box skipped.", swap: "Swapped organic flavors for the next box.", delay: "Delivery moved to every 3 months.", cancel: "Cancelled. You can restart anytime." };
+    var msgs = { skip: "Next box skipped.", swap: "Swapped organic flavors for the next box.", pause: "Paused. Restart from your account whenever you like.", gift: "Your next box ships to someone else, with your note." };
     ui.addEventListener("click", function (e) { var b = e.target.closest("[data-act]"); if (!b) return; $$("[data-act]", ui).forEach(function (x) { x.classList.toggle("is-on", x === b); }); $("[data-ui-toast]", ui).textContent = msgs[b.dataset.act]; });
   }
 
