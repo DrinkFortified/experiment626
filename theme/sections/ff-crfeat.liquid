@@ -148,6 +148,13 @@
     {%- if st.body != blank -%}<div class="crf-callout">{%- render 'ff-icon', name: 'bolt' -%}<div>{%- if st.tagline != blank -%}<b>{{ st.tagline }}</b>{%- endif -%}{{ st.body }}</div></div>{%- endif -%}
   </div>
   {%- endcase -%}
+  {%- liquid
+    assign cta_tone = ''
+    if st.style == 'consistency' or st.style == 'pure' or st.style == 'compare' or st.tone == 'dark'
+      assign cta_tone = 'dark'
+    endif
+  -%}
+  {%- render 'ff-buy-cta', label: st.cta, note: st.cta_note, tone: cta_tone -%}
 </section>
 {%- endif -%}
 
@@ -166,7 +173,10 @@
     { "type": "select", "id": "stick", "label": "Product stick (callouts and table)", "default": "", "options": [ { "value": "", "label": "None (creatine pouch)" }, { "value": "ff-everyday-watermelon", "label": "Everyday, Organic Salty Watermelon" }, { "value": "ff-everyday-orange", "label": "Everyday, Organic Salty Orange" }, { "value": "ff-energy-orange", "label": "Energy, Organic Salty Orange" }, { "value": "ff-energy-watermelon", "label": "Energy, Organic Salty Watermelon" } ] },
     { "type": "textarea", "id": "crops", "label": "Photo crops", "info": "One line per photo: left,top,width,height as fractions of the photo, e.g. 0.05,0.15,0.43,0.28" },
     { "type": "text", "id": "alt", "label": "Photo description" },
-    { "type": "text", "id": "only_handle", "label": "Only show on products whose handle contains", "info": "Leave blank to always show. Used when a template is shared by several products." }
+    { "type": "text", "id": "only_handle", "label": "Only show on products whose handle contains", "info": "Leave blank to always show. Used when a template is shared by several products." },
+    { "type": "header", "content": "Buy button" },
+    { "type": "text", "id": "cta", "label": "Button text (blank hides it)", "info": "Scrolls back up to the buy box. Only shows on product pages." },
+    { "type": "text", "id": "cta_note", "label": "Small line under the button" }
   ],
   "presets": [ { "name": "Creatine story" } ]
 }

@@ -95,6 +95,7 @@
       </ul>
     </div></div>
   </div>
+  {%- render 'ff-buy-cta', label: section.settings.cta, note: section.settings.cta_note -%}
 </section>
 
 {% schema %}
@@ -112,7 +113,10 @@
     { "type": "checkbox", "id": "show_back", "label": "Show the back of pack image", "info": "Turn off when the 3D pouch turn section is on the page.", "default": true },
     { "type": "image_picker", "id": "back_image", "label": "Back of pack image" },
     { "type": "text", "id": "list_title", "label": "List title", "default": "The shared base" },
-    { "type": "text", "id": "list_meta", "label": "List note", "default": "In both Energy and Everyday" }
+    { "type": "text", "id": "list_meta", "label": "List note", "default": "In both Energy and Everyday" },
+    { "type": "header", "content": "Buy button" },
+    { "type": "text", "id": "cta", "label": "Button text (blank hides it)", "info": "Scrolls back up to the buy box. Only shows on product pages." },
+    { "type": "text", "id": "cta_note", "label": "Small line under the button" }
   ],
   "blocks": [ { "type": "ingredient", "name": "Ingredient", "settings": [
     { "type": "text", "id": "name", "label": "Ingredient", "default": "Pink Himalayan Salt" },
