@@ -304,6 +304,55 @@
     draw();
   }
 
+  // ---------- Rotating hero ----------
+  $$("[data-hero-rotate]").forEach(function (hero) {
+    var slides = $$("[data-hero-slide]", hero), dots = $$("[data-hero-dot]", hero), pauseBtn = $("[data-hero-pause]", hero);
+    if (slides.length < 2) return;
+    var secs = Math.max(4, +hero.getAttribute("data-hero-rotate") || 7), cur = 0, timer = null;
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var userPaused = reduce, hover = false, focus = false;
+    hero.style.setProperty("--hero-t", secs + "s");
+    function setPauseLabel() {
+      if (!pauseBtn) return;
+      pauseBtn.setAttribute("aria-pressed", String(userPaused));
+      pauseBtn.setAttribute("aria-label", userPaused ? "Play rotation" : "Pause rotation");
+    }
+    function show(i) {
+      cur = (i + slides.length) % slides.length;
+      slides.forEach(function (s, k) {
+        var on = k === cur;
+        s.classList.toggle("is-active", on);
+        if (on) { s.removeAttribute("aria-hidden"); s.inert = false; } else { s.setAttribute("aria-hidden", "true"); s.inert = true; }
+        $$("a, button", s).forEach(function (a) { if (on) a.removeAttribute("tabindex"); else a.setAttribute("tabindex", "-1"); });
+      });
+      dots.forEach(function (d, k) { if (k === cur) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current"); });
+      restart();
+    }
+    function playing() { return !userPaused && !hover && !focus && !document.hidden; }
+    function restart() {
+      clearTimeout(timer);
+      hero.classList.remove("is-playing");
+      if (!playing()) return;
+      void hero.offsetWidth;
+      hero.classList.add("is-playing");
+      timer = setTimeout(function () { show(cur + 1); }, secs * 1000);
+    }
+    dots.forEach(function (d) { d.addEventListener("click", function () { show(+d.getAttribute("data-hero-dot")); }); });
+    if (pauseBtn) {
+      setPauseLabel();
+      pauseBtn.addEventListener("click", function () { userPaused = !userPaused; setPauseLabel(); restart(); });
+    }
+    var box = $(".p-hero__slides", hero);
+    if (window.matchMedia && matchMedia("(hover: hover)").matches) {
+      box.addEventListener("mouseenter", function () { hover = true; restart(); });
+      box.addEventListener("mouseleave", function () { hover = false; restart(); });
+    }
+    box.addEventListener("focusin", function () { focus = true; restart(); });
+    box.addEventListener("focusout", function (e) { if (!box.contains(e.relatedTarget)) { focus = false; restart(); } });
+    document.addEventListener("visibilitychange", restart);
+    show(0);
+  });
+
   // ---------- Subscription demo (home) ----------
   var ui = $("[data-sub-ui]");
   if (ui) {
