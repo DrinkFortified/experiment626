@@ -8,7 +8,7 @@
   <div class="site-head">
     <div class="wrap">
       <button class="menu-btn" type="button" aria-label="{{ 'general.menu' | t }}" aria-expanded="false" data-menu><span></span><span></span><span></span></button>
-      <a class="logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">FORTIFIED<i>.</i></a>
+      <a class="logo logo--img" href="{{ routes.root_url }}"><img src="{{ 'ff-logo.webp' | asset_url }}" alt="Fortified" width="1200" height="214"></a>
       <nav class="nav" aria-label="Main">
         {%- if menu.links.size > 0 -%}
           {%- for link in menu.links -%}

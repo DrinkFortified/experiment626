@@ -2,7 +2,7 @@
   "current": {
     "free_shipping_packs": 2,
     "creatine_packs": 3,
-    "volume_tiers": false,
+    "volume_tiers": true,
     "creatine_auto": true,
     "creatine_upsell": true,
     "creatine_upsell_pct": 50

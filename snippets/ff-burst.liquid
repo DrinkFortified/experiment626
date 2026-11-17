@@ -1,0 +1,31 @@
+{%- comment -%}
+  Fruit and powder burst behind a pouch. Params: flavor ('orange' | 'watermelon' | 'powder').
+  Hidden until the script adds .is-fruit (fruit settles around the pouch) and .is-pop (powder burst),
+  or, for 'powder', until its slide's CSS plays it.
+{%- endcomment -%}
+{%- liquid
+  if flavor == 'watermelon'
+    assign f1 = 'ff-fruit-watermelon-1.webp'
+    assign f2 = 'ff-fruit-watermelon-2.webp'
+  elsif flavor == 'orange'
+    assign f1 = 'ff-fruit-orange-1.webp'
+    assign f2 = 'ff-fruit-orange-2.webp'
+  endif
+-%}
+<div class="burst burst--{{ flavor }}" data-burst aria-hidden="true">
+  <span class="burst__cloud"></span>
+  {%- for i in (1..18) -%}
+    {%- liquid
+      assign a = i | times: 20
+      assign r = i | times: 37 | modulo: 70 | plus: 80
+      assign s = i | times: 13 | modulo: 5 | plus: 3
+      assign d = i | times: 17 | modulo: 140
+    -%}
+    <i class="burst__p" style="--a:{{ a }}deg;--r:{{ r }}px;--s:{{ s }}px;--d:{{ d }}ms"></i>
+  {%- endfor -%}
+  {%- if f1 -%}
+    <img class="burst__f burst__f--1" src="{{ f1 | asset_url }}" alt="" width="600" height="600" loading="lazy" draggable="false">
+    <img class="burst__f burst__f--2" src="{{ f2 | asset_url }}" alt="" width="600" height="600" loading="lazy" draggable="false">
+    <img class="burst__f burst__f--3" src="{{ f1 | asset_url }}" alt="" width="600" height="600" loading="lazy" draggable="false">
+  {%- endif -%}
+</div>
