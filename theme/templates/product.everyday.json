@@ -198,17 +198,6 @@
         "body": "<p>Electrolytes + D3 & K2 in one simple daily formula.</p>"
       }
     },
-    "story_steps": {
-      "type": "ff-crfeat",
-      "settings": {
-        "style": "steps",
-        "tone": "warm",
-        "file_name": "Everyday6.png",
-        "crops": "0.060,0.152,0.425,0.279\n0.514,0.152,0.425,0.279\n0.060,0.552,0.425,0.279\n0.514,0.552,0.425,0.279",
-        "heading": "Hydration made simple.",
-        "items": "Tear open|Grab one stick of FORTIFIED Everyday.\nPour|Empty into cold water.\nMix|Shake or stir until dissolved.\nDrink|Use it as part of your daily hydration routine."
-      }
-    },
     "story_moments": {
       "type": "ff-crfeat",
       "settings": {
@@ -229,6 +218,12 @@
         "body": "<p>Everyday was built to be exactly that: Every day.</p><p>No caffeine spike. No added sugar. No complicated routine. Just electrolytes + D3 & K2 in one easy stick.</p>",
         "tagline": "Bring the water. We'll bring the hydration."
       }
+    },
+    "howto": {
+      "type": "ff-howto",
+      "settings": {
+        "file_name": "howto-everyday.png"
+      }
     }
   },
   "order": [
@@ -236,8 +231,8 @@
     "story_jobs",
     "story_compare",
     "story_only",
-    "story_steps",
     "story_moments",
+    "howto",
     "label",
     "story_consistency",
     "faq"

@@ -350,6 +350,12 @@
     "nomumbo": {
       "type": "ff-nomumbo",
       "settings": {}
+    },
+    "lifestyle": {
+      "type": "ff-lifestyle",
+      "settings": {
+        "alt": "Fortified Everyday in Organic Salty Orange on the grass with fresh oranges, flip-flops and a glass of the drink"
+      }
     }
   },
   "order": [
@@ -359,6 +365,7 @@
     "pack_turn",
     "label",
     "formulas",
+    "lifestyle",
     "nomumbo",
     "promise",
     "tiers",
