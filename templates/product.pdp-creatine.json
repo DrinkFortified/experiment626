@@ -53,87 +53,63 @@
         "q4"
       ]
     },
-    "cards": {
-      "type": "ff-cards",
+    "story_habit": {
+      "type": "ff-crfeat",
       "settings": {
-        "heading": "Read it",
-        "heading_accent": "card by card."
-      },
-      "blocks": {
-        "c0": {
-          "type": "card",
-          "settings": {
-            "theme": "light",
-            "layout": "timeline",
-            "visual": "none",
-            "heading": "Small daily habit. Stronger over time.",
-            "items": "Weeks 1-2|Build the habit|Take 5g daily, including rest days. Your muscle creatine stores begin to increase.*\nWeeks 3-4|Stay consistent|Stores typically approach saturation after about four weeks of daily use.*\nWeeks 4-8|Support your training|Creatine supports strength, power and lean muscle alongside resistance training.*\nWeek 8+|Keep building|Stay on it to keep muscle creatine stores elevated and support ongoing training.*",
-            "body": "",
-            "tagline": ""
-          }
-        },
-        "c1": {
-          "type": "card",
-          "settings": {
-            "theme": "dark",
-            "layout": "text",
-            "visual": "none",
-            "heading": "Strength takes consistency. So does creatine.",
-            "items": "",
-            "body": "<p>Creatine stores build with regular daily use. Keep taking it. Keep training. Give it time.</p><p>FORTIFIED keeps the formula simple: 5g of pure, unflavored creatine monohydrate. No flavors. No sweeteners. No fillers.</p>",
-            "tagline": "Take it daily. Build on the work."
-          }
-        },
-        "c2": {
-          "type": "card",
-          "settings": {
-            "theme": "light",
-            "layout": "icons",
-            "visual": "none",
-            "heading": "Decades of research. One pure ingredient.",
-            "items": "dumbbell|Strength & power|Supports performance in short bursts of intense exercise.*\nmuscle|Lean muscle|Helps build lean muscle when paired with resistance training.*\nbattery|Muscle energy|Helps replenish the energy your muscles use during hard sets.*\ncalendar|A simple daily habit|5g of unflavored creatine monohydrate. Mix and take daily.\nshield|Just creatine|One ingredient. No flavors, sweeteners, or fillers.",
-            "body": "",
-            "tagline": ""
-          }
-        },
-        "c3": {
-          "type": "card",
-          "settings": {
-            "theme": "light",
-            "layout": "text",
-            "visual": "creatine",
-            "heading": "5 grams. Every day.",
-            "items": "",
-            "body": "<p>Pure, unflavored creatine monohydrate. Mix into water, coffee, or your daily shake. Training days. Rest days.</p>",
-            "tagline": "Make consistency your strongest habit."
-          }
-        },
-        "c4": {
-          "type": "card",
-          "settings": {
-            "theme": "navy",
-            "layout": "callouts",
-            "visual": "creatine",
-            "heading": "Pure creatine. Nothing to complicate it.",
-            "items": "5g per serving\nOne pure ingredient\nMicronized powder\nUnflavored\nNo sweeteners\nNo fillers",
-            "body": "<p>FORTIFIED delivers pure creatine monohydrate in a straightforward daily serving. Mix into your preferred drink. Keep showing up.</p>",
-            "tagline": ""
-          }
-        }
-      },
-      "block_order": [
-        "c0",
-        "c1",
-        "c2",
-        "c3",
-        "c4"
-      ]
+        "style": "habit",
+        "heading": "Small daily habit. Stronger over time.",
+        "items": "Weeks 1-2|Build the habit|Take 5g daily, including rest days. Your muscle creatine stores begin to increase.*\nWeeks 3-4|Stay consistent|Stores typically approach saturation after about four weeks of daily use.*\nWeeks 4-8|Support your training|Creatine supports strength, power and lean muscle alongside resistance training.*\nWeek 8+|Keep building|Stay on it to keep muscle creatine stores elevated and support ongoing training.*"
+      }
+    },
+    "story_consistency": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "consistency",
+        "file_name": "Card7-Consistency",
+        "heading": "Strength takes consistency. So does creatine.",
+        "body": "<p>Creatine stores build with regular daily use. Keep taking it. Keep training. Give it time.</p><p>FORTIFIED keeps the formula simple: 5g of pure, unflavored creatine monohydrate. No flavors. No sweeteners. No fillers.</p>",
+        "tagline": "Take it daily. Build on the work."
+      }
+    },
+    "story_research": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "research",
+        "file_name": "Card14",
+        "heading": "Decades of research. One pure ingredient.",
+        "items": "dumbbell|Strength & power|Supports performance in short bursts of intense exercise.*\nmuscle|Lean muscle|Helps build lean muscle when paired with resistance training.*\nbattery|Muscle energy|Helps replenish the energy your muscles use during hard sets.*\ncalendar|A simple daily habit|5g of unflavored creatine monohydrate. Mix and take daily.\nshield|Just creatine|One ingredient. No flavors, sweeteners, or fillers.",
+        "body": "<p>*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>"
+      }
+    },
+    "story_five": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "five",
+        "file_name": "Card15",
+        "heading": "5 grams. Every day.",
+        "body": "<p>Pure, unflavored creatine monohydrate. Mix into water, coffee, or your daily shake. Training days. Rest days.</p>",
+        "tagline": "Make consistency your strongest habit."
+      }
+    },
+    "story_pure": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "pure",
+        "file_name": "Card17",
+        "heading": "Pure creatine. Nothing to complicate it.",
+        "items": "5g per serving\nOne pure ingredient\nMicronized powder\nUnflavored\nNo sweeteners\nNo fillers",
+        "body": "<p>FORTIFIED delivers pure creatine monohydrate in a straightforward daily serving. Mix into your preferred drink. Keep showing up.</p>"
+      }
     }
   },
   "order": [
     "main",
+    "story_habit",
+    "story_consistency",
+    "story_research",
+    "story_five",
+    "story_pure",
     "details",
-    "cards",
     "faq"
   ]
 }

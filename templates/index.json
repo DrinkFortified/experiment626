@@ -346,6 +346,10 @@
     "pack_turn": {
       "type": "ff-pack-turn",
       "settings": {}
+    },
+    "nomumbo": {
+      "type": "ff-nomumbo",
+      "settings": {}
     }
   },
   "order": [
@@ -355,6 +359,7 @@
     "pack_turn",
     "label",
     "formulas",
+    "nomumbo",
     "promise",
     "tiers",
     "control",

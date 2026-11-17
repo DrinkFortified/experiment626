@@ -668,7 +668,7 @@
     var sec = cv.closest("section"); if (!sec || !cv.getContext) return;
     var ctx = cv.getContext("2d"), sides = $$(".lfx-side", sec), dpr = Math.min(2, window.devicePixelRatio || 1);
     var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var W = 0, H = 0, parts = [], running = false, visible = false, last = 0, MAX = 2600;
+    var W = 0, H = 0, parts = [], running = false, visible = false, last = 0, small = window.innerWidth < 860, MAX = small ? 5000 : 13000, RATE = small ? 20 : 46;
     function size() { var r = sec.getBoundingClientRect(); W = r.width; H = r.height; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
     function mouths() {
       var sr = sec.getBoundingClientRect();
@@ -676,41 +676,52 @@
         var a = sd.getBoundingClientRect(), st = $(".lfx-stick", sd).getBoundingClientRect();
         var mx = a.left - sr.left, my = a.top - sr.top, cx = st.left + st.width / 2 - sr.left, cy = st.top + st.height / 2 - sr.top;
         var dx = mx - cx, dy = my - cy, l = Math.hypot(dx, dy) || 1;
-        return { x: mx, y: my, dx: dx / l, dy: dy / l, fall: Math.min(H - my - 10, Math.max(320, H * .62)) };
+        return { x: mx, y: my, dx: dx / l, dy: dy / l, fall: Math.min(H - my - 10, Math.max(420, H * .78)) };
       });
     }
     function inAmount() { var sp = parseFloat(sec.style.getPropertyValue("--sp")); if (isNaN(sp)) sp = 1; return Math.min(1, Math.max(0, (sp - .1) * 4.5)); }
     function spawn(m) {
-      var big = Math.random() < .07, along = 1.15 + Math.random() * .22, off = (Math.random() - .5) * 4;
+      var big = Math.random() < .05, along = .62 + Math.random() * .12, off = (Math.random() + Math.random() - 1) * 6;
       parts.push({
         x: m.x - m.dy * off, y: m.y + m.dx * off * .4,
         vx: m.dx * along + (Math.random() - .5) * .06, vy: m.dy * along + (Math.random() - .5) * .06,
-        s: big ? 1.6 + Math.random() * .8 : .6 + Math.random() * .8,
-        j: .004 + Math.random() * .014, end: m.y + m.fall * (.55 + Math.random() * .55),
-        pink: Math.random() < .12, a: .78 + Math.random() * .22, big: big, rot: Math.random() * 6.28
+        s: big ? 1.8 + Math.random() * .9 : .8 + Math.random() * 1.1,
+        j: .008 + Math.random() * .03, end: m.y + m.fall * (.7 + Math.random() * .4),
+        pink: Math.random() < .08, a: .9 + Math.random() * .1, big: big, rot: Math.random() * 6.28
       });
     }
     function step(dt, emit) {
-      if (emit) { var ms = mouths(); ms.forEach(function (m) { var k = 26 * dt; while (k > 0) { if (Math.random() < k) spawn(m); k -= 1; } }); }
+      if (emit) { var ms = mouths(); ms.forEach(function (m) { var k = RATE * dt; while (k > 0) { if (Math.random() < k) { spawn(m); var np = parts[parts.length - 1], f = Math.random() * dt; np.vy += .085 * f; np.x += np.vx * f; np.y += np.vy * f; } k -= 1; } }); }
       for (var i = parts.length - 1; i >= 0; i--) {
         var p = parts[i];
         p.vy += .085 * dt; p.vx += (Math.random() - .5) * p.j * dt; p.vx *= Math.pow(.997, dt);
         p.x += p.vx * dt; p.y += p.vy * dt; p.rot += .08 * dt;
-        if (p.y > p.end) { p.a -= .06 * dt; if (p.a <= 0 || p.y > H + 4) { parts.splice(i, 1); continue; } }
+        if (p.y > p.end) { p.a -= .035 * dt; if (p.a <= 0 || p.y > H + 4) { parts.splice(i, 1); continue; } }
       }
       if (parts.length > MAX) parts.splice(0, parts.length - MAX);
     }
     function render() {
       ctx.clearRect(0, 0, W, H);
-      // 1) a faint shadow pass so the white stream reads on a light ground
-      ctx.fillStyle = "rgba(11,28,41,.16)";
-      for (var i = 0; i < parts.length; i++) { var p = parts[i]; ctx.globalAlpha = Math.max(0, p.a); ctx.fillRect(p.x + .6, p.y + .9, p.s, p.s); }
-      // 2) the grains: bright white, a few pink; larger crystals tumble as small squares
+      // Batched drawing: grains grouped by colour and fade level, one fill per group.
+      var L = 5, white = [], pink = [], shadow = [], bigs = [], i, p, q;
+      for (i = 0; i < L; i++) { white.push([]); pink.push([]); shadow.push([]); }
       for (i = 0; i < parts.length; i++) {
-        p = parts[i]; ctx.globalAlpha = Math.max(0, p.a);
-        ctx.fillStyle = p.pink ? "#f3cdc7" : "#ffffff";
-        if (p.big) { ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillRect(-p.s / 2, -p.s / 2, p.s, p.s); ctx.fillStyle = "rgba(11,28,41,.18)"; ctx.fillRect(-p.s / 2, p.s / 2 - .5, p.s, .5); ctx.restore(); }
-        else ctx.fillRect(p.x, p.y, p.s, p.s);
+        p = parts[i]; if (p.a <= 0) continue;
+        q = Math.min(L - 1, Math.floor(p.a * L));
+        if (p.big) { bigs.push(p); continue; }
+        shadow[q].push(p); (p.pink ? pink : white)[q].push(p);
+      }
+      function fillGroup(list, color, alpha, ox, oy) {
+        if (!list.length) return; ctx.globalAlpha = alpha; ctx.fillStyle = color; ctx.beginPath();
+        for (var j = 0; j < list.length; j++) { var g = list[j]; ctx.rect(g.x + ox, g.y + oy, g.s, g.s); }
+        ctx.fill();
+      }
+      for (i = 0; i < L; i++) fillGroup(shadow[i], "rgb(11,28,41)", .2 * (i + 1) / L, .6, .9);
+      for (i = 0; i < L; i++) { fillGroup(white[i], "#ffffff", (i + 1) / L, 0, 0); fillGroup(pink[i], "#f3cdc7", (i + 1) / L, 0, 0); }
+      for (i = 0; i < bigs.length; i++) {
+        p = bigs[i]; ctx.globalAlpha = Math.max(0, p.a); ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+        ctx.fillStyle = "rgba(11,28,41,.22)"; ctx.fillRect(-p.s / 2 + .6, -p.s / 2 + .9, p.s, p.s);
+        ctx.fillStyle = p.pink ? "#f3cdc7" : "#fff"; ctx.fillRect(-p.s / 2, -p.s / 2, p.s, p.s); ctx.restore();
       }
       ctx.globalAlpha = 1;
     }
@@ -746,6 +757,15 @@
     dlg.addEventListener("keydown", function (e) { if (e.key === "ArrowLeft") show(cur - 1); if (e.key === "ArrowRight") show(cur + 1); });
     dlg.addEventListener("close", function () { document.documentElement.classList.remove("story-open"); var b = $("[data-card-open]", cards[cur]); if (b) b.focus(); });
   });
+
+  // ---------- Creatine story sections: reveal once in view ----------
+  (function () {
+    var secs = $$("[data-crf]"); if (!secs.length) return;
+    if ((window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || !("IntersectionObserver" in window)) return;
+    document.documentElement.classList.add("js-crf");
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); } }); }, { threshold: .25 });
+    secs.forEach(function (s) { io.observe(s); });
+  })();
 
   // ---------- Rotating hero ----------
   $$("[data-hero-rotate]").forEach(function (hero) {

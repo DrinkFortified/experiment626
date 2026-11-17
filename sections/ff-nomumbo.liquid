@@ -1,0 +1,47 @@
+{%- comment -%}
+  "No Mumbo Jumbo." Brand promise band with a person, placed before the promises.
+  The words fill in as the section scrolls; each thing we leave out gets struck through.
+{%- endcomment -%}
+{%- liquid
+  assign person = section.settings.person
+  if person == blank and section.settings.person_file != blank
+    assign person = images[section.settings.person_file]
+  endif
+-%}
+<section class="nmj" data-nmj data-sp aria-labelledby="nmj-h-{{ section.id }}">
+  <div class="nmj__word" aria-hidden="true"><span>No</span><span>Mumbo</span><span>Jumbo.</span></div>
+  <div class="wrap nmj__grid">
+    <div class="nmj__copy">
+      <p class="nmj__kicker">{{ section.settings.kicker }}</p>
+      <h2 id="nmj-h-{{ section.id }}" class="nmj__h">{{ section.settings.heading }}</h2>
+      <p class="nmj__text">{{ section.settings.text }}</p>
+      <ul class="nmj__list" aria-label="Never in a Fortified pack">
+        {%- assign lines = section.settings.never | newline_to_br | split: '<br />' -%}
+        {%- for l in lines -%}{%- if l != blank -%}<li style="--i:{{ forloop.index0 }}"><span class="nmj__strike">{{ l | strip }}</span><b>never</b></li>{%- endif -%}{%- endfor -%}
+      </ul>
+    </div>
+    <figure class="nmj__person">
+      {%- if person != blank -%}
+        <img src="{{ person | image_url: width: 1400 }}" alt="{{ section.settings.person_alt | escape }}" loading="lazy" width="{{ person.width }}" height="{{ person.height }}">
+      {%- else -%}
+        <img src="{{ 'ff-model-cutout.webp' | asset_url }}" alt="{{ section.settings.person_alt | escape }}" loading="lazy" width="760" height="1781">
+      {%- endif -%}
+    </figure>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "No Mumbo Jumbo",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Our one rule" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "No Mumbo Jumbo." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "No proprietary blends. No fillers you can't pronounce. No fear-mongering marketing. Just real ingredients in honest amounts, every milligram printed on the label." },
+    { "type": "textarea", "id": "never", "label": "Never list, one per line", "default": "Proprietary blends\nFillers you can't pronounce\nSynthetic dyes\nSucralose or aspartame" },
+    { "type": "image_picker", "id": "person", "label": "Person (transparent cutout works best)" },
+    { "type": "text", "id": "person_file", "label": "Person file name in Files (blank uses the built-in cutout)" },
+    { "type": "text", "id": "person_alt", "label": "Person description", "default": "Woman holding a Fortified Energy stick in Organic Salty Watermelon, raising one finger" }
+  ],
+  "presets": [ { "name": "No Mumbo Jumbo" } ]
+}
+{% endschema %}

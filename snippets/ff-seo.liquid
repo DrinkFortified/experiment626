@@ -20,6 +20,9 @@
     assign og_image = images['Fortified_HP_Hero.png']
   endif
   assign logo_url = 'ff-logo.webp' | asset_url | prepend: 'https:'
+  assign lb = '{'
+  assign rb = '}'
+  assign search_tpl = shop.url | append: routes.search_url | append: '?q=' | append: lb | append: 'search_term_string' | append: rb
 -%}
 {%- unless page_description -%}<meta name="description" content="{{ desc | strip_html | escape | truncate: 300 }}">{%- endunless -%}
 {%- if template.name == 'search' or template.name == 'cart' or template contains 'customers' -%}<meta name="robots" content="noindex, follow">{%- endif -%}
@@ -61,7 +64,7 @@
       "name": {{ shop.name | json }},
       "url": {{ shop.url | json }},
       "publisher": { "@id": {{ shop.url | append: '/#org' | json }} },
-      "potentialAction": { "@type": "SearchAction", "target": { "@type": "EntryPoint", "urlTemplate": {{ shop.url | append: routes.search_url | append: '?q={search_term_string}' | json }} }, "query-input": "required name=search_term_string" }
+      "potentialAction": { "@type": "SearchAction", "target": { "@type": "EntryPoint", "urlTemplate": {{ search_tpl | json }} }, "query-input": "required name=search_term_string" }
     }
     {%- if template.name == 'product' -%},
     {
