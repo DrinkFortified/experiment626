@@ -825,6 +825,34 @@
     fetch("/discount/" + encodeURIComponent(code) + "?redirect=" + encodeURIComponent("/cart.js"), { credentials: "same-origin" }).catch(function () {});
   });
 
+  // ---------- Blog post: reading progress, table of contents, copy link, scrollable tables ----------
+  $$("[data-article]").forEach(function (art) {
+    var body = $("[data-art-body]", art), bar = $("[data-art-progress]");
+    $$("table", body).forEach(function (t) { if (t.parentNode.classList.contains("art-table")) return; var w = document.createElement("div"); w.className = "art-table"; t.parentNode.insertBefore(w, t); w.appendChild(t); });
+    if (bar) {
+      var onScroll = function () { var r = body.getBoundingClientRect(), h = r.height - innerHeight * .6; var p = Math.min(1, Math.max(0, -r.top / (h > 0 ? h : 1))); bar.style.transform = "scaleX(" + p + ")"; };
+      addEventListener("scroll", onScroll, { passive: true }); onScroll();
+    }
+    var toc = $("[data-art-toc]", art), hs = $$("h2", body);
+    if (toc && hs.length > 1) {
+      var ol = $("ol", toc), links = [];
+      hs.forEach(function (h, i) {
+        if (!h.id) h.id = "s-" + (i + 1) + "-" + h.textContent.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40);
+        var li = document.createElement("li"), a = document.createElement("a"); a.href = "#" + h.id; a.textContent = h.textContent; li.appendChild(a); ol.appendChild(li); links.push(a);
+      });
+      toc.hidden = false;
+      if ("IntersectionObserver" in window) {
+        var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { links.forEach(function (l) { l.classList.toggle("is-on", l.getAttribute("href") === "#" + e.target.id); }); } }); }, { rootMargin: "-20% 0px -70% 0px" });
+        hs.forEach(function (h) { io.observe(h); });
+      }
+    }
+    var cp = $("[data-art-copy]", art);
+    if (cp) cp.addEventListener("click", function () {
+      var u = cp.dataset.url, done = function () { cp.textContent = "Copied"; setTimeout(function () { cp.textContent = "Copy link"; }, 1800); };
+      if (navigator.clipboard) navigator.clipboard.writeText(u).then(done, done); else done();
+    });
+  });
+
   // ---------- Rotating hero ----------
   $$("[data-hero-rotate]").forEach(function (hero) {
     var slides = $$("[data-hero-slide]", hero), dots = $$("[data-hero-dot]", hero), pauseBtn = $("[data-hero-pause]", hero);

@@ -1,0 +1,50 @@
+{%- comment -%} Blog index: header, topic filters from tags, the latest post featured, then a grid. {%- endcomment -%}
+<section class="blg" aria-labelledby="blg-h">
+  <header class="blg__head">
+    <div class="wrap">
+      <p class="blg__eye">{{ section.settings.eyebrow }}</p>
+      <h1 id="blg-h" class="display blg__h">{{ section.settings.heading | default: blog.title }} <em>{{ section.settings.heading_accent }}</em></h1>
+      {%- if section.settings.text != blank -%}<p class="blg__text">{{ section.settings.text }}</p>{%- endif -%}
+      {%- assign topics = blog.all_tags -%}
+      {%- if topics.size > 0 -%}
+      <nav class="blg__tags" aria-label="Topics">
+        <a href="{{ blog.url }}"{% if current_tags == blank %} aria-current="page"{% endif %}>All</a>
+        {%- for t in topics -%}{%- unless t contains ':' or t == 'no-card' -%}
+          <a href="{{ blog.url }}/tagged/{{ t | handle }}"{% if current_tags contains t %} aria-current="page"{% endif %}>{{ t }}</a>
+        {%- endunless -%}{%- endfor -%}
+      </nav>
+      {%- endif -%}
+    </div>
+  </header>
+
+  <div class="wrap">
+    {%- paginate blog.articles by 12 -%}
+      {%- if blog.articles.size == 0 -%}
+        <p class="blg__empty">No posts here yet.</p>
+      {%- else -%}
+      <ul class="blg__grid">
+        {%- for a in blog.articles -%}
+          {%- if forloop.first and paginate.current_page == 1 and current_tags == blank -%}
+            {%- render 'ff-article-card', a: a, big: true -%}
+          {%- else -%}
+            {%- render 'ff-article-card', a: a -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      {%- endif -%}
+      {%- if paginate.pages > 1 -%}<div class="blg__pages">{{ paginate | default_pagination: next: 'Older posts', previous: 'Newer posts' }}</div>{%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Fortified Journal" },
+    { "type": "text", "id": "heading", "label": "Heading (blank uses the blog title)", "default": "Read the label." },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent", "default": "Then read this." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Plain-English notes on electrolytes, ingredients and labels, with every number dated and sourced." }
+  ]
+}
+{% endschema %}

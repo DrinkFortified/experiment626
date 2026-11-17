@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "settings": {
+        "theme": "label",
+        "card": "product",
+        "product_handle": "energy"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

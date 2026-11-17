@@ -1,0 +1,16 @@
+{%- comment -%} Blog card. Params: a (article), big (true for the featured card) {%- endcomment -%}
+{%- assign mins = a.content | strip_html | split: ' ' | size | plus: 115 | divided_by: 230 | floor | at_least: 1 -%}
+<li class="blg-card{% if big %} blg-card--big{% endif %}">
+  <a class="blg-card__link" href="{{ a.url }}">
+    <div class="blg-card__img">
+      {%- if a.image -%}{{ a.image | image_url: width: 1200 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 33vw, 100vw', alt: a.image.alt }}{%- else -%}<span class="blg-card__ph" aria-hidden="true"><img src="{{ 'ff-logo-white.webp' | asset_url }}" alt="" width="1200" height="214" loading="lazy"></span>{%- endif -%}
+    </div>
+    <div class="blg-card__body">
+      {%- assign tg = '' -%}{%- for t in a.tags -%}{%- unless t contains ':' or t == 'no-card' -%}{%- assign tg = t -%}{%- break -%}{%- endunless -%}{%- endfor -%}
+      <p class="blg-card__meta">{%- if tg != '' -%}<span class="blg-card__tag">{{ tg }}</span>{%- endif -%}<span>{{ mins }} min read</span></p>
+      <h3 class="blg-card__title">{{ a.title }}</h3>
+      {%- if big -%}<p class="blg-card__dek">{{ a.excerpt_or_content | strip_html | truncate: 200 }}</p>{%- endif -%}
+      <span class="blg-card__more">Read the post</span>
+    </div>
+  </a>
+</li>
