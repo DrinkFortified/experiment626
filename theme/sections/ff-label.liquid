@@ -14,10 +14,12 @@
         <li><span>Synthetic dyes</span><span>never</span></li>
         <li><span>Fillers you can&rsquo;t pronounce</span><span>never</span></li>
       </ul>
+      {%- if section.settings.show_back -%}
       <figure class="backpack">
         {%- if section.settings.back_image != blank -%}{{ section.settings.back_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: 'Back of the pouch with the Nutrition Facts panel' }}{%- else -%}<img src="{{ 'ff-everyday-orange-back.webp' | asset_url }}" alt="Back of the pouch with the Nutrition Facts panel" loading="lazy" width="900" height="796">{%- endif -%}
         <figcaption class="p-handnote">Read the back first.</figcaption>
       </figure>
+      {%- endif -%}
     </div>
     <div class="sheet-wrap"><div class="sheet">
       <div class="sheet__head"><div class="sheet__title">{{ section.settings.list_title }}</div><div class="sheet__meta">{{ section.settings.list_meta }}</div></div>
@@ -41,6 +43,7 @@
     { "type": "text", "id": "potassium", "label": "Potassium", "default": "200mg" },
     { "type": "text", "id": "magnesium", "label": "Magnesium", "default": "150mg" },
     { "type": "text", "id": "sugar", "label": "Sugar", "default": "0g" },
+    { "type": "checkbox", "id": "show_back", "label": "Show the back of pack image", "info": "Turn off when the 3D pouch turn section is on the page.", "default": true },
     { "type": "image_picker", "id": "back_image", "label": "Back of pack image" },
     { "type": "text", "id": "list_title", "label": "List title", "default": "The shared base" },
     { "type": "text", "id": "list_meta", "label": "List note", "default": "In both Energy and Everyday" }

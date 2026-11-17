@@ -1,0 +1,118 @@
+{%- comment -%}
+  Scroll-driven 3D pouch. The front and back renders from the product media are
+  mounted on a pouch shape: about 1 inch deep at the bottom, tapering to no
+  depth at the top seal. Scrolling turns it from the front to the back, then
+  zooms into the ingredient list, with the list as printed shown in readable text.
+  Reduced motion: a still view of the back with the list beside it.
+{%- endcomment -%}
+{%- liquid
+  assign p = section.settings.product
+  if p == blank
+    assign p = all_products['everyday']
+  endif
+  assign v = p.selected_or_first_available_variant
+  assign fl = section.settings.flavor
+  for x in p.variants
+    assign xt = x.title | downcase
+    if xt contains fl
+      assign v = x
+      break
+    endif
+  endfor
+  assign is_energy = false
+  if p.handle contains 'energy' or p.title contains 'Energy'
+    assign is_energy = true
+  endif
+  assign vt = v.title | downcase
+  if vt contains 'watermelon'
+    assign band = '#d67b73'
+  else
+    assign band = '#d8862b'
+  endif
+  if is_energy
+    assign c1 = '#dd667c'
+    assign c2 = '#bf5a7b'
+    assign c3 = '#806793'
+    assign formula_name = 'Energy'
+    assign ingredients_default = 'Pink Himalayan Salt (as Ancient Ocean®), Magnesium Malate, Coconut Water Powder (as CocOganic® Plus), Organic Lemon Juice Powder, Potassium Chloride, Bamboo Fiber, Organic Flavors, Natural Caffeine (from Coffee Bean), Reb M 95% Fermented (as OnoSweet™), Malic Acid, Monk Fruit Extract'
+  else
+    assign c1 = '#f0c850'
+    assign c2 = '#eab044'
+    assign c3 = '#d97435'
+    assign formula_name = 'Everyday'
+    assign ingredients_default = 'Pink Himalayan Salt (as Ancient Ocean®), Magnesium Malate, Coconut Water Powder (as CocOganic® Plus), Organic Lemon Juice Powder, Potassium Chloride, Bamboo Fiber, Organic Flavors, Malic Acid, Reb M 95% Fermented (as OnoSweet™), Monk Fruit Extract, Menaquinone-7 (Vitamin K2), Vitamin D3 (100,000 IU/g)'
+  endif
+  assign ingredients = section.settings.ingredients | default: ingredients_default
+  if is_energy
+    assign caution_default = 'Contains caffeine. Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.'
+  else
+    assign caution_default = 'Consult your healthcare professional before use if you have any questions or concerns. Especially if you are pregnant, nursing, taking medication, or have a medical condition.'
+  endif
+  assign caution = section.settings.caution | default: caution_default
+-%}
+{%- capture front -%}{%- render 'ff-pouch-image', product: p, variant: v, width: 1490, side: 'front' -%}{%- endcapture -%}
+{%- capture back -%}{%- render 'ff-pouch-image', product: p, variant: v, width: 1490, side: 'back' -%}{%- endcapture -%}
+
+{%- if front != blank and back != blank -%}
+<section class="turn" data-turn data-depth="{{ section.settings.depth_in }}" data-width="{{ section.settings.width_in }}" aria-labelledby="turn-h-{{ section.id }}"
+  style="--band:{{ band }};--c1:{{ c1 }};--c2:{{ c2 }};--c3:{{ c3 }}">
+  <div class="turn__runway">
+    <div class="turn__sticky">
+      <div class="wrap turn__grid">
+        <div class="turn__copy">
+          <h2 id="turn-h-{{ section.id }}" class="display d2 turn__h">{{ section.settings.heading }} <em>{{ section.settings.heading_accent }}</em></h2>
+          <ol class="turn__steps" aria-hidden="true">
+            <li class="is-on" data-turn-step="0"><b>{{ section.settings.step_1_title }}</b><span>{{ section.settings.step_1_text }}</span></li>
+            <li data-turn-step="1"><b>{{ section.settings.step_2_title }}</b><span>{{ section.settings.step_2_text }}</span></li>
+            <li data-turn-step="2"><b>{{ section.settings.step_3_title }}</b><span>{{ section.settings.step_3_text }}</span></li>
+          </ol>
+          <div class="turn__bar" aria-hidden="true"><i data-turn-bar></i></div>
+        </div>
+
+        <div class="turn__stage">
+          <div class="turn__zoom" data-turn-zoom>
+            <div class="bag3d" data-turn-bag>
+              <div class="bag3d__face bag3d__face--front"><img src="{{ front }}" alt="Front of the {{ formula_name }} Organic {{ v.title | escape }} pouch" width="1490" height="1515" loading="lazy"></div>
+              <div class="bag3d__face bag3d__face--back"><img src="{{ back }}" alt="Back of the {{ formula_name }} Organic {{ v.title | escape }} pouch with Nutrition Facts and ingredients" width="1490" height="1515" loading="lazy"></div>
+              <i class="bag3d__side bag3d__side--l" aria-hidden="true"></i>
+              <i class="bag3d__side bag3d__side--r" aria-hidden="true"></i>
+              <i class="bag3d__bottom" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="turn__floor" data-turn-floor aria-hidden="true"></div>
+          <div class="turn__plate" data-turn-plate aria-hidden="true"><div class="bag3d__face turn__plate-face"><img src="{{ back }}" alt="" width="1490" height="1515" loading="lazy"></div></div>
+        </div>
+
+        <aside class="turn__card" data-turn-card>
+          <p class="turn__card-k">Ingredients, as printed on the {{ formula_name }} pouch</p>
+          <p class="turn__card-list">{{ ingredients }}</p>
+          <p class="turn__card-fine">{{ caution }}</p>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "3D pouch turn",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product", "info": "Uses its images whose file names contain Front and Back. Blank uses Everyday." },
+    { "type": "select", "id": "flavor", "label": "Organic flavor", "default": "orange", "options": [ { "value": "orange", "label": "Organic Salty Orange" }, { "value": "watermelon", "label": "Organic Salty Watermelon" } ] },
+    { "type": "range", "id": "width_in", "label": "Pouch width", "min": 5, "max": 10, "step": 0.5, "unit": "in", "default": 7.5 },
+    { "type": "range", "id": "depth_in", "label": "Depth at the bottom", "min": 0.5, "max": 2, "step": 0.1, "unit": "in", "default": 1, "info": "The depth tapers to none at the top seal." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Turn it over." },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent", "default": "Read every word." },
+    { "type": "text", "id": "step_1_title", "label": "Step 1 title", "default": "The front" },
+    { "type": "text", "id": "step_1_text", "label": "Step 1 text", "default": "What it is for: electrolytes, organic flavor, no sugar." },
+    { "type": "text", "id": "step_2_title", "label": "Step 2 title", "default": "The back" },
+    { "type": "text", "id": "step_2_text", "label": "Step 2 text", "default": "Nutrition Facts and the full label, nothing tucked away." },
+    { "type": "text", "id": "step_3_title", "label": "Step 3 title", "default": "The ingredients" },
+    { "type": "text", "id": "step_3_text", "label": "Step 3 text", "default": "Every ingredient named, with its source, in the order printed." },
+    { "type": "textarea", "id": "ingredients", "label": "Ingredient list (blank uses the list printed on the pouch)" },
+    { "type": "textarea", "id": "caution", "label": "Caution (blank uses the caution printed on the pouch)" }
+  ],
+  "presets": [ { "name": "3D pouch turn" } ]
+}
+{% endschema %}

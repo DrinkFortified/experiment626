@@ -1,11 +1,13 @@
 {%- comment -%}
   Finds the transparent pouch render for a variant: a product image whose file
-  name contains "front" and the flavor (orange / ORG, watermelon / WTM).
-  Falls back to any "front" image, then the variant or product image.
-  Renders nothing; sets the variable through capture in the caller:
-  {% capture src %}{% render 'ff-pouch-image', product: p, variant: v, width: 900 %}{% endcapture %}
+  name contains the side ("front" or "back") and the flavor (orange / ORG,
+  watermelon / WTM). Falls back to any image of that side, then (front only) the
+  variant or product image.
+  Use through capture in the caller:
+  {% capture src %}{% render 'ff-pouch-image', product: p, variant: v, width: 900, side: 'back' %}{% endcapture %}
 {%- endcomment -%}
 {%- liquid
+  assign want = side | default: 'front'
   assign t = variant.title | downcase
   assign tok1 = 'x-none-x'
   assign tok2 = 'x-none-x'
@@ -17,13 +19,13 @@
     assign tok2 = '-org-'
   endif
   assign found = nil
-  assign any_front = nil
+  assign any_side = nil
   for m in product.media
     if m.media_type == 'image'
       assign fname = m.preview_image.src | split: '?' | first | split: '/' | last | downcase
-      if fname contains 'front'
-        if any_front == nil
-          assign any_front = m.preview_image
+      if fname contains want
+        if any_side == nil
+          assign any_side = m.preview_image
         endif
         if fname contains tok1 or fname contains tok2
           assign found = m.preview_image
@@ -33,13 +35,15 @@
     endif
   endfor
   if found == nil
-    assign found = any_front
+    assign found = any_side
   endif
-  if found == nil and variant.featured_image
-    assign found = variant.featured_image
-  endif
-  if found == nil
-    assign found = product.featured_image
+  if want == 'front'
+    if found == nil and variant.featured_image
+      assign found = variant.featured_image
+    endif
+    if found == nil
+      assign found = product.featured_image
+    endif
   endif
   if found
     echo found | image_url: width: width
