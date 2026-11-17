@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
@@ -74,7 +65,7 @@
       "type": "ff-crfeat",
       "settings": {
         "style": "consistency",
-        "file_name": "Card7-Consistency",
+        "file_name": "Card7-Consistency-clean.png",
         "heading": "Strength takes consistency. So does creatine.",
         "body": "<p>Creatine stores build with regular daily use. Keep taking it. Keep training. Give it time.</p><p>FORTIFIED keeps the formula simple: 5g of pure, unflavored creatine monohydrate. No flavors. No sweeteners. No fillers.</p>",
         "tagline": "Take it daily. Build on the work."

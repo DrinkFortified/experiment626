@@ -2635,3 +2635,8 @@ html.story-open { overflow: hidden; }
   .nmj__word { font-size: 30vw; top: 30%; }
 }
 @media (prefers-reduced-motion: reduce) { .nmj { --sp: .9 !important; } .nmj__person img, .nmj__word { transform: none; } .nmj__word { transform: translateY(-50%); } }
+
+/* Consistency: the clean gym photo, sharp like the card, with a slow push-in */
+.crf--consistency .crf__bg { inset: 0; }
+.crf--consistency .crf__bg img { filter: none; object-position: 50% 35%; transform: scale(calc(1.04 + var(--sp) * .08)); }
+.crf--consistency .crf__bg::after { background: linear-gradient(180deg, rgba(11, 18, 22, .35) 0%, rgba(11, 18, 22, .55) 50%, rgba(11, 18, 22, .8) 100%); }
