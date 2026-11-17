@@ -2744,3 +2744,5 @@ html.story-open { overflow: hidden; }
 .crf-cmp { margin-top: clamp(150px, 13vw, 190px); }
 .crf-cmp__sticks { top: -140px; }
 @media (max-width: 860px) { .crf__media--jobs { width: min(100%, 300px); } .crf-cmp__sticks { top: -120px; } }
+/* v27: model taller than the kicker, next to the copy */
+@media (min-width: 861px) { .nmj__person { right: auto; left: clamp(54%, calc(50% + 60px), 60%); height: calc(100% - clamp(40px, 5vw, 80px)); max-height: 1100px; } }
