@@ -862,8 +862,17 @@
 
   // ---------- Savings bar: shadow once it is stuck under the header ----------
   $$(".pd__buy [data-tiers]").forEach(function (tw) {
-    function stuck() { var top = parseFloat(getComputedStyle(tw).top) || 0; tw.classList.toggle("is-stuck", tw.getBoundingClientRect().top <= top + 1 && scrollY > 40); }
-    addEventListener("scroll", stuck, { passive: true }); stuck();
+    // When pinned on a phone the bar condenses; the space it gives up is kept as margin so the page
+    // below does not move (otherwise the scroll shifts, the bar unpins and it flickers).
+    var full = 0;
+    function stuck() {
+      var top = parseFloat(getComputedStyle(tw).top) || 0;
+      var on = tw.getBoundingClientRect().top <= top + 1 && scrollY > 40;
+      if (!on) { tw.style.marginBottom = ""; full = tw.offsetHeight; }
+      tw.classList.toggle("is-stuck", on);
+      if (on && full) tw.style.marginBottom = Math.max(0, full - tw.offsetHeight) + "px";
+    }
+    addEventListener("scroll", stuck, { passive: true }); addEventListener("resize", stuck); stuck();
   });
 
   // ---------- Rotating hero ----------

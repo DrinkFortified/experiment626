@@ -3237,3 +3237,21 @@ html.story-open { overflow: hidden; }
 .tiers__gift::before { content: ""; position: absolute; left: 2px; bottom: 2px; width: 56px; height: 56px; border-radius: 50%; background: #dff3f1; transform: scale(0); transition: transform .45s cubic-bezier(.34, 1.56, .64, 1); }
 .tiers.has-gift .tiers__gift::before { transform: scale(1); }
 .tiers__gift img { z-index: 1; }
+/* Phone: once pinned, the savings bar condenses to one slim strip */
+@media (max-width: 860px) {
+  .pd__buy .tiers { transition: box-shadow .3s, padding .25s; }
+  .pd__buy .tiers.is-stuck { padding-top: 8px; padding-bottom: 7px; padding-right: 54px; }
+  .pd__buy .tiers.is-stuck .tiers__steps { gap: 4px; }
+  .pd__buy .tiers.is-stuck .tiers__seg { margin-bottom: 4px; }
+  .pd__buy .tiers.is-stuck .tiers__steps li { font-size: 11px; }
+  .pd__buy .tiers.is-stuck .tiers__steps b { font-size: 10px; letter-spacing: .06em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pd__buy .tiers.is-stuck .tiers__steps span { display: none; }
+  .pd__buy .tiers.is-stuck .tiers__msg { margin-top: 5px; font-size: 12px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pd__buy .tiers.is-stuck .tiers__gift { top: 4px; height: 46px; width: 44px; right: 6px; }
+  .pd__buy .tiers.is-stuck .tiers__gift img { width: 34px; left: 5px; }
+  .pd__buy .tiers.is-stuck .tiers__gift::before { width: 40px; height: 40px; }
+  .pd__buy .tiers.is-stuck .tiers__gift b { font-size: 8.5px; padding: 1px 4px; }
+}
+
+.pd__buy .tiers { overflow-anchor: none; }
+@media (max-width: 860px) { .pd__buy .tiers.is-stuck .tiers__msg { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; font-size: 11.5px; } }
