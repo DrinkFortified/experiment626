@@ -212,17 +212,6 @@
         "body": "<p>Each stick contains 150mg caffeine. Account for your other caffeine sources.</p>"
       }
     },
-    "story_steps": {
-      "type": "ff-crfeat",
-      "settings": {
-        "style": "steps",
-        "tone": "warm",
-        "file_name": "Energy6.png",
-        "crops": "0.060,0.152,0.425,0.279\n0.514,0.152,0.425,0.279\n0.060,0.552,0.425,0.279\n0.514,0.552,0.425,0.279",
-        "heading": "Tear. Pour. Mix. Power up.",
-        "items": "Tear open|Grab one stick of FORTIFIED Energy.\nPour it|Empty into cold water.\nMix it|Shake or stir until fully dissolved.\nPower up|Enjoy electrolytes + 150mg of natural caffeine."
-      }
-    },
     "story_consistency": {
       "type": "ff-crfeat",
       "settings": {
@@ -232,6 +221,14 @@
         "body": "<p>Coffee-bean caffeine for an energy lift. Electrolytes to support hydration.*</p><p>FORTIFIED keeps it straightforward: 150mg natural caffeine. Zero added sugar. No proprietary blends.</p>",
         "tagline": "Tear. Pour. Get Fortified."
       }
+    },
+    "howto": {
+      "type": "ff-howto",
+      "settings": {
+        "file_name": "howto-energy.png",
+        "steps": "pour|One stick into cold water.\nshake|Until it dissolves.\nenjoy|150mg natural caffeine.",
+        "alt": "A Fortified Energy stick pouring into a glass of water, a hand shaking the bottle, and a smiling woman holding the drink."
+      }
     }
   },
   "order": [
@@ -240,7 +237,7 @@
     "story_only",
     "story_compare",
     "story_moments",
-    "story_steps",
+    "howto",
     "label",
     "story_consistency",
     "faq"
