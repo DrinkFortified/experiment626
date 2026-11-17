@@ -1,0 +1,78 @@
+{%- comment -%}
+  Ingredient cards with a formula filter (All, Shared base, Everyday, Energy, Creatine), then a
+  "what we leave out" list. Each card: name, amount, formula, source and one plain line on why.
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+-%}
+<section class="sec ing" id="{{ st.anchor | default: 'ingredients' }}" aria-labelledby="ing-h-{{ section.id }}" data-ing data-crf>
+  <div class="wrap">
+    <div class="ing__head">
+      <div>
+        {%- if st.eyebrow != blank -%}<p class="iph__eye">{{ st.eyebrow }}</p>{%- endif -%}
+        <h2 id="ing-h-{{ section.id }}" class="display d2">{{ st.heading }} <em>{{ st.heading_accent }}</em></h2>
+        <p class="lede">{{ st.text }}</p>
+      </div>
+      <div class="ing__filter" role="group" aria-label="Show ingredients for">
+        <button type="button" data-ing-f="all" aria-pressed="true">All</button>
+        <button type="button" data-ing-f="base" aria-pressed="false">Shared base</button>
+        <button type="button" data-ing-f="everyday" aria-pressed="false">Everyday</button>
+        <button type="button" data-ing-f="energy" aria-pressed="false">Energy</button>
+        <button type="button" data-ing-f="creatine" aria-pressed="false">Creatine</button>
+      </div>
+    </div>
+    <p class="sr" data-ing-live aria-live="polite"></p>
+    <ul class="ing__grid" role="list">
+      {%- for b in section.blocks -%}
+        {%- if b.type == 'ingredient' -%}
+        {%- assign f = b.settings.formula -%}
+        <li class="ing-card ing-card--{{ f }}" data-in="{% if f == 'base' %}base everyday energy{% else %}{{ f }}{% endif %}" style="--i:{{ forloop.index0 | modulo: 6 }}" {{ b.shopify_attributes }}>
+          <p class="ing-card__tag">{%- case f -%}{%- when 'base' -%}Shared base{%- when 'everyday' -%}Everyday adds{%- when 'energy' -%}Energy adds{%- when 'creatine' -%}Creatine{%- endcase -%}</p>
+          <h3 class="ing-card__name">{{ b.settings.name }}</h3>
+          {%- if b.settings.amount != blank -%}<p class="ing-card__amt num">{{ b.settings.amount }}</p>{%- endif -%}
+          {%- if b.settings.source != blank -%}<p class="ing-card__src">{{ b.settings.source }}</p>{%- endif -%}
+          {%- if b.settings.why != blank -%}<p class="ing-card__why">{{ b.settings.why }}</p>{%- endif -%}
+        </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+
+    {%- if st.out_list != blank -%}
+    <div class="ing-out" id="{{ st.out_anchor | default: 'left-out' }}">
+      <h2 class="display d3">{{ st.out_heading }}</h2>
+      <ul class="ing-out__list" role="list">
+        {%- assign outs = st.out_list | newline_to_br | split: '<br />' -%}
+        {%- for o in outs -%}{%- assign t = o | strip -%}{%- if t != '' -%}<li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg><span>{{ t }}</span></li>{%- endif -%}{%- endfor -%}
+      </ul>
+    </div>
+    {%- endif -%}
+    {%- if st.note != blank -%}<p class="ing__note">{{ st.note }}</p>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Ingredient cards",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor id", "default": "ingredients" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Ingredient by ingredient" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What it is." },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent", "default": "Why it is there." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Every ingredient in every pack, with its source. Filter by formula." },
+    { "type": "text", "id": "out_anchor", "label": "Left out anchor id", "default": "left-out" },
+    { "type": "text", "id": "out_heading", "label": "Left out heading", "default": "What we leave out" },
+    { "type": "textarea", "id": "out_list", "label": "Left out list (one per line)" },
+    { "type": "text", "id": "note", "label": "Small note under the cards" }
+  ],
+  "blocks": [ { "type": "ingredient", "name": "Ingredient", "settings": [
+    { "type": "text", "id": "name", "label": "Ingredient", "default": "Pink Himalayan Salt" },
+    { "type": "text", "id": "amount", "label": "Amount per serving (blank hides it)" },
+    { "type": "select", "id": "formula", "label": "Formula", "default": "base", "options": [
+      { "value": "base", "label": "Shared base (Everyday and Energy)" }, { "value": "everyday", "label": "Everyday only" }, { "value": "energy", "label": "Energy only" }, { "value": "creatine", "label": "Creatine" }
+    ] },
+    { "type": "text", "id": "source", "label": "Source" },
+    { "type": "textarea", "id": "why", "label": "Why it is there" }
+  ] } ],
+  "presets": [ { "name": "Ingredient cards" } ]
+}
+{% endschema %}

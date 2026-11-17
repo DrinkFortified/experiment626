@@ -1,38 +1,204 @@
 {
   "sections": {
-    "main": {
-      "type": "main-page",
-      "settings": {}
+    "hero": {
+      "type": "ff-page-hero",
+      "settings": {
+        "tone": "wash",
+        "eyebrow": "Help",
+        "heading": "How can we",
+        "heading_accent": "help?",
+        "text": "<p>Quick answers about orders, subscriptions, the Free Creatine offer and the formulas. Still stuck? A real person answers.</p>"
+      },
+      "blocks": {
+        "lx0": {
+          "type": "link",
+          "settings": {
+            "label": "Orders and shipping",
+            "url": "#orders"
+          }
+        },
+        "lx1": {
+          "type": "link",
+          "settings": {
+            "label": "Subscriptions",
+            "url": "#subscriptions"
+          }
+        },
+        "lx2": {
+          "type": "link",
+          "settings": {
+            "label": "Free Creatine",
+            "url": "#free-creatine"
+          }
+        },
+        "lx3": {
+          "type": "link",
+          "settings": {
+            "label": "The formulas",
+            "url": "#formulas"
+          }
+        },
+        "lx4": {
+          "type": "link",
+          "settings": {
+            "label": "Returns",
+            "url": "#returns"
+          }
+        }
+      },
+      "block_order": [
+        "lx0",
+        "lx1",
+        "lx2",
+        "lx3",
+        "lx4"
+      ]
     },
-    "faq": {
+    "topics": {
+      "type": "ff-help-topics",
+      "settings": {
+        "email": "team@livefortified.com"
+      },
+      "blocks": {
+        "t0": {
+          "type": "topic",
+          "settings": {
+            "icon": "box",
+            "title": "Orders and shipping",
+            "text": "Tracking, shipping costs and order changes.",
+            "url": "#orders"
+          }
+        },
+        "t1": {
+          "type": "topic",
+          "settings": {
+            "icon": "repeat",
+            "title": "Subscriptions",
+            "text": "Skip, swap organic flavors, change timing or cancel.",
+            "url": "#subscriptions"
+          }
+        },
+        "t2": {
+          "type": "topic",
+          "settings": {
+            "icon": "gift",
+            "title": "Free Creatine",
+            "text": "How the offer works and when it ships.",
+            "url": "#free-creatine"
+          }
+        },
+        "t3": {
+          "type": "topic",
+          "settings": {
+            "icon": "leaf",
+            "title": "The formulas",
+            "text": "Ingredients, caffeine, mixing and safety.",
+            "url": "#formulas"
+          }
+        },
+        "t4": {
+          "type": "topic",
+          "settings": {
+            "icon": "heart",
+            "title": "Returns",
+            "text": "45 days to decide. How refunds work.",
+            "url": "#returns"
+          }
+        }
+      },
+      "block_order": [
+        "t0",
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ]
+    },
+    "manage": {
+      "type": "ff-steps",
+      "settings": {
+        "anchor": "manage",
+        "tone": "paper2",
+        "eyebrow": "Two minutes, no phone call",
+        "heading": "Manage your",
+        "heading_accent": "subscription.",
+        "text": "Everything happens in your account.",
+        "button": "Log in to my account",
+        "link": "/account"
+      },
+      "blocks": {
+        "s0": {
+          "type": "step",
+          "settings": {
+            "title": "Log in",
+            "text": "Use the email you ordered with."
+          }
+        },
+        "s1": {
+          "type": "step",
+          "settings": {
+            "title": "Open your subscription",
+            "text": "Your next delivery date, packs and organic flavors are on one screen."
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "title": "Make the change",
+            "text": "Skip a delivery, swap organic flavors, change how many packs, switch between Monthly and Every 3 months, or cancel."
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "title": "Do it before billing",
+            "text": "Changes made before your next billing date apply to that delivery."
+          }
+        }
+      },
+      "block_order": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ]
+    },
+    "orders": {
       "type": "ff-faq",
+      "settings": {
+        "heading": "Orders and",
+        "heading_accent": "shipping.",
+        "anchor": "orders",
+        "schema_markup": true,
+        "tone": "paper"
+      },
       "blocks": {
         "q0": {
           "type": "qa",
           "settings": {
-            "q": "What is the difference between Energy and Everyday?",
-            "a": "<p>Both share the same electrolyte base and 1,200mg sodium. Energy adds 150mg natural caffeine from coffee bean. Everyday is caffeine-free and adds Vitamin D3 and Vitamin K2.</p>"
+            "q": "When will my order ship?",
+            "a": "<p>You get an email with tracking as soon as your order ships. Delivery estimates show at checkout.</p>"
           }
         },
         "q1": {
           "type": "qa",
           "settings": {
-            "q": "What is it sweetened with?",
-            "a": "<p>Monk fruit extract and Reb M (as OnoSweet). 0g sugar per stick pack.</p>"
+            "q": "How much is shipping?",
+            "a": "<p>Subscriptions ship free. One-time orders of 2 or more packs ship free too. Smaller one-time orders show the shipping cost at checkout.</p>"
           }
         },
         "q2": {
           "type": "qa",
           "settings": {
-            "q": "How does Every 3 months work?",
-            "a": "<p>We ship a 90 day supply in one box every 3 months at 20% off. Skip, swap organic flavors or cancel in your account anytime.</p>"
+            "q": "Can I change or cancel an order?",
+            "a": "<p>Write to us as soon as you can. If it has not shipped yet, we will do our best to change it.</p>"
           }
         },
         "q3": {
           "type": "qa",
           "settings": {
-            "q": "How do I skip or cancel?",
-            "a": "<p>Log in to your account and open your subscription. Skip, swap, change quantity or cancel before your next billing date.</p>"
+            "q": "Is there a limit per order?",
+            "a": "<p>Up to 24 packs per order. Need more for a team, a gym or a store? Write to us.</p>"
           }
         }
       },
@@ -41,12 +207,226 @@
         "q1",
         "q2",
         "q3"
+      ]
+    },
+    "subscriptions": {
+      "type": "ff-faq",
+      "settings": {
+        "heading": "Subscriptions,",
+        "heading_accent": "your way.",
+        "anchor": "subscriptions",
+        "schema_markup": false,
+        "tone": "paper"
+      },
+      "blocks": {
+        "q0": {
+          "type": "qa",
+          "settings": {
+            "q": "How do subscriptions work?",
+            "a": "<p>Pick your packs and organic flavors, then Monthly or Every 3 months. Every 3 months ships a 90 day supply in one box at 20% off. Every subscription ships free.</p>"
+          }
+        },
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "How do I skip or cancel?",
+            "a": "<p>Log in to your account and open your subscription. Skip, swap, change quantity or cancel before your next billing date. No phone call.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "Can I swap organic flavors or formulas?",
+            "a": "<p>Yes. Swap between Organic Salty Orange and Organic Salty Watermelon, or between Everyday and Energy, in your account before your next billing date.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "Can I change how often it ships?",
+            "a": "<p>Yes. Switch between Monthly and Every 3 months in your account.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q0",
+        "q1",
+        "q2",
+        "q3"
+      ]
+    },
+    "creatine": {
+      "type": "ff-faq",
+      "settings": {
+        "heading": "Free",
+        "heading_accent": "Creatine.",
+        "anchor": "free-creatine",
+        "schema_markup": false,
+        "tone": "paper2"
+      },
+      "blocks": {
+        "q0": {
+          "type": "qa",
+          "settings": {
+            "q": "How do I get Free Creatine?",
+            "a": "<p>Subscribe to 3 or more packs, any mix of Everyday and Energy, in any organic flavor. A pouch of creatine is added to your box free with every delivery: Free Creatine For Life of Subscription.</p>"
+          }
+        },
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "What if I drop below 3 packs?",
+            "a": "<p>The free pouch comes off your box until your subscription is back at 3 or more packs.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "Can I get a second pouch?",
+            "a": "<p>On Every 3 months, you can add a 2nd pouch at 50% off in your cart, so your creatine lasts the full 90 days.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "Can I buy creatine on its own?",
+            "a": "<p>Yes, one-time, on the <a href=\"/products/creatine-v2\">Creatine page</a>.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q0",
+        "q1",
+        "q2",
+        "q3"
+      ]
+    },
+    "formulas": {
+      "type": "ff-faq",
+      "settings": {
+        "heading": "The",
+        "heading_accent": "formulas.",
+        "anchor": "formulas",
+        "schema_markup": false,
+        "tone": "paper"
+      },
+      "blocks": {
+        "q0": {
+          "type": "qa",
+          "settings": {
+            "q": "What is the difference between Energy and Everyday?",
+            "a": "<p>Both share the same electrolyte base and 1,200mg sodium. Energy adds 150mg natural caffeine from coffee bean. Everyday is caffeine-free and adds Vitamin D3 and Vitamin K2. <a href=\"/pages/ingredients\">See every ingredient</a>.</p>"
+          }
+        },
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "How do I mix it?",
+            "a": "<p>One stick into cold water. Shake until it dissolves.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "What is it sweetened with?",
+            "a": "<p>Monk fruit extract and Reb M (as OnoSweet). 0g sugar per stick pack.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "Is it right for me?",
+            "a": "<p>As printed on the pack: consult your healthcare professional before use if you are pregnant, nursing, taking medication or have a medical condition. Energy contains caffeine.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q0",
+        "q1",
+        "q2",
+        "q3"
+      ]
+    },
+    "returns": {
+      "type": "ff-faq",
+      "settings": {
+        "heading": "Returns and",
+        "heading_accent": "refunds.",
+        "anchor": "returns",
+        "schema_markup": false,
+        "tone": "paper2"
+      },
+      "blocks": {
+        "q0": {
+          "type": "qa",
+          "settings": {
+            "q": "What is the 45 day promise?",
+            "a": "<p>If Fortified is not for your family, write to us within 45 days of your order and we will refund you. No return required.</p>"
+          }
+        },
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "My order arrived damaged or wrong.",
+            "a": "<p>Send us your order number and a photo, and we will make it right.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q0",
+        "q1"
+      ]
+    },
+    "promise": {
+      "type": "ff-promise",
+      "blocks": {
+        "p0": {
+          "type": "promise",
+          "settings": {
+            "title": "Every ingredient named",
+            "text": "With its source. No proprietary blends, ever."
+          }
+        },
+        "p1": {
+          "type": "promise",
+          "settings": {
+            "title": "Sweetened with monk fruit",
+            "text": "Monk fruit extract and Reb M, as listed on the label."
+          }
+        },
+        "p2": {
+          "type": "promise",
+          "settings": {
+            "title": "Skip or cancel online",
+            "text": "In your account, before you are billed. No phone call."
+          }
+        },
+        "p3": {
+          "type": "promise",
+          "settings": {
+            "title": "45 days to decide",
+            "text": "Not for your family? We refund you. No return required."
+          }
+        }
+      },
+      "block_order": [
+        "p0",
+        "p1",
+        "p2",
+        "p3"
       ],
       "settings": {}
     }
   },
   "order": [
-    "main",
-    "faq"
+    "hero",
+    "topics",
+    "manage",
+    "orders",
+    "subscriptions",
+    "creatine",
+    "formulas",
+    "returns",
+    "promise"
   ]
 }

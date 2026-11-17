@@ -1,0 +1,22 @@
+{%- comment -%} One big statement (mission, belief) on a color band, words reveal on scroll. {%- endcomment -%}
+{%- assign st = section.settings -%}
+<section class="stm stm--{{ st.tone }}" aria-labelledby="stm-h-{{ section.id }}" data-crf>
+  <div class="wrap stm__in">
+    <p class="iph__eye stm__eye" id="stm-h-{{ section.id }}">{{ st.eyebrow }}</p>
+    <blockquote class="stm__q"><p data-words>{{ st.statement }}</p></blockquote>
+    {%- if st.sub != blank -%}<p class="stm__sub">{{ st.sub }}</p>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Statement",
+  "settings": [
+    { "type": "select", "id": "tone", "label": "Background", "default": "ink", "options": [ { "value": "ink", "label": "Ink" }, { "value": "teal", "label": "Teal" }, { "value": "sun", "label": "Sun (orange)" } ] },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our mission" },
+    { "type": "textarea", "id": "statement", "label": "Statement", "default": "Inspire people to live better, healthier lives through body, mind and spirit." },
+    { "type": "text", "id": "sub", "label": "Small line under it" }
+  ],
+  "presets": [ { "name": "Statement" } ]
+}
+{% endschema %}

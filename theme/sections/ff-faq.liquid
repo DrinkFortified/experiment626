@@ -1,6 +1,6 @@
-<section class="sec" aria-labelledby="faq-h">
+<section class="sec{% if section.settings.tone == 'paper2' %} sec--paper2{% endif %}" aria-labelledby="faq-h-{{ section.id }}"{% if section.settings.anchor != blank %} id="{{ section.settings.anchor }}"{% endif %}>
   <div class="wrap faq-layout">
-    <div><h2 id="faq-h" class="display d2">{{ section.settings.heading }} <em>{{ section.settings.heading_accent }}</em></h2>{%- if settings.support_email != blank -%}<p class="lede">Or write to us at <a class="link" href="mailto:{{ settings.support_email }}">{{ settings.support_email }}</a>.</p>{%- endif -%}</div>
+    <div><h2 id="faq-h-{{ section.id }}" class="display d2">{{ section.settings.heading }} <em>{{ section.settings.heading_accent }}</em></h2>{%- if settings.support_email != blank -%}<p class="lede">Or write to us at <a class="link" href="mailto:{{ settings.support_email }}">{{ settings.support_email }}</a>.</p>{%- endif -%}</div>
     <div class="faq">
       {%- for block in section.blocks -%}
         <details {{ block.shopify_attributes }}><summary>{{ block.settings.q }}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><div class="rte">{{ block.settings.a }}</div></details>
@@ -9,7 +9,7 @@
   </div>
 </section>
 
-{%- if section.blocks.size > 0 -%}
+{%- if section.blocks.size > 0 and section.settings.schema_markup -%}
 <script type="application/ld+json">
 { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
   {%- for block in section.blocks -%}
@@ -23,7 +23,10 @@
   "name": "FAQ",
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "Questions," },
-    { "type": "text", "id": "heading_accent", "label": "Heading accent", "default": "answered." }
+    { "type": "text", "id": "heading_accent", "label": "Heading accent", "default": "answered." },
+    { "type": "text", "id": "anchor", "label": "Anchor id (for jump links)" },
+    { "type": "select", "id": "tone", "label": "Background", "default": "paper", "options": [ { "value": "paper", "label": "Paper" }, { "value": "paper2", "label": "Paper 2" } ] },
+    { "type": "checkbox", "id": "schema_markup", "label": "Add FAQ rich result markup", "info": "Keep on for one FAQ per page.", "default": true }
   ],
   "blocks": [ { "type": "qa", "name": "Question", "settings": [ { "type": "text", "id": "q", "label": "Question", "default": "What is the difference between Energy and Everyday?" }, { "type": "richtext", "id": "a", "label": "Answer", "default": "<p>Both share the same electrolyte base and 1,200mg sodium. Energy adds 150mg natural caffeine from coffee bean. Everyday is caffeine-free and adds Vitamin D3 and Vitamin K2.</p>" } ] } ],
   "presets": [ { "name": "FAQ", "blocks": [
