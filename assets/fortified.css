@@ -3255,3 +3255,8 @@ html.story-open { overflow: hidden; }
 
 .pd__buy .tiers { overflow-anchor: none; }
 @media (max-width: 860px) { .pd__buy .tiers.is-stuck .tiers__msg { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; font-size: 11.5px; } }
+
+/* plan note: short, the bar carries the savings */
+.pd__buy .plan-note { font-size: 13.5px; line-height: 1.45; margin-bottom: 8px; }
+/* no size animation on the pinned bar (sizes change instantly so the reserved space is exact) */
+.pd__buy .tiers, .pd__buy .tiers.is-stuck { transition: box-shadow .3s; }
