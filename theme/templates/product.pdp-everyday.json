@@ -176,7 +176,7 @@
         "crops": "0.63,0,0.37,1",
         "alt": "Fortified Everyday stick in Organic Salty Watermelon with fresh watermelon",
         "heading": "Every ingredient has a job.",
-        "items": "drop|Sodium|Helps support fluid balance and replace sodium lost through sweat.|1,200mg\ndrops|Potassium|Works alongside sodium in normal fluid balance.|200mg\nmuscle|Magnesium|Magnesium malate to support normal muscle and mineral function.|150mg\nsun|Vitamin D3 + K2|A complementary pairing for everyday nutritional support.|check",
+        "items": "drop|Sodium|Helps maintain normal fluid balance and replenish sodium lost through sweat.*|1,200mg\ndrops|Potassium|Works alongside sodium in normal fluid balance.*|200mg\nmuscle|Magnesium|Magnesium supports normal muscle and nerve function.*|150mg\nsun|Vitamin D3 + K2|Vitamin D3 supports normal bone and muscle function. Paired with K2 as MK-7.*|check",
         "cta": "Choose my flavors",
         "cta_note": "Free Creatine For Life of Subscription with 3+ packs"
       }

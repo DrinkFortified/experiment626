@@ -356,8 +356,8 @@
       var creAt = FF.creatineAt || 3, creOn = st.plan !== "otp" && n >= creAt;
       giftDraw(creOn);
       var cre = creOn ? "Free Creatine For Life of Subscription included." : "Free Creatine For Life of Subscription with " + creAt + " or more packs" + (n ? " (add " + (creAt - n) + " more)." : ".");
-      var note = st.plan === "q3" ? "Ships every 90 days. Free Shipping. Skip or cancel online anytime."
-        : st.plan === "sub" ? "Ships every 30 days. Free Shipping. Skip or cancel online anytime."
+      var note = st.plan === "q3" ? "Renews automatically every 90 days at the price shown until you cancel. Free Shipping. Skip or cancel online anytime."
+        : st.plan === "sub" ? "Renews automatically every 30 days at the price shown until you cancel. Free Shipping. Skip or cancel online anytime."
         : "One delivery, no subscription. " + (n >= 2 ? "Free Shipping." : "Shipping " + money(SHIP_OTP) + ", free from 2 packs.");
       $("[data-plan-note]", pd).innerHTML = note;
       // Savings bar
