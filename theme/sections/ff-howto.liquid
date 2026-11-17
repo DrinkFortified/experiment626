@@ -25,7 +25,13 @@
     <li class="hwt__panel hwt__panel--{{ forloop.index }}" style="--i:{{ k }};--cx:{{ k | times: 0.3333 }}{% if own0 != blank and images[own0] != blank %};--edge:url({{ images[own0] | image_url: width: 24 }}){% endif %}">
       {%- assign own = p[2] | strip -%}
       {%- if own != blank and images[own] != blank -%}
-      <div class="hwt__photo hwt__photo--own"><img src="{{ images[own] | image_url: width: 1200 }}" alt="" loading="lazy" width="1200" height="1600"></div>
+      <div class="hwt__photo hwt__photo--own">
+        {%- if forloop.index == 2 and section.settings.shake_cutout -%}
+        <img class="hwt__shake" src="{{ 'ff-howto-shake.webp' | asset_url }}" alt="" loading="lazy" width="1200" height="1607">
+        {%- else -%}
+        <img src="{{ images[own] | image_url: width: 1200 }}" alt="" loading="lazy" width="1200" height="1600">
+        {%- endif -%}
+      </div>
       {%- else -%}
       <div class="hwt__photo"><img src="{{ img | image_url: width: 2000 }}" alt="" loading="lazy" width="2000" height="2000"></div>
       {%- endif -%}
@@ -55,6 +61,7 @@
     { "type": "color", "id": "c3", "label": "Panel 3 color", "default": "#2e8aa5" },
     { "type": "text", "id": "alt", "label": "Photo description (read by search engines and screen readers)", "default": "A stick pack pouring into a glass of water, a hand shaking the bottle, and a smiling woman holding the drink." },
     { "type": "text", "id": "only_handle", "label": "Only show on products whose handle contains" },
+    { "type": "checkbox", "id": "shake_cutout", "label": "Shake only the hand and bottle in step 2", "default": true },
     { "type": "header", "content": "Buy button" },
     { "type": "text", "id": "cta", "label": "Button text (blank hides it)", "info": "Scrolls back up to the buy box. Only shows on product pages." },
     { "type": "text", "id": "cta_note", "label": "Small line under the button" }
