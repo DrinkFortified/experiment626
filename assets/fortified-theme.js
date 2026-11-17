@@ -565,6 +565,29 @@
     packs.forEach(apply);
   });
 
+  // ---------- Timed reveals: --tp runs 0 to 1 once the section is in view ----------
+  // Lines that draw, words that fill and sticks that slide in finish on their own,
+  // so nobody has to scroll to the end to see them. Parallax drift stays on --sp.
+  (function () {
+    var secs = $$("[data-spill], .crf, [data-nmj]");
+    if (!secs.length || !("IntersectionObserver" in window)) return;
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    function run(el) {
+      var dur = +el.getAttribute("data-tp-ms") || 2400, t0 = null;
+      function f(now) { if (!t0) t0 = now; var p = Math.min(1, (now - t0) / dur); el.style.setProperty("--tp", ease(p).toFixed(4)); if (p < 1) requestAnimationFrame(f); }
+      requestAnimationFrame(f);
+    }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { io.unobserve(e.target); run(e.target); } });
+    }, { threshold: 0, rootMargin: "0px 0px -35% 0px" });
+    secs.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.bottom < 0) return; // already scrolled past: leave it finished
+      el.style.setProperty("--tp", "0"); io.observe(el);
+    });
+  })();
+
   // ---------- Label rows light up one after the other, on a timer ----------
   // Starts once the section is in view and runs on its own, so every row gets its
   // moment even if the visitor stops scrolling. Each row stays marked as read.
@@ -692,7 +715,7 @@
         return { x: mx, y: my, dx: dx / l, dy: dy / l, fall: Math.min(H - my - 10, Math.max(420, H * .78)) };
       });
     }
-    function inAmount() { var sp = parseFloat(sec.style.getPropertyValue("--sp")); if (isNaN(sp)) sp = 1; return Math.min(1, Math.max(0, (sp - .1) * 4.5)); }
+    function inAmount() { var sp = parseFloat(sec.style.getPropertyValue("--tp")); if (isNaN(sp)) sp = 1; return Math.min(1, Math.max(0, (sp - .1) * 4.5)); }
     function spawn(m) {
       var big = Math.random() < .05, along = .62 + Math.random() * .12, off = (Math.random() + Math.random() - 1) * 6;
       parts.push({
