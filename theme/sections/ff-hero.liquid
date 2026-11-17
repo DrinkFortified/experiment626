@@ -31,6 +31,18 @@
   if life == blank
     assign life = images['hero-energy-stick.webp']
   endif
+  assign studio_photo = section.settings.photo
+  assign studio_src = ''
+  assign studio_w = 1320
+  assign studio_h = 1443
+  if studio_photo != blank
+    assign studio_src = studio_photo | image_url: width: 1800
+    assign studio_w = studio_photo.width
+    assign studio_h = studio_photo.height
+  else
+    assign studio_src = 'ff-hero-brunette.webp' | asset_url
+    assign studio_photo = 'builtin'
+  endif
   assign show_life = false
   if section.settings.life_enabled and life != blank
     assign show_life = true
@@ -51,54 +63,31 @@
   {%- if rotate %} data-hero-rotate="{{ section.settings.interval | default: 8 }}" aria-roledescription="carousel" aria-label="Highlights"{% endif %}>
   <div class="p-hero__slides">
 
-    <div class="p-hero__slide hz-slide hz-slide--dark hz-slide--warm is-active" data-hero-slide{% if rotate %} role="group" aria-roledescription="slide" aria-label="1 of {{ slide_count }}"{% endif %}>
-      <div class="hz-bg hz-bg--warm" aria-hidden="true"></div>
+    {%- if show_life -%}
+    <div class="p-hero__slide hz-slide hz-slide--life is-active" data-hero-slide role="group" aria-roledescription="slide" aria-label="1 of {{ slide_count }}">
+      <div class="hz-bg hz-bg--life" aria-hidden="true"></div>
       <div class="wrap hz-grid">
         <div class="hz-copy">
-          {%- if section.settings.kicker != blank -%}<p class="hz-kicker hz-in" style="--i:0">{{ section.settings.kicker }}</p>{%- endif -%}
-          <h1 id="hero-{{ section.id }}" class="display hz-h"><span class="hz-mask"><span class="hz-line">{{ section.settings.heading }}</span></span> <span class="hz-mask"><em class="hz-line" style="--d:.12s">{{ section.settings.heading_accent }}</em></span></h1>
-          <p class="lede hz-lede hz-in" style="--i:3">{{ section.settings.text }}</p>
+          {%- if section.settings.life_kicker != blank -%}<p class="hz-kicker hz-in" style="--i:0">{{ section.settings.life_kicker }}</p>{%- endif -%}
+          <h1 id="hero-{{ section.id }}" class="display hz-h"><span class="hz-mask"><span class="hz-line">{{ section.settings.life_heading }}</span></span> <span class="hz-mask"><em class="hz-line" style="--d:.12s">{{ section.settings.life_heading_accent }}</em></span></h1>
+          <p class="lede hz-lede hz-in" style="--i:3">{{ section.settings.life_text }}</p>
           <div class="p-hero__actions hz-in" style="--i:4">
-            {%- if section.settings.button_1 != blank -%}<a class="btn btn--money" href="{{ section.settings.link_1 | default: '/products/everyday' }}">{{ section.settings.button_1 }}</a>{%- endif -%}
-            {%- if section.settings.button_2 != blank -%}<a class="btn btn--ghost hz-btn-light" href="{{ section.settings.link_2 | default: '/products/energy' }}">{{ section.settings.button_2 }}</a>{%- endif -%}
+            {%- if section.settings.life_button_1 != blank -%}<a class="btn btn--money" href="{{ section.settings.life_link_1 | default: '/products/energy' }}">{{ section.settings.life_button_1 }}</a>{%- endif -%}
+            {%- if section.settings.life_button_2 != blank -%}<a class="btn btn--ghost" href="{{ section.settings.life_link_2 | default: '/products/everyday' }}">{{ section.settings.life_button_2 }}</a>{%- endif -%}
           </div>
-          {%- if section.settings.note != blank -%}<p class="p-hero__note hz-in" style="--i:5">{{ section.settings.note }}</p>{%- endif -%}
-          <ul class="hz-notes hz-in" style="--i:6" aria-label="On the label">
-            {%- if section.settings.note_1_v != blank -%}<li class="hz-note hz-note--1" style="--n:0"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.note_1_k }}</small><b>{{ section.settings.note_1_v }}</b></span></li>{%- endif -%}
-            {%- if section.settings.note_2_v != blank -%}<li class="hz-note hz-note--2" style="--n:1"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.note_2_k }}</small><b>{{ section.settings.note_2_v }}</b></span></li>{%- endif -%}
-            {%- if section.settings.note_3_v != blank -%}<li class="hz-note hz-note--3" style="--n:2"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.note_3_k }}</small><b>{{ section.settings.note_3_v }}</b></span></li>{%- endif -%}
-          </ul>
         </div>
-
-        {%- if section.settings.photo != blank -%}
-          <figure class="hz-photo">{{ section.settings.photo | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 900px) 55vw, 100vw' }}</figure>
-        {%- else -%}
-        <div class="hz-stage" data-hx-stage>
-          {%- if section.settings.big_value != blank -%}<div class="hz-big hz-big--one" aria-hidden="true">{{ section.settings.big_value }}<span>{{ section.settings.big_unit }}</span></div>{%- if section.settings.big_label != blank -%}<p class="hz-big-label">{{ section.settings.big_label }}</p>{%- endif -%}{%- endif -%}
-          <div class="hz-glow" aria-hidden="true"></div>
-          <div class="hz-scene" data-hx-scene>
-            {%- if p_energy -%}
-            <div class="hz-pack hz-pack--a" data-hx-pack>
-              {%- render 'ff-burst', flavor: 'orange' -%}
-              <div class="hz-rise"><div class="hz-float"><div class="hz-spin" data-hx-spin>{%- render 'ff-bag3d', product: p_energy, flavor: 'orange', width: 1100, loading: 'eager' -%}</div></div></div>
-            </div>
+        <div class="hz-stage hz-stage--life">
+          {%- if section.settings.life_big != blank -%}<div class="hz-big hz-big--life" aria-hidden="true">{{ section.settings.life_big }}</div>{%- if section.settings.life_big_label != blank -%}<p class="hz-big-label hz-big-label--life">{{ section.settings.life_big_label }}</p>{%- endif -%}{%- endif -%}
+          <figure class="hz-life">
+            <img class="hz-life__img" src="{{ life | image_url: width: 1600 }}" alt="{{ section.settings.life_alt | escape }}" width="{{ life.width | default: 707 }}" height="{{ life.height | default: 744 }}" loading="eager" fetchpriority="high">
+            {%- if section.settings.life_note_v != blank -%}
+            <span class="hz-life__note"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.life_note_k }}</small><b>{{ section.settings.life_note_v }}</b></span></span>
             {%- endif -%}
-            {%- if p_every -%}
-            <div class="hz-pack hz-pack--b" data-hx-pack>
-              {%- render 'ff-burst', flavor: 'watermelon' -%}
-              <div class="hz-rise"><div class="hz-float"><div class="hz-spin" data-hx-spin>{%- render 'ff-bag3d', product: p_every, flavor: 'watermelon', width: 1100, loading: 'eager' -%}</div></div></div>
-            </div>
-            {%- endif -%}
-          </div>
-          <button type="button" class="hz-turn" data-hx-turn aria-pressed="false">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 0 1 13.7-5.6M20 4v5h-5M20 12a8 8 0 0 1-13.7 5.6M4 20v-5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span data-hx-turn-label>Turn it over</span><span class="hz-turn__hint" aria-hidden="true">or drag the pouch</span>
-          </button>
+          </figure>
         </div>
-        {%- endif -%}
       </div>
     </div>
-
+    {%- endif -%}
     {%- if show_offer -%}
     <div class="p-hero__slide hz-slide hz-slide--dark" data-hero-slide role="group" aria-roledescription="slide" aria-label="2 of {{ slide_count }}" aria-hidden="true" inert>
       <div class="hz-bg hz-bg--dark" aria-hidden="true"></div>
@@ -140,37 +129,57 @@
       </div>
     </div>
     {%- endif -%}
-    {%- if show_life -%}
-    {%- liquid
-      assign life_n = 2
-      if show_offer
-        assign life_n = 3
-      endif
-    -%}
-    <div class="p-hero__slide hz-slide hz-slide--life" data-hero-slide role="group" aria-roledescription="slide" aria-label="{{ life_n }} of {{ slide_count }}" aria-hidden="true" inert>
-      <div class="hz-bg hz-bg--life" aria-hidden="true"></div>
+    <div class="p-hero__slide hz-slide {% if studio_photo != blank %}hz-slide--life hz-slide--photo{% else %}hz-slide--dark hz-slide--warm{% endif %}{% unless rotate %} is-active{% endunless %}" data-hero-slide{% if rotate %} role="group" aria-roledescription="slide" aria-label="{{ slide_count }} of {{ slide_count }}" aria-hidden="true" inert{% endif %}>
+      <div class="hz-bg {% if studio_photo != blank %}hz-bg--life{% else %}hz-bg--warm{% endif %}" aria-hidden="true"></div>
       <div class="wrap hz-grid">
         <div class="hz-copy">
-          {%- if section.settings.life_kicker != blank -%}<p class="hz-kicker hz-in" style="--i:0">{{ section.settings.life_kicker }}</p>{%- endif -%}
-          <h2 class="display hz-h"><span class="hz-mask"><span class="hz-line">{{ section.settings.life_heading }}</span></span> <span class="hz-mask"><em class="hz-line" style="--d:.12s">{{ section.settings.life_heading_accent }}</em></span></h2>
-          <p class="lede hz-lede hz-in" style="--i:3">{{ section.settings.life_text }}</p>
+          {%- if section.settings.kicker != blank -%}<p class="hz-kicker hz-in" style="--i:0">{{ section.settings.kicker }}</p>{%- endif -%}
+          <h2 class="display hz-h"><span class="hz-mask"><span class="hz-line">{{ section.settings.heading }}</span></span> <span class="hz-mask"><em class="hz-line" style="--d:.12s">{{ section.settings.heading_accent }}</em></span></h2>
+          <p class="lede hz-lede hz-in" style="--i:3">{{ section.settings.text }}</p>
           <div class="p-hero__actions hz-in" style="--i:4">
-            {%- if section.settings.life_button_1 != blank -%}<a class="btn btn--money" href="{{ section.settings.life_link_1 | default: '/products/energy' }}" tabindex="-1">{{ section.settings.life_button_1 }}</a>{%- endif -%}
-            {%- if section.settings.life_button_2 != blank -%}<a class="btn btn--ghost" href="{{ section.settings.life_link_2 | default: '/products/everyday' }}" tabindex="-1">{{ section.settings.life_button_2 }}</a>{%- endif -%}
+            {%- if section.settings.button_1 != blank -%}<a class="btn btn--money" tabindex="-1" href="{{ section.settings.link_1 | default: '/products/everyday' }}">{{ section.settings.button_1 }}</a>{%- endif -%}
+            {%- if section.settings.button_2 != blank -%}<a class="btn btn--ghost{% if studio_photo == blank %} hz-btn-light{% endif %}" tabindex="-1" href="{{ section.settings.link_2 | default: '/products/energy' }}">{{ section.settings.button_2 }}</a>{%- endif -%}
           </div>
+          {%- if section.settings.note != blank -%}<p class="p-hero__note hz-in" style="--i:5">{{ section.settings.note }}</p>{%- endif -%}
+          <ul class="hz-notes hz-in" style="--i:6" aria-label="On the label">
+            {%- if section.settings.note_1_v != blank -%}<li class="hz-note hz-note--1" style="--n:0"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.note_1_k }}</small><b>{{ section.settings.note_1_v }}</b></span></li>{%- endif -%}
+            {%- if section.settings.note_2_v != blank -%}<li class="hz-note hz-note--2" style="--n:1"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.note_2_k }}</small><b>{{ section.settings.note_2_v }}</b></span></li>{%- endif -%}
+          </ul>
         </div>
+
+        {%- if studio_photo != blank -%}
         <div class="hz-stage hz-stage--life">
-          {%- if section.settings.life_big != blank -%}<div class="hz-big hz-big--life" aria-hidden="true">{{ section.settings.life_big }}</div>{%- if section.settings.life_big_label != blank -%}<p class="hz-big-label hz-big-label--life">{{ section.settings.life_big_label }}</p>{%- endif -%}{%- endif -%}
-          <figure class="hz-life">
-            <img class="hz-life__img" src="{{ life | image_url: width: 1600 }}" alt="{{ section.settings.life_alt | escape }}" width="{{ life.width | default: 707 }}" height="{{ life.height | default: 744 }}" loading="lazy">
-            {%- if section.settings.life_note_v != blank -%}
-            <span class="hz-life__note"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.life_note_k }}</small><b>{{ section.settings.life_note_v }}</b></span></span>
-            {%- endif -%}
+          <figure class="hz-life hz-life--studio">
+            <img class="hz-life__img" src="{{ studio_src }}" alt="{{ section.settings.photo_alt | escape }}" width="{{ studio_w }}" height="{{ studio_h }}" loading="lazy">
           </figure>
         </div>
+        {%- else -%}
+        <div class="hz-stage" data-hx-stage>
+          {%- if section.settings.big_value != blank -%}<div class="hz-big hz-big--one" aria-hidden="true">{{ section.settings.big_value }}<span>{{ section.settings.big_unit }}</span></div>{%- if section.settings.big_label != blank -%}<p class="hz-big-label">{{ section.settings.big_label }}</p>{%- endif -%}{%- endif -%}
+          <div class="hz-glow" aria-hidden="true"></div>
+          <div class="hz-scene" data-hx-scene>
+            {%- if p_energy -%}
+            <div class="hz-pack hz-pack--a" data-hx-pack>
+              {%- render 'ff-burst', flavor: 'orange' -%}
+              <div class="hz-rise"><div class="hz-float"><div class="hz-spin" data-hx-spin>{%- render 'ff-bag3d', product: p_energy, flavor: 'orange', width: 1100, loading: 'eager' -%}</div></div></div>
+            </div>
+            {%- endif -%}
+            {%- if p_every -%}
+            <div class="hz-pack hz-pack--b" data-hx-pack>
+              {%- render 'ff-burst', flavor: 'watermelon' -%}
+              <div class="hz-rise"><div class="hz-float"><div class="hz-spin" data-hx-spin>{%- render 'ff-bag3d', product: p_every, flavor: 'watermelon', width: 1100, loading: 'eager' -%}</div></div></div>
+            </div>
+            {%- endif -%}
+          </div>
+          <button type="button" class="hz-turn" data-hx-turn aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 0 1 13.7-5.6M20 4v5h-5M20 12a8 8 0 0 1-13.7 5.6M4 20v-5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span data-hx-turn-label>Turn it over</span><span class="hz-turn__hint" aria-hidden="true">or drag the pouch</span>
+          </button>
+        </div>
+        {%- endif -%}
       </div>
     </div>
-    {%- endif -%}
+
   </div>
 
   {%- if rotate -%}
@@ -190,50 +199,263 @@
 {
   "name": "Hero",
   "settings": [
-    { "type": "header", "content": "Slide 1" },
-    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Electrolyte drink mix · Everyday and Energy" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Electrolytes with" },
-    { "type": "text", "id": "heading_accent", "label": "Heading accent", "default": "nothing to hide." },
-    { "type": "textarea", "id": "text", "label": "Text", "default": "A short list of ingredients you can name, sweetened with monk fruit, for the mom who turns the pack over before it reaches her family." },
-    { "type": "text", "id": "button_1", "label": "Button 1", "default": "Shop Everyday" },
-    { "type": "url", "id": "link_1", "label": "Button 1 link" },
-    { "type": "text", "id": "button_2", "label": "Button 2", "default": "Shop Energy" },
-    { "type": "text", "id": "note", "label": "Note", "default": "Save 20% every 3 months. Skip or cancel online." },
-    { "type": "text", "id": "note_1_k", "label": "Callout 1 label", "default": "Sodium" },
-    { "type": "text", "id": "note_1_v", "label": "Callout 1 value", "default": "1,200mg" },
-    { "type": "text", "id": "note_2_k", "label": "Callout 2 label", "default": "Flavors" },
-    { "type": "text", "id": "note_2_v", "label": "Callout 2 value", "default": "Organic" },
-    { "type": "text", "id": "big_value", "label": "Large outlined figure behind the pouches", "default": "0" },
-    { "type": "text", "id": "big_unit", "label": "Large figure unit", "default": "g" },
-    { "type": "text", "id": "big_label", "label": "Large figure label", "default": "Sugar" },
-    { "type": "text", "id": "note_3_k", "label": "Callout 3 label", "default": "Sweetened with" },
-    { "type": "text", "id": "note_3_v", "label": "Callout 3 value", "default": "Monk fruit" },
-    { "type": "header", "content": "Slide 2: subscription offer" },
-    { "type": "checkbox", "id": "offer_enabled", "label": "Show and rotate the offer slide", "default": true },
-    { "type": "range", "id": "interval", "label": "Seconds per slide", "min": 4, "max": 15, "step": 1, "unit": "s", "default": 8 },
-    { "type": "text", "id": "offer_eyebrow", "label": "Kicker", "default": "Subscription offer" },
-    { "type": "text", "id": "offer_heading", "label": "Heading", "default": "Subscribe to 3 packs, get" },
-    { "type": "text", "id": "offer_heading_accent", "label": "Heading accent", "default": "Free Creatine For Life of Subscription." },
-    { "type": "textarea", "id": "offer_text", "label": "Text", "default": "Mix Everyday and Energy in any organic flavor, Monthly or Every 3 months. A pouch of pure creatine monohydrate comes free with every delivery for as long as you stay subscribed." },
-    { "type": "text", "id": "offer_button_1", "label": "Button 1", "default": "Build your 3" },
-    { "type": "url", "id": "offer_link_1", "label": "Button 1 link" },
-    { "type": "text", "id": "offer_button_2", "label": "Button 2", "default": "Shop Energy" },
-    { "type": "text", "id": "offer_note", "label": "Note", "default": "Added to your box automatically at 3 subscription packs. Skip or cancel online anytime." },
-    { "type": "image_picker", "id": "offer_creatine_image", "label": "Creatine image (blank uses Creatine_PDP_01.webp from Files)" },
-    { "type": "header", "content": "Slide 3: lifestyle photo" },
-    { "type": "checkbox", "id": "life_enabled", "label": "Show the lifestyle slide", "default": true },
-    { "type": "image_picker", "id": "life_image", "label": "Slide 3 photo", "info": "Blank uses Fortified_HP_Hero.png from Files (or hero-energy-stick.png, .jpg, .webp). The slide stays hidden until a photo is found. A white or transparent background blends into the slide." },
-    { "type": "text", "id": "life_alt", "label": "Photo description", "default": "A woman holding a Fortified Energy stick in Organic Salty Watermelon" },
-    { "type": "text", "id": "life_kicker", "label": "Kicker", "default": "Energy · Organic Salty Watermelon" },
-    { "type": "text", "id": "life_heading", "label": "Heading", "default": "Tear, pour," },
-    { "type": "text", "id": "life_heading_accent", "label": "Heading accent", "default": "and go." },
-    { "type": "textarea", "id": "life_text", "label": "Text", "default": "One stick into 12 to 20oz of ice-cold water. Electrolytes, 150mg natural caffeine from coffee bean, and an organic flavor you can name." },
-    { "type": "text", "id": "life_button_1", "label": "Button 1", "default": "Shop Energy" },
-    { "type": "url", "id": "life_link_1", "label": "Button 1 link" },
-    { "type": "text", "id": "life_button_2", "label": "Button 2", "default": "Shop Everyday" },
-    { "type": "text", "id": "life_note_k", "label": "Callout label", "default": "Energy stick" },
-    { "type": "text", "id": "life_note_v", "label": "Callout value", "default": "150mg caffeine" }
+    {
+      "type": "header",
+      "content": "Studio slide (shows last)"
+    },
+    {
+      "type": "image_picker",
+      "id": "photo",
+      "label": "Photo (replaces the 3D pouches)",
+      "info": "Blank uses the built-in photo of the woman with the Everyday stick."
+    },
+    {
+      "type": "text",
+      "id": "photo_alt",
+      "label": "Photo description",
+      "default": "A woman holding a Fortified Everyday stick in Organic Salty Watermelon"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Electrolyte drink mix · Everyday and Energy"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Electrolytes with"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Heading accent",
+      "default": "nothing to hide."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "A short list of ingredients you can name, sweetened with monk fruit, for the mom who turns the pack over before it reaches her family."
+    },
+    {
+      "type": "text",
+      "id": "button_1",
+      "label": "Button 1",
+      "default": "Shop Everyday"
+    },
+    {
+      "type": "url",
+      "id": "link_1",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "text",
+      "id": "button_2",
+      "label": "Button 2",
+      "default": "Shop Energy"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Note",
+      "default": "Save 20% every 3 months. Skip or cancel online."
+    },
+    {
+      "type": "text",
+      "id": "note_1_k",
+      "label": "Callout 1 label",
+      "default": "Sodium"
+    },
+    {
+      "type": "text",
+      "id": "note_1_v",
+      "label": "Callout 1 value",
+      "default": "1,200mg"
+    },
+    {
+      "type": "text",
+      "id": "note_2_k",
+      "label": "Callout 2 label",
+      "default": "Flavors"
+    },
+    {
+      "type": "text",
+      "id": "note_2_v",
+      "label": "Callout 2 value",
+      "default": "Organic"
+    },
+    {
+      "type": "text",
+      "id": "big_value",
+      "label": "Large outlined figure behind the pouches",
+      "default": "0"
+    },
+    {
+      "type": "text",
+      "id": "big_unit",
+      "label": "Large figure unit",
+      "default": "g"
+    },
+    {
+      "type": "text",
+      "id": "big_label",
+      "label": "Large figure label",
+      "default": "Sugar"
+    },
+    {
+      "type": "header",
+      "content": "Slide 2: subscription offer"
+    },
+    {
+      "type": "checkbox",
+      "id": "offer_enabled",
+      "label": "Show and rotate the offer slide",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "interval",
+      "label": "Seconds per slide",
+      "min": 4,
+      "max": 15,
+      "step": 1,
+      "unit": "s",
+      "default": 8
+    },
+    {
+      "type": "text",
+      "id": "offer_eyebrow",
+      "label": "Kicker",
+      "default": "Subscription offer"
+    },
+    {
+      "type": "text",
+      "id": "offer_heading",
+      "label": "Heading",
+      "default": "Subscribe to 3 packs, get"
+    },
+    {
+      "type": "text",
+      "id": "offer_heading_accent",
+      "label": "Heading accent",
+      "default": "Free Creatine For Life of Subscription."
+    },
+    {
+      "type": "textarea",
+      "id": "offer_text",
+      "label": "Text",
+      "default": "Mix Everyday and Energy in any organic flavor, Monthly or Every 3 months. A pouch of pure creatine monohydrate comes free with every delivery for as long as you stay subscribed."
+    },
+    {
+      "type": "text",
+      "id": "offer_button_1",
+      "label": "Button 1",
+      "default": "Build your 3"
+    },
+    {
+      "type": "url",
+      "id": "offer_link_1",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "text",
+      "id": "offer_button_2",
+      "label": "Button 2",
+      "default": "Shop Energy"
+    },
+    {
+      "type": "text",
+      "id": "offer_note",
+      "label": "Note",
+      "default": "Added to your box automatically at 3 subscription packs. Skip or cancel online anytime."
+    },
+    {
+      "type": "image_picker",
+      "id": "offer_creatine_image",
+      "label": "Creatine image (blank uses Creatine_PDP_01.webp from Files)"
+    },
+    {
+      "type": "header",
+      "content": "Slide 3: lifestyle photo"
+    },
+    {
+      "type": "checkbox",
+      "id": "life_enabled",
+      "label": "Show the lifestyle slide",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "life_image",
+      "label": "Lifestyle photo (first slide)",
+      "info": "Blank uses Fortified_HP_Hero.png from Files (or hero-energy-stick.png, .jpg, .webp). The slide stays hidden until a photo is found. A white or transparent background blends into the slide."
+    },
+    {
+      "type": "text",
+      "id": "life_alt",
+      "label": "Photo description",
+      "default": "A woman holding a Fortified Energy stick in Organic Salty Watermelon"
+    },
+    {
+      "type": "text",
+      "id": "life_kicker",
+      "label": "Kicker",
+      "default": "Energy · Organic Salty Watermelon"
+    },
+    {
+      "type": "text",
+      "id": "life_heading",
+      "label": "Heading",
+      "default": "Tear, pour,"
+    },
+    {
+      "type": "text",
+      "id": "life_heading_accent",
+      "label": "Heading accent",
+      "default": "and go."
+    },
+    {
+      "type": "textarea",
+      "id": "life_text",
+      "label": "Text",
+      "default": "One stick into 12 to 20oz of ice-cold water. Electrolytes, 150mg natural caffeine from coffee bean, and an organic flavor you can name."
+    },
+    {
+      "type": "text",
+      "id": "life_button_1",
+      "label": "Button 1",
+      "default": "Shop Energy"
+    },
+    {
+      "type": "url",
+      "id": "life_link_1",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "text",
+      "id": "life_button_2",
+      "label": "Button 2",
+      "default": "Shop Everyday"
+    },
+    {
+      "type": "text",
+      "id": "life_note_k",
+      "label": "Callout label",
+      "default": "Energy stick"
+    },
+    {
+      "type": "text",
+      "id": "life_note_v",
+      "label": "Callout value",
+      "default": "150mg caffeine"
+    }
   ],
-  "presets": [ { "name": "Fortified hero" } ]
+  "presets": [
+    {
+      "name": "Fortified hero"
+    }
+  ]
 }
 {% endschema %}

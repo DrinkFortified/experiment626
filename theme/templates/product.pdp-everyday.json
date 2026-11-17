@@ -215,7 +215,7 @@
         "style": "moments",
         "tone": "warm",
         "file_name": "Energy11.png",
-        "crops": "0.060,0.199,0.270,0.627\n0.366,0.199,0.270,0.627\n0.671,0.199,0.270,0.627",
+        "crops": "0.060,0.250,0.270,0.460\n0.366,0.235,0.270,0.460\n0.671,0.250,0.270,0.460",
         "heading": "Hydration that fits real life",
         "items": "Busy mornings|Add a stick to cold water and start your day hydrated.\nBefore training|Electrolytes to support hydration before you sweat.\nOn the go|Individual stick packs fit easily into your bag, desk, or car."
       }
