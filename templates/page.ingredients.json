@@ -208,7 +208,7 @@
         "anchor": "ingredients",
         "out_anchor": "left-out",
         "out_heading": "What we leave out",
-        "out_list": "Proprietary blends\nAdded sugar\nSucralose and aspartame\nSeparately added citric acid\nSilicon dioxide\nSynthetic caffeine anhydrous\nSynthetic dyes",
+        "out_list": "Proprietary blends\nAdded sugar\nSucralose and aspartame\nSeparately added citric acid\nSynthetic caffeine anhydrous\nSynthetic dyes",
         "note": "Amounts are per serving, as printed on the pack. The label on your pouch is always the final word."
       },
       "blocks": {
@@ -289,7 +289,7 @@
             "amount": "",
             "formula": "base",
             "source": "Plant fiber",
-            "why": "A plant fiber for texture and handling, used instead of silicon dioxide."
+            "why": "A plant fiber for texture and handling. Small amount, listed in full like everything else."
           }
         },
         "i8": {

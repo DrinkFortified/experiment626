@@ -28,7 +28,7 @@
           "type": "chip",
           "settings": {
             "value": "USA",
-            "label": "made in a cGMP facility"
+            "label": "made with internationally sourced ingredients"
           }
         },
         "cx2": {
@@ -81,15 +81,15 @@
         "s1": {
           "type": "step",
           "settings": {
-            "title": "Test before it goes in",
-            "text": "Raw ingredients are third-party tested before they are blended."
+            "title": "Name every source",
+            "text": "Every ingredient is listed with its source, like Ancient Ocean® salt and CocOganic® Plus coconut water."
           }
         },
         "s2": {
           "type": "step",
           "settings": {
-            "title": "Make it in the USA",
-            "text": "Blended and packed in a cGMP-compliant facility in the USA."
+            "title": "Make it in the USA with internationally sourced ingredients",
+            "text": "Blended and packed in the USA, with ingredients sourced from the US and abroad."
           }
         },
         "s3": {

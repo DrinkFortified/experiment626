@@ -171,7 +171,7 @@
         "crops": "0.56,0,0.44,1",
         "alt": "Fortified Energy stick in Organic Salty Orange with fresh orange slices",
         "heading": "Energy + electrolytes. Every ingredient has a job.",
-        "items": "bolt|Energy & alertness|150mg of caffeine helps increase alertness and reduce feelings of tiredness.|\ndrop|Hydration support|Sodium helps support fluid balance and replaces sodium lost through sweat.|\nmuscle|Muscle function|Potassium and magnesium support normal muscle function.|\nnosugar|Zero added sugar|Sweetened with monk fruit and fermented Reb M.|\nshield|Formula clarity|No proprietary blends. Know what goes into your drink.|",
+        "items": "bolt|Energy & alertness|150mg of natural caffeine from coffee beans to support alertness.*|\ndrop|Hydration support|Sodium helps maintain normal fluid balance and replenish sodium lost through sweat.*|\nmuscle|Muscle function|Potassium and magnesium support normal muscle and nerve function.*|\nnosugar|Zero added sugar|Sweetened with monk fruit and fermented Reb M.|\nshield|Formula clarity|No proprietary blends. Know what goes into your drink.|",
         "only_handle": "energy",
         "cta": "Choose my flavors",
         "cta_note": "Free Creatine For Life of Subscription with 3+ packs"
@@ -208,7 +208,7 @@
         "style": "consistency",
         "file_name": "Energy7-clean.png",
         "heading": "Bring the water. We'll bring the energy.",
-        "body": "<p>Coffee-bean caffeine for an energy lift. Electrolytes to support hydration.*</p><p>FORTIFIED keeps it straightforward: 150mg natural caffeine. Zero added sugar. No proprietary blends.</p>",
+        "body": "<p>Coffee-bean caffeine to support alertness.* Electrolytes to support hydration.*</p><p>FORTIFIED keeps it straightforward: 150mg natural caffeine. Zero added sugar. No proprietary blends.</p>",
         "tagline": "Tear. Pour. Get Fortified.",
         "only_handle": "energy",
         "cta": "Get Energy",
