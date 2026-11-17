@@ -226,11 +226,16 @@
         "cta": "Build my box",
         "cta_note": "Free Creatine For Life of Subscription with 3+ packs"
       }
+    },
+    "creatine_offer": {
+      "type": "ff-creatine-offer",
+      "settings": {}
     }
   },
   "order": [
     "main",
     "story_jobs",
+    "creatine_offer",
     "story_only",
     "story_compare",
     "howto",
