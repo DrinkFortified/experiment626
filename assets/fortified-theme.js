@@ -767,6 +767,35 @@
     secs.forEach(function (s) { io.observe(s); });
   })();
 
+  // ---------- Text and numbers on scroll: headings word by word, numbers count up ----------
+  (function () {
+    var reduce = (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || !("IntersectionObserver" in window);
+    if (reduce) return;
+    $$(".crf__h").forEach(function (h) {
+      if (h.classList.contains("is-split") || h.children.length) return;
+      var words = h.textContent.trim().split(/\s+/);
+      h.setAttribute("aria-label", h.textContent.trim());
+      h.innerHTML = words.map(function (w, i) { return '<span class="w" aria-hidden="true" style="--w:' + i + '">' + w + (i < words.length - 1 ? " " : "") + "</span>"; }).join("");
+      h.classList.add("is-split");
+    });
+    var nums = $$("[data-countup], .hl-row .num");
+    nums = nums.filter(function (el) { return /\d/.test(el.textContent) && !el.children.length; });
+    if (!nums.length) return;
+    function run(el) {
+      var txt = el.textContent, m = txt.match(/^(\D*?)([\d,]*\.?\d+)(.*)$/);
+      if (!m) return;
+      var end = parseFloat(m[2].replace(/,/g, "")), dec = (m[2].split(".")[1] || "").length, comma = m[2].indexOf(",") > -1;
+      if (!end) return;
+      var t0 = null, dur = Math.min(1600, 700 + end / 2);
+      function fmt(v) { var s = v.toFixed(dec); return comma ? s.replace(/\B(?=(\d{3})+(?!\d))/g, ",") : s; }
+      el.style.minWidth = el.offsetWidth + "px";
+      function step(t) { if (!t0) t0 = t; var p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3); el.textContent = m[1] + fmt(end * e) + m[3]; if (p < 1) requestAnimationFrame(step); else el.textContent = txt; }
+      requestAnimationFrame(step);
+    }
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } }); }, { threshold: .6 });
+    nums.forEach(function (n) { io.observe(n); });
+  })();
+
   // ---------- Rotating hero ----------
   $$("[data-hero-rotate]").forEach(function (hero) {
     var slides = $$("[data-hero-slide]", hero), dots = $$("[data-hero-dot]", hero), pauseBtn = $("[data-hero-pause]", hero);

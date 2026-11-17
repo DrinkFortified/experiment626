@@ -23,8 +23,17 @@
   endif
   assign cre = images['Creatine_PDP_01.webp']
   assign lines = st.items | newline_to_br | split: '<br />'
+  assign crop_src = st.crops | replace: ' ', '' | newline_to_br | split: '<br />'
+  assign crop_css = ''
+  for c in crop_src
+    assign q = c | strip | split: ','
+    if q.size == 4
+      assign crop_css = crop_css | append: '--cx:' | append: q[0] | append: ';--cy:' | append: q[1] | append: ';--cw:' | append: q[2] | append: ';--ch:' | append: q[3] | append: '~'
+    endif
+  endfor
+  assign crops = crop_css | split: '~'
 -%}
-<section class="crf crf--{{ st.style }}" data-crf data-sp aria-labelledby="crf-h-{{ section.id }}">
+<section class="crf crf--{{ st.style }}{% if st.tone != blank and st.tone != 'auto' %} crf--tone-{{ st.tone }}{% endif %}" data-crf data-sp aria-labelledby="crf-h-{{ section.id }}">
   {%- case st.style -%}
 
   {%- when 'habit' -%}
@@ -62,7 +71,6 @@
     </div>
     <div class="crf__media crf__media--photo">
       {%- if src -%}<div class="crf-crop" style="--cx:.59;--cy:.02;--cw:.41;--ch:.98"><img src="{{ src | image_url: width: 1800 }}" alt="Creatine being scooped into a Fortified bottle of water" loading="lazy" width="1800" height="1800"></div>{%- endif -%}
-      <span class="crf-pour" aria-hidden="true">{%- for i in (1..14) -%}<i style="--d:{{ i | times: 97 | modulo: 1300 }}ms;--x:{{ i | times: 37 | modulo: 9 | minus: 4 }}px"></i>{%- endfor -%}</span>
     </div>
   </div>
 
@@ -84,11 +92,59 @@
       <ul class="crf-pure__co crf-pure__co--l">{%- for l in lines limit: half -%}{%- if l != blank -%}<li style="--i:{{ forloop.index0 }}">{{ l | strip }}</li>{%- endif -%}{%- endfor -%}</ul>
       <div class="crf-pure__mid">
         <svg class="crf-pure__arc" viewBox="0 0 400 520" aria-hidden="true" focusable="false"><path d="M120 40 C 10 160, 10 360, 120 480" pathLength="1"/><path d="M280 40 C 390 160, 390 360, 280 480" pathLength="1"/></svg>
-        {%- if src -%}<div class="crf-crop" style="--cx:.31;--cy:.195;--cw:.38;--ch:.645"><img src="{{ src | image_url: width: 1800 }}" alt="A hand holding the Fortified Creatine Monohydrate pouch" loading="lazy" width="1800" height="1800"></div>{%- endif -%}
+        {%- if st.stick != blank -%}<img class="crf-pure__img crf-pure__img--stick" src="{{ st.stick | append: '-stick.webp' | asset_url }}" alt="{{ st.heading | escape }}" width="432" height="1548" loading="lazy">{%- else -%}<img class="crf-pure__img" src="{{ 'ff-creatine-cutout.webp' | asset_url }}" alt="Fortified Creatine Monohydrate pouch" width="721" height="900" loading="lazy">{%- endif -%}
       </div>
       <ul class="crf-pure__co crf-pure__co--r">{%- for l in lines offset: half -%}{%- if l != blank -%}<li style="--i:{{ forloop.index0 }}">{{ l | strip }}</li>{%- endif -%}{%- endfor -%}</ul>
     </div>
     <div class="crf__body crf__body--center">{{ st.body }}</div>
+  </div>
+
+  {%- when 'jobs' -%}
+  <div class="wrap crf__grid crf__grid--jobs">
+    <div class="crf__copy">
+      <h2 id="crf-h-{{ section.id }}" class="crf__h">{{ st.heading }}</h2>
+      <ul class="crf-jobs">
+        {%- for l in lines -%}{%- assign p = l | strip | split: '|' -%}{%- if p.size > 1 -%}{%- assign ic = p[0] | strip -%}
+        <li style="--i:{{ forloop.index0 }}"><span class="crf-jobs__i">{%- render 'ff-icon', name: ic -%}</span><div class="crf-jobs__t"><b>{{ p[1] }}</b><span>{{ p[2] }}</span></div>{%- if p[3] != blank -%}{%- assign v = p[3] | strip -%}{%- if v == 'check' -%}<span class="crf-chk" aria-label="Included">{%- render 'ff-icon', name: 'check' -%}</span>{%- else -%}<span class="crf-jobs__v num" data-countup>{{ v }}</span>{%- endif -%}{%- endif -%}</li>
+        {%- endif -%}{%- endfor -%}
+      </ul>
+      {%- if st.body != blank -%}<div class="crf__note">{{ st.body }}</div>{%- endif -%}
+    </div>
+    <div class="crf__media crf__media--jobs">
+      {%- if src -%}<div class="crf-crop" style="{{ crops[0] }}"><img src="{{ src | image_url: width: 2000 }}" alt="{{ st.alt | escape }}" loading="lazy" width="2000" height="2000"></div>{%- endif -%}
+    </div>
+  </div>
+
+  {%- when 'compare' -%}
+  <div class="wrap">
+    <h2 id="crf-h-{{ section.id }}" class="crf__h crf__h--center">{{ st.heading }}</h2>
+    <div class="crf-cmp">
+      <div class="crf-cmp__head"><span>{{ st.tagline }}</span><span class="crf-cmp__col">Per serving</span></div>
+      {%- if st.stick != blank -%}<div class="crf-cmp__sticks" aria-hidden="true"><img src="{{ st.stick | append: '-stick.webp' | asset_url }}" alt="" width="432" height="1548" loading="lazy"><img src="{{ st.stick | append: '-stick.webp' | asset_url }}" alt="" width="432" height="1548" loading="lazy"></div>{%- endif -%}
+      <table class="crf-cmp__t">
+        <caption class="visually-hidden">{{ st.heading }}</caption>
+        <tbody>
+        {%- for l in lines -%}{%- assign p = l | strip | split: '|' -%}{%- if p.size > 1 -%}{%- assign v = p[1] | strip -%}
+          <tr style="--i:{{ forloop.index0 }}"><th scope="row">{{ p[0] }}</th><td class="crf-cmp__col">{%- if v == 'check' -%}<span class="crf-chk" aria-label="Yes">{%- render 'ff-icon', name: 'check' -%}</span>{%- else -%}<span class="num" data-countup>{{ v }}</span>{%- endif -%}</td></tr>
+        {%- endif -%}{%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+    {%- if st.body != blank -%}<div class="crf__body crf__body--center crf-cmp__foot">{{ st.body }}</div>{%- endif -%}
+  </div>
+
+  {%- when 'steps', 'moments' -%}
+  <div class="wrap">
+    <h2 id="crf-h-{{ section.id }}" class="crf__h{% if st.style == 'steps' %} crf__h--center{% endif %}">{{ st.heading }}</h2>
+    <ol class="crf-tiles crf-tiles--{{ st.style }}">
+      {%- for l in lines -%}{%- assign p = l | strip | split: '|' -%}{%- if p.size > 1 -%}{%- assign k = forloop.index0 -%}
+      <li style="--i:{{ k }}">
+        {%- if src and crops[k] != blank -%}<div class="crf-crop" style="{{ crops[k] }}"><img src="{{ src | image_url: width: 2000 }}" alt="{{ p[0] | strip | escape }}" loading="lazy" width="2000" height="2000"></div>{%- endif -%}
+        <h3>{{ p[0] }}</h3><p>{{ p[1] }}</p>
+      </li>
+      {%- endif -%}{%- endfor -%}
+    </ol>
+    {%- if st.body != blank -%}<div class="crf-callout">{%- render 'ff-icon', name: 'bolt' -%}<div>{%- if st.tagline != blank -%}<b>{{ st.tagline }}</b>{%- endif -%}{{ st.body }}</div></div>{%- endif -%}
   </div>
   {%- endcase -%}
 </section>
@@ -97,13 +153,17 @@
 {
   "name": "Creatine story",
   "settings": [
-    { "type": "select", "id": "style", "label": "Style", "default": "habit", "options": [ { "value": "habit", "label": "Habit timeline (2 columns)" }, { "value": "consistency", "label": "Consistency (dark, full width)" }, { "value": "research", "label": "Research list with photo (2 columns)" }, { "value": "five", "label": "5 grams (photo band)" }, { "value": "pure", "label": "Pure, callouts around the pouch" } ] },
+    { "type": "select", "id": "style", "label": "Style", "default": "habit", "options": [ { "value": "habit", "label": "Habit timeline (2 columns)" }, { "value": "consistency", "label": "Consistency (dark, full width)" }, { "value": "research", "label": "Research list with photo (2 columns)" }, { "value": "five", "label": "5 grams (photo band)" }, { "value": "pure", "label": "Callouts around the product" }, { "value": "jobs", "label": "Every ingredient has a job (list + photo)" }, { "value": "compare", "label": "Per serving table" }, { "value": "steps", "label": "How to (4 photos)" }, { "value": "moments", "label": "Moments (3 photos)" } ] },
     { "type": "image_picker", "id": "image", "label": "Photo" },
     { "type": "text", "id": "file_name", "label": "Photo file name (used when Photo is blank)", "info": "Looks in this product's images first, then Files. Example: Card14.png" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Heading" },
     { "type": "textarea", "id": "items", "label": "Items, one per line" },
     { "type": "richtext", "id": "body", "label": "Text" },
-    { "type": "text", "id": "tagline", "label": "Tagline" }
+    { "type": "text", "id": "tagline", "label": "Tagline" },
+    { "type": "select", "id": "tone", "label": "Background", "default": "auto", "options": [ { "value": "auto", "label": "Style default" }, { "value": "dark", "label": "Navy" }, { "value": "light", "label": "Light" }, { "value": "warm", "label": "Warm light" } ] },
+    { "type": "select", "id": "stick", "label": "Product stick (callouts and table)", "default": "", "options": [ { "value": "", "label": "None (creatine pouch)" }, { "value": "ff-everyday-watermelon", "label": "Everyday, Organic Salty Watermelon" }, { "value": "ff-everyday-orange", "label": "Everyday, Organic Salty Orange" }, { "value": "ff-energy-orange", "label": "Energy, Organic Salty Orange" }, { "value": "ff-energy-watermelon", "label": "Energy, Organic Salty Watermelon" } ] },
+    { "type": "textarea", "id": "crops", "label": "Photo crops", "info": "One line per photo: left,top,width,height as fractions of the photo, e.g. 0.05,0.15,0.43,0.28" },
+    { "type": "text", "id": "alt", "label": "Photo description" }
   ],
   "presets": [ { "name": "Creatine story" } ]
 }
