@@ -3403,3 +3403,6 @@ h1, h2, h3, .display, .crf__h, .art__title, .blg__h, .ofr__h, .cof__h, .hwt__tit
 .hwt--own .hwt__panel--2 .hwt__photo img.hwt__shake { transform-origin: 0% 72%; animation: hwt-shake2 2.8s ease-in-out infinite; }
 @keyframes hwt-shake2 { 0%, 55%, 100% { rotate: 0deg; translate: 0 0; } 61% { rotate: -5deg; translate: 0 -1.5%; } 67% { rotate: 4deg; translate: 0 1%; } 73% { rotate: -4deg; translate: 0 -1%; } 79% { rotate: 3deg; translate: 0 .5%; } 85% { rotate: -1.5deg; translate: 0 0; } }
 @media (prefers-reduced-motion: reduce) { .hwt--own .hwt__panel--2 .hwt__photo img.hwt__shake { animation: none; } }
+/* Open Sans has taller ascenders and deeper descenders: give the headline line masks room so nothing is cut */
+.hz-mask { padding: .14em .06em .2em; margin: -.14em -.06em -.2em; }
+.hz-h { line-height: 1.02; }
