@@ -366,7 +366,6 @@
   "order": [
     "hero",
     "ticker",
-    "letter",
     "pack_turn",
     "label",
     "formulas",
@@ -376,6 +375,7 @@
     "promise",
     "tiers",
     "control",
+    "letter",
     "faq",
     "closing"
   ]
