@@ -66,7 +66,7 @@
       {%- for prod in (1..2) -%}
         {%- if forloop.first -%}{%- assign pp = pa -%}{%- assign lbl = section.settings.label_a -%}{%- assign aside = section.settings.line_a -%}{%- assign sq = section.settings.start_a -%}{%- else -%}{%- assign pp = pb -%}{%- assign lbl = section.settings.label_b -%}{%- assign aside = section.settings.line_b -%}{%- assign sq = section.settings.start_b -%}{%- endif -%}
         {%- if pp != blank -%}
-        <div class="opt"><div class="opt__label">{{ lbl }} &middot; Organic flavors <span class="opt__aside opt__aside--quiet">{{ aside }}</span></div>
+        <div class="opt"><div class="opt__label">{{ lbl }} &middot; Flavors <span class="opt__aside opt__aside--quiet">{{ aside }}</span></div>
           <div class="flavor-rows">
             {%- for variant in pp.variants -%}
               {%- assign q = 0 -%}

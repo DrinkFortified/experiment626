@@ -30,8 +30,8 @@
 {%- capture front -%}{%- render 'ff-pouch-image', product: product, variant: v, width: w, side: 'front' -%}{%- endcapture -%}
 {%- capture back -%}{%- render 'ff-pouch-image', product: product, variant: v, width: w, side: 'back' -%}{%- endcapture -%}
 <div class="bag3d {{ extra }}" data-bag3d style="--band:{{ band }};{{ cols }}">
-  <div class="bag3d__face bag3d__face--front"><img src="{{ front }}" alt="{{ fname }} Organic {{ v.title | escape }} pouch, front" width="1490" height="1515" loading="{{ loading | default: 'lazy' }}" draggable="false"></div>
-  {%- if back != blank -%}<div class="bag3d__face bag3d__face--back"><img src="{{ back }}" alt="{{ fname }} Organic {{ v.title | escape }} pouch, back with Nutrition Facts and ingredients" width="1490" height="1515" loading="lazy" draggable="false"></div>{%- endif -%}
+  <div class="bag3d__face bag3d__face--front"><img src="{{ front }}" alt="{{ fname }} {{ v.title | remove: 'Organic ' | escape }} pouch, front" width="1490" height="1515" loading="{{ loading | default: 'lazy' }}" draggable="false"></div>
+  {%- if back != blank -%}<div class="bag3d__face bag3d__face--back"><img src="{{ back }}" alt="{{ fname }} {{ v.title | remove: 'Organic ' | escape }} pouch, back with Nutrition Facts and ingredients" width="1490" height="1515" loading="lazy" draggable="false"></div>{%- endif -%}
   <i class="bag3d__side bag3d__side--l" aria-hidden="true"></i>
   <i class="bag3d__side bag3d__side--r" aria-hidden="true"></i>
   <i class="bag3d__bottom" aria-hidden="true"></i>

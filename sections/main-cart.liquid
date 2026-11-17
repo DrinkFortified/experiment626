@@ -51,7 +51,7 @@
           {%- endif -%}
           <div class="cart-line">
             <div class="pack">{%- if item.image -%}{{ item.image | image_url: width: 160 | image_tag: alt: item.title }}{%- endif -%}</div>
-            <div><b>{{ item.product.title | split: ' by ' | first }}</b><small>{% if item.product.has_only_default_variant %}Unflavored{% else %}{% unless item.variant.title contains 'Organic' %}Organic {% endunless %}{{ item.variant.title }}{% endif %}{% if item.selling_plan_allocation %} · {{ item.selling_plan_allocation.selling_plan.name }}{% endif %}</small><br>
+            <div><b>{{ item.product.title | split: ' by ' | first }}</b><small>{% if item.product.has_only_default_variant %}Unflavored{% else %}{{ item.variant.title | remove: 'Organic ' }}{% endif %}{% if item.selling_plan_allocation %} · {{ item.selling_plan_allocation.selling_plan.name }}{% endif %}</small><br>
               <label class="sr" for="q-{{ forloop.index }}">Quantity</label>
               <input id="q-{{ forloop.index }}" class="num" type="number" name="updates[]" value="{{ item.quantity }}" min="0" style="width:72px;height:40px;margin-top:6px">
             </div>

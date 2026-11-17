@@ -21,7 +21,7 @@
   }
   function shortTitle(t) { return String(t).split(" by ")[0].split(" Hydration")[0].split(" Electrolyte")[0]; }
   function planLabel(n) { return /90|3 month|quarter/i.test(n) ? "Every 3 months" : /30|month/i.test(n) ? "Monthly" : n; }
-  function flavorName(t) { if (!t || /^default title$/i.test(t)) return "Unflavored"; return /organic/i.test(t) ? t : "Organic " + t; }
+  function flavorName(t) { if (!t || /^default title$/i.test(t)) return "Unflavored"; return t.replace(/^Organic\s+/i, ""); }
 
   var toastTimer;
   function toast(msg) {
@@ -119,7 +119,7 @@
       .catch(function () { return getCart().then(function (c) { return { cart: c, changed: false }; }); });
   }
 
-  // ---------- Quick buy in an empty cart: formula, organic flavor, packs, plan, plus one-time creatine ----------
+  // ---------- Quick buy in an empty cart: formula, flavor, packs, plan, plus one-time creatine ----------
   var QB = FF.quick || null, qb = { p: 0, v: 0, n: 2, plan: "sub" };
   function qbUnit(v, prod, plan, n) {
     if (plan === "otp") return n >= 2 ? Math.round(v.price * .85) : v.price;
@@ -131,9 +131,9 @@
     if (!QB || !QB.products || !QB.products.length) return "";
     var prod = QB.products[qb.p], v = prod.variants[qb.v] || prod.variants[0], n = qb.n;
     var h = '<div class="qb" data-qb>';
-    h += '<p class="qb__h">Build your box</p><p class="qb__sub">Pick a formula, an organic flavor and how often.</p>';
+    h += '<p class="qb__h">Build your box</p><p class="qb__sub">Pick a formula, a flavor and how often.</p>';
     h += '<div><p class="qb__label">Formula</p><div class="qb__pills">' + QB.products.map(function (pp, i) { return '<button type="button" class="qb__pill qb__pill--plain" data-qb-p="' + i + '" aria-pressed="' + (i === qb.p) + '">' + esc(pp.label) + '</button>'; }).join("") + '</div></div>';
-    h += '<div><p class="qb__label">Organic flavor</p><div class="qb__pills">' + prod.variants.map(function (vv, i) { return '<button type="button" class="qb__pill" data-qb-v="' + i + '" aria-pressed="' + (i === qb.v) + '"' + (vv.available ? "" : " disabled") + '>' + (vv.img ? '<img src="' + esc(vv.img) + '" alt="" loading="lazy">' : "") + esc(flavorName(vv.title)) + '</button>'; }).join("") + '</div></div>';
+    h += '<div><p class="qb__label">Flavor</p><div class="qb__pills">' + prod.variants.map(function (vv, i) { return '<button type="button" class="qb__pill" data-qb-v="' + i + '" aria-pressed="' + (i === qb.v) + '"' + (vv.available ? "" : " disabled") + '>' + (vv.img ? '<img src="' + esc(vv.img) + '" alt="" loading="lazy">' : "") + esc(flavorName(vv.title)) + '</button>'; }).join("") + '</div></div>';
     h += '<div class="qb__row"><p class="qb__label" style="margin:0">Packs</p><div class="stepper stepper--sm"><button type="button" data-qb-n="-1" aria-label="One fewer pack"' + (n <= 1 ? " disabled" : "") + '><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><output class="num" aria-live="polite">' + n + '</output><button type="button" data-qb-n="1" aria-label="One more pack"' + (n >= 12 ? " disabled" : "") + '><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div></div>';
     var plans = [["sub", "Monthly"], ["q3", "Every 3 months"], ["otp", "One-time"]].filter(function (x) { return x[0] === "otp" || (x[0] === "sub" ? prod.monthly : prod.quarterly); });
     h += '<div><p class="qb__label">Purchase</p><div class="qb__plans">' + plans.map(function (x) { return '<button type="button" class="qb__plan" data-qb-plan="' + x[0] + '" aria-pressed="' + (x[0] === qb.plan) + '">' + x[1] + '<small>' + money(qbUnit(v, prod, x[0], n) * n) + '</small></button>'; }).join("") + '</div></div>';
@@ -190,7 +190,7 @@
     h += '<p class="qb__h">Get your creatine free</p>';
     h += '<p class="qb__sub">Subscribe to ' + (have ? need + ' more' : at) + ' packs of Everyday or Energy and a pouch of creatine ships free with every delivery. We take the ' + money(paid) + ' one-time pouch off.</p>';
     h += '<div><p class="qb__label">Formula</p><div class="qb__pills">' + QB.products.map(function (pp, i) { return '<button type="button" class="qb__pill qb__pill--plain" data-cu-p="' + i + '" aria-pressed="' + (i === cu.p) + '">' + esc(pp.label) + '</button>'; }).join("") + '</div></div>';
-    h += '<div><p class="qb__label">Organic flavor</p><div class="qb__pills">' + prod.variants.map(function (vv, i) { return '<button type="button" class="qb__pill qb__pill--plain" data-cu-v="' + i + '" aria-pressed="' + (i === cu.v) + '"' + (vv.available ? "" : " disabled") + '>Organic ' + esc(vv.title) + '</button>'; }).join("") + '</div></div>';
+    h += '<div><p class="qb__label">Flavor</p><div class="qb__pills">' + prod.variants.map(function (vv, i) { return '<button type="button" class="qb__pill qb__pill--plain" data-cu-v="' + i + '" aria-pressed="' + (i === cu.v) + '"' + (vv.available ? "" : " disabled") + '>' + esc(vv.title.replace(/^Organic\s+/i, '')) + '</button>'; }).join("") + '</div></div>';
     h += '<div class="qb__row"><p class="qb__label" style="margin:0">Packs</p><div class="stepper stepper--sm"><button type="button" data-cu-n="-1" aria-label="One fewer pack"' + (n <= need ? " disabled" : "") + '>&minus;</button><output class="num">' + n + '</output><button type="button" data-cu-n="1" aria-label="One more pack"' + (n >= 12 ? " disabled" : "") + '>+</button></div></div>';
     var plans = [["sub", "Monthly"], ["q3", "Every 3 months"]].filter(function (x) { return x[0] === "sub" ? prod.monthly : prod.quarterly; });
     if (!plans.length) return "";
@@ -1136,7 +1136,7 @@
   // ---------- Subscription demo (home) ----------
   var ui = $("[data-sub-ui]");
   if (ui) {
-    var msgs = { skip: "Next box skipped.", swap: "Swapped organic flavors for the next box.", pause: "Paused. Restart from your account whenever you like.", gift: "Your next box ships to someone else, with your note." };
+    var msgs = { skip: "Next box skipped.", swap: "Swapped flavors for the next box.", pause: "Paused. Restart from your account whenever you like.", gift: "Your next box ships to someone else, with your note." };
     ui.addEventListener("click", function (e) { var b = e.target.closest("[data-act]"); if (!b) return; $$("[data-act]", ui).forEach(function (x) { x.classList.toggle("is-on", x === b); }); $("[data-ui-toast]", ui).textContent = msgs[b.dataset.act]; });
   }
 
