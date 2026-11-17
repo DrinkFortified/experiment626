@@ -23,8 +23,8 @@
   {%- if show_offer %} data-hero-rotate="{{ section.settings.interval | default: 8 }}" aria-roledescription="carousel" aria-label="Highlights"{% endif %}>
   <div class="p-hero__slides">
 
-    <div class="p-hero__slide hz-slide is-active" data-hero-slide{% if show_offer %} role="group" aria-roledescription="slide" aria-label="1 of 2"{% endif %}>
-      <div class="hz-bg" aria-hidden="true"></div>
+    <div class="p-hero__slide hz-slide hz-slide--dark hz-slide--warm is-active" data-hero-slide{% if show_offer %} role="group" aria-roledescription="slide" aria-label="1 of 2"{% endif %}>
+      <div class="hz-bg hz-bg--warm" aria-hidden="true"></div>
       <div class="wrap hz-grid">
         <div class="hz-copy">
           {%- if section.settings.kicker != blank -%}<p class="hz-kicker hz-in" style="--i:0">{{ section.settings.kicker }}</p>{%- endif -%}
@@ -32,15 +32,21 @@
           <p class="lede hz-lede hz-in" style="--i:3">{{ section.settings.text }}</p>
           <div class="p-hero__actions hz-in" style="--i:4">
             {%- if section.settings.button_1 != blank -%}<a class="btn btn--money" href="{{ section.settings.link_1 | default: '/products/everyday' }}">{{ section.settings.button_1 }}</a>{%- endif -%}
-            {%- if section.settings.button_2 != blank -%}<a class="btn btn--ghost" href="{{ section.settings.link_2 | default: '/products/energy' }}">{{ section.settings.button_2 }}</a>{%- endif -%}
+            {%- if section.settings.button_2 != blank -%}<a class="btn btn--ghost hz-btn-light" href="{{ section.settings.link_2 | default: '/products/energy' }}">{{ section.settings.button_2 }}</a>{%- endif -%}
           </div>
           {%- if section.settings.note != blank -%}<p class="p-hero__note hz-in" style="--i:5">{{ section.settings.note }}</p>{%- endif -%}
+          <ul class="hz-notes hz-in" style="--i:6" aria-label="On the label">
+            {%- if section.settings.note_1_v != blank -%}<li class="hz-note hz-note--1" style="--n:0"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.note_1_k }}</small><b>{{ section.settings.note_1_v }}</b></span></li>{%- endif -%}
+            {%- if section.settings.note_2_v != blank -%}<li class="hz-note hz-note--2" style="--n:1"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.note_2_k }}</small><b>{{ section.settings.note_2_v }}</b></span></li>{%- endif -%}
+            {%- if section.settings.note_3_v != blank -%}<li class="hz-note hz-note--3" style="--n:2"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.note_3_k }}</small><b>{{ section.settings.note_3_v }}</b></span></li>{%- endif -%}
+          </ul>
         </div>
 
         {%- if section.settings.photo != blank -%}
           <figure class="hz-photo">{{ section.settings.photo | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 900px) 55vw, 100vw' }}</figure>
         {%- else -%}
         <div class="hz-stage" data-hx-stage>
+          {%- if section.settings.big_value != blank -%}<div class="hz-big hz-big--one" aria-hidden="true">{{ section.settings.big_value }}<span>{{ section.settings.big_unit }}</span></div>{%- if section.settings.big_label != blank -%}<p class="hz-big-label">{{ section.settings.big_label }}</p>{%- endif -%}{%- endif -%}
           <div class="hz-glow" aria-hidden="true"></div>
           <div class="hz-scene" data-hx-scene>
             {%- if p_energy -%}
@@ -54,11 +60,6 @@
             </div>
             {%- endif -%}
           </div>
-          <ul class="hz-notes" aria-label="On the label">
-            {%- if section.settings.note_1_v != blank -%}<li class="hz-note hz-note--1" style="--n:0"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.note_1_k }}</small><b>{{ section.settings.note_1_v }}</b></span></li>{%- endif -%}
-            {%- if section.settings.note_2_v != blank -%}<li class="hz-note hz-note--2" style="--n:1"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.note_2_k }}</small><b>{{ section.settings.note_2_v }}</b></span></li>{%- endif -%}
-            {%- if section.settings.note_3_v != blank -%}<li class="hz-note hz-note--3" style="--n:2"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.note_3_k }}</small><b>{{ section.settings.note_3_v }}</b></span></li>{%- endif -%}
-          </ul>
           <button type="button" class="hz-turn" data-hx-turn aria-pressed="false">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 0 1 13.7-5.6M20 4v5h-5M20 12a8 8 0 0 1-13.7 5.6M4 20v-5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span data-hx-turn-label>Turn it over</span><span class="hz-turn__hint" aria-hidden="true">or drag the pouch</span>
@@ -142,8 +143,11 @@
     { "type": "image_picker", "id": "photo", "label": "Lifestyle photo (replaces the 3D pouches)" },
     { "type": "text", "id": "note_1_k", "label": "Callout 1 label", "default": "Sodium" },
     { "type": "text", "id": "note_1_v", "label": "Callout 1 value", "default": "1,200mg" },
-    { "type": "text", "id": "note_2_k", "label": "Callout 2 label", "default": "Sugar" },
-    { "type": "text", "id": "note_2_v", "label": "Callout 2 value", "default": "0g" },
+    { "type": "text", "id": "note_2_k", "label": "Callout 2 label", "default": "Flavors" },
+    { "type": "text", "id": "note_2_v", "label": "Callout 2 value", "default": "Organic" },
+    { "type": "text", "id": "big_value", "label": "Large outlined figure behind the pouches", "default": "0" },
+    { "type": "text", "id": "big_unit", "label": "Large figure unit", "default": "g" },
+    { "type": "text", "id": "big_label", "label": "Large figure label", "default": "Sugar" },
     { "type": "text", "id": "note_3_k", "label": "Callout 3 label", "default": "Sweetened with" },
     { "type": "text", "id": "note_3_v", "label": "Callout 3 value", "default": "Monk fruit" },
     { "type": "header", "content": "Slide 2: subscription offer" },
