@@ -94,6 +94,7 @@
       </div>
       <button class="btn btn--money btn--block" type="submit" data-pd-add>Add to box</button>
       <p class="pd__error" data-pd-error role="alert" hidden></p>
+      {%- render 'ff-trust-row' -%}
     </form>
     {%- if section.settings.caution != blank -%}<p class="pd__fine">{{ section.settings.caution }}</p>{%- endif -%}
   </div>

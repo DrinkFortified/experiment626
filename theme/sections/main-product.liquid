@@ -129,6 +129,7 @@
       </div>
       <button class="btn btn--money btn--block" type="submit" data-pd-add>{{ 'product.add' | t }}</button>
       <p class="pd__error" data-pd-error role="alert" hidden></p>
+      {%- render 'ff-trust-row' -%}
     {%- endform -%}
 
     {%- for block in section.blocks -%}{% render block %}{%- endfor -%}
