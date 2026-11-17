@@ -25,7 +25,6 @@
         <li><a href="/a/loop_subscriptions/customer">Manage subscription</a></li>
         <li><a href="{{ routes.account_url }}">Account</a></li>
         {%- if settings.support_email != blank -%}<li><a href="mailto:{{ settings.support_email }}">{{ settings.support_email }}</a></li>{%- endif -%}
-        <li>{{ settings.support_phone }}</li>
       </ul></div>
       <div><h2 class="foot__h">Policies</h2><ul>
         {%- for policy in shop.policies -%}<li><a href="{{ policy.url }}">{{ policy.title }}</a></li>{%- endfor -%}

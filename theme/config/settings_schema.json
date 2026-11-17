@@ -30,8 +30,7 @@
       {
         "type": "text",
         "id": "support_phone",
-        "label": "Support phone",
-        "default": "(888) 688-8351"
+        "label": "Support phone (not shown on the site)"
       }
     ]
   },
