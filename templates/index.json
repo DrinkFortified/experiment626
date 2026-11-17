@@ -356,6 +356,10 @@
       "settings": {
         "alt": "Fortified Everyday in Organic Salty Orange on the grass with fresh oranges, flip-flops and a glass of the drink"
       }
+    },
+    "creatine_offer": {
+      "type": "ff-creatine-offer",
+      "settings": {}
     }
   },
   "order": [
@@ -365,6 +369,7 @@
     "pack_turn",
     "label",
     "formulas",
+    "creatine_offer",
     "lifestyle",
     "nomumbo",
     "promise",

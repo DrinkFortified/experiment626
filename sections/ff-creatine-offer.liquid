@@ -1,0 +1,83 @@
+{%- comment -%}
+  Free Creatine offer band: the woman holding the creatine pouch, the offer in three lines and
+  one button. On product pages the button scrolls up to the buy box; elsewhere it links to the
+  Free Creatine page (falls back to Everyday until that page is published).
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign cre = all_products[st.creatine_handle]
+  assign price = cre.price | default: 2950
+  assign yr = price | times: 12
+  assign photo = st.image
+  assign photo_src = ''
+  if photo != blank
+    assign photo_src = photo | image_url: width: 1600
+    assign pw = photo.width
+    assign ph = photo.height
+  else
+    assign photo_src = 'ff-creatine-model.webp' | asset_url
+    assign pw = 1200
+    assign ph = 1424
+  endif
+  assign on_pdp = false
+  if product != blank and st.pdp_scroll
+    assign on_pdp = true
+  endif
+  assign link = st.link
+  if link == blank
+    assign lp = pages['free-creatine']
+    if lp != blank and lp.url != blank
+      assign link = lp.url
+    else
+      assign link = '/products/everyday'
+    endif
+  endif
+-%}
+{%- if st.only_handle == blank or product == blank or product.handle contains st.only_handle -%}
+<section class="cof" data-crf data-sp aria-labelledby="cof-h-{{ section.id }}">
+  <div class="wrap cof__grid">
+    <div class="cof__copy">
+      <p class="cof__eye">{{ st.eyebrow }}</p>
+      <h2 id="cof-h-{{ section.id }}" class="crf__h cof__h">{{ st.heading }}</h2>
+      <p class="cof__accent">Free Creatine For Life of Subscription.</p>
+      <ol class="cof__steps">
+        <li style="--i:0"><b>3+ packs</b><span>Any mix of Everyday and Energy, any organic flavor.</span></li>
+        <li style="--i:1"><b>Subscribe</b><span>Monthly or Every 3 months. Skip or cancel online.</span></li>
+        <li style="--i:2"><b>Creatine, free</b><span>A <b class="num">{{ price | money_without_trailing_zeros }}</b> pouch ships free with every delivery.</span></li>
+      </ol>
+      <div class="cof__actions">
+        {%- if on_pdp -%}
+          <a class="btn btn--money cof__cta" href="#buy" data-to-buy>{{ st.cta_pdp }}<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
+        {%- else -%}
+          <a class="btn btn--money cof__cta" href="{{ link }}">{{ st.cta }}</a>
+        {%- endif -%}
+        <span class="cof__value">Up to <b class="num" data-countup>{{ yr | money_without_trailing_zeros }}</b> of creatine a year on Monthly</span>
+      </div>
+    </div>
+    <figure class="cof__photo">
+      <span class="cof__ring" aria-hidden="true"></span>
+      <img src="{{ photo_src }}" alt="{{ st.alt | escape }}" width="{{ pw }}" height="{{ ph }}" loading="lazy">
+      <span class="cof__stamp" aria-hidden="true"><b>FREE</b><small>every delivery</small></span>
+    </figure>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Free Creatine offer",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Free Creatine offer" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Subscribe to 3 packs. Creatine is on us." },
+    { "type": "image_picker", "id": "image", "label": "Photo (transparent cutout works best)", "info": "Blank uses the built-in photo." },
+    { "type": "text", "id": "alt", "label": "Photo description", "default": "A woman holding a pouch of Fortified Creatine Monohydrate" },
+    { "type": "text", "id": "cta", "label": "Button", "default": "Build my box" },
+    { "type": "url", "id": "link", "label": "Button link", "info": "Blank uses the Free Creatine page once it is published, otherwise Everyday." },
+    { "type": "checkbox", "id": "pdp_scroll", "label": "On product pages, scroll up to the buy box instead", "default": true },
+    { "type": "text", "id": "cta_pdp", "label": "Button on product pages", "default": "Build my 3 pack box" },
+    { "type": "text", "id": "creatine_handle", "label": "Creatine product handle", "default": "creatine-v2" },
+    { "type": "text", "id": "only_handle", "label": "On product pages, only show when the handle contains" }
+  ],
+  "presets": [ { "name": "Free Creatine offer" } ]
+}
+{% endschema %}
