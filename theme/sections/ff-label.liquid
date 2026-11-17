@@ -1,18 +1,18 @@
-<section class="sec sec--paper2" aria-labelledby="label-h">
+<section class="sec sec--paper2" aria-labelledby="label-h" data-hl-section>
   <div class="wrap p-label">
     <div>
       <h2 id="label-h" class="display d2">{{ section.settings.heading }} <em>{{ section.settings.heading_accent }}</em></h2>
       <p class="lede">{{ section.settings.text }}</p>
       <dl class="numbers">
-        <div><dt>Sodium</dt><dd class="num">{{ section.settings.sodium }}</dd></div>
-        <div><dt>Potassium</dt><dd class="num">{{ section.settings.potassium }}</dd></div>
-        <div><dt>Magnesium</dt><dd class="num">{{ section.settings.magnesium }}</dd></div>
-        <div><dt>Sugar</dt><dd class="num">{{ section.settings.sugar }}</dd></div>
+        <div class="hl-row" data-hl><dt>Sodium</dt><dd class="num">{{ section.settings.sodium }}</dd></div>
+        <div class="hl-row" data-hl><dt>Potassium</dt><dd class="num">{{ section.settings.potassium }}</dd></div>
+        <div class="hl-row" data-hl><dt>Magnesium</dt><dd class="num">{{ section.settings.magnesium }}</dd></div>
+        <div class="hl-row" data-hl><dt>Sugar</dt><dd class="num">{{ section.settings.sugar }}</dd></div>
       </dl>
       <ul class="p-never" aria-label="Never in our packs">
-        <li><span>Proprietary blends</span><span>never</span></li>
-        <li><span>Synthetic dyes</span><span>never</span></li>
-        <li><span>Fillers you can&rsquo;t pronounce</span><span>never</span></li>
+        <li class="hl-row" data-hl><span>Proprietary blends</span><span>never</span></li>
+        <li class="hl-row" data-hl><span>Synthetic dyes</span><span>never</span></li>
+        <li class="hl-row" data-hl><span>Fillers you can&rsquo;t pronounce</span><span>never</span></li>
       </ul>
       {%- if section.settings.show_back -%}
       <figure class="backpack">
@@ -25,7 +25,17 @@
       <div class="sheet__head"><div class="sheet__title">{{ section.settings.list_title }}</div><div class="sheet__meta">{{ section.settings.list_meta }}</div></div>
       <ul class="items">
         {%- for block in section.blocks -%}
-          <li class="item{% if block.settings.added %} item--add{% endif %}" {{ block.shopify_attributes }}><span class="item__name">{{ block.settings.name }}</span><span class="item__lead"></span><span class="item__val">{{ block.settings.source }}</span></li>
+          {%- liquid
+            assign fn = block.settings.function | default: 'none'
+            if fn == 'none' and block.settings.added
+              if block.settings.name contains 'Energy'
+                assign fn = 'energy'
+              elsif block.settings.name contains 'Everyday'
+                assign fn = 'everyday'
+              endif
+            endif
+          -%}
+          <li class="item hl-row{% if block.settings.added %} item--add{% endif %}{% if fn != 'none' %} hl-fn hl-fn--{{ fn }}{% endif %}" data-hl {{ block.shopify_attributes }}><span class="item__name">{{ block.settings.name }}</span><span class="item__lead"></span><span class="item__val">{{ block.settings.source }}</span></li>
         {%- endfor -%}
       </ul>
     </div></div>
@@ -51,7 +61,8 @@
   "blocks": [ { "type": "ingredient", "name": "Ingredient", "settings": [
     { "type": "text", "id": "name", "label": "Ingredient", "default": "Pink Himalayan Salt" },
     { "type": "text", "id": "source", "label": "Source or role", "default": "as Ancient Ocean" },
-    { "type": "checkbox", "id": "added", "label": "Formula-specific (adds a plus)", "default": false } ] } ],
+    { "type": "checkbox", "id": "added", "label": "Formula-specific (adds a plus)", "default": false },
+    { "type": "select", "id": "function", "label": "Function color", "default": "none", "info": "Highlights the row in that formula's color.", "options": [ { "value": "none", "label": "None (shared base)" }, { "value": "everyday", "label": "Everyday" }, { "value": "energy", "label": "Energy" } ] } ] } ],
   "presets": [ { "name": "The label", "blocks": [
     { "type": "ingredient", "settings": { "name": "Pink Himalayan Salt", "source": "as Ancient Ocean" } },
     { "type": "ingredient", "settings": { "name": "Magnesium Malate", "source": "magnesium" } },

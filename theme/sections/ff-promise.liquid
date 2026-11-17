@@ -1,8 +1,8 @@
-<section class="sec" aria-labelledby="pr-h">
+<section class="sec" aria-labelledby="pr-h" data-check-section>
   <div class="wrap">
-    <h2 id="pr-h" class="display d2" style="margin-bottom:clamp(32px,4vw,56px)">{{ section.settings.heading }} <em>{{ section.settings.heading_accent }}</em></h2>
-    <div class="p-promise">
-      {%- for block in section.blocks -%}<div {{ block.shopify_attributes }}><h3>{{ block.settings.title }}</h3><p>{{ block.settings.text }}</p></div>{%- endfor -%}
+    <h2 id="pr-h" class="display d2" style="margin-bottom:clamp(32px,4vw,56px)">{{ section.settings.heading }} <em class="wavy">{{ section.settings.heading_accent }}<svg class="wavy__line" viewBox="0 0 312 18" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M2 9 q 7 -7 14 0 t 14 0 q 7 -7 14 0 t 14 0 q 7 -7 14 0 t 14 0 q 7 -7 14 0 t 14 0 q 7 -7 14 0 t 14 0 q 7 -7 14 0 t 14 0 q 7 -7 14 0 t 14 0 q 7 -7 14 0 t 14 0 q 7 -7 14 0 t 14 0 q 7 -7 14 0 t 14 0 q 7 -7 14 0 t 14 0 q 7 -7 14 0 t 14 0 q 7 -7 14 0 t 14 0" pathLength="1"/></svg></em></h2>
+    <div class="p-promise" role="list">
+      {%- for block in section.blocks -%}<div class="promise" role="listitem" style="--n:{{ forloop.index0 }}" {{ block.shopify_attributes }}><span class="promise__check" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5.5 12.5l4.2 4.2 8.8-9.4" pathLength="1"/></svg></span><h3>{{ block.settings.title }}</h3><p>{{ block.settings.text }}</p></div>{%- endfor -%}
     </div>
   </div>
 </section>

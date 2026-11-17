@@ -1,0 +1,38 @@
+{%- comment -%}
+  A 3D pouch built from the product's Front and Back renders: about 1 inch deep at
+  the bottom, tapering to no depth at the top seal. Shape and shading in CSS (.bag3d).
+  Params: product, flavor ('orange' | 'watermelon'), width (image width), extra (class names)
+{%- endcomment -%}
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  for x in product.variants
+    assign xt = x.title | downcase
+    if xt contains flavor
+      assign v = x
+      break
+    endif
+  endfor
+  assign vt = v.title | downcase
+  if vt contains 'watermelon'
+    assign band = '#d67b73'
+  else
+    assign band = '#d8862b'
+  endif
+  if product.handle contains 'energy' or product.title contains 'Energy'
+    assign cols = '--c1:#dd667c;--c2:#bf5a7b;--c3:#806793'
+    assign fname = 'Energy'
+  else
+    assign cols = '--c1:#f0c850;--c2:#eab044;--c3:#d97435'
+    assign fname = 'Everyday'
+  endif
+  assign w = width | default: 900
+-%}
+{%- capture front -%}{%- render 'ff-pouch-image', product: product, variant: v, width: w, side: 'front' -%}{%- endcapture -%}
+{%- capture back -%}{%- render 'ff-pouch-image', product: product, variant: v, width: w, side: 'back' -%}{%- endcapture -%}
+<div class="bag3d {{ extra }}" data-bag3d style="--band:{{ band }};{{ cols }}">
+  <div class="bag3d__face bag3d__face--front"><img src="{{ front }}" alt="{{ fname }} Organic {{ v.title | escape }} pouch, front" width="1490" height="1515" loading="{{ loading | default: 'lazy' }}" draggable="false"></div>
+  {%- if back != blank -%}<div class="bag3d__face bag3d__face--back"><img src="{{ back }}" alt="{{ fname }} Organic {{ v.title | escape }} pouch, back with Nutrition Facts and ingredients" width="1490" height="1515" loading="lazy" draggable="false"></div>{%- endif -%}
+  <i class="bag3d__side bag3d__side--l" aria-hidden="true"></i>
+  <i class="bag3d__side bag3d__side--r" aria-hidden="true"></i>
+  <i class="bag3d__bottom" aria-hidden="true"></i>
+</div>

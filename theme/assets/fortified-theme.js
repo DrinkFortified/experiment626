@@ -304,13 +304,133 @@
     draw();
   }
 
+  // ---------- Hero 3D pouches: lean toward the pointer, drag or press to turn over ----------
+  $$("[data-hx-stage]").forEach(function (stage) {
+    var scene = $("[data-hx-scene]", stage), turnBtn = $("[data-hx-turn]", stage), turnLabel = $("[data-hx-turn-label]", stage);
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var packs = $$("[data-hx-pack]", stage).map(function (el) {
+      var bag = $("[data-bag3d]", el), spinEl = $("[data-hx-spin]", el);
+      var rest = parseFloat(getComputedStyle(el).getPropertyValue("--rest")) || 0;
+      return { el: el, bag: bag, spinEl: spinEl, rest: rest, spin: 0, raf: 0 };
+    });
+    function apply(pk) {
+      pk.spinEl.style.setProperty("--spin", pk.spin.toFixed(2) + "deg");
+      if (pk.bag) pk.bag.classList.toggle("show-back", Math.cos((pk.rest + pk.spin) * Math.PI / 180) < 0);
+    }
+    function ease(t) { return 1 - Math.pow(1 - t, 3); }
+    // Turn a pouch to an angle; the face swaps exactly when the pouch passes edge-on.
+    function tween(pk, to, ms) {
+      cancelAnimationFrame(pk.raf);
+      if (reduce || !ms) { pk.spin = to; apply(pk); return; }
+      var from = pk.spin, t0 = performance.now();
+      (function step(now) {
+        var t = Math.min(1, (now - t0) / ms);
+        pk.spin = from + (to - from) * ease(t); apply(pk);
+        if (t < 1) pk.raf = requestAnimationFrame(step);
+      })(t0);
+    }
+    function showingBack(pk) { return Math.cos((pk.rest + pk.spin) * Math.PI / 180) < 0; }
+    function syncButton() {
+      if (!turnBtn) return;
+      var back = packs.length && packs.every(showingBack);
+      turnBtn.setAttribute("aria-pressed", String(back));
+      if (turnLabel) turnLabel.textContent = back ? "Turn it back" : "Turn it over";
+    }
+    if (turnBtn) turnBtn.addEventListener("click", function () {
+      var toBack = !packs.every(showingBack);
+      packs.forEach(function (pk, i) {
+        var target = (toBack ? 180 : 0) + Math.round(pk.spin / 360) * 360;
+        setTimeout(function () { tween(pk, target, 950); }, i * 120);
+      });
+      setTimeout(syncButton, 1200);
+      if (turnLabel) turnLabel.textContent = toBack ? "Turn it back" : "Turn it over";
+      turnBtn.setAttribute("aria-pressed", String(toBack));
+    });
+
+    // Drag a pouch sideways to turn it; it settles on the nearest face.
+    packs.forEach(function (pk) {
+      var startX = 0, base = 0, drag = false, id = null;
+      pk.el.addEventListener("pointerdown", function (e) {
+        if (e.button !== 0) return;
+        drag = true; id = e.pointerId; startX = e.clientX; base = pk.spin;
+        cancelAnimationFrame(pk.raf); pk.el.classList.add("is-drag");
+        try { pk.el.setPointerCapture(id); } catch (x) {}
+      });
+      pk.el.addEventListener("pointermove", function (e) {
+        if (!drag || e.pointerId !== id) return;
+        pk.spin = base + (e.clientX - startX) * .55; apply(pk);
+      });
+      function end(e) {
+        if (!drag || (e && e.pointerId !== id)) return;
+        drag = false; pk.el.classList.remove("is-drag");
+        var total = pk.rest + pk.spin, snapped = Math.round(total / 180) * 180;
+        tween(pk, snapped - pk.rest, 650);
+        setTimeout(syncButton, 700);
+      }
+      pk.el.addEventListener("pointerup", end);
+      pk.el.addEventListener("pointercancel", end);
+    });
+
+    // Lean toward the pointer (mouse and trackpad only).
+    if (!reduce && scene && window.matchMedia && matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      var tx = 0, ty = 0, cx = 0, cy = 0, run = false;
+      function loop() {
+        cx += (tx - cx) * .08; cy += (ty - cy) * .08;
+        scene.style.setProperty("--ry", cx.toFixed(2) + "deg");
+        scene.style.setProperty("--rx", cy.toFixed(2) + "deg");
+        if (Math.abs(tx - cx) > .02 || Math.abs(ty - cy) > .02) requestAnimationFrame(loop); else run = false;
+      }
+      function kick() { if (!run) { run = true; requestAnimationFrame(loop); } }
+      stage.addEventListener("pointermove", function (e) {
+        var r = stage.getBoundingClientRect();
+        tx = ((e.clientX - r.left) / r.width - .5) * 14;
+        ty = -((e.clientY - r.top) / r.height - .5) * 8;
+        kick();
+      });
+      stage.addEventListener("pointerleave", function () { tx = 0; ty = 0; kick(); });
+    }
+    packs.forEach(apply);
+  });
+
+  // ---------- Label rows highlight as the page scrolls ----------
+  $$("[data-hl-section]").forEach(function (sec) {
+    var rows = $$("[data-hl]", sec), on = false, ticking = false;
+    if (!rows.length) return;
+    function frame() {
+      ticking = false;
+      // Rows light one at a time across the section's scroll, in reading order.
+      var vh = window.innerHeight, rc = sec.getBoundingClientRect();
+      var prog = Math.min(1, Math.max(0, (vh * .8 - rc.top) / Math.max(1, rc.height + vh * .1)));
+      var cur = Math.round(prog * rows.length) - 1;
+      rows.forEach(function (r, i) { r.classList.toggle("is-read", i <= cur); r.classList.toggle("is-on", i === cur); });
+    }
+    function req() { if (on && !ticking) { ticking = true; requestAnimationFrame(frame); } }
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) { on = es[0].isIntersecting; req(); }, { rootMargin: "20% 0px 20% 0px" }).observe(sec);
+    } else { on = true; }
+    window.addEventListener("scroll", req, { passive: true });
+    window.addEventListener("resize", req);
+    req();
+  });
+
+  // ---------- Promise checklist: wavy line draws, checks tick in ----------
+  $$("[data-check-section]").forEach(function (sec) {
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || !("IntersectionObserver" in window)) return;
+    sec.classList.add("js-check");
+    var io = new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting) { sec.classList.add("is-in"); io.disconnect(); }
+    }, { threshold: .35 });
+    io.observe(sec);
+  });
+
   // ---------- Rotating hero ----------
   $$("[data-hero-rotate]").forEach(function (hero) {
     var slides = $$("[data-hero-slide]", hero), dots = $$("[data-hero-dot]", hero), pauseBtn = $("[data-hero-pause]", hero);
     if (slides.length < 2) return;
     var secs = Math.max(4, +hero.getAttribute("data-hero-rotate") || 7), cur = 0, timer = null;
     var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var userPaused = reduce, hover = false, focus = false;
+    var userPaused = reduce, hover = false, focus = false, held = false, heldT = null;
     hero.style.setProperty("--hero-t", secs + "s");
     function setPauseLabel() {
       if (!pauseBtn) return;
@@ -328,7 +448,7 @@
       dots.forEach(function (d, k) { if (k === cur) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current"); });
       restart();
     }
-    function playing() { return !userPaused && !hover && !focus && !document.hidden; }
+    function playing() { return !userPaused && !hover && !focus && !held && !document.hidden; }
     function restart() {
       clearTimeout(timer);
       hero.classList.remove("is-playing");
@@ -347,6 +467,7 @@
       box.addEventListener("mouseenter", function () { hover = true; restart(); });
       box.addEventListener("mouseleave", function () { hover = false; restart(); });
     }
+    box.addEventListener("pointerdown", function () { held = true; restart(); clearTimeout(heldT); heldT = setTimeout(function () { held = false; restart(); }, 9000); });
     box.addEventListener("focusin", function () { focus = true; restart(); });
     box.addEventListener("focusout", function (e) { if (!box.contains(e.relatedTarget)) { focus = false; restart(); } });
     document.addEventListener("visibilitychange", restart);
