@@ -208,7 +208,7 @@
         "anchor": "ingredients",
         "out_anchor": "left-out",
         "out_heading": "What we leave out",
-        "out_list": "Proprietary blends\nAdded sugar\nSucralose and aspartame\nSynthetic caffeine anhydrous\nSynthetic dyes\nFillers you can’t pronounce",
+        "out_list": "Proprietary blends\nAdded sugar\nSucralose and aspartame\nSeparately added citric acid\nSilicon dioxide\nSynthetic caffeine anhydrous\nSynthetic dyes",
         "note": "Amounts are per serving, as printed on the pack. The label on your pouch is always the final word."
       },
       "blocks": {
@@ -218,7 +218,7 @@
             "name": "Pink Himalayan Salt",
             "amount": "1,200mg sodium",
             "formula": "base",
-            "source": "Ancient Ocean Pink Himalayan Salt",
+            "source": "As Ancient Ocean®",
             "why": "Sodium is the electrolyte you lose most in sweat. This salt is the main source of the sodium in every stick."
           }
         },
@@ -228,8 +228,8 @@
             "name": "Magnesium Malate",
             "amount": "150mg magnesium",
             "formula": "base",
-            "source": "Magnesium bound to malic acid",
-            "why": "Magnesium rounds out the electrolyte base. We use malate, not the cheaper oxide."
+            "source": "From 1,000mg magnesium malate",
+            "why": "Magnesium rounds out the electrolyte base. The label lists 150mg of magnesium, the amount the malate provides."
           }
         },
         "i2": {
@@ -238,8 +238,8 @@
             "name": "Coconut Water Powder",
             "amount": "",
             "formula": "base",
-            "source": "CocOganic Plus, from real coconut water",
-            "why": "A potassium source from coconut water, working with potassium chloride below."
+            "source": "CocOganic® Plus, organic coconut water",
+            "why": "Organic coconut water powder. It naturally contains minerals and adds taste."
           }
         },
         "i3": {
@@ -249,7 +249,7 @@
             "amount": "200mg potassium",
             "formula": "base",
             "source": "Potassium",
-            "why": "Together with coconut water powder, it brings the base to 200mg of potassium."
+            "why": "The potassium in the base. 200mg per stick, as printed on the label."
           }
         },
         "i4": {
@@ -259,7 +259,7 @@
             "amount": "",
             "formula": "base",
             "source": "Dried organic lemon juice",
-            "why": "Brightens the organic flavor. It is lemon juice, dried."
+            "why": "Citrus character and tartness. Lemon juice naturally contains citric acid; we add none separately."
           }
         },
         "i5": {
@@ -279,7 +279,7 @@
             "amount": "",
             "formula": "base",
             "source": "Fruit acid",
-            "why": "Gives the drink its clean, tart finish."
+            "why": "Tartness that balances the salty and the sweet."
           }
         },
         "i7": {
@@ -289,7 +289,7 @@
             "amount": "",
             "formula": "base",
             "source": "Plant fiber",
-            "why": "A plant fiber. Small amount, listed in full like everything else."
+            "why": "A plant fiber for texture and handling, used instead of silicon dioxide."
           }
         },
         "i8": {
@@ -298,8 +298,8 @@
             "name": "Reb M, fermented",
             "amount": "",
             "formula": "base",
-            "source": "OnoSweet",
-            "why": "Sweetness without sugar, made by fermentation."
+            "source": "Reb M 95% fermented, as OnoSweet™",
+            "why": "A natural, zero-calorie sweetener made through fermentation."
           }
         },
         "i9": {
