@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": { "type": "ff-creatine-main", "settings": {} },
+    "details": { "type": "ff-creatine-details", "settings": {} },
+    "faq": {
+      "type": "ff-faq",
+      "settings": { "heading": "Creatine,", "heading_accent": "answered." },
+      "blocks": {
+        "q1": { "type": "qa", "settings": { "q": "What's in it?", "a": "<p>One ingredient: creatine monohydrate. No flavors, no sweeteners, no fillers.</p>" } },
+        "q2": { "type": "qa", "settings": { "q": "How much is in a pouch?", "a": "<p>45 servings of 5g each.</p>" } },
+        "q3": { "type": "qa", "settings": { "q": "How do I get it free?", "a": "<p>Subscribe to 3 or more packs of Everyday or Energy, Monthly or Every 3 months. A pouch of creatine is added to your box automatically and ships free with every delivery for as long as you stay subscribed.</p>" } },
+        "q4": { "type": "qa", "settings": { "q": "Can I buy it on its own?", "a": "<p>Yes. Add a one-time pouch from this page. Shipping is free from $99, otherwise $5.99.</p>" } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4"]
+    }
+  },
+  "order": ["main", "details", "faq"]
+}

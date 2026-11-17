@@ -1,4 +1,4 @@
-<section class="sec sec--paper2" aria-labelledby="label-h" data-hl-section data-spill>
+<section class="sec sec--paper2" aria-labelledby="label-h" data-hl-section data-spill data-sp>
 {%- liquid
   assign show_sticks = section.settings.show_sticks
   assign stick_l = ''
@@ -37,7 +37,7 @@
       assign r = i | times: 71 | modulo: 180
       assign d = i | times: 47 | modulo: 100 | times: 14
       assign m3 = i | modulo: 3
-    -%}<i class="lfx-grain{% if m3 == 0 %} lfx-grain--pink{% endif %}" style="--x:{{ x }}px;--y:{{ y }}px;--z:{{ z }}px;--r:{{ r }}deg;--d:{{ d }}ms"></i>{%- endfor -%}</div>
+    -%}<i class="lfx-grain{% if m3 == 0 %} lfx-grain--pink{% endif %}" style="--x:{{ x }}px;--y:{{ y }}px;--z:{{ z }}px;--r:{{ r }}deg;--d:{{ d }}ms;--t:{{ d | divided_by: 2600.0 }}"></i>{%- endfor -%}</div>
   </div>
   <div class="lfx-side lfx-side--r">
     <img class="lfx-stick" src="{{ stick_r }}" alt="" width="432" height="1548" loading="lazy">
@@ -48,7 +48,7 @@
       assign r = i | times: 67 | modulo: 180
       assign d = i | times: 43 | modulo: 100 | times: 14
       assign m3 = i | modulo: 3
-    -%}<i class="lfx-grain{% if m3 == 1 %} lfx-grain--pink{% endif %}" style="--x:{{ x }}px;--y:{{ y }}px;--z:{{ z }}px;--r:{{ r }}deg;--d:{{ d }}ms"></i>{%- endfor -%}</div>
+    -%}<i class="lfx-grain{% if m3 == 1 %} lfx-grain--pink{% endif %}" style="--x:{{ x }}px;--y:{{ y }}px;--z:{{ z }}px;--r:{{ r }}deg;--d:{{ d }}ms;--t:{{ d | divided_by: 2600.0 }}"></i>{%- endfor -%}</div>
   </div>
 </div>
 {%- endif -%}
