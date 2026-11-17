@@ -3653,3 +3653,7 @@ h1, h2, h3, .display, .crf__h, .art__title, .blg__h, .ofr__h, .cof__h, .hwt__tit
 .trk__alt b { color: var(--ink); }
 @media (max-width: 989px) { .trk__grid { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 480px) { .trk__row { flex-direction: column; } .trk__btn { width: 100%; } }
+
+/* Cart: one-time creatine can become free with a subscription */
+.qb--cu { margin-top: 16px; padding: 18px; border-radius: 16px; background: var(--teal-wash); border: 1.5px solid rgba(0, 117, 111, .25); }
+.qb--cu .qb__h { color: var(--teal-aa, #00756f); }

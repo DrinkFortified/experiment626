@@ -21,7 +21,7 @@
   }
   function shortTitle(t) { return String(t).split(" by ")[0].split(" Hydration")[0].split(" Electrolyte")[0]; }
   function planLabel(n) { return /90|3 month|quarter/i.test(n) ? "Every 3 months" : /30|month/i.test(n) ? "Monthly" : n; }
-  function flavorName(t) { return /organic/i.test(t) ? t : "Organic " + t; }
+  function flavorName(t) { if (!t || /^default title$/i.test(t)) return "Unflavored"; return /organic/i.test(t) ? t : "Organic " + t; }
 
   var toastTimer;
   function toast(msg) {
@@ -169,6 +169,64 @@
     }
   });
 
+
+  // ---------- Cart upsell: a one-time creatine pouch can become free ----------
+  // Shown when the cart holds a one-time creatine pouch and fewer than 3 subscription
+  // packs. Adding the packs swaps the paid pouch for the free one (syncCreatine adds it).
+  var cu = { p: 0, v: 0, n: 3, plan: "sub" }, cuCart = null;
+  function cuOneTime(cart) {
+    if (!QB || !QB.creatine) return [];
+    return (cart.items || []).filter(function (it) { return +it.variant_id === +QB.creatine.id && !it.selling_plan_allocation && !isCreatine(it) && !isUpsell(it); });
+  }
+  function cuHtml(cart) {
+    if (!cart || !QB || !QB.products || !QB.products.length) return "";
+    var ot = cuOneTime(cart), have = subCount(cart).n, at = FF.creatineAt || 3;
+    if (!ot.length || have >= at) return "";
+    var need = at - have; if (cu.n < need) cu.n = need;
+    var prod = QB.products[cu.p], v = prod.variants[cu.v] || prod.variants[0], n = cu.n;
+    var paid = ot.reduce(function (a, it) { return a + it.final_line_price; }, 0);
+    var h = '<div class="qb qb--cu" data-cu>';
+    h += '<p class="qb__h">Get your creatine free</p>';
+    h += '<p class="qb__sub">Subscribe to ' + (have ? need + ' more' : at) + ' packs of Everyday or Energy and a pouch of creatine ships free with every delivery. We take the ' + money(paid) + ' one-time pouch off.</p>';
+    h += '<div><p class="qb__label">Formula</p><div class="qb__pills">' + QB.products.map(function (pp, i) { return '<button type="button" class="qb__pill qb__pill--plain" data-cu-p="' + i + '" aria-pressed="' + (i === cu.p) + '">' + esc(pp.label) + '</button>'; }).join("") + '</div></div>';
+    h += '<div><p class="qb__label">Organic flavor</p><div class="qb__pills">' + prod.variants.map(function (vv, i) { return '<button type="button" class="qb__pill qb__pill--plain" data-cu-v="' + i + '" aria-pressed="' + (i === cu.v) + '"' + (vv.available ? "" : " disabled") + '>Organic ' + esc(vv.title) + '</button>'; }).join("") + '</div></div>';
+    h += '<div class="qb__row"><p class="qb__label" style="margin:0">Packs</p><div class="stepper stepper--sm"><button type="button" data-cu-n="-1" aria-label="One fewer pack"' + (n <= need ? " disabled" : "") + '>&minus;</button><output class="num">' + n + '</output><button type="button" data-cu-n="1" aria-label="One more pack"' + (n >= 12 ? " disabled" : "") + '>+</button></div></div>';
+    var plans = [["sub", "Monthly"], ["q3", "Every 3 months"]].filter(function (x) { return x[0] === "sub" ? prod.monthly : prod.quarterly; });
+    if (!plans.length) return "";
+    if (!plans.some(function (x) { return x[0] === cu.plan; })) cu.plan = plans[0][0];
+    h += '<div><p class="qb__label">How often</p><div class="qb__plans">' + plans.map(function (x) { return '<button type="button" class="qb__plan" data-cu-plan="' + x[0] + '" aria-pressed="' + (x[0] === cu.plan) + '"><span>' + x[1] + '</span><small class="num">' + money(qbUnit(v, prod, x[0], n) * n) + '</small></button>'; }).join("") + '</div></div>';
+    h += '<p class="qb__note">Renews automatically ' + (cu.plan === "q3" ? "every 90 days" : "every 30 days") + ' at the price shown until you cancel. Free Shipping. Skip or cancel online anytime.</p>';
+    h += '<button type="button" class="btn btn--money btn--block" data-cu-add>Subscribe to ' + n + ' packs · creatine free</button>';
+    return h + '</div>';
+  }
+  function cuMount(cart) {
+    if (cart) cuCart = cart;
+    var html = cuHtml(cuCart);
+    $$("[data-cu-slot], [data-cu-mount]").forEach(function (m) { m.innerHTML = html; m.hidden = !html; });
+  }
+  document.addEventListener("click", function (e) {
+    var root = e.target.closest("[data-cu]"); if (!root || !QB || !cuCart) return;
+    var t;
+    if ((t = e.target.closest("[data-cu-p]"))) { cu.p = +t.getAttribute("data-cu-p"); cu.v = 0; cuMount(); }
+    else if ((t = e.target.closest("[data-cu-v]"))) { cu.v = +t.getAttribute("data-cu-v"); cuMount(); }
+    else if ((t = e.target.closest("[data-cu-n]"))) { cu.n = Math.max(1, Math.min(12, cu.n + +t.getAttribute("data-cu-n"))); cuMount(); }
+    else if ((t = e.target.closest("[data-cu-plan]"))) { cu.plan = t.getAttribute("data-cu-plan"); cuMount(); }
+    else if ((t = e.target.closest("[data-cu-add]"))) {
+      var prod = QB.products[cu.p], v = prod.variants[cu.v] || prod.variants[0];
+      var sp = cu.plan === "q3" ? prod.quarterly : prod.monthly;
+      var ot = cuOneTime(cuCart), upd = {};
+      ot.forEach(function (it) { upd[it.key] = 0; });
+      t.disabled = true; t.textContent = "Adding…";
+      post(FF.routes.cartAdd, { items: [{ id: v.id, quantity: cu.n, selling_plan: +sp }] })
+        .then(function () { return Object.keys(upd).length ? post(FF.routes.cartUpdate || "/cart/update.js", { updates: upd }) : null; })
+        .then(getCart).then(settle).then(function () {
+          toast("Your creatine is now free with your subscription.");
+          if (document.querySelector("[data-cart-page]")) location.reload();
+        })
+        .catch(function (x) { toast((x && x.message) || "Could not update your box."); refreshCart(); });
+    }
+  });
+
   function progressHtml(n, sub) {
     var ship = FF.freeShipAt || 2, cre = FF.creatineAt || 3, t = FF.text || {};
     if (sub == null) sub = n;
@@ -212,7 +270,7 @@
       offer = '<div class="upsell"><div><b>Add a 2nd creatine bag, ' + UP.pct + '% off</b><small>One pouch is 45 servings. A 2nd bag covers your full 90 days, every 3 months.</small></div>' +
         '<button type="button" class="btn btn--ghost upsell__btn" data-upsell-add>Add <s>' + money(was) + '</s> ' + money(now) + '</button></div>';
     }
-    body.innerHTML = progressHtml(packs, subCount(cart).n) + lines + offer;
+    body.innerHTML = progressHtml(packs, subCount(cart).n) + lines + offer + '<div data-cu-slot hidden></div>';
     var saved = cart.original_total_price - cart.total_price;
     foot.innerHTML =
       (saved > 0 ? '<div class="total-row total-row--save"><span>You save</span><span>&minus;' + money(saved) + '</span></div>' : "") +
@@ -226,7 +284,7 @@
       if (r.changed && r.upOnly) toast("2nd creatine bag removed: it comes with Every 3 months.");
       else if (r.changed && r.added && !had) toast("Free Creatine For Life of Subscription added to your box.");
       if (r.changed && !r.added && had) toast("Free Creatine For Life of Subscription needs 3 or more subscription packs.");
-      renderCart(r.cart); return r;
+      renderCart(r.cart); cuMount(r.cart); return r;
     });
   }
   function refreshCart() { return getCart().then(settle).then(function (r) { return r.cart; }); }
