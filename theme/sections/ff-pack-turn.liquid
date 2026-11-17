@@ -40,7 +40,7 @@
     assign c2 = '#eab044'
     assign c3 = '#d97435'
     assign formula_name = 'Everyday'
-    assign ingredients_default = 'Pink Himalayan Salt (as Ancient Ocean®), Magnesium Malate, Coconut Water Powder (as CocOganic® Plus), Organic Lemon Juice Powder, Potassium Chloride, Bamboo Fiber, Organic Flavors, Malic Acid, Reb M 95% Fermented (as OnoSweet™), Monk Fruit Extract, Menaquinone-7 (Vitamin K2), Vitamin D3 (100,000 IU/g)'
+    assign ingredients_default = 'Pink Himalayan Salt (as Ancient Ocean®), Magnesium Malate, Coconut Water Powder (as CocOganic® Plus), Organic Lemon Juice Powder, Potassium Chloride, Bamboo Fiber, Organic Flavors, Reb M 95% Fermented (as OnoSweet™), Monk Fruit Extract, Malic Acid, Menaquinone-7 (Vitamin K2), Vitamin D3 (100,000 IU/g)'
   endif
   assign ingredients = section.settings.ingredients | default: ingredients_default
   if is_energy
