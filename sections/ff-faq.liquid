@@ -1,6 +1,6 @@
 <section class="sec" aria-labelledby="faq-h">
   <div class="wrap faq-layout">
-    <div><h2 id="faq-h" class="display d2">{{ section.settings.heading }} <em>{{ section.settings.heading_accent }}</em></h2><p class="lede">Or write to us at <a class="link" href="mailto:{{ settings.support_email }}">{{ settings.support_email }}</a>.</p></div>
+    <div><h2 id="faq-h" class="display d2">{{ section.settings.heading }} <em>{{ section.settings.heading_accent }}</em></h2>{%- if settings.support_email != blank -%}<p class="lede">Or write to us at <a class="link" href="mailto:{{ settings.support_email }}">{{ settings.support_email }}</a>.</p>{%- endif -%}</div>
     <div class="faq">
       {%- for block in section.blocks -%}
         <details {{ block.shopify_attributes }}><summary>{{ block.settings.q }}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><div class="rte">{{ block.settings.a }}</div></details>

@@ -2746,3 +2746,53 @@ html.story-open { overflow: hidden; }
 @media (max-width: 860px) { .crf__media--jobs { width: min(100%, 300px); } .crf-cmp__sticks { top: -120px; } }
 /* v27: model taller than the kicker, next to the copy */
 @media (min-width: 861px) { .nmj__person { right: auto; left: clamp(54%, calc(50% + 60px), 60%); height: calc(100% - clamp(40px, 5vw, 80px)); max-height: 1100px; } }
+
+/* ===== Audit fixes v28 ===== */
+/* stick images keep their own proportions (a later width rule squashed them into a wide sachet) */
+.crf-pure__img.crf-pure__img--stick { width: auto; height: clamp(300px, 32vw, 440px); max-width: none; }
+/* moments: tiles line up with the heading */
+.crf-tiles--moments { max-width: none; margin-inline: 0; }
+/* tier message and flavor list need breathing room */
+[data-tiers-msg] { margin-bottom: 18px !important; }
+/* newsletter field matches the pill button */
+.foot .news { align-items: center; }
+.foot .news input { height: 52px; border-radius: 999px; border: 1.5px solid rgba(255, 255, 255, .3); background: transparent; color: #fff; padding: 0 18px; font-size: 16px; -webkit-appearance: none; appearance: none; }
+.foot .news input::placeholder { color: rgba(255, 255, 255, .62); }
+.foot .news input:focus { outline: none; border-color: #00aba3; }
+/* per serving table header never collides with the column */
+.crf-cmp__head > span:first-child { flex: 1; min-width: 0; padding-right: 12px; }
+@media (max-width: 860px) {
+  /* callouts: product on top, the two lists side by side underneath */
+  .crf-pure { grid-template-columns: 1fr 1fr; grid-template-areas: "mid mid" "l r"; gap: 22px 16px; }
+  .crf-pure__mid { grid-area: mid; min-height: 0; }
+  .crf-pure__co--l { grid-area: l; } .crf-pure__co--r { grid-area: r; }
+  .crf-pure__co { gap: 16px; font-size: 15px; }
+  .crf-pure__co--l li { justify-content: flex-start; text-align: left; flex-direction: row-reverse; }
+  .crf-pure__img { width: min(70%, 260px); }
+  .crf-pure__img.crf-pure__img--stick { height: 300px; }
+  .crf-cmp__sticks { display: none; }
+  .crf-cmp { margin-top: 30px; }
+  .cr-add, [data-cr-add], .cr-buy .btn { white-space: nowrap; font-size: 13px; }
+}
+/* Hero studio slide with a full-bleed photo (brunette lifestyle) */
+.hz-slide--photo .hz-bg { display: none; }
+.hz-slide--photo { background: #0b1c29; }
+.hz-bgphoto { position: absolute; inset: 0; z-index: 0; margin: 0; overflow: hidden; }
+.hz-bgphoto img { width: 100%; height: 100%; object-fit: cover; object-position: 72% 30%; transform: scale(1.06); transition: transform 9s ease-out; }
+.hz-slide--photo.is-active .hz-bgphoto img { transform: scale(1); }
+.hz-bgphoto::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(11, 28, 41, .94) 0%, rgba(11, 28, 41, .78) 30%, rgba(11, 28, 41, .2) 55%, rgba(11, 28, 41, 0) 70%); }
+.hz-slide--photo .hz-grid { position: relative; z-index: 1; }
+.hz-slide--photo .hz-notes { display: none; }
+@media (max-width: 860px) {
+  .hz-bgphoto img { object-position: 78% 20%; }
+  .hz-bgphoto::after { background: linear-gradient(0deg, rgba(11, 28, 41, .96) 0%, rgba(11, 28, 41, .82) 42%, rgba(11, 28, 41, .1) 72%); }
+  .hz-slide--photo .hz-copy { padding-top: 46vh; }
+}
+@media (prefers-reduced-motion: reduce) { .hz-bgphoto img { transform: none !important; transition: none; } }
+.hz-slide--photo .hz-copy { position: relative; z-index: 2; }
+/* studio slide photo now uses the light lifestyle layout */
+.hz-slide--photo .hz-bg { display: block; }
+.hz-slide--photo { background: transparent; }
+.hz-slide--photo .hz-notes { display: none; }
+@media (max-width: 860px) { .hz-slide--photo .hz-copy { padding-top: 0; } }
+@media (max-width: 860px) { .crf-pure__co--l li { flex-direction: row; justify-content: flex-start; } .crf-pure__co li::after, .crf-pure__co--r li::before { order: -1; } .crf-pure__co--r li::after { display: none; } .crf-pure__co li { align-items: flex-start; } .crf-pure__co li::after, .crf-pure__co li::before { margin-top: 5px; } }
