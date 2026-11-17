@@ -30,7 +30,7 @@
         "c3": {
           "type": "claim",
           "settings": {
-            "text": "Organic flavors"
+            "text": "Every milligram listed"
           }
         },
         "c4": {
@@ -234,7 +234,7 @@
       ],
       "settings": {
         "show_back": false,
-        "text": "Both formulas share one short electrolyte base. This is every ingredient in it, with its source. The exact order varies a little by formula and organic flavor, and is printed on each pack."
+        "text": "Both formulas share one short electrolyte base. This is every ingredient in it, with its source. The exact order varies a little by formula and flavor, and is printed on each pack."
       }
     },
     "promise": {
@@ -288,7 +288,7 @@
           "type": "qa",
           "settings": {
             "q": "How do I get the free creatine?",
-            "a": "<p>Subscribe to 3 or more packs of Everyday or Energy, Monthly or Every 3 months. Mix formulas and organic flavors any way you like. A pouch of creatine is added to your box automatically.</p>"
+            "a": "<p>Subscribe to 3 or more packs of Everyday or Energy, Monthly or Every 3 months. Mix formulas and flavors any way you like. A pouch of creatine is added to your box automatically.</p>"
           }
         },
         "q2": {

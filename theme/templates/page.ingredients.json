@@ -200,7 +200,7 @@
       ],
       "settings": {
         "show_back": false,
-        "text": "Both formulas share one short electrolyte base. This is every ingredient in it, with its source. The exact order varies a little by formula and organic flavor, and is printed on each pack."
+        "text": "Both formulas share one short electrolyte base. This is every ingredient in it, with its source. The exact order varies a little by formula and flavor, and is printed on each pack."
       }
     },
     "cards": {
@@ -239,8 +239,8 @@
             "name": "Coconut Water Powder",
             "amount": "",
             "formula": "base",
-            "source": "CocOganic® Plus, organic coconut water",
-            "why": "Organic coconut water powder. It naturally contains minerals and adds taste."
+            "source": "CocOganic® Plus, from coconut water",
+            "why": "Coconut water powder. It naturally contains minerals and adds taste."
           }
         },
         "i3": {
@@ -269,8 +269,8 @@
             "name": "Organic Flavors",
             "amount": "",
             "formula": "base",
-            "source": "Organic Salty Orange or Organic Salty Watermelon",
-            "why": "Certified organic flavors, 95% or more organic, under the USDA National Organic Program (certified by Quality Assurance International)."
+            "source": "Salty Orange or Salty Watermelon",
+            "why": "Listed on the label as Organic Flavors. The flavor ingredients are certified organic (95% or more) under the USDA National Organic Program."
           }
         },
         "i6": {
@@ -448,8 +448,8 @@
           "type": "row",
           "settings": {
             "label": "Flavor",
-            "v1": "Organic Salty Orange, Organic Salty Watermelon",
-            "v2": "Organic Salty Orange, Organic Salty Watermelon",
+            "v1": "Salty Orange, Salty Watermelon",
+            "v2": "Salty Orange, Salty Watermelon",
             "v3": "Unflavored"
           }
         },
@@ -523,8 +523,8 @@
         "qorg": {
           "type": "qa",
           "settings": {
-            "q": "Are the flavors organic?",
-            "a": "<p>Yes. The flavors in Organic Salty Orange and Organic Salty Watermelon are certified organic, 95% or more organic, under the USDA National Organic Program, certified by Quality Assurance International. The organic claim is for the flavors named on the label; the drink mix as a whole is not certified organic.</p>"
+            "q": "Is the drink mix organic?",
+            "a": "<p>No. Less than 70% of the ingredients are organic, so we only name the organic ones in the ingredient list: Organic Flavors and Organic Lemon Juice Powder. The flavor ingredients are certified organic (95% or more) under the USDA National Organic Program.</p>"
           }
         }
       },

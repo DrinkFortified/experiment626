@@ -74,7 +74,7 @@
           "settings": {
             "icon": "repeat",
             "title": "Subscriptions",
-            "text": "Skip, swap organic flavors, change timing or cancel.",
+            "text": "Skip, swap flavors, change timing or cancel.",
             "url": "#subscriptions"
           }
         },
@@ -138,14 +138,14 @@
           "type": "step",
           "settings": {
             "title": "Open your subscription",
-            "text": "Your next delivery date, packs and organic flavors are on one screen."
+            "text": "Your next delivery date, packs and flavors are on one screen."
           }
         },
         "s2": {
           "type": "step",
           "settings": {
             "title": "Make the change",
-            "text": "Skip a delivery, swap organic flavors, change how many packs, switch between Monthly and Every 3 months, or cancel."
+            "text": "Skip a delivery, swap flavors, change how many packs, switch between Monthly and Every 3 months, or cancel."
           }
         },
         "s3": {
@@ -223,7 +223,7 @@
           "type": "qa",
           "settings": {
             "q": "How do subscriptions work?",
-            "a": "<p>Pick your packs and organic flavors, then Monthly or Every 3 months. Every 3 months ships a 90 day supply in one box at 20% off. Every subscription ships free.</p>"
+            "a": "<p>Pick your packs and flavors, then Monthly or Every 3 months. Every 3 months ships a 90 day supply in one box at 20% off. Every subscription ships free.</p>"
           }
         },
         "q1": {
@@ -236,8 +236,8 @@
         "q2": {
           "type": "qa",
           "settings": {
-            "q": "Can I swap organic flavors or formulas?",
-            "a": "<p>Yes. Swap between Organic Salty Orange and Organic Salty Watermelon, or between Everyday and Energy, in your account before your next billing date.</p>"
+            "q": "Can I swap flavors or formulas?",
+            "a": "<p>Yes. Swap between Salty Orange and Salty Watermelon, or between Everyday and Energy, in your account before your next billing date.</p>"
           }
         },
         "q3": {
@@ -269,7 +269,7 @@
           "type": "qa",
           "settings": {
             "q": "How do I get Free Creatine?",
-            "a": "<p>Subscribe to 3 or more packs, any mix of Everyday and Energy, in any organic flavor. A pouch of creatine is added to your box free with every delivery: Free Creatine For Life of Subscription.</p>"
+            "a": "<p>Subscribe to 3 or more packs, any mix of Everyday and Energy, in any flavor. A pouch of creatine is added to your box free with every delivery: Free Creatine For Life of Subscription.</p>"
           }
         },
         "q1": {

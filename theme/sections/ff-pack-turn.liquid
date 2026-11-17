@@ -79,8 +79,8 @@
           {%- render 'ff-burst', flavor: burst_flavor -%}
           <div class="turn__zoom" data-turn-zoom>
             <div class="bag3d show-back" data-turn-bag>
-              <div class="bag3d__face bag3d__face--front"><img src="{{ front }}" alt="Front of the {{ formula_name }} Organic {{ v.title | escape }} pouch" width="1490" height="1515" loading="lazy"></div>
-              <div class="bag3d__face bag3d__face--back"><img src="{{ back }}" alt="Back of the {{ formula_name }} Organic {{ v.title | escape }} pouch with Nutrition Facts and ingredients" width="1490" height="1515" loading="lazy"></div>
+              <div class="bag3d__face bag3d__face--front"><img src="{{ front }}" alt="Front of the {{ formula_name }} {{ v.title | remove: 'Organic ' | escape }} pouch" width="1490" height="1515" loading="lazy"></div>
+              <div class="bag3d__face bag3d__face--back"><img src="{{ back }}" alt="Back of the {{ formula_name }} {{ v.title | remove: 'Organic ' | escape }} pouch with Nutrition Facts and ingredients" width="1490" height="1515" loading="lazy"></div>
               <i class="bag3d__side bag3d__side--l" aria-hidden="true"></i>
               <i class="bag3d__side bag3d__side--r" aria-hidden="true"></i>
               <i class="bag3d__bottom" aria-hidden="true"></i>
@@ -106,13 +106,13 @@
   "name": "3D pouch turn",
   "settings": [
     { "type": "product", "id": "product", "label": "Product", "info": "Uses its images whose file names contain Front and Back. Blank uses Everyday." },
-    { "type": "select", "id": "flavor", "label": "Organic flavor", "default": "orange", "options": [ { "value": "orange", "label": "Organic Salty Orange" }, { "value": "watermelon", "label": "Organic Salty Watermelon" } ] },
+    { "type": "select", "id": "flavor", "label": "Flavor", "default": "orange", "options": [ { "value": "orange", "label": "Salty Orange" }, { "value": "watermelon", "label": "Salty Watermelon" } ] },
     { "type": "range", "id": "width_in", "label": "Pouch width", "min": 5, "max": 10, "step": 0.5, "unit": "in", "default": 7.5 },
     { "type": "range", "id": "depth_in", "label": "Depth at the bottom", "min": 0.5, "max": 2, "step": 0.1, "unit": "in", "default": 1, "info": "The depth tapers to none at the top seal." },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Turn it over." },
     { "type": "text", "id": "heading_accent", "label": "Heading accent", "default": "Read every word." },
     { "type": "text", "id": "step_1_title", "label": "Step 1 title", "default": "The front" },
-    { "type": "text", "id": "step_1_text", "label": "Step 1 text", "default": "What it is for: electrolytes, organic flavor, no sugar." },
+    { "type": "text", "id": "step_1_text", "label": "Step 1 text", "default": "What it is for: electrolytes, flavor, no sugar." },
     { "type": "text", "id": "step_2_title", "label": "Step 2 title", "default": "The back" },
     { "type": "text", "id": "step_2_text", "label": "Step 2 text", "default": "Nutrition Facts and the full label, nothing tucked away." },
     { "type": "text", "id": "step_3_title", "label": "Step 3 title", "default": "The ingredients" },
