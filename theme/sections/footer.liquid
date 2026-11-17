@@ -31,6 +31,7 @@
         {%- for policy in shop.policies -%}<li><a href="{{ policy.url }}">{{ policy.title }}</a></li>{%- endfor -%}
       </ul></div>
     </div>
+    {%- if section.settings.dshea != blank -%}<p class="foot__dshea">{{ section.settings.dshea }}</p>{%- endif -%}
     <div class="foot__legal"><span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</span><span>{{ section.settings.legal }}</span></div>
   </div>
 </footer>
@@ -41,7 +42,8 @@
   "settings": [
     { "type": "link_list", "id": "menu", "label": "Site menu", "default": "footer" },
     { "type": "text", "id": "tagline", "label": "Tagline", "default": "Clean electrolytes for people who read the label. Hydration. No Mumbo Jumbo." },
-    { "type": "text", "id": "legal", "label": "Legal line", "default": "Nutrition Facts and ingredients are shown as printed on each pouch." }
+    { "type": "text", "id": "legal", "label": "Legal line", "default": "Nutrition Facts and ingredients are shown as printed on each pouch." },
+    { "type": "textarea", "id": "dshea", "label": "FDA (DSHEA) disclaimer", "default": "*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease." }
   ]
 }
 {% endschema %}
