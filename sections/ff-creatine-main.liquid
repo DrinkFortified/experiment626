@@ -59,6 +59,7 @@
           <button type="button" class="btn btn--money cr-add" data-cr-add data-variant="{{ v.id }}" data-price="{{ v.price }}"{% unless v.available %} disabled{% endunless %}>{% if v.available %}Add to box{% else %}Sold out{% endif %}</button>
         </div>
         <p class="pd__error" data-cr-error role="alert" hidden></p>
+        {%- render 'ff-trust-row' -%}
       </div>
 
       {%- if section.settings.offer_text != blank -%}

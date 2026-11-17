@@ -1,0 +1,16 @@
+{%- comment -%}
+  Three trust icons under the Add button. Text comes from theme settings
+  (Theme settings > Product trust icons), so every product page matches.
+{%- endcomment -%}
+{%- liquid
+  assign t1 = settings.trust_1 | default: 'Fast U.S. Shipping'
+  assign t2 = settings.trust_2 | default: '45-Day Guarantee'
+  assign t3 = settings.trust_3 | default: 'Clean ingredients'
+-%}
+{%- if settings.trust_show != false -%}
+<ul class="ff-trust" aria-label="Why order from Fortified">
+  <li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.5 6.5h11v9h-11zM13.5 9.5h4l3 3.2v2.8h-7z"/><circle cx="6.5" cy="17" r="1.8"/><circle cx="17" cy="17" r="1.8"/></svg><span>{{ t1 }}</span></li>
+  <li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V6z"/><path d="M8.8 12.2l2.2 2.2 4.4-4.6"/></svg><span>{{ t2 }}</span></li>
+  <li><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14z"/><path d="M5 19l7-7"/></svg><span>{{ t3 }}</span></li>
+</ul>
+{%- endif -%}

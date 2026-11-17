@@ -10,25 +10,132 @@
   {
     "name": "Brand",
     "settings": [
-      { "type": "image_picker", "id": "share_image", "label": "Social sharing image", "info": "Shown when a page is shared. Blank uses Fortified_HP_Hero.png." },
-      { "type": "image_picker", "id": "favicon", "label": "Favicon" },
-      { "type": "text", "id": "support_email", "label": "Support email", "default": "hello@livefortified.com" },
-      { "type": "text", "id": "support_phone", "label": "Support phone", "default": "(888) 688-8351" }
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": "Social sharing image",
+        "info": "Shown when a page is shared. Blank uses Fortified_HP_Hero.png."
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      },
+      {
+        "type": "text",
+        "id": "support_email",
+        "label": "Support email",
+        "default": "hello@livefortified.com"
+      },
+      {
+        "type": "text",
+        "id": "support_phone",
+        "label": "Support phone",
+        "default": "(888) 688-8351"
+      }
     ]
   },
   {
     "name": "Offers",
     "settings": [
-      { "type": "paragraph", "content": "These numbers drive the progress messages in the cart and on product pages. They are messages only: set the real discounts and shipping rates in Loop and Shopify." },
-      { "type": "range", "id": "free_shipping_packs", "label": "Free Shipping from (packs)", "min": 1, "max": 6, "step": 1, "default": 2 },
-      { "type": "range", "id": "creatine_packs", "label": "Free Creatine For Life of Subscription from (subscription packs)", "min": 1, "max": 6, "step": 1, "default": 3 },
-      { "type": "checkbox", "id": "creatine_auto", "label": "Add Free Creatine For Life of Subscription to the cart automatically", "info": "Adds 1 creatine when the cart has that many subscription packs and removes it when it drops below.", "default": true },
-      { "type": "product", "id": "creatine_product", "label": "Free creatine product", "info": "Blank uses the product with handle creatine. It should cost $0 and have Loop plans for monthly and quarterly delivery." },
-      { "type": "header", "content": "2nd creatine bag (Every 3 months)" },
-      { "type": "checkbox", "id": "creatine_upsell", "label": "Offer a 2nd creatine bag in the cart", "info": "Shown when the cart has Free Creatine For Life of Subscription on Every 3 months. Turn on only after the matching discount exists in Shopify or Loop, so checkout charges what the cart shows.", "default": false },
-      { "type": "product", "id": "creatine_upsell_product", "label": "2nd bag product", "info": "Blank uses the product with handle creatine-v2. It needs a 90 day Loop plan." },
-      { "type": "range", "id": "creatine_upsell_pct", "label": "2nd bag discount shown", "min": 5, "max": 90, "step": 5, "unit": "%", "default": 50 },
-      { "type": "checkbox", "id": "volume_tiers", "label": "Monthly: 15% off from 2 packs", "info": "Shows Monthly at 10% for 1 pack and 15% for 2 or more. Needs the matching quantity tier in Loop so checkout charges the same.", "default": false }
+      {
+        "type": "paragraph",
+        "content": "These numbers drive the progress messages in the cart and on product pages. They are messages only: set the real discounts and shipping rates in Loop and Shopify."
+      },
+      {
+        "type": "range",
+        "id": "free_shipping_packs",
+        "label": "Free Shipping from (packs)",
+        "min": 1,
+        "max": 6,
+        "step": 1,
+        "default": 2
+      },
+      {
+        "type": "range",
+        "id": "creatine_packs",
+        "label": "Free Creatine For Life of Subscription from (subscription packs)",
+        "min": 1,
+        "max": 6,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "type": "checkbox",
+        "id": "creatine_auto",
+        "label": "Add Free Creatine For Life of Subscription to the cart automatically",
+        "info": "Adds 1 creatine when the cart has that many subscription packs and removes it when it drops below.",
+        "default": true
+      },
+      {
+        "type": "product",
+        "id": "creatine_product",
+        "label": "Free creatine product",
+        "info": "Blank uses the product with handle creatine. It should cost $0 and have Loop plans for monthly and quarterly delivery."
+      },
+      {
+        "type": "header",
+        "content": "2nd creatine bag (Every 3 months)"
+      },
+      {
+        "type": "checkbox",
+        "id": "creatine_upsell",
+        "label": "Offer a 2nd creatine bag in the cart",
+        "info": "Shown when the cart has Free Creatine For Life of Subscription on Every 3 months. Turn on only after the matching discount exists in Shopify or Loop, so checkout charges what the cart shows.",
+        "default": false
+      },
+      {
+        "type": "product",
+        "id": "creatine_upsell_product",
+        "label": "2nd bag product",
+        "info": "Blank uses the product with handle creatine-v2. It needs a 90 day Loop plan."
+      },
+      {
+        "type": "range",
+        "id": "creatine_upsell_pct",
+        "label": "2nd bag discount shown",
+        "min": 5,
+        "max": 90,
+        "step": 5,
+        "unit": "%",
+        "default": 50
+      },
+      {
+        "type": "checkbox",
+        "id": "volume_tiers",
+        "label": "Monthly: 15% off from 2 packs",
+        "info": "Shows Monthly at 10% for 1 pack and 15% for 2 or more. Needs the matching quantity tier in Loop so checkout charges the same.",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Product trust icons",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "trust_show",
+        "label": "Show the icons under the Add button",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "trust_1",
+        "label": "Shipping icon text",
+        "default": "Fast U.S. Shipping"
+      },
+      {
+        "type": "text",
+        "id": "trust_2",
+        "label": "Guarantee icon text",
+        "default": "45-Day Guarantee"
+      },
+      {
+        "type": "text",
+        "id": "trust_3",
+        "label": "Ingredients icon text",
+        "default": "Clean ingredients"
+      }
     ]
   }
 ]
