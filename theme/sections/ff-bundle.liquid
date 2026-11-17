@@ -1,0 +1,146 @@
+{%- comment -%}
+  Bundle builder for the Free Creatine landing page. Same markup and script as the product
+  buy box (data-product), with both formulas listed: packs slide onto the stage, the free
+  creatine arrives at 3 subscription packs, prices come from Shopify's selling plans.
+{%- endcomment -%}
+{%- liquid
+  assign pa = all_products[section.settings.product_a]
+  assign pb = all_products[section.settings.product_b]
+  capture plans_a
+    render 'ff-plan-ids', product: pa
+  endcapture
+  capture plans_b
+    render 'ff-plan-ids', product: pb
+  endcapture
+  assign pa_parts = plans_a | split: '|'
+  assign pb_parts = plans_b | split: '|'
+  assign gift_img = images['Creatine_PDP_01.webp']
+-%}
+{%- if pa != blank -%}
+<div id="build" class="bld" data-product data-default-plan="{{ section.settings.default_plan }}">
+<section class="pd bld__pd" aria-labelledby="bld-h-{{ section.id }}">
+  <div class="pd__stage field--everyday" data-field>
+    <div class="bld__stagehead">
+      <p class="bld__eye">{{ section.settings.eyebrow }}</p>
+      <h2 id="bld-h-{{ section.id }}" class="display bld__h">{{ section.settings.heading }}</h2>
+    </div>
+    <div class="pd__stack" data-pd-stack>
+      {%- if gift_img -%}
+      <figure class="pd__gift" data-pd-gift hidden>
+        <span class="hz-crop">{{ gift_img | image_url: width: 600 | image_tag: loading: 'lazy', alt: 'Free creatine pouch' }}</span>
+        <span class="pd__gift-badge">Free</span>
+        <figcaption class="sr">Free Creatine For Life of Subscription included</figcaption>
+      </figure>
+      {%- endif -%}
+      {%- for prod in (1..2) -%}
+        {%- if forloop.first -%}{%- assign pp = pa -%}{%- assign lbl = section.settings.label_a -%}{%- else -%}{%- assign pp = pb -%}{%- assign lbl = section.settings.label_b -%}{%- endif -%}
+        {%- if pp != blank -%}
+        {%- for variant in pp.variants -%}
+          {%- capture src -%}{%- render 'ff-pouch-image', product: pp, variant: variant, width: 1000 -%}{%- endcapture -%}
+          <figure class="pd__stackpack" data-stack="{{ variant.id }}">
+            <div class="pack pack--bare">{%- if src != blank -%}<img src="{{ src }}" alt="{{ lbl }} {{ variant.title | escape }} pouch" width="1000" height="1017" loading="lazy">{%- endif -%}</div>
+            <span class="pd__count num" aria-hidden="true"></span>
+            <figcaption>{{ lbl }} &middot; {{ variant.title }}</figcaption>
+          </figure>
+        {%- endfor -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    <ul class="bld__perks">
+      <li>Free Shipping on every subscription</li><li>Skip, swap or cancel online</li><li>30 days to decide</li>
+    </ul>
+  </div>
+
+  <div class="pd__buy">
+    <div class="tiers" data-tiers aria-label="Savings">
+      <ol class="tiers__steps">
+        <li data-tier="1"><i class="tiers__seg" aria-hidden="true"></i><b>Monthly</b><span>{{ pa_parts[2] }}% off</span></li>
+        <li data-tier="2"><i class="tiers__seg" aria-hidden="true"></i><b>2+ packs</b><span>15% off + Free Shipping</span></li>
+        <li data-tier="3"><i class="tiers__seg" aria-hidden="true"></i><b>Every 3 months</b><span>{{ pa_parts[3] }}% off</span></li>
+      </ol>
+      <p class="tiers__msg" data-tiers-msg aria-live="polite"></p>
+    </div>
+
+    <form class="pd__opts" data-ff-form action="{{ routes.cart_add_url }}" method="post">
+      {%- for prod in (1..2) -%}
+        {%- if forloop.first -%}{%- assign pp = pa -%}{%- assign lbl = section.settings.label_a -%}{%- assign aside = section.settings.line_a -%}{%- assign sq = section.settings.start_a -%}{%- else -%}{%- assign pp = pb -%}{%- assign lbl = section.settings.label_b -%}{%- assign aside = section.settings.line_b -%}{%- assign sq = section.settings.start_b -%}{%- endif -%}
+        {%- if pp != blank -%}
+        <div class="opt"><div class="opt__label">{{ lbl }} &middot; Organic flavors <span class="opt__aside opt__aside--quiet">{{ aside }}</span></div>
+          <div class="flavor-rows">
+            {%- for variant in pp.variants -%}
+              {%- assign q = 0 -%}
+              {%- if forloop.first -%}{%- assign q = sq -%}{%- endif -%}
+              {%- render 'ff-flavor-row', product: pp, variant: variant, qty: q, formula_label: lbl -%}
+            {%- endfor -%}
+          </div></div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      <div class="opt"><div class="opt__label">How often</div>
+        <p class="plan-note" data-plan-note aria-live="polite"></p>
+        <div class="seg seg--full" role="group" aria-label="Purchase type" data-pp>
+          {%- if pa_parts[0] != blank -%}<button type="button" data-v="sub" aria-pressed="false"><span>Monthly</span><small class="num" data-plan-price="sub"></small></button>{%- endif -%}
+          {%- if pa_parts[1] != blank -%}<button type="button" data-v="q3" aria-pressed="false" class="pp-q3"><span>Every 3 months</span><small class="num" data-plan-price="q3"></small></button>{%- endif -%}
+          <button type="button" data-v="otp" aria-pressed="false"><span>One-time</span><small class="num" data-plan-price="otp"></small></button>
+        </div></div>
+
+      <div class="sheet-wrap pd-receipt">
+        <div class="sheet">
+          <div class="pd-receipt__head"><b>Your box</b><span data-pd-receipt-meta></span></div>
+          <ul class="items" data-pd-receipt aria-live="polite"></ul>
+          <div class="totals"><div class="total-row total-row--big"><span>Total</span><span class="num" data-pd-price></span></div></div>
+          <span class="pd__save num" data-pd-save></span>
+        </div>
+      </div>
+      <button class="btn btn--money btn--block" type="submit" data-pd-add>Add to box</button>
+      <p class="pd__error" data-pd-error role="alert" hidden></p>
+    </form>
+    {%- if section.settings.caution != blank -%}<p class="pd__fine">{{ section.settings.caution }}</p>{%- endif -%}
+  </div>
+</section>
+
+<script type="application/json" data-product-json>
+{
+  "formula": "bundle",
+  "monthlyPct": {{ pa_parts[2] | default: 0 | json }},
+  "quarterlyPct": {{ pa_parts[3] | default: 0 | json }},
+  "volumeTiers": {{ settings.volume_tiers | json }},
+  "variants": [
+    {%- for variant in pa.variants -%}
+    { "id": {{ variant.id }}, "formula": {{ section.settings.label_a | json }}, "title": {{ variant.title | json }}, "available": {{ variant.available | json }}, "price": {{ variant.price }},
+      "monthly": {{ pa_parts[0] | json }}, "quarterly": {{ pa_parts[1] | json }},
+      "plans": { {%- for a in variant.selling_plan_allocations -%}{{ a.selling_plan.id | append: '' | json }}: {{ a.price }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%} } }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+    {%- if pb != blank -%}
+      {%- for variant in pb.variants -%}
+    ,{ "id": {{ variant.id }}, "formula": {{ section.settings.label_b | json }}, "title": {{ variant.title | json }}, "available": {{ variant.available | json }}, "price": {{ variant.price }},
+      "monthly": {{ pb_parts[0] | json }}, "quarterly": {{ pb_parts[1] | json }},
+      "plans": { {%- for a in variant.selling_plan_allocations -%}{{ a.selling_plan.id | append: '' | json }}: {{ a.price }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%} } }
+      {%- endfor -%}
+    {%- endif -%}
+  ]
+}
+</script>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Bundle builder",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Build your box" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "3 packs. Free creatine. Every delivery." },
+    { "type": "text", "id": "product_a", "label": "First product handle", "default": "everyday" },
+    { "type": "text", "id": "label_a", "label": "First product label", "default": "Everyday" },
+    { "type": "text", "id": "line_a", "label": "First product line", "default": "Caffeine-free, with Vitamin D3 and K2" },
+    { "type": "range", "id": "start_a", "label": "Starting packs (first flavor)", "min": 0, "max": 6, "step": 1, "default": 2 },
+    { "type": "text", "id": "product_b", "label": "Second product handle", "default": "energy" },
+    { "type": "text", "id": "label_b", "label": "Second product label", "default": "Energy" },
+    { "type": "text", "id": "line_b", "label": "Second product line", "default": "150mg caffeine from coffee bean" },
+    { "type": "range", "id": "start_b", "label": "Starting packs (first flavor)", "min": 0, "max": 6, "step": 1, "default": 1 },
+    { "type": "select", "id": "default_plan", "label": "Selected to start", "default": "q3", "options": [ { "value": "sub", "label": "Monthly" }, { "value": "q3", "label": "Every 3 months" }, { "value": "otp", "label": "One-time" } ] },
+    { "type": "text", "id": "caution", "label": "Caution", "default": "As printed on the pack: consult your healthcare professional before use if you are pregnant, nursing, taking medication or have a medical condition. Energy contains caffeine." }
+  ],
+  "presets": [ { "name": "Bundle builder" } ]
+}
+{% endschema %}

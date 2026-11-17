@@ -1,0 +1,354 @@
+{
+  "sections": {
+    "offer": {
+      "type": "ff-offer",
+      "settings": {
+        "campaign": "auto"
+      }
+    },
+    "ticker": {
+      "type": "ff-ticker",
+      "blocks": {
+        "c0": {
+          "type": "claim",
+          "settings": {
+            "text": "0g sugar"
+          }
+        },
+        "c1": {
+          "type": "claim",
+          "settings": {
+            "text": "No dyes"
+          }
+        },
+        "c2": {
+          "type": "claim",
+          "settings": {
+            "text": "Every ingredient named"
+          }
+        },
+        "c3": {
+          "type": "claim",
+          "settings": {
+            "text": "Organic flavors"
+          }
+        },
+        "c4": {
+          "type": "claim",
+          "settings": {
+            "text": "Monk fruit sweetened"
+          }
+        },
+        "c5": {
+          "type": "claim",
+          "settings": {
+            "text": "1,200mg sodium"
+          }
+        },
+        "c6": {
+          "type": "claim",
+          "settings": {
+            "text": "Skip or cancel online"
+          }
+        },
+        "c7": {
+          "type": "claim",
+          "settings": {
+            "text": "30 days to decide"
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ],
+      "settings": {}
+    },
+    "how": {
+      "type": "ff-offer-how",
+      "settings": {}
+    },
+    "formulas": {
+      "type": "ff-formulas",
+      "blocks": {
+        "f0": {
+          "type": "formula",
+          "settings": {
+            "product": "everyday",
+            "title": "Everyday",
+            "line": "Caffeine-free, with Vitamin D3 and K2.",
+            "fallback": "ff-everyday-watermelon-square.webp"
+          }
+        },
+        "f1": {
+          "type": "formula",
+          "settings": {
+            "product": "energy",
+            "title": "Energy",
+            "line": "150mg caffeine from coffee bean.",
+            "fallback": "ff-energy-orange-square.webp"
+          }
+        }
+      },
+      "block_order": [
+        "f0",
+        "f1"
+      ],
+      "settings": {
+        "heading": "Pick your formula.",
+        "heading_accent": "Or mix both.",
+        "text": "Same short label underneath. Everyday is caffeine-free with Vitamin D3 and K2. Energy adds 150mg natural caffeine from coffee bean."
+      }
+    },
+    "creatine": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "pure",
+        "file_name": "Card17",
+        "heading": "The free part: pure creatine.",
+        "items": "5g per serving\nOne pure ingredient\nMicronized powder\nUnflavored\nNo sweeteners\nNo fillers",
+        "body": "<p>FORTIFIED delivers pure creatine monohydrate in a straightforward daily serving. Mix into your preferred drink. Keep showing up.</p>"
+      }
+    },
+    "label": {
+      "type": "ff-label",
+      "blocks": {
+        "i0": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Pink Himalayan Salt",
+            "source": "as Ancient Ocean",
+            "added": false
+          }
+        },
+        "i1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Magnesium Malate",
+            "source": "magnesium",
+            "added": false
+          }
+        },
+        "i2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Coconut Water Powder",
+            "source": "as CocOganic Plus",
+            "added": false
+          }
+        },
+        "i3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Organic Lemon Juice Powder",
+            "source": "flavor",
+            "added": false
+          }
+        },
+        "i4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Potassium Chloride",
+            "source": "potassium",
+            "added": false
+          }
+        },
+        "i5": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Bamboo Fiber",
+            "source": "fiber",
+            "added": false
+          }
+        },
+        "i6": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Organic Flavors",
+            "source": "flavor",
+            "added": false
+          }
+        },
+        "i7": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Malic Acid",
+            "source": "tartness",
+            "added": false
+          }
+        },
+        "i8": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Reb M, fermented",
+            "source": "as OnoSweet",
+            "added": false
+          }
+        },
+        "i9": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Monk Fruit Extract",
+            "source": "sweetener",
+            "added": false
+          }
+        },
+        "i10": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Energy adds Natural Caffeine",
+            "source": "coffee bean, 150mg",
+            "added": true,
+            "function": "energy"
+          }
+        },
+        "i11": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Everyday adds Vitamin D3 + K2",
+            "source": "D3 25mcg, K2 as MK-7",
+            "added": true,
+            "function": "everyday"
+          }
+        }
+      },
+      "block_order": [
+        "i0",
+        "i1",
+        "i2",
+        "i3",
+        "i4",
+        "i5",
+        "i6",
+        "i7",
+        "i8",
+        "i9",
+        "i10",
+        "i11"
+      ],
+      "settings": {
+        "show_back": false
+      }
+    },
+    "promise": {
+      "type": "ff-promise",
+      "blocks": {
+        "p0": {
+          "type": "promise",
+          "settings": {
+            "title": "Every ingredient named",
+            "text": "With its source. No proprietary blends, ever."
+          }
+        },
+        "p1": {
+          "type": "promise",
+          "settings": {
+            "title": "Sweetened with monk fruit",
+            "text": "Monk fruit extract and Reb M, as listed on the label."
+          }
+        },
+        "p2": {
+          "type": "promise",
+          "settings": {
+            "title": "Skip or cancel online",
+            "text": "In your account, before you are billed. No phone call."
+          }
+        },
+        "p3": {
+          "type": "promise",
+          "settings": {
+            "title": "Thirty days to decide",
+            "text": "Not for your family? We refund you. No return required."
+          }
+        }
+      },
+      "block_order": [
+        "p0",
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {}
+    },
+    "faq": {
+      "type": "ff-faq",
+      "settings": {
+        "heading": "The offer,",
+        "heading_accent": "answered."
+      },
+      "blocks": {
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "How do I get the free creatine?",
+            "a": "<p>Subscribe to 3 or more packs of Everyday or Energy, Monthly or Every 3 months. Mix formulas and organic flavors any way you like. A pouch of creatine is added to your box automatically.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "Is it really free every time?",
+            "a": "<p>Yes. A pouch ships free with every delivery for as long as you stay subscribed with 3 or more packs. That is the Free Creatine For Life of Subscription.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "What if I drop below 3 packs?",
+            "a": "<p>The free pouch comes off your next delivery. Add a pack back and it returns.</p>"
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "q": "Can I skip, pause or cancel?",
+            "a": "<p>Anytime, online, in your account. No phone call.</p>"
+          }
+        },
+        "q5": {
+          "type": "qa",
+          "settings": {
+            "q": "What is in the creatine?",
+            "a": "<p>One ingredient: creatine monohydrate. 5g per serving, unflavored, no sweeteners, no fillers.</p>"
+          }
+        },
+        "q6": {
+          "type": "qa",
+          "settings": {
+            "q": "What is the difference between Energy and Everyday?",
+            "a": "<p>Both share the same electrolyte base and 1,200mg sodium. Energy adds 150mg natural caffeine from coffee bean. Everyday is caffeine-free and adds Vitamin D3 and Vitamin K2.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ]
+    },
+    "bundle": {
+      "type": "ff-bundle",
+      "settings": {}
+    }
+  },
+  "order": [
+    "offer",
+    "ticker",
+    "how",
+    "formulas",
+    "creatine",
+    "label",
+    "promise",
+    "faq",
+    "bundle"
+  ]
+}

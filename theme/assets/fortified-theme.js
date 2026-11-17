@@ -251,13 +251,14 @@
   });
 
   // ---------- Product buy box ----------
-  var pd = $("[data-product]"), dataEl = $("[data-product-json]");
-  if (pd && dataEl) {
+  $$("[data-product]").forEach(function (pd) {
+    var dataEl = $("[data-product-json]", pd) || $("[data-product-json]");
+    if (!dataEl) return;
     var P = JSON.parse(dataEl.textContent);
     var V = {}; P.variants.forEach(function (v) { V[v.id] = v; });
     var MAXQ = 24;
     var hasSub = !!$('[data-pp] [data-v="sub"]', pd);
-    var st = { plan: hasSub ? "sub" : "otp", q: {} };
+    var dp = pd.getAttribute("data-default-plan"), st = { plan: dp && $('[data-pp] [data-v="' + dp + '"]', pd) ? dp : hasSub ? "sub" : "otp", q: {} };
     $$("[data-fq]", pd).forEach(function (row) { st.q[row.dataset.fq] = +$("input", row).value || 0; });
     var total = function () { return Object.keys(st.q).reduce(function (a, k) { return a + st.q[k]; }, 0); };
     var tierRate = function (n) { return n >= 2 ? 0.15 : 0.10; };
@@ -404,7 +405,7 @@
         .catch(function (x) { err.textContent = x.message; err.hidden = false; draw(); });
     });
     draw();
-  }
+  });
 
   // Fruit settles behind a pouch while its back shows; white powder bursts on each turn.
   // ---------- Powder explosion: billowing plumes, fine dust and a few crystals, fanning upward ----------
@@ -795,6 +796,34 @@
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } }); }, { threshold: .6 });
     nums.forEach(function (n) { io.observe(n); });
   })();
+
+  // ---------- Offer landing page: real countdown, sticky bar, discount code ----------
+  $$("[data-ofr-clock]").forEach(function (el) {
+    var end = +el.dataset.ends * 1000; if (!end) return;
+    function pad(n) { return (n < 10 ? "0" : "") + n; }
+    function tick() {
+      var ms = end - Date.now(); if (ms <= 0) { el.hidden = true; return; }
+      el.hidden = false; var s = Math.floor(ms / 1000);
+      $('[data-u="d"]', el).textContent = Math.floor(s / 86400); $('[data-u="h"]', el).textContent = pad(Math.floor(s % 86400 / 3600));
+      $('[data-u="m"]', el).textContent = pad(Math.floor(s % 3600 / 60)); $('[data-u="s"]', el).textContent = pad(s % 60);
+      setTimeout(tick, 1000);
+    }
+    tick();
+  });
+  (function () {
+    var bar = $("[data-ofr-sticky]"), hero = $(".ofr"), build = $("#build");
+    if (!bar || !hero || !("IntersectionObserver" in window)) return;
+    var vis = { hero: true, build: false };
+    function upd() { var past = build && build.getBoundingClientRect().top < 0; bar.classList.toggle("is-on", !vis.hero && !vis.build && !past); }
+    new IntersectionObserver(function (es) { vis.hero = es[0].isIntersecting; upd(); }, { threshold: 0 }).observe(hero);
+    if (build) new IntersectionObserver(function (es) { vis.build = es[0].isIntersecting; upd(); }, { threshold: 0 }).observe(build);
+    window.addEventListener("scroll", upd, { passive: true });
+  })();
+  $$("[data-ofr-code]").forEach(function (el) {
+    var code = el.getAttribute("data-ofr-code"); if (!code) return;
+    try { if (sessionStorage.getItem("ff-code") === code) return; sessionStorage.setItem("ff-code", code); } catch (e) {}
+    fetch("/discount/" + encodeURIComponent(code) + "?redirect=" + encodeURIComponent("/cart.js"), { credentials: "same-origin" }).catch(function () {});
+  });
 
   // ---------- Rotating hero ----------
   $$("[data-hero-rotate]").forEach(function (hero) {

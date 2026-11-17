@@ -1,0 +1,263 @@
+{%- comment -%}
+  Free Creatine offer: campaign hero. One "Campaign" setting re-skins the whole landing page
+  (colors on :root, motif, copy). "Automatic" picks the campaign from today's date.
+  Any text field left blank uses the campaign's own copy. The countdown only shows when a
+  real end date is set, and hides itself once that date has passed.
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign c = st.campaign
+  if c == 'auto'
+    assign md = 'now' | date: '%m%d' | plus: 0
+    assign c = 'evergreen'
+    if md >= 1015 and md <= 1031
+      assign c = 'halloween'
+    elsif md >= 1105 and md <= 1111
+      assign c = 'veterans'
+    elsif md >= 1112 and md <= 1202
+      assign c = 'bfcm'
+    elsif md >= 1203 and md <= 1226
+      assign c = 'holidays'
+    elsif md >= 1227 or md <= 131
+      assign c = 'newyear'
+    elsif md >= 201 and md <= 214
+      assign c = 'valentines'
+    elsif md >= 215 and md <= 222
+      assign c = 'presidents'
+    elsif md >= 301 and md <= 420
+      assign c = 'spring'
+    elsif md >= 421 and md <= 512
+      assign c = 'mothers'
+    elsif md >= 513 and md <= 531
+      assign c = 'memorial'
+    elsif md >= 601 and md <= 621
+      assign c = 'fathers'
+    elsif md >= 622 and md <= 707
+      assign c = 'july4'
+    elsif md >= 708 and md <= 915
+      assign c = 'summer'
+    endif
+  endif
+
+  # Per campaign: eyebrow, heading, sub, cta, motif, colors (bg, bg2, ink, accent, accent2)
+  case c
+    when 'bfcm'
+      assign k_eye = 'Black Friday · Cyber Monday'
+      assign k_h = 'Skip the doorbusters. Take the deal that keeps giving:'
+      assign k_sub = 'Subscribe to 3 or more packs of Everyday or Energy and a pouch of pure creatine ships free with every delivery. Not just this weekend. For as long as you stay subscribed.'
+      assign k_cta = 'Build my Black Friday box'
+      assign k_motif = 'spark'
+      assign k_col = '#0a0f14,#16222c,#ffffff,#f76515,#ffd23f'
+    when 'holidays'
+      assign k_eye = 'The Holiday Box'
+      assign k_h = 'Stock the house for the holidays. Get'
+      assign k_sub = 'Hosting, traveling, late nights. Build a box of 3 or more packs and creatine rides along free on every delivery, for as long as you stay subscribed.'
+      assign k_cta = 'Build my holiday box'
+      assign k_motif = 'snow'
+      assign k_col = '#0f3b2e,#174d3c,#ffffff,#e8473f,#f6d58e'
+    when 'newyear'
+      assign k_eye = 'New Year, New You'
+      assign k_h = 'Make this the year it sticks. Start with'
+      assign k_sub = 'Resolutions fade. Habits stay. Daily electrolytes and 5g of creatine, delivered on repeat, with the creatine free for as long as you subscribe.'
+      assign k_cta = 'Start my new year box'
+      assign k_motif = 'confetti'
+      assign k_col = '#0b1c29,#132e44,#ffffff,#00c2b8,#f5c95b'
+    when 'valentines'
+      assign k_eye = "Valentine's Day"
+      assign k_h = 'Love yourself first. Then get'
+      assign k_sub = 'A box for you, or one to share. Subscribe to 3 or more packs and a pouch of creatine ships free with every delivery.'
+      assign k_cta = 'Build a box with love'
+      assign k_motif = 'heart'
+      assign k_col = '#5a0f2e,#7c1840,#ffffff,#ff6f91,#ffd1dc'
+    when 'presidents'
+      assign k_eye = "Presidents' Day"
+      assign k_h = 'A presidential way to stock up:'
+      assign k_sub = 'Pick 3 or more packs of Everyday or Energy, Monthly or Every 3 months, and creatine ships free with every delivery.'
+      assign k_cta = 'Build my box'
+      assign k_motif = 'star'
+      assign k_col = '#0d2245,#163566,#ffffff,#e23b3b,#ffffff'
+    when 'spring'
+      assign k_eye = 'Spring Reset'
+      assign k_h = 'Fresh season. Fresh routine. Plus'
+      assign k_sub = 'Longer days, more time outside. Build a box of 3 or more packs and creatine ships free with every delivery.'
+      assign k_cta = 'Build my spring box'
+      assign k_motif = 'petal'
+      assign k_col = '#e9f6ee,#d5efe0,#0b1c29,#2f9e6e,#f78fb3'
+    when 'mothers'
+      assign k_eye = "Mother's Day"
+      assign k_h = 'For the mom who reads every label:'
+      assign k_sub = 'She checks the back of the pack before it reaches her family. Send her a box she can trust, with creatine free on every delivery.'
+      assign k_cta = 'Build a box for Mom'
+      assign k_motif = 'flower'
+      assign k_col = '#fdeee8,#f9dcd2,#0b1c29,#e2655a,#f7a8a0'
+    when 'memorial'
+      assign k_eye = 'Memorial Day'
+      assign k_h = 'Remember. Honor. Gather. And get'
+      assign k_sub = 'A weekend to honor the fallen and gather with the people you love. Stock up for the cookout, with creatine free on every delivery.'
+      assign k_cta = 'Build my box'
+      assign k_motif = 'star'
+      assign k_col = '#0d2245,#14305a,#ffffff,#c8283a,#e9eef5'
+    when 'fathers'
+      assign k_eye = "Father's Day"
+      assign k_h = 'For the dad who does it all:'
+      assign k_sub = 'Early mornings, yard work, coaching from the sideline. Give him electrolytes and 5g of creatine, with the creatine free on every delivery.'
+      assign k_cta = 'Build a box for Dad'
+      assign k_motif = 'spark'
+      assign k_col = '#1d2b36,#26394a,#ffffff,#3fb6d6,#f3b33d'
+    when 'july4'
+      assign k_eye = 'Fourth of July'
+      assign k_h = 'Hydrate like it is the Fourth. Plus'
+      assign k_sub = 'Long days, hot grills, late fireworks. Build a box of 3 or more packs and creatine ships free with every delivery.'
+      assign k_cta = 'Build my Fourth box'
+      assign k_motif = 'firework'
+      assign k_col = '#0d2245,#183a72,#ffffff,#e5383b,#ffffff'
+    when 'summer'
+      assign k_eye = 'Summer'
+      assign k_h = 'Hot days call for salt. And'
+      assign k_sub = 'Pool days, practice, yard work. 1,200mg sodium in every stick, and creatine free on every delivery when you subscribe to 3 or more packs.'
+      assign k_cta = 'Build my summer box'
+      assign k_motif = 'sun'
+      assign k_col = '#e6f7f8,#c9eef0,#0b1c29,#00a39c,#ffb703'
+    when 'veterans'
+      assign k_eye = 'Veterans Day'
+      assign k_h = 'To everyone who served: thank you.'
+      assign k_sub = 'Today we honor the men and women who served. If you are stocking up, subscribe to 3 or more packs and creatine ships free with every delivery.'
+      assign k_cta = 'Build my box'
+      assign k_motif = 'star'
+      assign k_col = '#1f2a1f,#2c3b2a,#ffffff,#c9a646,#e9eef5'
+    when 'halloween'
+      assign k_eye = 'Halloween'
+      assign k_h = 'No tricks on the label. Just a treat:'
+      assign k_sub = 'Every ingredient named, nothing scary hiding in a blend. Subscribe to 3 or more packs and creatine ships free with every delivery.'
+      assign k_cta = 'Build my box'
+      assign k_motif = 'bat'
+      assign k_col = '#140d1f,#24153a,#ffffff,#ff7a1a,#b98cff'
+    else
+      assign k_eye = 'The Free Creatine offer'
+      assign k_h = 'Subscribe to 3 packs. Get'
+      assign k_sub = 'Mix Everyday and Energy in any organic flavor, Monthly or Every 3 months. A pouch of pure creatine monohydrate ships free with every delivery for as long as you stay subscribed.'
+      assign k_cta = 'Build my box'
+      assign k_motif = 'none'
+      assign k_col = '#0b1c29,#132e44,#ffffff,#00aba3,#f76515'
+  endcase
+  assign col = k_col | split: ','
+  assign eye = st.eyebrow | default: k_eye
+  assign h = st.heading | default: k_h
+  assign sub = st.text | default: k_sub
+  assign cta = st.cta | default: k_cta
+  assign motif = k_motif
+  if st.motif != 'campaign'
+    assign motif = st.motif
+  endif
+  assign cre = all_products[st.creatine_handle]
+  assign cre_price = cre.price | default: 2950
+-%}
+{% style %}
+  :root {
+    --cmp-bg: {{ col[0] }}; --cmp-bg2: {{ col[1] }}; --cmp-ink: {{ col[2] }};
+    --cmp-accent: {{ col[3] }}; --cmp-accent2: {{ col[4] }};
+  }
+{% endstyle %}
+<section class="ofr ofr--{{ c }}" data-campaign="{{ c }}" aria-labelledby="ofr-h-{{ section.id }}">
+  {%- if motif != 'none' -%}
+  <div class="ofr__motif ofr__motif--{{ motif }}" aria-hidden="true">
+    {%- for i in (1..18) -%}
+      {%- assign x = i | times: 53 | modulo: 100 -%}{%- assign y = i | times: 37 | modulo: 100 -%}{%- assign s = i | modulo: 3 | plus: 1 -%}
+      <i style="--x:{{ x }}%;--y:{{ y }}%;--s:{{ s }};--d:{{ i | times: 0.7 }}s;--r:{{ i | times: 41 | modulo: 360 }}deg"><svg viewBox="0 0 24 24"><use href="#ofr-{{ motif }}"/></svg></i>
+    {%- endfor -%}
+  </div>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="ofr-star" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.2l7.1-.6z"/></symbol>
+    <symbol id="ofr-heart" viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.6 4.6 0 0 1 8-3 4.6 4.6 0 0 1 8 3c0 5.8-8 11-8 11z"/></symbol>
+    <symbol id="ofr-snow" viewBox="0 0 24 24"><path d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7M9 3.5l3 2.5 3-2.5M9 20.5l3-2.5 3 2.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="ofr-confetti" viewBox="0 0 24 24"><rect x="9" y="4" width="6" height="16" rx="1.5"/></symbol>
+    <symbol id="ofr-spark" viewBox="0 0 24 24"><path d="M12 1l2.2 8.8L23 12l-8.8 2.2L12 23l-2.2-8.8L1 12l8.8-2.2z"/></symbol>
+    <symbol id="ofr-petal" viewBox="0 0 24 24"><path d="M12 2c5 4 6 10 0 20C6 12 7 6 12 2z"/></symbol>
+    <symbol id="ofr-flower" viewBox="0 0 24 24"><circle cx="12" cy="6" r="4"/><circle cx="18" cy="12" r="4"/><circle cx="12" cy="18" r="4"/><circle cx="6" cy="12" r="4"/><circle cx="12" cy="12" r="3" fill="#fff"/></symbol>
+    <symbol id="ofr-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v4M12 19v4M1 12h4M19 12h4M4.2 4.2l2.8 2.8M17 17l2.8 2.8M4.2 19.8L7 17M17 7l2.8-2.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="ofr-firework" viewBox="0 0 24 24"><path d="M12 12L12 2M12 12l7-7M12 12h10M12 12l7 7M12 12v10M12 12l-7 7M12 12H2M12 12L5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="2 2.4"/></symbol>
+    <symbol id="ofr-bat" viewBox="0 0 24 24"><path d="M12 9c1-2 1.5-2 2-2.5.2 1 .6 1.6 1.2 2 1.6-1.6 4.4-1.6 7.8.5-2.2.4-3.6 2-4 4-1.3-.8-2.6-.8-3.6.4-.8-.8-2-1.2-3.4-1.2s-2.6.4-3.4 1.2c-1-1.2-2.3-1.2-3.6-.4-.4-2-1.8-3.6-4-4 3.4-2.1 6.2-2.1 7.8-.5.6-.4 1-1 1.2-2 .5.5 1 .5 2 2.5z"/></symbol>
+  </svg>
+  {%- endif -%}
+
+  <div class="wrap ofr__grid">
+    <div class="ofr__copy">
+      <p class="ofr__eye">{{ eye }}</p>
+      <h1 id="ofr-h-{{ section.id }}" class="display ofr__h">{{ h }} <em>Free Creatine For Life of Subscription.</em></h1>
+      <p class="ofr__sub">{{ sub }}</p>
+      {%- if st.extra != blank -%}<p class="ofr__extra">{{ st.extra }}</p>{%- endif -%}
+      <div class="ofr__actions">
+        <a class="btn btn--money ofr__cta" href="#build" data-ofr-cta>{{ cta }}</a>
+        <span class="ofr__price">A <b class="num">{{ cre_price | money_without_trailing_zeros }}</b> pouch, <b>free</b> every delivery</span>
+      </div>
+      {%- if st.ends != blank -%}
+      <div class="ofr__clock" data-ofr-clock data-ends="{{ st.ends | date: '%s' }}" hidden>
+        <span class="ofr__clock-label">{{ st.ends_label }}</span>
+        <span class="ofr__clock-parts" aria-live="off"><b data-u="d">0</b><small>days</small><b data-u="h">00</b><small>hrs</small><b data-u="m">00</b><small>min</small><b data-u="s">00</b><small>sec</small></span>
+      </div>
+      {%- endif -%}
+      <ul class="ofr__trust">
+        <li>0g sugar</li><li>Organic flavors</li><li>Skip or cancel online</li><li>30 days to decide</li>
+      </ul>
+    </div>
+
+    <div class="ofr__stage" aria-hidden="true">
+      <div class="ofr__glow"></div>
+      <div class="ofr__packs">
+        <img class="ofr__pack ofr__pack--1" src="{{ 'ff-everyday-watermelon-front.webp' | asset_url }}" alt="" width="885" height="900">
+        <img class="ofr__pack ofr__pack--2" src="{{ 'ff-energy-orange-front.webp' | asset_url }}" alt="" width="885" height="900">
+        <img class="ofr__pack ofr__pack--3" src="{{ 'ff-everyday-orange-front.webp' | asset_url }}" alt="" width="885" height="900">
+        <span class="ofr__plus">+</span>
+        <img class="ofr__cre" src="{{ 'ff-creatine-cutout.webp' | asset_url }}" alt="" width="721" height="900">
+        <span class="ofr__stamp"><b>FREE</b><small>every delivery</small></span>
+      </div>
+      <p class="ofr__math"><span>3 packs</span><span>+</span><span>Creatine</span><span>=</span><b>Creatine free, every box</b></p>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} Sticky bar on phones: jumps to the builder, hides when the builder is on screen {%- endcomment -%}
+<a class="ofr-sticky" href="#build" data-ofr-sticky>
+  <span><b>Free Creatine</b> with 3+ packs</span><span class="ofr-sticky__go">{{ cta }}</span>
+</a>
+{%- if st.discount_code != blank -%}<span hidden data-ofr-code="{{ st.discount_code | escape }}"></span>{%- endif -%}
+
+{% schema %}
+{
+  "name": "Offer hero (campaigns)",
+  "settings": [
+    { "type": "select", "id": "campaign", "label": "Campaign", "default": "auto", "info": "Automatic picks the campaign from today's date. Choose one to lock it.", "options": [
+      { "value": "auto", "label": "Automatic by date" },
+      { "value": "evergreen", "label": "Always on (no season)" },
+      { "value": "bfcm", "label": "Black Friday / Cyber Monday" },
+      { "value": "holidays", "label": "Holidays" },
+      { "value": "newyear", "label": "New Year, New You" },
+      { "value": "valentines", "label": "Valentine's Day" },
+      { "value": "presidents", "label": "Presidents' Day" },
+      { "value": "spring", "label": "Spring" },
+      { "value": "mothers", "label": "Mother's Day" },
+      { "value": "memorial", "label": "Memorial Day" },
+      { "value": "fathers", "label": "Father's Day" },
+      { "value": "july4", "label": "Fourth of July" },
+      { "value": "summer", "label": "Summer" },
+      { "value": "veterans", "label": "Veterans Day" },
+      { "value": "halloween", "label": "Halloween" }
+    ] },
+    { "type": "select", "id": "motif", "label": "Background motif", "default": "campaign", "options": [
+      { "value": "campaign", "label": "Campaign default" }, { "value": "none", "label": "None" }, { "value": "star", "label": "Stars" }, { "value": "heart", "label": "Hearts" }, { "value": "snow", "label": "Snow" }, { "value": "confetti", "label": "Confetti" }, { "value": "spark", "label": "Sparkles" }, { "value": "petal", "label": "Petals" }, { "value": "flower", "label": "Flowers" }, { "value": "sun", "label": "Sun" }, { "value": "firework", "label": "Fireworks" }, { "value": "bat", "label": "Bats" }
+    ] },
+    { "type": "header", "content": "Copy (blank uses the campaign's)" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Always followed by: Free Creatine For Life of Subscription." },
+    { "type": "textarea", "id": "text", "label": "Text" },
+    { "type": "text", "id": "cta", "label": "Button" },
+    { "type": "text", "id": "extra", "label": "Extra offer line", "info": "Only for a real extra offer, e.g. a code you created in Shopify Discounts." },
+    { "type": "text", "id": "discount_code", "label": "Discount code to apply automatically", "info": "Must exist in Shopify Discounts. Applied to the visitor's cart when they open this page." },
+    { "type": "header", "content": "Countdown" },
+    { "type": "text", "id": "ends", "label": "Ends at (YYYY-MM-DD HH:MM, store time)", "info": "Leave blank for no countdown. Only use a real deadline; it hides itself when it passes." },
+    { "type": "text", "id": "ends_label", "label": "Countdown label", "default": "Offer ends in" },
+    { "type": "text", "id": "creatine_handle", "label": "Creatine product handle", "default": "creatine-v2" }
+  ],
+  "presets": [ { "name": "Offer hero (campaigns)" } ]
+}
+{% endschema %}
