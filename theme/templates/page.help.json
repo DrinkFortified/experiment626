@@ -368,7 +368,7 @@
           "type": "qa",
           "settings": {
             "q": "How do I ask for a refund?",
-            "a": "<p>Email <a href=\"mailto:hello@livefortified.com\">hello@livefortified.com</a> with your order number and a short note. Refunds go back to your original payment method within 5 to 10 business days after approval; bank posting times vary.</p>"
+            "a": "<p>Email hello@livefortified.com with your order number and a short note. Refunds go back to your original payment method within 5 to 10 business days after approval; bank posting times vary.</p>"
           }
         },
         "q2": {
@@ -389,7 +389,7 @@
           "type": "qa",
           "settings": {
             "q": "My order arrived damaged or defective.",
-            "a": "<p>Contact us right away at <a href=\"mailto:hello@livefortified.com\">hello@livefortified.com</a> and we will replace it at no cost or refund you. <a href=\"/policies/refund-policy\">Read the full refund policy</a>.</p>"
+            "a": "<p>Contact us right away at hello@livefortified.com and we will replace it at no cost or refund you. <a href=\"/policies/refund-policy\">Read the full refund policy</a>.</p>"
           }
         }
       },
