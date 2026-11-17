@@ -1,0 +1,89 @@
+{%- comment -%}
+  Shipping tracker. Paste a tracking number: the carrier is worked out from the number's
+  format and its official tracking page opens. No app and no data stored; the number only
+  goes to the carrier when the customer presses Track. Orders without a number: log in.
+{%- endcomment -%}
+{%- assign st = section.settings -%}
+<section class="sec trk{% if st.tone == 'paper2' %} sec--paper2{% endif %}" id="{{ st.anchor | default: 'track' }}" aria-labelledby="trk-h-{{ section.id }}" data-crf>
+  <div class="wrap trk__grid">
+    <div class="trk__head">
+      {%- if st.eyebrow != blank -%}<p class="iph__eye">{{ st.eyebrow }}</p>{%- endif -%}
+      <h2 id="trk-h-{{ section.id }}" class="display d2">{{ st.heading }} <em>{{ st.heading_accent }}</em></h2>
+      {%- if st.text != blank -%}<p class="lede">{{ st.text }}</p>{%- endif -%}
+    </div>
+    <div class="trk__card">
+      <form class="trk__form" data-trk novalidate>
+        <label class="trk__label" for="trk-n-{{ section.id }}">Tracking number</label>
+        <div class="trk__row">
+          <input id="trk-n-{{ section.id }}" class="trk__input" type="text" name="n" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Paste your tracking number" aria-describedby="trk-msg-{{ section.id }}">
+          <button class="btn btn--money trk__btn" type="submit">Track</button>
+        </div>
+        <p class="trk__msg" id="trk-msg-{{ section.id }}" data-trk-msg aria-live="polite">{{ st.hint }}</p>
+        <ul class="trk__carriers" data-trk-pick hidden aria-label="Choose your carrier">
+          <li><a data-c="usps" href="#" target="_blank" rel="noopener">USPS</a></li>
+          <li><a data-c="ups" href="#" target="_blank" rel="noopener">UPS</a></li>
+          <li><a data-c="fedex" href="#" target="_blank" rel="noopener">FedEx</a></li>
+          <li><a data-c="dhl" href="#" target="_blank" rel="noopener">DHL</a></li>
+        </ul>
+      </form>
+      <div class="trk__alt">
+        <p><b>{{ st.alt_heading }}</b> {{ st.alt_text }}</p>
+        <a class="btn btn--ghost" href="{{ routes.account_url }}">{{ st.alt_button }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function () {
+  var form = document.querySelector('#{{ st.anchor | default: "track" }} [data-trk]');
+  if (!form) return;
+  var inp = form.querySelector('input'), msg = form.querySelector('[data-trk-msg]'), pick = form.querySelector('[data-trk-pick]');
+  var URLS = {
+    usps: 'https://tools.usps.com/go/TrackConfirmAction?tLabels=',
+    ups: 'https://www.ups.com/track?loc=en_US&tracknum=',
+    fedex: 'https://www.fedex.com/fedextrack/?trknbr=',
+    dhl: 'https://www.dhl.com/us-en/home/tracking/tracking-express.html?submit=1&tracking-id='
+  };
+  var NAMES = { usps: 'USPS', ups: 'UPS', fedex: 'FedEx', dhl: 'DHL' };
+  function carrier(n) {
+    if (/^1Z[0-9A-Z]{16}$/.test(n)) return 'ups';
+    if (/^(94|93|92|95|82|42)\d{18,32}$/.test(n) || /^[A-Z]{2}\d{9}US$/.test(n) || /^420\d{5}(9\d{21})$/.test(n)) return 'usps';
+    if (/^96\d{20}$/.test(n)) return 'fedex';
+    if (/^\d{20,22}$/.test(n)) return 'usps';
+    if (/^(\d{12}|\d{15}|\d{20})$/.test(n)) return 'fedex';
+    if (/^\d{10}$/.test(n) || /^JJD\d{18}$/.test(n)) return 'dhl';
+    return '';
+  }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var n = (inp.value || '').toUpperCase().replace(/[\s-]/g, '');
+    pick.hidden = true;
+    if (n.length < 8) { msg.textContent = 'Paste the tracking number from your shipping email.'; inp.focus(); return; }
+    var c = carrier(n);
+    pick.querySelectorAll('a').forEach(function (a) { a.href = URLS[a.dataset.c] + encodeURIComponent(n); });
+    if (!c) { msg.textContent = 'We could not tell the carrier from that number. Pick it below:'; pick.hidden = false; return; }
+    msg.textContent = 'Opening ' + NAMES[c] + ' tracking in a new tab. Not ' + NAMES[c] + '? Pick the carrier below.';
+    pick.hidden = false;
+    window.open(URLS[c] + encodeURIComponent(n), '_blank', 'noopener');
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Shipping tracker",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor id", "default": "track" },
+    { "type": "select", "id": "tone", "label": "Background", "default": "paper", "options": [ { "value": "paper", "label": "Paper" }, { "value": "paper2", "label": "Paper 2" } ] },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Where is my box?" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Track your" },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent", "default": "order." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Paste the tracking number from your shipping email and we will open the carrier's tracking page." },
+    { "type": "text", "id": "hint", "label": "Hint under the field", "default": "USPS, UPS, FedEx and DHL numbers work. Spaces are fine." },
+    { "type": "text", "id": "alt_heading", "label": "No number heading", "default": "No tracking number?" },
+    { "type": "text", "id": "alt_text", "label": "No number text", "default": "Log in to see every order, its status and tracking." },
+    { "type": "text", "id": "alt_button", "label": "No number button", "default": "See my orders" }
+  ],
+  "presets": [ { "name": "Shipping tracker" } ]
+}
+{% endschema %}
