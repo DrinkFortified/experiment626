@@ -7,7 +7,7 @@ A complete Online Store 2.0 theme built from the mockup in `mockups/site`. White
 1. Shopify admin > Online Store > Themes > Add theme > Upload zip file, and choose `fortified-theme.zip` from the repo root. It installs **unpublished**.
 2. Click **Customize** to preview and edit every section (text, images, ticker claims, FAQ, ingredients).
 3. Optional pages: create pages with handles `ingredients`, `about` and `help`, and assign the templates `page.ingredients`, `page.about` and `page.help`.
-4. Menus: the header uses `main-menu` and the footer uses `footer`. If those are empty, built-in links to Everyday, Energy, Ingredients, About and Help are shown.
+4. Menus: the header uses `fortified-header` and the footer uses `fortified-footer` (both created for this theme, so the live theme's `main-menu` is untouched). The pages `ingredients`, `about` and `help` exist with their templates assigned.
 5. Publish when it looks right.
 
 Or with the Shopify CLI: `shopify theme push --unpublished --path theme`.
@@ -33,7 +33,7 @@ Or with the Shopify CLI: `shopify theme push --unpublished --path theme`.
 
 - When the cart holds Free Creatine For Life of Subscription on the Quarterly plan, the cart offers 1 more creatine bag at 50% off (one pouch is 45 servings, so 2 cover 90 days).
 - It adds the `creatine-v2` product ($59) on its 90 day Loop plan. Only 1 is allowed, and it is removed automatically if the order stops qualifying.
-- **On.** The 50% comes from the Shopify automatic discount "2nd Creatine Bag 50% (subscription)": 50% off creatine-v2, subscription purchases only, every billing cycle, no end date. Verified in a live cart: $59.00 to $29.50. Check in Loop that renewals keep the 50%.
+- **On.** The 50% comes from the Shopify automatic discount "2nd Creatine Bag 50% (subscription)": 50% off creatine-v2, subscription purchases only, every billing cycle, no end date. Creatine (creatine-v2) is $29.50, so the 2nd bag is $14.75. Verified in a live cart: $29.50 to $14.75. Check in Loop that renewals keep the 50%.
 
 ## 3D pouch turn (homepage)
 

@@ -2,7 +2,14 @@
   "type": "footer",
   "name": "Footer group",
   "sections": {
-    "footer": { "type": "footer", "settings": {} }
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "menu": "fortified-footer"
+      }
+    }
   },
-  "order": ["footer"]
+  "order": [
+    "footer"
+  ]
 }
