@@ -7,10 +7,11 @@
   <link rel="canonical" href="{{ canonical_url }}">
   <title>{{ page_title }}{% if current_page != 1 %} | {{ 'general.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} | {{ shop.name }}{% endunless %}</title>
   {%- if page_description -%}<meta name="description" content="{{ page_description | escape }}">{%- endif -%}
-  {%- if settings.favicon != blank -%}<link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64 }}">{%- endif -%}
+  {%- if settings.favicon != blank -%}<link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64 }}">{%- else -%}<link rel="icon" type="image/png" href="{{ 'ff-shield.png' | asset_url }}"><link rel="apple-touch-icon" href="{{ 'ff-shield.png' | asset_url }}">{%- endif -%}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700;800;900&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700;800;900&family=Permanent+Marker&display=swap" rel="stylesheet">
+  {%- render 'ff-seo' -%}
   {{ 'fortified.css' | asset_url | stylesheet_tag }}
   {{ content_for_header }}
 </head>

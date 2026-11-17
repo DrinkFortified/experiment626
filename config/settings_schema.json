@@ -10,6 +10,7 @@
   {
     "name": "Brand",
     "settings": [
+      { "type": "image_picker", "id": "share_image", "label": "Social sharing image", "info": "Shown when a page is shared. Blank uses Fortified_HP_Hero.png." },
       { "type": "image_picker", "id": "favicon", "label": "Favicon" },
       { "type": "text", "id": "support_email", "label": "Support email", "default": "hello@livefortified.com" },
       { "type": "text", "id": "support_phone", "label": "Support phone", "default": "(888) 688-8351" }

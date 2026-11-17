@@ -273,14 +273,61 @@
       return id && v.plans[id] != null ? v.plans[id] : v.price;
     }
 
+
+    // ---- Stage choreography: packs slide in and out; the free creatine arrives or leaves ----
+    var prevK = {}, prevGift = null, stageEl = $("[data-pd-stack]", pd), giftEl = $("[data-pd-gift]", pd);
+    var reduceM = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function recount() { if (stageEl) stageEl.setAttribute("data-n", $$("[data-stack]", pd).filter(function (f) { return !f.classList.contains("is-out"); }).length); }
+    function bump(fig) { var c = $(".pd__count", fig); if (!c) return; c.classList.remove("is-bump"); void c.offsetWidth; c.classList.add("is-bump"); }
+    function fly(fig, dir) {
+      var img = $(".pack img", fig); if (!img || !stageEl || reduceM) return;
+      var sr = stageEl.getBoundingClientRect(), fr = $(".pack", fig).getBoundingClientRect();
+      var c = img.cloneNode(); c.removeAttribute("fetchpriority"); c.removeAttribute("loading"); c.alt = ""; c.className = "pd__fly pd__fly--" + dir;
+      c.style.left = (fr.left - sr.left) + "px"; c.style.top = (fr.top - sr.top) + "px"; c.style.width = fr.width + "px";
+      stageEl.appendChild(c); c.addEventListener("animationend", function () { c.remove(); });
+    }
+    function stageDraw() {
+      $$("[data-stack]", pd).forEach(function (fig) {
+        var id = fig.dataset.stack, k = st.q[id] || 0, was = prevK[id] == null ? k : prevK[id];
+        $(".pd__count", fig).textContent = "×" + k;
+        if (reduceM || was === k) { if (!fig.classList.contains("is-leave")) fig.classList.toggle("is-out", !k); }
+        else if (k && !was) { fig.classList.remove("is-out", "is-leave", "is-enter"); void fig.offsetWidth; fig.classList.add("is-enter"); }
+        else if (!k && was) {
+          fig.classList.remove("is-enter"); fig.classList.add("is-leave");
+          fig.addEventListener("animationend", function h(e) {
+            if (e.animationName !== "pd-leave") return; fig.removeEventListener("animationend", h);
+            fig.classList.remove("is-leave"); if (!(st.q[id] > 0)) fig.classList.add("is-out"); recount();
+          });
+        }
+        else if (k > was) { fly(fig, "in"); setTimeout(function () { bump(fig); }, 520); }
+        else { fly(fig, "out"); bump(fig); }
+        prevK[id] = k;
+      });
+      recount();
+    }
+    function giftDraw(on) {
+      if (!giftEl) return;
+      if (prevGift === null || reduceM) { giftEl.hidden = !on; prevGift = on; return; }
+      if (on === prevGift) return;
+      prevGift = on;
+      giftEl.classList.remove("is-arrive", "is-depart"); void giftEl.offsetWidth;
+      if (on) {
+        giftEl.hidden = false; giftEl.classList.add("is-arrive");
+        
+      } else {
+        giftEl.classList.add("is-depart");
+        giftEl.addEventListener("animationend", function h(e) {
+          if (e.animationName !== "pd-gift-out") return; giftEl.removeEventListener("animationend", h);
+          giftEl.classList.remove("is-depart"); if (!prevGift) giftEl.hidden = true;
+        });
+      }
+    }
     function draw() {
       var n = total(), full = 0, tot = 0;
       Object.keys(st.q).forEach(function (id) { var v = V[id], k = st.q[id]; full += v.price * k; tot += unit(v, st.plan, n) * k; });
       var save = full - tot;
       // Stage
-      var shown = 0;
-      $$("[data-stack]", pd).forEach(function (fig) { var k = st.q[fig.dataset.stack] || 0; fig.classList.toggle("is-out", !k); $(".pd__count", fig).textContent = "\u00d7" + k; if (k) shown++; });
-      var stack = $("[data-pd-stack]", pd); if (stack) stack.setAttribute("data-n", shown);
+      stageDraw();
       // Rows
       $$("[data-fq]", pd).forEach(function (row) {
         var id = row.dataset.fq, k = st.q[id], v = V[id], inp = $("input", row);
@@ -303,6 +350,7 @@
       var freeShip = st.plan !== "otp" || n >= 2, shipCost = freeShip ? 0 : SHIP_OTP;
       var ship = st.plan !== "otp" ? "Free Shipping on every delivery." : n >= 2 ? "Free Shipping on this order." : "Shipping " + money(SHIP_OTP) + ", free from 2 packs.";
       var creAt = FF.creatineAt || 3, creOn = st.plan !== "otp" && n >= creAt;
+      giftDraw(creOn);
       var cre = creOn ? "Free Creatine For Life of Subscription included." : "Free Creatine For Life of Subscription with " + creAt + " or more packs" + (n ? " (add " + (creAt - n) + " more)." : ".");
       var note = st.plan === "q3" ? "<b>Every 3 months:</b> ships every 90 days, any number of packs, " + P.quarterlyPct + "% off. " + cre + " Skip or cancel online anytime. " + ship
         : st.plan === "sub" ? "<b>Monthly:</b> " + (P.volumeTiers ? "10% off 1 pack, 15% off 2 or more" : P.monthlyPct + "% off") + ", ships every 30 days. " + cre + " Skip or cancel online anytime. " + ship
@@ -344,7 +392,7 @@
       inp.addEventListener("blur", function () { inp.value = st.q[id]; });
     });
     var form = $("[data-ff-form]", pd);
-    form.addEventListener("submit", function (e) {
+    if (form) form.addEventListener("submit", function (e) {
       e.preventDefault();
       var items = [], err = $("[data-pd-error]", pd);
       Object.keys(st.q).forEach(function (id) { if (st.q[id] > 0) { var it = { id: +id, quantity: st.q[id] }, sp = planId(V[id], st.plan); if (sp) it.selling_plan = +sp; items.push(it); } });
@@ -359,10 +407,61 @@
   }
 
   // Fruit settles behind a pouch while its back shows; white powder bursts on each turn.
+  // ---------- Powder explosion: billowing plumes, fine dust and a few crystals, fanning upward ----------
+  function powderBurst(host, opt) {
+    opt = opt || {};
+    if (!host || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+    var pw = parseFloat(getComputedStyle(host).getPropertyValue("--pw")) || host.offsetWidth || 240;
+    var S = Math.round(pw * (opt.scale || 4.2)), dpr = Math.min(2, window.devicePixelRatio || 1);
+    var cv = document.createElement("canvas"); cv.className = "powder"; cv.setAttribute("aria-hidden", "true");
+    cv.width = S * dpr; cv.height = S * dpr; cv.style.width = cv.style.height = S + "px";
+    cv.style.left = (-S / 2) + "px"; cv.style.top = (-S * .58) + "px";
+    host.appendChild(cv);
+    var ctx = cv.getContext("2d"); ctx.scale(dpr, dpr);
+    var cx = S / 2, cy = S * .58, k = pw / 240, light = !!opt.light, plumes = [], dust = [], chunks = [];
+    function fan() { return Math.random() < .2 ? Math.random() * Math.PI * 2 : -Math.PI / 2 + (Math.random() + Math.random() + Math.random() - 1.5) * 1.5; }
+    for (var i = 0; i < 28; i++) { var a = fan(), v = (3 + Math.random() * 7) * k; plumes.push({ x: cx, y: cy, vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: (14 + Math.random() * 16) * k, g: (1.8 + Math.random() * 2.2) * k, a: 0, peak: .55 + Math.random() * .35, t: Math.random() * 6 }); }
+    for (i = 0; i < 700; i++) { a = fan(); v = (2.5 + Math.pow(Math.random(), .6) * 13) * k; dust.push({ x: cx, y: cy, vx: Math.cos(a) * v, vy: Math.sin(a) * v, s: .6 + Math.random() * 1.3, a: .7 + Math.random() * .3, d: .91 + Math.random() * .05 }); }
+    for (i = 0; i < 22; i++) { a = fan(); v = (5 + Math.random() * 10) * k; chunks.push({ x: cx, y: cy, vx: Math.cos(a) * v, vy: Math.sin(a) * v, s: (2.2 + Math.random() * 2.6) * Math.max(.8, k), rot: Math.random() * 6.28, vr: (Math.random() - .5) * .4, a: 1 }); }
+    var t0 = performance.now(), last = t0, DUR = 2000;
+    (function frame(now) {
+      var el = now - t0, dt = Math.min(2.5, (now - last) / 16.67); last = now;
+      var life = el / DUR;
+      ctx.clearRect(0, 0, S, S);
+      // plumes: soft clouds that rush out, slow down, swell and fade
+      plumes.forEach(function (p) {
+        p.vx *= Math.pow(.93, dt); p.vy *= Math.pow(.93, dt); p.vy -= .015 * dt * k; p.x += p.vx * dt; p.y += p.vy * dt; p.r += p.g * dt; p.g *= Math.pow(.985, dt);
+        p.a = life < .12 ? p.peak * (life / .12) : p.peak * Math.max(0, 1 - (life - .12) / .88);
+        var wob = Math.sin(p.t + el / 180) * p.r * .06;
+        if (light) { var sh = ctx.createRadialGradient(p.x + 2, p.y + 3, 0, p.x + 2, p.y + 3, p.r * 1.05); sh.addColorStop(0, "rgba(11,28,41," + (p.a * .12) + ")"); sh.addColorStop(1, "rgba(11,28,41,0)"); ctx.fillStyle = sh; ctx.beginPath(); ctx.arc(p.x + 2, p.y + 3, p.r * 1.05, 0, 6.283); ctx.fill(); }
+        var gr = ctx.createRadialGradient(p.x + wob, p.y, 0, p.x + wob, p.y, p.r);
+        gr.addColorStop(0, "rgba(255,255,255," + p.a + ")"); gr.addColorStop(.45, "rgba(255,255,255," + (p.a * .55) + ")"); gr.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(p.x + wob, p.y, p.r, 0, 6.283); ctx.fill();
+      });
+      // fine dust
+      ctx.fillStyle = light ? "rgba(11,28,41,.18)" : "rgba(0,0,0,0)";
+      dust.forEach(function (d) { d.vx *= Math.pow(d.d, dt); d.vy *= Math.pow(d.d, dt); d.vy += .05 * dt * k; d.x += d.vx * dt; d.y += d.vy * dt; d.al = d.a * Math.max(0, 1 - Math.max(0, life - .25) / .75); });
+      if (light) dust.forEach(function (d) { ctx.globalAlpha = d.al; ctx.fillRect(d.x + .5, d.y + .7, d.s, d.s); });
+      ctx.fillStyle = "#fff"; dust.forEach(function (d) { ctx.globalAlpha = d.al; ctx.fillRect(d.x, d.y, d.s, d.s); });
+      // crystals: chunky grains flung out under gravity
+      chunks.forEach(function (c) {
+        c.vx *= Math.pow(.97, dt); c.vy += .14 * dt * k; c.x += c.vx * dt; c.y += c.vy * dt; c.rot += c.vr * dt;
+        ctx.globalAlpha = Math.max(0, 1 - Math.max(0, life - .5) / .5);
+        ctx.save(); ctx.translate(c.x, c.y); ctx.rotate(c.rot);
+        ctx.fillStyle = "#fff"; ctx.fillRect(-c.s / 2, -c.s / 2, c.s, c.s);
+        ctx.fillStyle = "rgba(11,28,41,.22)"; ctx.fillRect(-c.s / 2, c.s / 2 - .8, c.s, .8);
+        ctx.restore();
+      });
+      ctx.globalAlpha = 1;
+      if (el < DUR) requestAnimationFrame(frame); else cv.remove();
+    })(t0);
+  }
+
   function burstTurn(b, back) {
     if (!b) return;
     b.classList.toggle("is-fruit", back);
     b.classList.remove("is-pop"); void b.offsetWidth; b.classList.add("is-pop");
+    powderBurst(b, { light: !b.closest(".hz-slide--dark, .cr-hero") });
   }
 
   // ---------- Hero 3D pouches: lean toward the pointer, drag or press to turn over ----------
@@ -562,6 +661,92 @@
     label();
   });
 
+  // ---------- Salt: a fine, continuous stream pouring from each stick ----------
+  // Thousands of tiny grains leave the open end together, so they draw one smooth
+  // arc; small sideways jitter widens it as it falls and the tail frays out.
+  $$("[data-salt-canvas]").forEach(function (cv) {
+    var sec = cv.closest("section"); if (!sec || !cv.getContext) return;
+    var ctx = cv.getContext("2d"), sides = $$(".lfx-side", sec), dpr = Math.min(2, window.devicePixelRatio || 1);
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var W = 0, H = 0, parts = [], running = false, visible = false, last = 0, MAX = 2600;
+    function size() { var r = sec.getBoundingClientRect(); W = r.width; H = r.height; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+    function mouths() {
+      var sr = sec.getBoundingClientRect();
+      return sides.map(function (sd) {
+        var a = sd.getBoundingClientRect(), st = $(".lfx-stick", sd).getBoundingClientRect();
+        var mx = a.left - sr.left, my = a.top - sr.top, cx = st.left + st.width / 2 - sr.left, cy = st.top + st.height / 2 - sr.top;
+        var dx = mx - cx, dy = my - cy, l = Math.hypot(dx, dy) || 1;
+        return { x: mx, y: my, dx: dx / l, dy: dy / l, fall: Math.min(H - my - 10, Math.max(320, H * .62)) };
+      });
+    }
+    function inAmount() { var sp = parseFloat(sec.style.getPropertyValue("--sp")); if (isNaN(sp)) sp = 1; return Math.min(1, Math.max(0, (sp - .1) * 4.5)); }
+    function spawn(m) {
+      var big = Math.random() < .07, along = 1.15 + Math.random() * .22, off = (Math.random() - .5) * 4;
+      parts.push({
+        x: m.x - m.dy * off, y: m.y + m.dx * off * .4,
+        vx: m.dx * along + (Math.random() - .5) * .06, vy: m.dy * along + (Math.random() - .5) * .06,
+        s: big ? 1.6 + Math.random() * .8 : .6 + Math.random() * .8,
+        j: .004 + Math.random() * .014, end: m.y + m.fall * (.55 + Math.random() * .55),
+        pink: Math.random() < .12, a: .78 + Math.random() * .22, big: big, rot: Math.random() * 6.28
+      });
+    }
+    function step(dt, emit) {
+      if (emit) { var ms = mouths(); ms.forEach(function (m) { var k = 26 * dt; while (k > 0) { if (Math.random() < k) spawn(m); k -= 1; } }); }
+      for (var i = parts.length - 1; i >= 0; i--) {
+        var p = parts[i];
+        p.vy += .085 * dt; p.vx += (Math.random() - .5) * p.j * dt; p.vx *= Math.pow(.997, dt);
+        p.x += p.vx * dt; p.y += p.vy * dt; p.rot += .08 * dt;
+        if (p.y > p.end) { p.a -= .06 * dt; if (p.a <= 0 || p.y > H + 4) { parts.splice(i, 1); continue; } }
+      }
+      if (parts.length > MAX) parts.splice(0, parts.length - MAX);
+    }
+    function render() {
+      ctx.clearRect(0, 0, W, H);
+      // 1) a faint shadow pass so the white stream reads on a light ground
+      ctx.fillStyle = "rgba(11,28,41,.16)";
+      for (var i = 0; i < parts.length; i++) { var p = parts[i]; ctx.globalAlpha = Math.max(0, p.a); ctx.fillRect(p.x + .6, p.y + .9, p.s, p.s); }
+      // 2) the grains: bright white, a few pink; larger crystals tumble as small squares
+      for (i = 0; i < parts.length; i++) {
+        p = parts[i]; ctx.globalAlpha = Math.max(0, p.a);
+        ctx.fillStyle = p.pink ? "#f3cdc7" : "#ffffff";
+        if (p.big) { ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillRect(-p.s / 2, -p.s / 2, p.s, p.s); ctx.fillStyle = "rgba(11,28,41,.18)"; ctx.fillRect(-p.s / 2, p.s / 2 - .5, p.s, .5); ctx.restore(); }
+        else ctx.fillRect(p.x, p.y, p.s, p.s);
+      }
+      ctx.globalAlpha = 1;
+    }
+    function tick(t) {
+      if (!running) return;
+      var dt = Math.min(2.5, (t - (last || t)) / 16.67); last = t;
+      step(dt, visible && inAmount() > .92); render();
+      if (visible || parts.length) requestAnimationFrame(tick); else { running = false; last = 0; }
+    }
+    function start() { if (!running) { running = true; last = 0; requestAnimationFrame(tick); } }
+    function still() { size(); parts = []; for (var i = 0; i < 260; i++) step(1, true); render(); }
+    size(); window.addEventListener("resize", function () { size(); if (reduce) still(); });
+    if (reduce) { still(); return; }
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible) start(); }, { rootMargin: "100px 0px" }).observe(sec);
+    else { visible = true; start(); }
+  });
+
+  // ---------- Story cards light box ----------
+  $$("[data-cards]").forEach(function (sec) {
+    var cards = $$("[data-card]", sec), dlg = $("[data-cards-lb]", sec), stage = $("[data-cards-stage]", sec), count = $("[data-cards-count]", sec), cur = 0;
+    if (!dlg || !dlg.showModal || !cards.length) return;
+    function show(i) {
+      cur = (i + cards.length) % cards.length;
+      stage.innerHTML = ""; var c = cards[cur].cloneNode(true); c.removeAttribute("role"); stage.appendChild(c);
+      count.textContent = (cur + 1) + " / " + cards.length;
+    }
+    cards.forEach(function (c, i) { var b = $("[data-card-open]", c); if (b) b.addEventListener("click", function () { show(i); dlg.showModal(); document.documentElement.classList.add("story-open"); }); });
+    dlg.addEventListener("click", function (e) {
+      if (e.target === dlg || e.target.closest("[data-cards-close]")) dlg.close();
+      else if (e.target.closest("[data-cards-prev]")) show(cur - 1);
+      else if (e.target.closest("[data-cards-next]")) show(cur + 1);
+    });
+    dlg.addEventListener("keydown", function (e) { if (e.key === "ArrowLeft") show(cur - 1); if (e.key === "ArrowRight") show(cur + 1); });
+    dlg.addEventListener("close", function () { document.documentElement.classList.remove("story-open"); var b = $("[data-card-open]", cards[cur]); if (b) b.focus(); });
+  });
+
   // ---------- Rotating hero ----------
   $$("[data-hero-rotate]").forEach(function (hero) {
     var slides = $$("[data-hero-slide]", hero), dots = $$("[data-hero-dot]", hero), pauseBtn = $("[data-hero-pause]", hero);
@@ -575,7 +760,9 @@
       pauseBtn.setAttribute("aria-pressed", String(userPaused));
       pauseBtn.setAttribute("aria-label", userPaused ? "Play rotation" : "Pause rotation");
     }
+    var gTimer = null;
     function show(i) {
+
       cur = (i + slides.length) % slides.length;
       slides.forEach(function (s, k) {
         var on = k === cur;

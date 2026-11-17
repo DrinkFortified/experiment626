@@ -1,18 +1,139 @@
 {
   "sections": {
-    "main": { "type": "ff-creatine-main", "settings": {} },
-    "details": { "type": "ff-creatine-details", "settings": {} },
+    "main": {
+      "type": "ff-creatine-main",
+      "settings": {}
+    },
+    "details": {
+      "type": "ff-creatine-details",
+      "settings": {
+        "show_cards": false
+      }
+    },
     "faq": {
       "type": "ff-faq",
-      "settings": { "heading": "Creatine,", "heading_accent": "answered." },
-      "blocks": {
-        "q1": { "type": "qa", "settings": { "q": "What's in it?", "a": "<p>One ingredient: creatine monohydrate. No flavors, no sweeteners, no fillers.</p>" } },
-        "q2": { "type": "qa", "settings": { "q": "How much is in a pouch?", "a": "<p>45 servings of 5g each.</p>" } },
-        "q3": { "type": "qa", "settings": { "q": "How do I get it free?", "a": "<p>Subscribe to 3 or more packs of Everyday or Energy, Monthly or Every 3 months. A pouch of creatine is added to your box automatically and ships free with every delivery for as long as you stay subscribed.</p>" } },
-        "q4": { "type": "qa", "settings": { "q": "Can I buy it on its own?", "a": "<p>Yes. Add a one-time pouch from this page. Shipping is free from $99, otherwise $5.99.</p>" } }
+      "settings": {
+        "heading": "Creatine,",
+        "heading_accent": "answered."
       },
-      "block_order": ["q1", "q2", "q3", "q4"]
+      "blocks": {
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "What's in it?",
+            "a": "<p>One ingredient: creatine monohydrate. No flavors, no sweeteners, no fillers.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "How much is in a pouch?",
+            "a": "<p>45 servings of 5g each.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "How do I get it free?",
+            "a": "<p>Subscribe to 3 or more packs of Everyday or Energy, Monthly or Every 3 months. A pouch of creatine is added to your box automatically and ships free with every delivery for as long as you stay subscribed.</p>"
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "q": "Can I buy it on its own?",
+            "a": "<p>Yes. Add a one-time pouch from this page. Shipping is free from $99, otherwise $5.99.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ]
+    },
+    "cards": {
+      "type": "ff-cards",
+      "settings": {
+        "heading": "Read it",
+        "heading_accent": "card by card."
+      },
+      "blocks": {
+        "c0": {
+          "type": "card",
+          "settings": {
+            "theme": "light",
+            "layout": "timeline",
+            "visual": "none",
+            "heading": "Small daily habit. Stronger over time.",
+            "items": "Weeks 1-2|Build the habit|Take 5g daily, including rest days. Your muscle creatine stores begin to increase.*\nWeeks 3-4|Stay consistent|Stores typically approach saturation after about four weeks of daily use.*\nWeeks 4-8|Support your training|Creatine supports strength, power and lean muscle alongside resistance training.*\nWeek 8+|Keep building|Stay on it to keep muscle creatine stores elevated and support ongoing training.*",
+            "body": "",
+            "tagline": ""
+          }
+        },
+        "c1": {
+          "type": "card",
+          "settings": {
+            "theme": "dark",
+            "layout": "text",
+            "visual": "none",
+            "heading": "Strength takes consistency. So does creatine.",
+            "items": "",
+            "body": "<p>Creatine stores build with regular daily use. Keep taking it. Keep training. Give it time.</p><p>FORTIFIED keeps the formula simple: 5g of pure, unflavored creatine monohydrate. No flavors. No sweeteners. No fillers.</p>",
+            "tagline": "Take it daily. Build on the work."
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "theme": "light",
+            "layout": "icons",
+            "visual": "none",
+            "heading": "Decades of research. One pure ingredient.",
+            "items": "dumbbell|Strength & power|Supports performance in short bursts of intense exercise.*\nmuscle|Lean muscle|Helps build lean muscle when paired with resistance training.*\nbattery|Muscle energy|Helps replenish the energy your muscles use during hard sets.*\ncalendar|A simple daily habit|5g of unflavored creatine monohydrate. Mix and take daily.\nshield|Just creatine|One ingredient. No flavors, sweeteners, or fillers.",
+            "body": "",
+            "tagline": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "theme": "light",
+            "layout": "text",
+            "visual": "creatine",
+            "heading": "5 grams. Every day.",
+            "items": "",
+            "body": "<p>Pure, unflavored creatine monohydrate. Mix into water, coffee, or your daily shake. Training days. Rest days.</p>",
+            "tagline": "Make consistency your strongest habit."
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "theme": "navy",
+            "layout": "callouts",
+            "visual": "creatine",
+            "heading": "Pure creatine. Nothing to complicate it.",
+            "items": "5g per serving\nOne pure ingredient\nMicronized powder\nUnflavored\nNo sweeteners\nNo fillers",
+            "body": "<p>FORTIFIED delivers pure creatine monohydrate in a straightforward daily serving. Mix into your preferred drink. Keep showing up.</p>",
+            "tagline": ""
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ]
     }
   },
-  "order": ["main", "details", "faq"]
+  "order": [
+    "main",
+    "details",
+    "cards",
+    "faq"
+  ]
 }

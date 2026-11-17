@@ -1,0 +1,80 @@
+{%- comment -%}
+  Product story cards, built in code so every word is real, indexable text.
+  Click a card to read it large in a light box (previous / next, Esc to close).
+  Items field, one per line:  icon|Title|Text   (timeline: Label|Title|Text, callouts: Text)
+{%- endcomment -%}
+{%- liquid
+  assign cre = images['Creatine_PDP_01.webp']
+  assign pv = product.selected_or_first_available_variant
+-%}
+{%- capture product_front -%}{%- if product -%}{%- render 'ff-pouch-image', product: product, variant: pv, width: 900, side: 'front' -%}{%- endif -%}{%- endcapture -%}
+<section class="sec cards-sec" aria-labelledby="cards-h-{{ section.id }}" data-cards>
+  <div class="wrap">
+    <div class="sec-head"><h2 id="cards-h-{{ section.id }}" class="display d2">{{ section.settings.heading }} <em>{{ section.settings.heading_accent }}</em></h2>{%- if section.settings.text != blank -%}<p>{{ section.settings.text }}</p>{%- endif -%}</div>
+    <div class="fcards" role="list">
+      {%- for block in section.blocks -%}
+        {%- assign b = block.settings -%}
+        <article class="fcard fcard--{{ b.theme }} fcard--{{ b.layout }}{% if b.visual != 'none' %} has-visual{% endif %}" role="listitem" data-card {{ block.shopify_attributes }}>
+          <div class="fcard__in">
+            <h3 class="fcard__h">{{ b.heading }}</h3>
+            {%- assign lines = b.items | newline_to_br | split: '<br />' -%}
+            {%- if b.layout == 'timeline' or b.layout == 'icons' -%}
+              <ul class="fcard__list">
+                {%- for l in lines -%}{%- assign parts = l | strip | split: '|' -%}{%- if parts.size > 1 -%}
+                  <li>
+                    {%- if b.layout == 'icons' -%}{%- assign icon_name = parts[0] | strip -%}<span class="fcard__ico">{%- render 'ff-icon', name: icon_name -%}</span>{%- else -%}<span class="fcard__tag">{{ parts[0] | strip }}</span>{%- endif -%}
+                    <span class="fcard__li"><b>{{ parts[1] | strip }}</b>{%- if parts[2] -%}<span>{{ parts[2] | strip }}</span>{%- endif -%}</span>
+                  </li>
+                {%- endif -%}{%- endfor -%}
+              </ul>
+            {%- endif -%}
+            {%- if b.layout == 'callouts' -%}
+              {%- assign half = lines.size | plus: 1 | divided_by: 2 -%}
+              <div class="fcard__callouts">
+                <ul class="fcard__co fcard__co--l">{%- for l in lines limit: half -%}{%- if l != blank -%}<li>{{ l | strip }}</li>{%- endif -%}{%- endfor -%}</ul>
+                <div class="fcard__vis">{%- render 'ff-card-visual', visual: b.visual, cre: cre, front: product_front -%}</div>
+                <ul class="fcard__co fcard__co--r">{%- for l in lines offset: half -%}{%- if l != blank -%}<li>{{ l | strip }}</li>{%- endif -%}{%- endfor -%}</ul>
+              </div>
+            {%- endif -%}
+            {%- if b.body != blank -%}<div class="fcard__body">{{ b.body }}</div>{%- endif -%}
+            {%- if b.tagline != blank -%}<p class="fcard__tagline">{{ b.tagline }}</p>{%- endif -%}
+          </div>
+          {%- if b.visual != 'none' and b.layout != 'callouts' -%}<div class="fcard__vis fcard__vis--side">{%- render 'ff-card-visual', visual: b.visual, cre: cre, front: product_front -%}</div>{%- endif -%}
+          <button type="button" class="fcard__open" data-card-open aria-label="Read larger: {{ b.heading | escape }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </article>
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.footnote != blank -%}<p class="fcards__note">{{ section.settings.footnote }}</p>{%- endif -%}
+  </div>
+  <dialog class="cards-lb" data-cards-lb aria-label="{{ section.settings.heading | escape }} {{ section.settings.heading_accent | escape }}">
+    <button type="button" class="story__x cards-lb__x" data-cards-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+    <div class="cards-lb__stage" data-cards-stage></div>
+    <div class="cards-lb__nav">
+      <button type="button" data-cards-prev aria-label="Previous card"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <span class="num" data-cards-count></span>
+      <button type="button" data-cards-next aria-label="Next card"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </dialog>
+</section>
+
+{% schema %}
+{
+  "name": "Story cards",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Read it" },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent", "default": "card by card." },
+    { "type": "text", "id": "text", "label": "Text" },
+    { "type": "text", "id": "footnote", "label": "Footnote", "default": "*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease." }
+  ],
+  "blocks": [ { "type": "card", "name": "Card", "settings": [
+    { "type": "select", "id": "theme", "label": "Colour", "default": "light", "options": [ { "value": "light", "label": "Light" }, { "value": "dark", "label": "Dark" }, { "value": "navy", "label": "Navy" } ] },
+    { "type": "select", "id": "layout", "label": "Layout", "default": "icons", "options": [ { "value": "icons", "label": "Icon list" }, { "value": "timeline", "label": "Timeline" }, { "value": "callouts", "label": "Callouts around the pouch" }, { "value": "text", "label": "Text" } ] },
+    { "type": "select", "id": "visual", "label": "Picture", "default": "none", "options": [ { "value": "none", "label": "None" }, { "value": "creatine", "label": "Creatine pouch" }, { "value": "product", "label": "This product's pouch" } ] },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Card heading." },
+    { "type": "textarea", "id": "items", "label": "Items, one per line", "info": "Icon list: icon|Title|Text (icons: dumbbell, muscle, battery, calendar, shield, drop, sun, leaf, bolt, scoop). Timeline: Label|Title|Text. Callouts: one short line each." },
+    { "type": "richtext", "id": "body", "label": "Text" },
+    { "type": "text", "id": "tagline", "label": "Tagline" }
+  ] } ],
+  "presets": [ { "name": "Story cards" } ]
+}
+{% endschema %}

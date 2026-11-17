@@ -28,6 +28,7 @@
   </div>
 </header>
 <nav class="mnav" aria-label="Mobile">
+  <img class="mnav__logo" src="{{ 'ff-logo.webp' | asset_url }}" alt="Fortified" width="1200" height="214" loading="lazy">
   {%- if menu.links.size > 0 -%}
     {%- for link in menu.links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
   {%- else -%}

@@ -51,6 +51,14 @@
     <div class="pd__crumbs"><a href="{{ routes.root_url }}">Home</a> / {{ heading | escape }}</div>
     <span class="tag pd__tag">{{ badge }}</span>
     <div class="pd__stack" data-pd-stack>
+      {%- assign gift_img = images['Creatine_PDP_01.webp'] -%}
+      {%- if gift_img -%}
+      <figure class="pd__gift" data-pd-gift hidden>
+        <span class="hz-crop">{{ gift_img | image_url: width: 600 | image_tag: loading: 'lazy', alt: 'Free creatine pouch' }}</span>
+        <span class="pd__gift-badge">Free</span>
+        <figcaption class="sr">Free Creatine For Life of Subscription included</figcaption>
+      </figure>
+      {%- endif -%}
       {%- for variant in product.variants -%}
         {%- capture src -%}{%- render 'ff-pouch-image', product: product, variant: variant, width: 1000 -%}{%- endcapture -%}
         <figure class="pd__stackpack" data-stack="{{ variant.id }}">
@@ -73,7 +81,7 @@
   </div>
 
   <div class="pd__buy">
-    <h1 id="pd-h-{{ section.id }}" class="display d1">{{ heading }}</h1>
+    <h1 id="pd-h-{{ section.id }}" class="display d1 pd__h"><span class="pd__h-type">{% if formula == 'energy' %}Electrolyte drink mix with natural caffeine{% else %}Electrolyte drink mix with Vitamin D3 + K2{% endif %}</span>{{ heading }}</h1>
     <p class="lede">{{ line }}</p>
 
     <div class="tiers" data-tiers aria-label="Savings">
