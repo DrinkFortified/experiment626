@@ -2015,3 +2015,54 @@ section[aria-labelledby="faq-h"] { background: #f3f6f8; } section[aria-labelledb
 }
 .hz-turn { left: auto; right: 0; bottom: 0; }
 @media (max-width: 860px) { .hz-turn { right: 0; top: auto; bottom: -6px; } .hz-pack--b { bottom: 10%; } .hz-pack--a { bottom: 16%; } }
+
+/* ---------- v18: lifestyle slide (light) ---------- */
+.hz-bg--life { background:
+    radial-gradient(38% 56% at 72% 62%, rgba(221, 102, 124, .16), rgba(221, 102, 124, 0) 72%),
+    radial-gradient(40% 50% at 86% 20%, rgba(126, 184, 200, .22), rgba(126, 184, 200, 0) 70%),
+    linear-gradient(180deg, #ffffff 0%, #f6f9fa 100%); }
+.hz-slide--life .hz-grid { align-items: stretch; padding-bottom: 0; }
+.hz-slide--life .hz-copy { align-self: center; padding-bottom: clamp(72px, 7vw, 100px); }
+.hz-slide--life .hz-h em { color: #c0436b; }
+.hz-slide--life .hz-kicker { color: #b23a63; }
+.hz-stage--life { height: auto; min-height: 0; align-self: stretch; perspective: none; }
+.hz-big--life { left: 56%; top: 40%; font-size: clamp(260px, 27vw, 420px); -webkit-text-stroke: 1.5px rgba(11, 28, 41, .09); }
+.hz-big-label--life { left: 56%; top: 9%; color: #b23a63; }
+.hz-life { position: absolute; right: 0; bottom: 0; margin: 0; height: 100%; max-height: 780px; display: flex; align-items: flex-end; justify-content: flex-end; }
+.hz-life__img { display: block; height: 100%; width: auto; max-width: none; object-fit: contain; object-position: right bottom; mix-blend-mode: multiply; }
+.hz-life__note { position: absolute; left: 60%; top: 40%; display: flex; align-items: center; gap: 10px; transform: translateX(-100%); padding-right: 14px; }
+.hz-life__note .hz-note__line { position: relative; right: auto; top: auto; order: 2; width: clamp(40px, 5vw, 70px); background: #0b1c29; opacity: .5; transform-origin: left center; }
+.hz-life__note .hz-note__line::before { left: auto; right: -4px; background: #0b1c29; box-shadow: 0 0 0 4px rgba(255, 255, 255, .8); }
+.hz-life__note .hz-note__txt { text-align: right; }
+.hz-life__note .hz-note__txt small { color: rgba(11, 28, 41, .55); }
+.hz-life__note .hz-note__txt b { color: #0b1c29; font-size: clamp(18px, 1.6vw, 24px); }
+@keyframes hz-life-in { from { opacity: 0; transform: translateY(36px); } to { opacity: 1; transform: none; } }
+.p-hero__slide.is-active .hz-life__img { animation: hz-life-in 1.3s var(--ez) .2s both; }
+.p-hero__slide.is-active .hz-big--life { animation: hz-big 1.4s var(--ez) both; }
+.p-hero__slide.is-active .hz-big-label--life { animation: hz-in .9s var(--eo) .5s both; }
+.p-hero__slide.is-active .hz-life__note .hz-note__line { animation: hz-draw .8s var(--eo) 1.1s both; }
+.p-hero__slide.is-active .hz-life__note .hz-note__txt { animation: hz-in .7s var(--eo) 1.3s both; }
+@media (max-width: 860px) {
+  .hz-slide--life .hz-copy { padding-bottom: 8px; }
+  .hz-stage--life { height: clamp(380px, 104vw, 480px); }
+  .hz-life { left: 0; justify-content: center; }
+  .hz-life__img { margin-left: auto; }
+  .hz-big--life { left: 50%; top: 42%; font-size: 64vw; }
+  .hz-big-label--life { left: 50%; top: 4%; }
+  .hz-life__note { left: 56%; top: 46%; }
+  .hz-life__note .hz-note__txt b { font-size: 16px; }
+  .hz-life__note .hz-note__line { width: 28px; }
+}
+
+/* v18b: lifestyle photo sizing and callout on the tee */
+.hz-life { height: min(100%, 760px); }
+.hz-life__img { height: 100%; width: auto; }
+.hz-life__note { left: 68.5%; top: 77%; }
+@media (max-width: 860px) { .hz-life { height: 100%; } .hz-life__note { left: 68.5%; top: 77%; } }
+/* Every slide fills the shared height; the photo sits on the bottom edge. */
+.hz-slide { display: flex; flex-direction: column; }
+.hz-slide > .hz-grid { flex: 1 0 auto; width: 100%; }
+@media (max-width: 860px) {
+  .hz-slide--life .hz-grid { grid-template-rows: auto 1fr; }
+  .hz-slide--life .hz-stage--life { height: auto; min-height: clamp(380px, 104vw, 480px); }
+}
