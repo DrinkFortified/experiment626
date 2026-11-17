@@ -8,7 +8,7 @@
   },
   "cart": {
     "title": "Your box",
-    "empty": "Your box is empty. Pick a formula and an organic flavor.",
+    "empty": "Your box is empty. Pick a formula and a flavor.",
     "perk_ship": "Subscriptions ship free. One-time orders ship free from 2 packs.",
     "perk_creatine": "Free Shipping unlocked. Free Creatine For Life of Subscription comes with 3 or more subscription packs.",
     "all_unlocked": "Free Shipping and Free Creatine For Life of Subscription unlocked.",
@@ -21,7 +21,7 @@
   "product": {
     "add": "Add to box",
     "sold_out": "Sold out",
-    "flavors": "Organic flavors",
+    "flavors": "Flavors",
     "purchase": "Purchase"
   }
 }

@@ -28,7 +28,7 @@
         "c3": {
           "type": "claim",
           "settings": {
-            "text": "Organic flavors"
+            "text": "Every milligram listed"
           }
         },
         "c4": {
@@ -190,7 +190,7 @@
       ],
       "settings": {
         "show_back": false,
-        "text": "Both formulas share one short electrolyte base. This is every ingredient in it, with its source. The exact order varies a little by formula and organic flavor, and is printed on each pack."
+        "text": "Both formulas share one short electrolyte base. This is every ingredient in it, with its source. The exact order varies a little by formula and flavor, and is printed on each pack."
       }
     },
     "formulas": {
@@ -321,7 +321,7 @@
           "type": "qa",
           "settings": {
             "q": "How does Every 3 months work?",
-            "a": "<p>We ship a 90 day supply in one box every 3 months at 20% off. Skip, swap organic flavors or cancel in your account anytime.</p>"
+            "a": "<p>We ship a 90 day supply in one box every 3 months at 20% off. Skip, swap flavors or cancel in your account anytime.</p>"
           }
         },
         "q3": {
@@ -355,7 +355,7 @@
     "lifestyle": {
       "type": "ff-lifestyle",
       "settings": {
-        "alt": "Fortified Everyday in Organic Salty Orange on the grass with fresh oranges, flip-flops and a glass of the drink"
+        "alt": "Fortified Everyday in Salty Orange on the grass with fresh oranges, flip-flops and a glass of the drink"
       }
     },
     "creatine_offer": {

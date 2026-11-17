@@ -1,6 +1,6 @@
 {%- comment -%}
   Product buy page. Structure: name, one-line description, savings bar, a stepper
-  per organic flavor of this formula, then the other formula's flavors underneath
+  per flavor of this formula, then the other formula's flavors underneath
   (Everyday shows Energy, Energy shows Everyday), purchase toggle
   (Monthly / Every 3 months / One-time), plain-text plan note, order summary, Add.
   Every 3 months is only a delivery frequency: any number of packs.
@@ -58,7 +58,7 @@
         <figcaption class="sr">Free Creatine For Life of Subscription included</figcaption>
       </figure>
       {%- endif -%}
-      {%- comment -%} Shown while the box is empty so the stage is never bare: the Organic Salty Watermelon
+      {%- comment -%} Shown while the box is empty so the stage is never bare: the Salty Watermelon
         pouch (first flavor if there is none). It is only a picture; nothing is selected. {%- endcomment -%}
       {%- liquid
         assign ph_variant = product.variants | first
@@ -73,7 +73,7 @@
       {%- capture ph_src -%}{%- render 'ff-pouch-image', product: product, variant: ph_variant, width: 1000 -%}{%- endcapture -%}
       {%- if ph_src != blank -%}
       <figure class="pd__stackpack pd__ph" data-pd-ph>
-        <div class="pack pack--bare"><img src="{{ ph_src }}" alt="{{ this_label }} Organic {{ ph_variant.title | remove: 'Organic ' | escape }} pouch" width="1000" height="1017" fetchpriority="high"></div>
+        <div class="pack pack--bare"><img src="{{ ph_src }}" alt="{{ this_label }} {{ ph_variant.title | remove: 'Organic ' | escape }} pouch" width="1000" height="1017" fetchpriority="high"></div>
       </figure>
       {%- endif -%}
       {%- for variant in product.variants -%}
