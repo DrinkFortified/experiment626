@@ -1,8 +1,12 @@
 {
   "sections": {
     "main": {
-      "type": "main-simple",
-      "settings": {}
+      "type": "main-article",
+      "settings": {
+        "theme": "editorial",
+        "card": "product",
+        "product_handle": "everyday"
+      }
     }
   },
   "order": [

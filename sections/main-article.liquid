@@ -1,0 +1,190 @@
+{%- comment -%}
+  Blog post. Three themes, set per template (article.json = Editorial, article.bold.json = Bold,
+  article.label.json = Label): Editorial is a clean white reading column, Bold puts the title
+  over a full-bleed photo, Label is a split hero in brand color with a table of contents.
+  Optional side card: a product or the Free Creatine offer. A post can pick its own product
+  with a tag like "product:energy" (or hide the card with "no-card").
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign th = st.theme
+  assign words = article.content | strip_html | split: ' ' | size
+  assign mins = words | plus: 115 | divided_by: 230 | floor | at_least: 1
+
+  assign card = st.card
+  assign card_handle = st.product_handle
+  for t in article.tags
+    assign tl = t | downcase | strip
+    if tl == 'no-card'
+      assign card = 'none'
+    elsif tl == 'card:offer'
+      assign card = 'offer'
+    elsif tl contains 'product:'
+      assign card = 'product'
+      assign card_handle = tl | remove: 'product:' | strip
+    endif
+  endfor
+  assign cp = nil
+  if card == 'product'
+    assign cp = all_products[card_handle]
+    if cp == blank
+      assign card = 'none'
+    endif
+  endif
+  assign has_card = false
+  if card != 'none'
+    assign has_card = true
+  endif
+-%}
+<div class="art-progress" aria-hidden="true"><i data-art-progress></i></div>
+
+<article class="art art--{{ th }}{% if has_card %} art--card{% endif %}" data-article itemscope itemtype="https://schema.org/BlogPosting">
+  <header class="art__hero">
+    {%- if th == 'bold' and article.image -%}
+      <div class="art__bg">{{ article.image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', alt: '' }}</div>
+    {%- endif -%}
+    <div class="wrap art__hero-in">
+      <div class="art__hero-copy">
+        <nav class="art__crumbs" aria-label="Breadcrumb"><a href="{{ blog.url }}">{{ blog.title }}</a>{%- if article.tags.size > 0 -%}<span aria-hidden="true">/</span><span>{{ article.tags | first | capitalize }}</span>{%- endif -%}</nav>
+        <h1 class="art__title" itemprop="headline">{{ article.title }}</h1>
+        {%- if article.excerpt != blank -%}<div class="art__dek">{{ article.excerpt | strip_html | truncate: 260 }}</div>{%- endif -%}
+        <p class="art__meta">
+          <span itemprop="author">{{ article.author }}</span>
+          <span aria-hidden="true">·</span>
+          <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}" itemprop="datePublished">{{ article.published_at | date: '%B %-d, %Y' }}</time>
+          <span aria-hidden="true">·</span>
+          <span>{{ mins }} min read</span>
+        </p>
+      </div>
+      {%- if th != 'bold' and article.image -%}
+        <figure class="art__img">{{ article.image | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 990px) 60vw, 100vw', alt: article.image.alt, itemprop: 'image' }}</figure>
+      {%- endif -%}
+    </div>
+  </header>
+
+  <div class="wrap art__layout">
+    {%- if th == 'label' -%}
+    <nav class="art__toc" aria-label="In this article" data-art-toc hidden>
+      <p class="art__toc-h">In this article</p>
+      <ol></ol>
+    </nav>
+    {%- endif -%}
+
+    <div class="art__main">
+      <div class="art__body rte" data-art-body itemprop="articleBody">{{ article.content }}</div>
+
+      {%- if article.tags.size > 0 -%}
+      <ul class="art__tags" aria-label="Tags">
+        {%- for t in article.tags -%}{%- unless t contains ':' or t == 'no-card' -%}<li><a href="{{ blog.url }}/tagged/{{ t | handle }}">{{ t }}</a></li>{%- endunless -%}{%- endfor -%}
+      </ul>
+      {%- endif -%}
+
+      <div class="art__share">
+        <span>Share</span>
+        <a href="https://twitter.com/intent/tweet?text={{ article.title | url_encode }}&amp;url={{ shop.url | append: article.url | url_encode }}" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url | append: article.url | url_encode }}" target="_blank" rel="noopener" aria-label="Share on Facebook">Facebook</a>
+        <a href="https://pinterest.com/pin/create/button/?url={{ shop.url | append: article.url | url_encode }}{% if article.image %}&amp;media={{ article.image | image_url: width: 1200 | prepend: 'https:' | url_encode }}{% endif %}&amp;description={{ article.title | url_encode }}" target="_blank" rel="noopener" aria-label="Share on Pinterest">Pinterest</a>
+        <a href="mailto:?subject={{ article.title | url_encode }}&amp;body={{ shop.url | append: article.url | url_encode }}" aria-label="Share by email">Email</a>
+        <button type="button" data-art-copy data-url="{{ shop.url | append: article.url }}">Copy link</button>
+      </div>
+    </div>
+
+    {%- if has_card -%}
+    <aside class="art__aside" aria-label="{% if card == 'offer' %}Free Creatine offer{% else %}{{ cp.title | escape }}{% endif %}">
+      <div class="art-card art-card--{{ card }}">
+        {%- if card == 'offer' -%}
+          <p class="art-card__eye">{{ st.card_eyebrow | default: 'The offer' }}</p>
+          <div class="art-card__packs" aria-hidden="true">
+            <img src="{{ 'ff-everyday-watermelon-front.webp' | asset_url }}" alt="" width="885" height="900" loading="lazy">
+            <img src="{{ 'ff-energy-orange-front.webp' | asset_url }}" alt="" width="885" height="900" loading="lazy">
+            <img class="art-card__cre" src="{{ 'ff-creatine-cutout.webp' | asset_url }}" alt="" width="721" height="900" loading="lazy">
+          </div>
+          <p class="art-card__title">Subscribe to 3 packs. Get Free Creatine For Life of Subscription.</p>
+          <p class="art-card__line">Mix Everyday and Energy in any organic flavor. A pouch of pure creatine ships free with every delivery.</p>
+          <a class="btn btn--money btn--block" href="{{ st.offer_link | default: '/pages/free-creatine' }}">Build my box</a>
+        {%- else -%}
+          {%- liquid
+            capture plans
+              render 'ff-plan-ids', product: cp
+            endcapture
+            assign q_pct = plans | split: '|' | last
+            capture pimg
+              render 'ff-pouch-image', product: cp, variant: cp.selected_or_first_available_variant, width: 700
+            endcapture
+            assign short = cp.title | split: ' by ' | first
+          -%}
+          <p class="art-card__eye">{{ st.card_eyebrow | default: 'Mentioned in this article' }}</p>
+          <a class="art-card__img" href="{{ cp.url }}">{%- if pimg != blank -%}<img src="{{ pimg }}" alt="{{ short | escape }}" width="700" height="712" loading="lazy">{%- elsif cp.featured_image -%}{{ cp.featured_image | image_url: width: 700 | image_tag: loading: 'lazy' }}{%- endif -%}</a>
+          <p class="art-card__title"><a href="{{ cp.url }}">{{ short }}</a></p>
+          <p class="art-card__price"><b class="num">{{ cp.price | money }}</b>{%- if q_pct != blank and q_pct != '0' -%}<span>Save up to {{ q_pct }}% with a subscription</span>{%- endif -%}</p>
+          <ul class="art-card__pts">
+            {%- if cp.handle contains 'creatine' -%}<li>5g creatine monohydrate per serving</li><li>One ingredient, unflavored</li>
+            {%- elsif cp.handle contains 'energy' -%}<li>150mg natural caffeine from coffee bean</li><li>1,200mg sodium, 0g sugar</li>
+            {%- else -%}<li>Caffeine-free, with Vitamin D3 and K2</li><li>1,200mg sodium, 0g sugar</li>{%- endif -%}
+            <li>Organic flavors, every ingredient named</li>
+          </ul>
+          <a class="btn btn--money btn--block" href="{{ cp.url }}">Shop {{ short | split: ' ' | first }}</a>
+          {%- unless cp.handle contains 'creatine' -%}<p class="art-card__fine">Free Creatine For Life of Subscription with 3 or more packs.</p>{%- endunless -%}
+        {%- endif -%}
+      </div>
+    </aside>
+    {%- endif -%}
+  </div>
+
+  {%- if st.show_related -%}
+  {%- assign shown = 0 -%}
+  <section class="art-more" aria-labelledby="art-more-h">
+    <div class="wrap">
+      <h2 id="art-more-h" class="art-more__h">Keep reading</h2>
+      <ul class="blg__grid art-more__grid">
+        {%- for a in blog.articles -%}
+          {%- if a.id != article.id and shown < 3 -%}
+            {%- assign shown = shown | plus: 1 -%}
+            {%- render 'ff-article-card', a: a -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      {%- if shown == 0 -%}<p class="art-more__none"><a class="btn btn--ghost" href="{{ blog.url }}">Back to {{ blog.title }}</a></p>{%- endif -%}
+    </div>
+  </section>
+  {%- endif -%}
+</article>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ article.title | json }},
+  "description": {{ article.excerpt_or_content | strip_html | truncate: 300 | json }},
+  {%- if article.image -%}"image": {{ article.image | image_url: width: 1200 | prepend: 'https:' | json }},{%- endif -%}
+  "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+  "dateModified": {{ article.updated_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+  "author": { "@type": "Organization", "name": {{ article.author | default: shop.name | json }} },
+  "publisher": { "@type": "Organization", "name": {{ shop.name | json }}, "logo": { "@type": "ImageObject", "url": {{ 'ff-logo.webp' | asset_url | prepend: 'https:' | json }} } },
+  "mainEntityOfPage": {{ shop.url | append: article.url | json }},
+  "wordCount": {{ words }}
+}
+</script>
+
+{% schema %}
+{
+  "name": "Blog post",
+  "settings": [
+    { "type": "select", "id": "theme", "label": "Theme", "default": "editorial", "options": [
+      { "value": "editorial", "label": "Editorial (clean white column)" },
+      { "value": "bold", "label": "Bold (title over full photo)" },
+      { "value": "label", "label": "Label (split hero, table of contents)" }
+    ] },
+    { "type": "header", "content": "Side card" },
+    { "type": "select", "id": "card", "label": "Card next to the article", "default": "product", "info": "A post can override this with a tag: product:energy, card:offer or no-card.", "options": [
+      { "value": "none", "label": "None" },
+      { "value": "product", "label": "Product" },
+      { "value": "offer", "label": "Free Creatine offer" }
+    ] },
+    { "type": "text", "id": "product_handle", "label": "Product handle", "default": "everyday" },
+    { "type": "text", "id": "card_eyebrow", "label": "Card label (blank uses the default)" },
+    { "type": "url", "id": "offer_link", "label": "Offer card link (blank: /pages/free-creatine)" },
+    { "type": "checkbox", "id": "show_related", "label": "Show more posts at the end", "default": true }
+  ]
+}
+{% endschema %}
