@@ -28,6 +28,7 @@
 -%}
 {%- if show_sticks -%}
 <div class="lfx" aria-hidden="true">
+  <canvas class="lfx-canvas" data-salt-canvas></canvas>
   <div class="lfx-side lfx-side--l">
     <img class="lfx-stick" src="{{ stick_l }}" alt="" width="432" height="1548" loading="lazy">
     <div class="lfx-salt">{%- for i in (1..26) -%}{%- liquid

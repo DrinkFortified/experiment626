@@ -1,0 +1,5 @@
+{%- if visual == 'creatine' and cre -%}
+  <span class="hz-crop">{{ cre | image_url: width: 900 | image_tag: loading: 'lazy', alt: 'Fortified Creatine Monohydrate pouch' }}</span>
+{%- elsif visual == 'product' and front != blank -%}
+  <img src="{{ front }}" alt="{{ product.title | escape }} pouch" loading="lazy" width="1490" height="1515">
+{%- endif -%}

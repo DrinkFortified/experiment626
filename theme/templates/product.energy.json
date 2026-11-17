@@ -165,10 +165,75 @@
         "q3"
       ],
       "settings": {}
+    },
+    "cards": {
+      "type": "ff-cards",
+      "settings": {
+        "heading": "Read it",
+        "heading_accent": "card by card.",
+        "footnote": ""
+      },
+      "blocks": {
+        "c0": {
+          "type": "card",
+          "settings": {
+            "theme": "light",
+            "layout": "icons",
+            "visual": "product",
+            "heading": "Clean energy. Nothing to hide.",
+            "items": "bolt|150mg natural caffeine|From real coffee bean, never synthetic.\ndrop|1,200mg sodium|From Ancient Ocean Pink Himalayan Salt.\nshield|0g sugar|Sweetened with monk fruit and Reb M.\nleaf|Organic flavors|Organic Salty Orange and Organic Salty Watermelon.\ncalendar|One stick|Into 12 to 20oz of ice-cold water.",
+            "body": "",
+            "tagline": ""
+          }
+        },
+        "c1": {
+          "type": "card",
+          "settings": {
+            "theme": "dark",
+            "layout": "text",
+            "visual": "none",
+            "heading": "Electrolytes and coffee-bean caffeine. That's it.",
+            "items": "",
+            "body": "<p>The same clean electrolyte base as Everyday, with 150mg of natural caffeine from real coffee bean. No caffeine anhydrous, no proprietary blends.</p>",
+            "tagline": "Every milligram disclosed."
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "theme": "navy",
+            "layout": "callouts",
+            "visual": "product",
+            "heading": "The whole label, at a glance.",
+            "items": "150mg caffeine\n1,200mg sodium\n200mg potassium\n0g sugar\nNo synthetic dyes\nNo proprietary blends",
+            "body": "<p>Contains caffeine. Not recommended for children or anyone sensitive to caffeine.</p>",
+            "tagline": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "theme": "light",
+            "layout": "timeline",
+            "visual": "none",
+            "heading": "How to drink it.",
+            "items": "1|Tear|Open one stick pack.\n2|Pour|Into 12 to 20oz of ice-cold water.\n3|Stir|Stir or shake until dissolved.\n4|Go|One a day, when you want the lift.",
+            "body": "",
+            "tagline": ""
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3"
+      ]
     }
   },
   "order": [
     "main",
+    "cards",
     "label",
     "faq"
   ]

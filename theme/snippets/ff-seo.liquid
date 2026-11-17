@@ -1,0 +1,113 @@
+{%- comment -%}
+  SEO and sharing: description fallback, robots, Open Graph, Twitter card and
+  structured data (Organization, WebSite search, Product with offers, BreadcrumbList).
+  FAQ structured data is printed by the FAQ section itself.
+{%- endcomment -%}
+{%- liquid
+  assign desc = page_description | default: shop.description | default: 'Electrolyte drink mix with every ingredient named. Everyday is caffeine-free with Vitamin D3 and K2; Energy adds 150mg natural caffeine from coffee bean. 0g sugar, sweetened with monk fruit.'
+  assign og_type = 'website'
+  assign og_image = settings.share_image
+  if template.name == 'product'
+    assign og_type = 'product'
+    assign og_image = product.featured_image
+  elsif template.name == 'article'
+    assign og_type = 'article'
+    assign og_image = article.image
+  elsif template.name == 'page' and page.metafields.global.image
+    assign og_image = page.metafields.global.image
+  endif
+  if og_image == blank
+    assign og_image = images['Fortified_HP_Hero.png']
+  endif
+  assign logo_url = 'ff-logo.webp' | asset_url | prepend: 'https:'
+-%}
+{%- unless page_description -%}<meta name="description" content="{{ desc | strip_html | escape | truncate: 300 }}">{%- endunless -%}
+{%- if template.name == 'search' or template.name == 'cart' or template contains 'customers' -%}<meta name="robots" content="noindex, follow">{%- endif -%}
+<meta property="og:site_name" content="{{ shop.name | escape }}">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:title" content="{{ page_title | escape }}">
+<meta property="og:type" content="{{ og_type }}">
+<meta property="og:description" content="{{ desc | strip_html | escape | truncate: 300 }}">
+{%- if og_image != blank -%}
+<meta property="og:image" content="https:{{ og_image | image_url: width: 1200 }}">
+<meta property="og:image:secure_url" content="https:{{ og_image | image_url: width: 1200 }}">
+<meta property="og:image:alt" content="{{ og_image.alt | default: page_title | escape }}">
+{%- endif -%}
+{%- if og_type == 'product' -%}
+<meta property="og:price:amount" content="{{ product.price | money_without_currency | strip_html }}">
+<meta property="og:price:currency" content="{{ cart.currency.iso_code }}">
+{%- endif -%}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page_title | escape }}">
+<meta name="twitter:description" content="{{ desc | strip_html | escape | truncate: 200 }}">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": {{ shop.url | append: '/#org' | json }},
+      "name": {{ shop.name | json }},
+      "url": {{ shop.url | json }},
+      "logo": {{ logo_url | json }}
+      {%- if settings.support_email != blank -%},
+      "contactPoint": { "@type": "ContactPoint", "contactType": "customer support", "email": {{ settings.support_email | json }} }
+      {%- endif -%}
+    },
+    {
+      "@type": "WebSite",
+      "@id": {{ shop.url | append: '/#website' | json }},
+      "name": {{ shop.name | json }},
+      "url": {{ shop.url | json }},
+      "publisher": { "@id": {{ shop.url | append: '/#org' | json }} },
+      "potentialAction": { "@type": "SearchAction", "target": { "@type": "EntryPoint", "urlTemplate": {{ shop.url | append: routes.search_url | append: '?q={search_term_string}' | json }} }, "query-input": "required name=search_term_string" }
+    }
+    {%- if template.name == 'product' -%},
+    {
+      "@type": "Product",
+      "@id": {{ canonical_url | append: '#product' | json }},
+      "name": {{ product.title | json }},
+      "url": {{ canonical_url | json }},
+      "description": {{ product.description | strip_html | strip_newlines | truncate: 5000 | json }},
+      "brand": { "@type": "Brand", "name": {{ product.vendor | default: shop.name | json }} },
+      {%- if product.type != blank -%}"category": {{ product.type | json }},{%- endif -%}
+      "image": [ {%- for m in product.media limit: 6 -%}{%- if m.media_type == 'image' -%}{{ m.preview_image | image_url: width: 1200 | prepend: 'https:' | json }}{%- unless forloop.last -%},{%- endunless -%}{%- endif -%}{%- endfor -%} ],
+      {%- if product.selected_or_first_available_variant.sku != blank -%}"sku": {{ product.selected_or_first_available_variant.sku | json }},{%- endif -%}
+      {%- if product.selected_or_first_available_variant.barcode != blank -%}"gtin": {{ product.selected_or_first_available_variant.barcode | json }},{%- endif -%}
+      "offers": [
+        {%- for v in product.variants -%}
+        {
+          "@type": "Offer",
+          "name": {{ v.title | json }},
+          {%- if v.sku != blank -%}"sku": {{ v.sku | json }},{%- endif -%}
+          {%- if v.barcode != blank -%}"gtin": {{ v.barcode | json }},{%- endif -%}
+          "url": {{ shop.url | append: v.url | json }},
+          "price": {{ v.price | divided_by: 100.0 | json }},
+          "priceCurrency": {{ cart.currency.iso_code | json }},
+          "itemCondition": "https://schema.org/NewCondition",
+          "availability": "https://schema.org/{% if v.available %}InStock{% else %}OutOfStock{% endif %}",
+          "seller": { "@id": {{ shop.url | append: '/#org' | json }} }
+        }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ shop.url | json }} },
+        { "@type": "ListItem", "position": 2, "name": {{ product.title | json }}, "item": {{ canonical_url | json }} }
+      ]
+    }
+    {%- elsif template.name == 'page' or template.name == 'collection' or template.name == 'article' -%},
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ shop.url | json }} },
+        { "@type": "ListItem", "position": 2, "name": {{ page_title | json }}, "item": {{ canonical_url | json }} }
+      ]
+    }
+    {%- endif -%}
+  ]
+}
+</script>

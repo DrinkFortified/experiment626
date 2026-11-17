@@ -12,7 +12,7 @@
       {%- if section.settings.signature != blank -%}
         {%- comment -%} A signature that writes itself when it scrolls into view. {%- endcomment -%}
         <span class="letter__sign sig" data-sig role="img" aria-label="{{ section.settings.signature | escape }}">
-          <svg viewBox="0 0 640 140" aria-hidden="true" focusable="false"><text class="sig__t" x="6" y="98">{{ section.settings.signature }}</text></svg>
+          <svg viewBox="0 0 640 140" aria-hidden="true" focusable="false"><defs><filter id="sig-rough-{{ section.id }}" x="-5%" y="-20%" width="110%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.2"/></filter></defs><text class="sig__t" x="6" y="96" filter="url(#sig-rough-{{ section.id }})">{{ section.settings.signature }}</text></svg>
         </span>
       {%- endif -%}
       {%- if story != blank and story.content != blank -%}
@@ -26,6 +26,7 @@
       <button type="button" class="story__x" data-story-close aria-label="Close">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
       </button>
+      <img class="story__logo" src="{{ 'ff-logo.webp' | asset_url }}" alt="Fortified" width="1200" height="214" loading="lazy">
       <p class="story__kicker">{{ section.settings.story_kicker }}</p>
       <h2 id="story-h-{{ section.id }}" class="display story__h">{{ section.settings.story_title | default: story.title }}</h2>
       <div class="story__body">{{ story.content }}</div>

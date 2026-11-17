@@ -164,10 +164,75 @@
         "q3"
       ],
       "settings": {}
+    },
+    "cards": {
+      "type": "ff-cards",
+      "settings": {
+        "heading": "Read it",
+        "heading_accent": "card by card.",
+        "footnote": ""
+      },
+      "blocks": {
+        "c0": {
+          "type": "card",
+          "settings": {
+            "theme": "light",
+            "layout": "icons",
+            "visual": "product",
+            "heading": "Daily hydration. Fully disclosed.",
+            "items": "drop|1,200mg sodium|From Ancient Ocean Pink Himalayan Salt.\nsun|Vitamin D3, 25mcg|130% of your daily value.\nleaf|Vitamin K2 as MK-7|Paired with D3, the way they work together.\nshield|0g sugar|Sweetened with monk fruit and Reb M.\ncalendar|No caffeine|Take it any time of day.",
+            "body": "",
+            "tagline": ""
+          }
+        },
+        "c1": {
+          "type": "card",
+          "settings": {
+            "theme": "dark",
+            "layout": "text",
+            "visual": "none",
+            "heading": "Made for the other 23 hours.",
+            "items": "",
+            "body": "<p>Most hydration powders are built for the workout. Everyday is the same clean electrolyte base as Energy, without the caffeine, with Vitamin D3 and K2 added.</p><p>No artificial sweeteners. No proprietary blends. Every milligram on the label.</p>",
+            "tagline": "Make it a ritual."
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "theme": "light",
+            "layout": "timeline",
+            "visual": "none",
+            "heading": "How to drink it.",
+            "items": "1|Tear|Open one stick pack.\n2|Pour|Into 12 to 20oz of ice-cold water.\n3|Stir|Stir or shake until dissolved.\n4|Repeat|One a day, morning or evening.",
+            "body": "",
+            "tagline": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "theme": "navy",
+            "layout": "callouts",
+            "visual": "product",
+            "heading": "The whole label, at a glance.",
+            "items": "1,200mg sodium\n200mg potassium\n150mg magnesium\n0g sugar\nNo synthetic dyes\nOrganic flavors",
+            "body": "<p>Organic Salty Orange and Organic Salty Watermelon. 30 stick packs a pouch.</p>",
+            "tagline": ""
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3"
+      ]
     }
   },
   "order": [
     "main",
+    "cards",
     "label",
     "faq"
   ]
