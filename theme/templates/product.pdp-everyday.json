@@ -1,0 +1,245 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "formula": "everyday",
+        "heading": "Everyday",
+        "line": "Caffeine-free electrolytes with Vitamin D3 and K2.",
+        "badge": "Caffeine-free"
+      }
+    },
+    "label": {
+      "type": "ff-label",
+      "blocks": {
+        "i0": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Pink Himalayan Salt",
+            "source": "as Ancient Ocean",
+            "added": false
+          }
+        },
+        "i1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Magnesium Malate",
+            "source": "magnesium",
+            "added": false
+          }
+        },
+        "i2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Coconut Water Powder",
+            "source": "as CocOganic Plus",
+            "added": false
+          }
+        },
+        "i3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Organic Lemon Juice Powder",
+            "source": "flavor",
+            "added": false
+          }
+        },
+        "i4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Potassium Chloride",
+            "source": "potassium",
+            "added": false
+          }
+        },
+        "i5": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Bamboo Fiber",
+            "source": "fiber",
+            "added": false
+          }
+        },
+        "i6": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Organic Flavors",
+            "source": "flavor",
+            "added": false
+          }
+        },
+        "i7": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Malic Acid",
+            "source": "tartness",
+            "added": false
+          }
+        },
+        "i8": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Reb M, fermented",
+            "source": "as OnoSweet",
+            "added": false
+          }
+        },
+        "i9": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Monk Fruit Extract",
+            "source": "sweetener",
+            "added": false
+          }
+        },
+        "i10": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Energy adds Natural Caffeine",
+            "source": "coffee bean, 150mg",
+            "added": true
+          }
+        },
+        "i11": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Everyday adds Vitamin D3 + K2",
+            "source": "D3 25mcg, K2 as MK-7",
+            "added": true
+          }
+        }
+      },
+      "block_order": [
+        "i0",
+        "i1",
+        "i2",
+        "i3",
+        "i4",
+        "i5",
+        "i6",
+        "i7",
+        "i8",
+        "i9",
+        "i10",
+        "i11"
+      ],
+      "settings": {}
+    },
+    "faq": {
+      "type": "ff-faq",
+      "blocks": {
+        "q0": {
+          "type": "qa",
+          "settings": {
+            "q": "What is the difference between Energy and Everyday?",
+            "a": "<p>Both share the same electrolyte base and 1,200mg sodium. Energy adds 150mg natural caffeine from coffee bean. Everyday is caffeine-free and adds Vitamin D3 and Vitamin K2.</p>"
+          }
+        },
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "What is it sweetened with?",
+            "a": "<p>Monk fruit extract and Reb M (as OnoSweet). 0g sugar per stick pack.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "How does Every 3 months work?",
+            "a": "<p>We ship a 90 day supply in one box every 3 months at 20% off. Skip, swap organic flavors or cancel in your account anytime.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "How do I skip or cancel?",
+            "a": "<p>Log in to your account and open your subscription. Skip, swap, change quantity or cancel before your next billing date.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q0",
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {}
+    },
+    "story_jobs": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "jobs",
+        "tone": "dark",
+        "file_name": "Everyday81.png",
+        "crops": "0.63,0,0.37,1",
+        "alt": "Fortified Everyday stick in Organic Salty Watermelon with fresh watermelon",
+        "heading": "Every ingredient has a job.",
+        "items": "drop|Sodium|Helps support fluid balance and replace sodium lost through sweat.|1,200mg\ndrops|Potassium|Works alongside sodium in normal fluid balance.|200mg\nmuscle|Magnesium|Magnesium malate to support normal muscle and mineral function.|150mg\nsun|Vitamin D3 + K2|A complementary pairing for everyday nutritional support.|check"
+      }
+    },
+    "story_compare": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "compare",
+        "stick": "ff-everyday-watermelon",
+        "heading": "Electrolytes, without the trade-offs.",
+        "tagline": "Inside Fortified Everyday",
+        "items": "Sodium|1,200mg\nPotassium|200mg\nMagnesium|150mg\nVitamin D3 + K2|check\nSugar|0g\nCaffeine|0mg\nFully disclosed formula|check",
+        "body": "<p>Nothing is hidden.</p>"
+      }
+    },
+    "story_only": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "pure",
+        "stick": "ff-everyday-watermelon",
+        "heading": "Only what your daily hydration needs.",
+        "items": "No added sugar\nNo caffeine\nNo artificial colors\nNo proprietary blends",
+        "body": "<p>Electrolytes + D3 & K2 in one simple daily formula.</p>"
+      }
+    },
+    "story_steps": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "steps",
+        "tone": "warm",
+        "file_name": "Everyday6.png",
+        "crops": "0.060,0.152,0.425,0.279\n0.514,0.152,0.425,0.279\n0.060,0.552,0.425,0.279\n0.514,0.552,0.425,0.279",
+        "heading": "Hydration made simple.",
+        "items": "Tear open|Grab one stick of FORTIFIED Everyday.\nPour|Empty into cold water.\nMix|Shake or stir until dissolved.\nDrink|Use it as part of your daily hydration routine."
+      }
+    },
+    "story_moments": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "moments",
+        "tone": "warm",
+        "file_name": "Energy11.png",
+        "crops": "0.060,0.199,0.270,0.627\n0.366,0.199,0.270,0.627\n0.671,0.199,0.270,0.627",
+        "heading": "Hydration that fits real life",
+        "items": "Busy mornings|Add a stick to cold water and start your day hydrated.\nBefore training|Electrolytes to support hydration before you sweat.\nOn the go|Individual stick packs fit easily into your bag, desk, or car."
+      }
+    },
+    "story_consistency": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "consistency",
+        "file_name": "Everyday9-clean.png",
+        "heading": "Hydration works when you use it consistently.",
+        "body": "<p>Everyday was built to be exactly that: Every day.</p><p>No caffeine spike. No added sugar. No complicated routine. Just electrolytes + D3 & K2 in one easy stick.</p>",
+        "tagline": "Bring the water. We'll bring the hydration."
+      }
+    }
+  },
+  "order": [
+    "main",
+    "story_jobs",
+    "story_compare",
+    "story_only",
+    "story_steps",
+    "story_moments",
+    "label",
+    "story_consistency",
+    "faq"
+  ]
+}
