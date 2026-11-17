@@ -1,0 +1,76 @@
+/* ==========================================================================
+   Live-site skin. Loaded after fortified.css. Visual only: type, color, buttons,
+   panels. No animation, content or behavior changes.
+   Matches drinkfortified.com: Brother 1816, white pages, light gray panels,
+   uppercase bold headings, teal eyebrows, navy buttons.
+   ========================================================================== */
+@font-face { font-family: "Brother 1816"; src: url("Brother-1816-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Brother 1816"; src: url("Brother-1816-Medium.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Brother 1816"; src: url("Brother-1816-Bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Brother 1816"; src: url("Brother-1816-Black.woff2") format("woff2"); font-weight: 800 900; font-style: normal; font-display: swap; }
+
+:root {
+  --font: "Brother 1816", "Helvetica Neue", Arial, sans-serif;
+  --serif: "Brother 1816", "Helvetica Neue", Arial, sans-serif;
+  --paper: #ffffff;
+  --paper-2: #f5f5f5;
+  --ink: #0b1c29;
+  --ink-2: #4a5560;
+  --rule: #e5e5e5;
+  --teal: #00aba3;
+  --teal-ink: #00756f;
+  --teal-wash: #e7f7f6;
+  --navy: #0b1c29;
+  --lv-radius: 14px;
+}
+body { font-family: var(--font); background: #fff; color: var(--ink); font-size: 16px; letter-spacing: 0; }
+.sec--paper2, .iph--wash, section[aria-labelledby="label-h"] { background: #f5f5f5; }
+
+/* Headings: bold, uppercase, tight, like the live site */
+h1, h2, h3, .display, .crf__h, .art__title, .blg__h, .ofr__h, .cof__h, .hwt__title, .nmj__h, .pd__h, .cr-h, .hz-h, .iph__h, .stm__q p {
+  font-family: var(--serif); font-weight: 700; text-transform: uppercase; letter-spacing: -.02em; line-height: 1.02;
+}
+.display em, .hz-h em, .crf__h em, .iph__h em, .cof__h em { font-style: normal; font-weight: 700; }
+.d1 { font-size: clamp(38px, 5.2vw, 72px); }
+.d2 { font-size: clamp(30px, 3.6vw, 50px); }
+.d3 { font-size: clamp(22px, 2.4vw, 32px); }
+.hz-h { font-size: clamp(40px, 4.4vw, 68px); }
+.pd__h { text-transform: none; letter-spacing: -.02em; }
+.hz-mask { padding: .08em .04em .1em; margin: -.08em -.04em -.1em; }
+.lede { color: var(--ink-2); font-size: clamp(16px, 1.25vw, 18px); line-height: 1.55; }
+
+/* Eyebrows and small labels: teal, uppercase, spaced */
+.iph__eye, .cof__eye, .bld__eye, .ofh__eye, .crf__eye, .pd__h-type, .blg-card__tag, .art-card__eye, .ing-card__tag, .lfs__kicker, .hz-eye, .opt__label, .qb__label {
+  color: var(--teal); font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+}
+
+/* Buttons: navy, uppercase, rounded like the live site */
+.btn { --bg: var(--navy); --fg: #fff; border-radius: 8px; font-family: var(--font); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 14px; min-height: 52px; }
+.btn--money { --bg: var(--navy); --fg: #fff; }
+.btn--money:hover { --bg: #1d3445; }
+.btn--paper { --bg: #fff; --fg: var(--navy); }
+.btn--ghost { --bg: transparent; --fg: var(--navy); box-shadow: inset 0 0 0 1.5px currentColor; }
+.on-dark .btn--ghost, .hlp-contact .btn--ghost, .stm .btn--ghost { --fg: #fff; }
+
+/* Pills and toggles: teal when on, outline when off */
+.ing__filter button, .qb__pill, .seg button, .iph__jump a { border-radius: 999px; font-family: var(--font); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 13px; }
+.ing__filter button[aria-pressed="true"], .qb__pill[aria-pressed="true"], .seg button[aria-pressed="true"] { background: var(--teal); border-color: var(--teal); color: #fff; }
+
+/* Panels and cards: light gray, rounded, no heavy borders */
+.sheet, .ing-card, .hlp-card, .trk__card, .cmpt__scroll, .art-card, .blg-card__link, .cr-box, .pd-receipt .sheet, .qb, .upsell, .iph__chips li {
+  background: #f5f5f5; border: 0; box-shadow: none; border-radius: var(--lv-radius);
+}
+.iph--wash .iph__chips li, .sec--paper2 .ing-card, .sec--paper2 .sheet { background: #fff; }
+.ing-card::before { display: none; }
+.hlp-card__ic, .crf-ico li i, .p-promise .promise__check { background: #ececec; }
+
+/* FAQ rows: hairlines and chevrons like the live site */
+.faq details { border-bottom: 1px solid var(--rule); }
+.faq summary { font-family: var(--font); font-weight: 700; font-size: 17px; }
+
+/* Header and footer */
+.hdr, header.hdr { background: #fff; }
+.foot { background: var(--navy); }
+
+/* Tags and chips */
+.tag { border-radius: 999px; border-color: var(--navy); font-weight: 700; letter-spacing: .08em; }
