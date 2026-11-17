@@ -1732,3 +1732,24 @@ section[aria-labelledby="faq-h"] { background: #f3f6f8; } section[aria-labelledb
   .turn--live .turn__copy { top: 112px; }
   .turn--live .turn__stage { position: absolute; left: 0; right: 0; top: calc(112px + 32vw + 96px); bottom: 0; height: auto; padding-top: 0; }
 }
+
+/* v13c: Safari / iOS hardening for the 3D pouch */
+.bag3d { aspect-ratio: auto; height: calc(var(--bw) * 1.032258); -webkit-transform-style: preserve-3d; }
+.turn__zoom { -webkit-transform-style: preserve-3d; }
+.bag3d__face { -webkit-backface-visibility: hidden; }
+.bag3d__face img { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+/* The script shows only the face that points at the viewer (Safari does not always honor backface-visibility). */
+.bag3d.show-back .bag3d__face--front, .bag3d:not(.show-back) .bag3d__face--back { visibility: hidden; }
+/* No filters on 3D pieces (Safari can flatten them): shading is painted in. */
+.bag3d__side { -webkit-clip-path: polygon(50% 0, 100% 100%, 0 100%); filter: none;
+  background: linear-gradient(rgba(11, 28, 41, var(--shade, .2)), rgba(11, 28, 41, var(--shade, .2))), linear-gradient(180deg, var(--band) 0 19%, var(--c1) 19%, var(--c2) 58%, var(--c3) 100%); }
+.bag3d__side--l { --shade: .18; filter: none; }
+.bag3d__side--r { --shade: .3; filter: none; }
+.bag3d__bottom { filter: none; background: linear-gradient(rgba(11, 28, 41, .45), rgba(11, 28, 41, .45)), var(--c3); }
+/* Clip only while the flat zoom copy is showing; clipping a 3D scene can flatten it in Safari. */
+.turn--live .turn__stage { overflow: visible; }
+.turn--live.is-plate .turn__stage { overflow: hidden; }
+.turn--live .turn__sticky { position: -webkit-sticky; position: sticky; }
+.turn--live .turn__plate { aspect-ratio: auto; }
+
+@media (max-width: 860px) { .turn--live .turn__runway { height: 460vh; } }

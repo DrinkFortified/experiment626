@@ -372,21 +372,26 @@
       sec.style.setProperty("--bh", bh + "px");
     }
     var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) { geom(); return; }
+    if (reduce) { geom(); bag.classList.add("show-back"); return; }
     sec.classList.add("turn--live");
     geom();
     function clamp(x, a, b) { return Math.min(b, Math.max(a, x)); }
     function seg(p, a, b) { return clamp((p - a) / (b - a), 0, 1); }
     function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-    var ticking = false, lastStep = -1;
+    var ticking = false, lastStep = -1, cur = -1;
     function frame() {
       ticking = false;
       var r = sec.getBoundingClientRect(), total = sec.offsetHeight - window.innerHeight;
-      if (r.bottom < -50 || r.top > window.innerHeight + 50) return;
-      var p = clamp(-r.top / Math.max(1, total), 0, 1);
+      if (r.bottom < -50 || r.top > window.innerHeight + 50) { cur = -1; return; }
+      var target = clamp(-r.top / Math.max(1, total), 0, 1);
+      // Ease toward the scroll position so a fast flick still shows the turn.
+      cur = cur < 0 ? target : cur + (target - cur) * .16;
+      if (Math.abs(target - cur) < .0015) cur = target; else req();
+      var p = cur;
       var turn = ease(seg(p, .06, .46)), z = ease(seg(p, .6, .88));
       var a = -24 + 204 * turn, tilt = 7 * (1 - ease(seg(p, .4, .58)));
       bag.style.transform = "rotateX(" + tilt.toFixed(2) + "deg) rotateY(" + a.toFixed(2) + "deg)";
+      bag.classList.toggle("show-back", Math.cos(a * Math.PI / 180) < 0);
       var bw = bag.offsetWidth, bh = bag.offsetHeight, sw = stage.clientWidth, sh = stage.clientHeight;
       var small = window.innerWidth <= 860;
       var targetW = Math.min(sw * (small ? .86 : .62), 560);
@@ -400,6 +405,7 @@
       sec.classList.toggle("is-plate", usePlate);
       if (plate) {
         plate.style.width = (bw * Z).toFixed(1) + "px";
+        plate.style.height = (bh * Z).toFixed(1) + "px";
         plate.style.transform = "translate(-50%,-50%) translate3d(" + tx.toFixed(1) + "px," + ty.toFixed(1) + "px,0) scale(" + (S / Z).toFixed(4) + ")";
       }
       if (floor) floor.style.opacity = String(1 - z);
