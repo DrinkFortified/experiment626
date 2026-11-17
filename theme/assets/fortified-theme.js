@@ -353,9 +353,9 @@
       var creAt = FF.creatineAt || 3, creOn = st.plan !== "otp" && n >= creAt;
       giftDraw(creOn);
       var cre = creOn ? "Free Creatine For Life of Subscription included." : "Free Creatine For Life of Subscription with " + creAt + " or more packs" + (n ? " (add " + (creAt - n) + " more)." : ".");
-      var note = st.plan === "q3" ? "<b>Every 3 months:</b> ships every 90 days, any number of packs, " + P.quarterlyPct + "% off. " + cre + " Skip or cancel online anytime. " + ship
-        : st.plan === "sub" ? "<b>Monthly:</b> " + (P.volumeTiers ? "10% off 1 pack, 15% off 2 or more" : P.monthlyPct + "% off") + ", ships every 30 days. " + cre + " Skip or cancel online anytime. " + ship
-        : "<b>One-time:</b> one delivery, no subscription. 15% off 2 or more packs. " + ship;
+      var note = st.plan === "q3" ? "Ships every 90 days. Free Shipping. Skip or cancel online anytime."
+        : st.plan === "sub" ? "Ships every 30 days. Free Shipping. Skip or cancel online anytime."
+        : "One delivery, no subscription. " + (n >= 2 ? "Free Shipping." : "Shipping " + money(SHIP_OTP) + ", free from 2 packs.");
       $("[data-plan-note]", pd).innerHTML = note;
       // Savings bar
       var tw = $("[data-tiers]", pd);
@@ -860,19 +860,30 @@
     });
   });
 
-  // ---------- Savings bar: shadow once it is stuck under the header ----------
+  // ---------- Savings bar: pinned under the header ----------
+  // A zero-height marker sits right above the bar. Pinned = the marker has scrolled above the bar's
+  // sticky top. The marker never moves when the bar changes size, so there is no feedback loop.
+  // When the bar condenses (phones), the height it gives up is kept as margin so the page below
+  // stays exactly where it was.
   $$(".pd__buy [data-tiers]").forEach(function (tw) {
-    // When pinned on a phone the bar condenses; the space it gives up is kept as margin so the page
-    // below does not move (otherwise the scroll shifts, the bar unpins and it flickers).
-    var full = 0;
-    function stuck() {
-      var top = parseFloat(getComputedStyle(tw).top) || 0;
-      var on = tw.getBoundingClientRect().top <= top + 1 && scrollY > 40;
-      if (!on) { tw.style.marginBottom = ""; full = tw.offsetHeight; }
-      tw.classList.toggle("is-stuck", on);
-      if (on && full) tw.style.marginBottom = Math.max(0, full - tw.offsetHeight) + "px";
+    var mark = document.createElement("i"); mark.setAttribute("aria-hidden", "true"); mark.style.cssText = "display:block;height:0;margin:0;padding:0";
+    tw.parentNode.insertBefore(mark, tw);
+    var on = false, full = 0, raf = 0;
+    function apply() {
+      raf = 0;
+      var cs = getComputedStyle(tw), top = parseFloat(cs.top) || 0, mt = parseFloat(cs.marginTop) || 0;
+      var now = mark.getBoundingClientRect().top + mt < top - 0.5;
+      if (now !== on) {
+        on = now;
+        if (on) { full = tw.offsetHeight; tw.classList.add("is-stuck"); }
+        else { tw.classList.remove("is-stuck"); tw.style.marginBottom = ""; }
+      }
+      if (on) tw.style.marginBottom = Math.max(0, full - tw.offsetHeight) + "px";
     }
-    addEventListener("scroll", stuck, { passive: true }); addEventListener("resize", stuck); stuck();
+    function req() { if (!raf) raf = requestAnimationFrame(apply); }
+    addEventListener("scroll", req, { passive: true }); addEventListener("resize", req);
+    if ("ResizeObserver" in window) new ResizeObserver(req).observe(tw);
+    apply();
   });
 
   // ---------- Rotating hero ----------
