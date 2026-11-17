@@ -1,0 +1,248 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {}
+    },
+    "label": {
+      "type": "ff-label",
+      "blocks": {
+        "i0": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Pink Himalayan Salt",
+            "source": "as Ancient Ocean",
+            "added": false
+          }
+        },
+        "i1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Magnesium Malate",
+            "source": "magnesium",
+            "added": false
+          }
+        },
+        "i2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Coconut Water Powder",
+            "source": "as CocOganic Plus",
+            "added": false
+          }
+        },
+        "i3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Organic Lemon Juice Powder",
+            "source": "flavor",
+            "added": false
+          }
+        },
+        "i4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Potassium Chloride",
+            "source": "potassium",
+            "added": false
+          }
+        },
+        "i5": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Bamboo Fiber",
+            "source": "fiber",
+            "added": false
+          }
+        },
+        "i6": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Organic Flavors",
+            "source": "flavor",
+            "added": false
+          }
+        },
+        "i7": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Malic Acid",
+            "source": "tartness",
+            "added": false
+          }
+        },
+        "i8": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Reb M, fermented",
+            "source": "as OnoSweet",
+            "added": false
+          }
+        },
+        "i9": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Monk Fruit Extract",
+            "source": "sweetener",
+            "added": false
+          }
+        },
+        "i10": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Energy adds Natural Caffeine",
+            "source": "coffee bean, 150mg",
+            "added": true
+          }
+        },
+        "i11": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Everyday adds Vitamin D3 + K2",
+            "source": "D3 25mcg, K2 as MK-7",
+            "added": true
+          }
+        }
+      },
+      "block_order": [
+        "i0",
+        "i1",
+        "i2",
+        "i3",
+        "i4",
+        "i5",
+        "i6",
+        "i7",
+        "i8",
+        "i9",
+        "i10",
+        "i11"
+      ],
+      "settings": {}
+    },
+    "faq": {
+      "type": "ff-faq",
+      "blocks": {
+        "q0": {
+          "type": "qa",
+          "settings": {
+            "q": "What is the difference between Energy and Everyday?",
+            "a": "<p>Both share the same electrolyte base and 1,200mg sodium. Energy adds 150mg natural caffeine from coffee bean. Everyday is caffeine-free and adds Vitamin D3 and Vitamin K2.</p>"
+          }
+        },
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "What is it sweetened with?",
+            "a": "<p>Monk fruit extract and Reb M (as OnoSweet). 0g sugar per stick pack.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "How does Every 3 months work?",
+            "a": "<p>We ship a 90 day supply in one box every 3 months at 20% off. Skip, swap organic flavors or cancel in your account anytime.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "How do I skip or cancel?",
+            "a": "<p>Log in to your account and open your subscription. Skip, swap, change quantity or cancel before your next billing date.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q0",
+        "q1",
+        "q2",
+        "q3"
+      ],
+      "settings": {}
+    },
+    "story_jobs": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "jobs",
+        "tone": "warm",
+        "file_name": "Energy56.png",
+        "crops": "0.56,0,0.44,1",
+        "alt": "Fortified Energy stick in Organic Salty Orange with fresh orange slices",
+        "heading": "Energy + electrolytes. Every ingredient has a job.",
+        "items": "bolt|Energy & alertness|150mg of caffeine helps increase alertness and reduce feelings of tiredness.|\ndrop|Hydration support|Sodium helps support fluid balance and replaces sodium lost through sweat.|\nmuscle|Muscle function|Potassium and magnesium support normal muscle function.|\nnosugar|Zero added sugar|Sweetened with monk fruit and fermented Reb M.|\nshield|Formula clarity|No proprietary blends. Know what goes into your drink.|",
+        "only_handle": "energy"
+      }
+    },
+    "story_only": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "pure",
+        "stick": "ff-energy-orange",
+        "heading": "Real coffee-bean caffeine. More than an energy mix.",
+        "items": "150mg natural caffeine\nSodium + potassium + magnesium\n0g added sugar\nNo artificial colors\nNo sucralose or aspartame\nNo proprietary blends",
+        "body": "<p>Electrolytes and caffeine. Together in one convenient stick.</p>",
+        "only_handle": "energy"
+      }
+    },
+    "story_compare": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "compare",
+        "stick": "ff-energy-orange",
+        "heading": "Know what powers you.",
+        "tagline": "Inside Fortified Energy",
+        "items": "Caffeine from coffee beans|150mg\nSodium, potassium + magnesium|check\nAdded sugar|0g\nSucralose or aspartame|None\nArtificial colors|None\nProprietary blends|None",
+        "body": "<p>Your energy formula. Fully disclosed.</p>",
+        "only_handle": "energy"
+      }
+    },
+    "story_moments": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "moments",
+        "tone": "warm",
+        "file_name": "Energy53.png",
+        "crops": "0.060,0.219,0.270,0.428\n0.366,0.219,0.270,0.428\n0.671,0.219,0.270,0.428",
+        "heading": "Made for the moments you want more energy.",
+        "items": "Busy mornings|Mix into cold water for electrolytes and an energy lift.\nBefore training|Caffeine to support alertness. Electrolytes to support hydration.*\nOn the go|Individual sticks that fit into your gym bag or work bag.",
+        "tagline": "Your next serving",
+        "body": "<p>Each stick contains 150mg caffeine. Account for your other caffeine sources.</p>",
+        "only_handle": "energy"
+      }
+    },
+    "story_steps": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "steps",
+        "tone": "warm",
+        "file_name": "Energy6.png",
+        "crops": "0.060,0.152,0.425,0.279\n0.514,0.152,0.425,0.279\n0.060,0.552,0.425,0.279\n0.514,0.552,0.425,0.279",
+        "heading": "Tear. Pour. Mix. Power up.",
+        "items": "Tear open|Grab one stick of FORTIFIED Energy.\nPour it|Empty into cold water.\nMix it|Shake or stir until fully dissolved.\nPower up|Enjoy electrolytes + 150mg of natural caffeine.",
+        "only_handle": "energy"
+      }
+    },
+    "story_consistency": {
+      "type": "ff-crfeat",
+      "settings": {
+        "style": "consistency",
+        "file_name": "Energy7-clean.png",
+        "heading": "Bring the water. We'll bring the energy.",
+        "body": "<p>Coffee-bean caffeine for an energy lift. Electrolytes to support hydration.*</p><p>FORTIFIED keeps it straightforward: 150mg natural caffeine. Zero added sugar. No proprietary blends.</p>",
+        "tagline": "Tear. Pour. Get Fortified.",
+        "only_handle": "energy"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "story_jobs",
+    "story_only",
+    "story_compare",
+    "story_moments",
+    "story_steps",
+    "label",
+    "story_consistency",
+    "faq"
+  ]
+}
