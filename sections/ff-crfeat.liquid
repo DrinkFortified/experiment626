@@ -92,7 +92,7 @@
     <div class="crf-pure">
       <ul class="crf-pure__co crf-pure__co--l">{%- for l in lines limit: half -%}{%- if l != blank -%}<li style="--i:{{ forloop.index0 }}">{{ l | strip }}</li>{%- endif -%}{%- endfor -%}</ul>
       <div class="crf-pure__mid">
-        <svg class="crf-pure__arc" viewBox="0 0 400 520" aria-hidden="true" focusable="false"><path d="M120 40 C 10 160, 10 360, 120 480" pathLength="1"/><path d="M280 40 C 390 160, 390 360, 280 480" pathLength="1"/></svg>
+        <svg class="crf-pure__arc" viewBox="0 0 400 400" aria-hidden="true" focusable="false"><circle class="crf-pure__ring" cx="200" cy="200" r="196"/><circle class="crf-pure__dots" cx="200" cy="200" r="170" pathLength="100"/><circle class="crf-pure__pin" cx="200" cy="30" r="4"/><circle class="crf-pure__pin" cx="200" cy="370" r="4"/></svg>
         {%- if st.stick != blank -%}<img class="crf-pure__img crf-pure__img--stick" src="{{ st.stick | append: '-stick.webp' | asset_url }}" alt="{{ st.heading | escape }}" width="432" height="1548" loading="lazy">{%- else -%}<img class="crf-pure__img" src="{{ 'ff-creatine-cutout.webp' | asset_url }}" alt="Fortified Creatine Monohydrate pouch" width="721" height="900" loading="lazy">{%- endif -%}
       </div>
       <ul class="crf-pure__co crf-pure__co--r">{%- for l in lines offset: half -%}{%- if l != blank -%}<li style="--i:{{ forloop.index0 }}">{{ l | strip }}</li>{%- endif -%}{%- endfor -%}</ul>

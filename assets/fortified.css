@@ -2896,3 +2896,18 @@ html.story-open { overflow: hidden; }
   .hwt__sub { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .hwt__photo img { animation: none !important; } }
+/* Callouts: a full dotted circle around the product (with a faint outer ring) */
+.crf-pure__arc { inset: auto; left: 50%; top: 50%; width: min(128%, 560px); height: auto; aspect-ratio: 1; translate: -50% -50%; z-index: 1; }
+.crf-pure__arc circle { fill: none; vector-effect: non-scaling-stroke; }
+.crf-pure__ring { stroke: rgba(255, 255, 255, .08); stroke-width: 1.5; }
+.crf-pure__dots { stroke: rgba(255, 255, 255, .7); stroke-width: 2; stroke-linecap: round; stroke-dasharray: .1 1.6; transform-origin: 200px 200px; animation: crf-orbit 60s linear infinite; }
+.crf-pure__pin { fill: #fff; stroke: none; }
+.crf-pure__arc { opacity: 0; scale: .85; transition: opacity 1s ease .2s, scale 1.2s cubic-bezier(.23, 1, .32, 1) .2s; }
+.crf.is-in .crf-pure__arc, html:not(.js-crf) .crf-pure__arc { opacity: 1; scale: 1; }
+@keyframes crf-orbit { to { rotate: 360deg; } }
+.crf-pure__img { z-index: 2; }
+@media (max-width: 860px) {
+  .crf-pure__arc { display: block; width: min(92vw, 380px); }
+  .crf-pure__mid { min-height: min(92vw, 380px); }
+}
+@media (prefers-reduced-motion: reduce) { .crf-pure__dots { animation: none; } .crf-pure__arc { opacity: 1; scale: 1; } }
