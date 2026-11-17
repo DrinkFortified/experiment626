@@ -40,7 +40,7 @@
     assign c2 = '#eab044'
     assign c3 = '#d97435'
     assign formula_name = 'Everyday'
-    assign ingredients_default = 'Pink Himalayan Salt (as Ancient Ocean®), Magnesium Malate, Coconut Water Powder (as CocOganic® Plus), Organic Lemon Juice Powder, Potassium Chloride, Bamboo Fiber, Organic Flavors, Reb M 95% Fermented (as OnoSweet™), Monk Fruit Extract, Malic Acid, Menaquinone-7 (Vitamin K2), Vitamin D3 (100,000 IU/g)'
+    assign ingredients_default = 'Pink Himalayan Salt (as Ancient Ocean®), Magnesium Malate, Coconut Water Powder (as CocOganic® Plus), Organic Lemon Juice Powder, Potassium Chloride, Bamboo Fiber, Organic Flavors, Malic Acid, Reb M 95% Fermented (as OnoSweet™), Monk Fruit Extract, Menaquinone-7 (Vitamin K2), Vitamin D3 (100,000 IU/g)'
   endif
   assign ingredients = section.settings.ingredients | default: ingredients_default
   if is_energy
@@ -116,7 +116,7 @@
     { "type": "text", "id": "step_2_title", "label": "Step 2 title", "default": "The back" },
     { "type": "text", "id": "step_2_text", "label": "Step 2 text", "default": "Nutrition Facts and the full label, nothing tucked away." },
     { "type": "text", "id": "step_3_title", "label": "Step 3 title", "default": "The ingredients" },
-    { "type": "text", "id": "step_3_text", "label": "Step 3 text", "default": "Every ingredient named, with its source, in the order printed." },
+    { "type": "text", "id": "step_3_text", "label": "Step 3 text", "default": "Every ingredient named, with its source, just as it is printed on the pack." },
     { "type": "textarea", "id": "ingredients", "label": "Ingredient list (blank uses the list printed on the pouch)" },
     { "type": "textarea", "id": "caution", "label": "Caution (blank uses the caution printed on the pouch)" }
   ],
