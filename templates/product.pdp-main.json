@@ -199,19 +199,6 @@
         "body": "<p>Your energy formula. Fully disclosed.</p>"
       }
     },
-    "story_moments": {
-      "type": "ff-crfeat",
-      "settings": {
-        "style": "moments",
-        "tone": "warm",
-        "file_name": "Energy53.png",
-        "crops": "0.060,0.235,0.270,0.380\n0.366,0.235,0.270,0.380\n0.671,0.235,0.270,0.380",
-        "heading": "Made for the moments you want more energy.",
-        "items": "Busy mornings|Mix into cold water for electrolytes and an energy lift.\nBefore training|Caffeine to support alertness. Electrolytes to support hydration.*\nOn the go|Individual sticks that fit into your gym bag or work bag.",
-        "tagline": "Your next serving",
-        "body": "<p>Each stick contains 150mg caffeine. Account for your other caffeine sources.</p>"
-      }
-    },
     "story_consistency": {
       "type": "ff-crfeat",
       "settings": {
@@ -236,7 +223,6 @@
     "story_jobs",
     "story_only",
     "story_compare",
-    "story_moments",
     "howto",
     "label",
     "story_consistency",
