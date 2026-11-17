@@ -341,7 +341,14 @@
     // ---- Stage choreography: packs slide in and out; the free creatine arrives or leaves ----
     var prevK = {}, prevGift = null, stageEl = $("[data-pd-stack]", pd), giftEl = $("[data-pd-gift]", pd);
     var reduceM = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-    function recount() { if (stageEl) stageEl.setAttribute("data-n", $$("[data-stack]", pd).filter(function (f) { return !f.classList.contains("is-out"); }).length); }
+    var phEl = $("[data-pd-ph]", pd);
+    function recount() {
+      if (!stageEl) return;
+      var n = $$("[data-stack]", pd).filter(function (f) { return !f.classList.contains("is-out"); }).length;
+      // Empty box: show the placeholder pouch so the stage is never bare (it is not a selection).
+      if (phEl) phEl.classList.toggle("is-out", n > 0);
+      stageEl.setAttribute("data-n", n || (phEl ? 1 : 0));
+    }
     function bump(fig) { var c = $(".pd__count", fig); if (!c) return; c.classList.remove("is-bump"); void c.offsetWidth; c.classList.add("is-bump"); }
     function fly(fig, dir) {
       var img = $(".pack img", fig); if (!img || !stageEl || reduceM) return;
@@ -396,7 +403,7 @@
       $$("[data-fq]", pd).forEach(function (row) {
         var id = row.dataset.fq, k = st.q[id], v = V[id], inp = $("input", row);
         if (document.activeElement !== inp) inp.value = k;
-        $('[data-step="-1"]', row).disabled = k <= 0 || n <= 1;
+        $('[data-step="-1"]', row).disabled = k <= 0;
         $('[data-step="1"]', row).disabled = n >= MAXQ || !v.available;
         row.classList.toggle("is-zero", k === 0);
         $("[data-fq-sub]", row).textContent = k ? k + (k === 1 ? " pack \u00b7 " : " packs \u00b7 ") + money(unit(v, st.plan, n) * k) : (v.available ? "Not in this order" : "Sold out");

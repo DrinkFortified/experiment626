@@ -3662,3 +3662,7 @@ h1, h2, h3, .display, .crf__h, .art__title, .blg__h, .ofr__h, .cof__h, .hwt__tit
 .pd__caution { margin-top: 14px; padding: 10px 12px; border-left: 3px solid var(--ink); background: rgba(14,26,36,.04); border-radius: 0 8px 8px 0; font-size: 13.5px; line-height: 1.45; color: var(--ink); }
 .pd__caution + .pd__caution { margin-top: 8px; }
 .qb__fine { margin: 0; padding: 8px 10px; border-left: 3px solid var(--ink); background: rgba(14,26,36,.04); border-radius: 0 8px 8px 0; font-size: 12.5px; line-height: 1.4; color: var(--ink); }
+
+/* PDP: placeholder pouch while the box is empty */
+.pd__ph { pointer-events: none; transition: opacity .35s var(--ease-out), transform .35s var(--ease-out); }
+.pd__ph.is-out { display: none; }
