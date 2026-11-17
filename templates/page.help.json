@@ -336,7 +336,7 @@
           "type": "qa",
           "settings": {
             "q": "Is it right for me?",
-            "a": "<p>As printed on the pack: consult your healthcare professional before use if you are pregnant, nursing, taking medication or have a medical condition. Energy contains caffeine.</p>"
+            "a": "<p><strong>Energy contains caffeine.</strong> Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.</p><p><strong>Everyday:</strong> Consult your healthcare professional before use if you have any questions or concerns. Especially if you are pregnant, nursing, taking medication, or have a medical condition.</p>"
           }
         }
       },
