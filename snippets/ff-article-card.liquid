@@ -3,7 +3,7 @@
 <li class="blg-card{% if big %} blg-card--big{% endif %}">
   <a class="blg-card__link" href="{{ a.url }}">
     <div class="blg-card__img">
-      {%- if a.image -%}{{ a.image | image_url: width: 1200 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 33vw, 100vw', alt: a.image.alt }}{%- else -%}<span class="blg-card__ph" aria-hidden="true"><img src="{{ 'ff-logo-white.webp' | asset_url }}" alt="" width="1200" height="214" loading="lazy"></span>{%- endif -%}
+      {%- if a.image -%}{{ a.image | image_url: width: 1200 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 33vw, 100vw', alt: a.image.alt | default: a.title }}{%- else -%}<span class="blg-card__ph" aria-hidden="true"><img src="{{ 'ff-logo-white.webp' | asset_url }}" alt="" width="1200" height="214" loading="lazy"></span>{%- endif -%}
     </div>
     <div class="blg-card__body">
       {%- assign tg = '' -%}{%- for t in a.tags -%}{%- unless t contains ':' or t == 'no-card' -%}{%- assign tg = t -%}{%- break -%}{%- endunless -%}{%- endfor -%}

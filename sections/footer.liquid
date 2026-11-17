@@ -13,21 +13,21 @@
           {%- if form.posted_successfully? -%}<p role="status" style="margin:8px 0 0">You&rsquo;re on the list.</p>{%- endif -%}
         {%- endform -%}
       </div>
-      <div><h4>Explore</h4><ul>
+      <div><h2 class="foot__h">Explore</h2><ul>
         {%- if menu.links.size > 0 -%}
           {%- for link in menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
         {%- else -%}
           <li><a href="/products/everyday">Everyday</a></li><li><a href="/products/energy">Energy</a></li><li><a href="/pages/ingredients">Ingredients</a></li>
         {%- endif -%}
       </ul></div>
-      <div><h4>Help</h4><ul>
+      <div><h2 class="foot__h">Help</h2><ul>
         <li><a href="/pages/help">FAQ</a></li>
         <li><a href="/a/loop_subscriptions/customer">Manage subscription</a></li>
         <li><a href="{{ routes.account_url }}">Account</a></li>
         {%- if settings.support_email != blank -%}<li><a href="mailto:{{ settings.support_email }}">{{ settings.support_email }}</a></li>{%- endif -%}
         <li>{{ settings.support_phone }}</li>
       </ul></div>
-      <div><h4>Policies</h4><ul>
+      <div><h2 class="foot__h">Policies</h2><ul>
         {%- for policy in shop.policies -%}<li><a href="{{ policy.url }}">{{ policy.title }}</a></li>{%- endfor -%}
       </ul></div>
     </div>

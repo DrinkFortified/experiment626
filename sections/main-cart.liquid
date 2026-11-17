@@ -18,7 +18,7 @@
           assign has_up = false
           assign q_free = false
           for item in cart.items
-            if up.id and item.product_id == up.id
+            if up.id and item.product_id == up.id and item.selling_plan_allocation
               assign has_up = true
             endif
             if cp.id and item.product_id == cp.id and item.selling_plan_allocation
@@ -30,7 +30,7 @@
           endfor
         -%}
         {%- for item in cart.items -%}
-          {%- if cp.id and item.product_id == cp.id and settings.creatine_auto -%}
+          {%- if cp.id and item.product_id == cp.id and settings.creatine_auto and item.properties._ff_gift != blank or cp.id and item.product_id == cp.id and settings.creatine_auto and item.selling_plan_allocation -%}
           <div class="cart-line cart-line--gift">
             <div class="pack">{%- if item.image -%}{{ item.image | image_url: width: 160 | image_tag: alt: '' }}{%- endif -%}</div>
             <div><b>Free Creatine For Life of Subscription</b><small>{{ 'cart.creatine_line' | t }}</small><input type="hidden" name="updates[]" value="{{ item.quantity }}"></div>
@@ -38,7 +38,7 @@
           </div>
           {%- continue -%}
           {%- endif -%}
-          {%- if settings.creatine_upsell and up.id and item.product_id == up.id -%}
+          {%- if settings.creatine_upsell and up.id and item.product_id == up.id and item.properties._ff_upsell != blank or settings.creatine_upsell and up.id and item.product_id == up.id and item.selling_plan_allocation -%}
           <div class="cart-line cart-line--gift">
             <div class="pack">{%- if item.image -%}{{ item.image | image_url: width: 160 | image_tag: alt: '' }}{%- endif -%}</div>
             <div><b>2nd creatine bag</b><small>Every 3 months &middot; {{ settings.creatine_upsell_pct }}% off</small><br>

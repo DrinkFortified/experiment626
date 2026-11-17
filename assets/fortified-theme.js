@@ -71,9 +71,12 @@
   // 1 free creatine is kept in the cart while it holds FF.creatineAt or more subscription
   // packs, on the plan matching the packs' delivery frequency, and removed below that.
   var CR = FF.creatine || null, UP = FF.upsell || null;
-  function isCreatine(it) { return !!CR && +it.variant_id === +CR.id; }
+  // Only the free gift line counts: it carries _ff_gift or a selling plan. A one-time pouch
+  // bought from the creatine page is a normal line and is never touched.
+  function lineProps(it) { return it.properties || {}; }
+  function isCreatine(it) { return !!CR && +it.variant_id === +CR.id && (!!lineProps(it)._ff_gift || !!it.selling_plan_allocation); }
   // 2nd creatine bag: offered on Every 3 months while the free bag is quarterly, max 1.
-  function isUpsell(it) { return !!UP && +it.variant_id === +UP.id; }
+  function isUpsell(it) { return !!UP && +it.variant_id === +UP.id && (!!lineProps(it)._ff_upsell || (!!it.selling_plan_allocation && String(it.selling_plan_allocation.selling_plan.id) === String(UP.plan))); }
   function quarterlyFree(cart) {
     return (cart.items || []).some(function (it) { return isCreatine(it) && it.selling_plan_allocation && String(it.selling_plan_allocation.selling_plan.id) === String(CR.quarterly); });
   }
