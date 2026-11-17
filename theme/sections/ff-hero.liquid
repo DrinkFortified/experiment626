@@ -18,12 +18,40 @@
     assign p_energy = all_products['energy']
   endif
   assign cre_img = section.settings.offer_creatine_image
+  assign life = section.settings.life_image
+  if life == blank
+    assign life = images['Fortified_HP_Hero.png']
+  endif
+  if life == blank
+    assign life = images['hero-energy-stick.png']
+  endif
+  if life == blank
+    assign life = images['hero-energy-stick.jpg']
+  endif
+  if life == blank
+    assign life = images['hero-energy-stick.webp']
+  endif
+  assign show_life = false
+  if section.settings.life_enabled and life != blank
+    assign show_life = true
+  endif
+  assign slide_count = 1
+  if show_offer
+    assign slide_count = slide_count | plus: 1
+  endif
+  if show_life
+    assign slide_count = slide_count | plus: 1
+  endif
+  assign rotate = false
+  if slide_count > 1
+    assign rotate = true
+  endif
 -%}
-<section class="p-hero hz{% if show_offer %} p-hero--rotate{% endif %}" aria-labelledby="hero-{{ section.id }}"
-  {%- if show_offer %} data-hero-rotate="{{ section.settings.interval | default: 8 }}" aria-roledescription="carousel" aria-label="Highlights"{% endif %}>
+<section class="p-hero hz{% if rotate %} p-hero--rotate{% endif %}" aria-labelledby="hero-{{ section.id }}"
+  {%- if rotate %} data-hero-rotate="{{ section.settings.interval | default: 8 }}" aria-roledescription="carousel" aria-label="Highlights"{% endif %}>
   <div class="p-hero__slides">
 
-    <div class="p-hero__slide hz-slide hz-slide--dark hz-slide--warm is-active" data-hero-slide{% if show_offer %} role="group" aria-roledescription="slide" aria-label="1 of 2"{% endif %}>
+    <div class="p-hero__slide hz-slide hz-slide--dark hz-slide--warm is-active" data-hero-slide{% if rotate %} role="group" aria-roledescription="slide" aria-label="1 of {{ slide_count }}"{% endif %}>
       <div class="hz-bg hz-bg--warm" aria-hidden="true"></div>
       <div class="wrap hz-grid">
         <div class="hz-copy">
@@ -70,7 +98,7 @@
     </div>
 
     {%- if show_offer -%}
-    <div class="p-hero__slide hz-slide hz-slide--dark" data-hero-slide role="group" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true" inert>
+    <div class="p-hero__slide hz-slide hz-slide--dark" data-hero-slide role="group" aria-roledescription="slide" aria-label="2 of {{ slide_count }}" aria-hidden="true" inert>
       <div class="hz-bg hz-bg--dark" aria-hidden="true"></div>
       <div class="wrap hz-grid">
         <div class="hz-copy">
@@ -110,12 +138,44 @@
       </div>
     </div>
     {%- endif -%}
+    {%- if show_life -%}
+    {%- liquid
+      assign life_n = 2
+      if show_offer
+        assign life_n = 3
+      endif
+    -%}
+    <div class="p-hero__slide hz-slide hz-slide--life" data-hero-slide role="group" aria-roledescription="slide" aria-label="{{ life_n }} of {{ slide_count }}" aria-hidden="true" inert>
+      <div class="hz-bg hz-bg--life" aria-hidden="true"></div>
+      <div class="wrap hz-grid">
+        <div class="hz-copy">
+          {%- if section.settings.life_kicker != blank -%}<p class="hz-kicker hz-in" style="--i:0">{{ section.settings.life_kicker }}</p>{%- endif -%}
+          <h2 class="display hz-h"><span class="hz-mask"><span class="hz-line">{{ section.settings.life_heading }}</span></span> <span class="hz-mask"><em class="hz-line" style="--d:.12s">{{ section.settings.life_heading_accent }}</em></span></h2>
+          <p class="lede hz-lede hz-in" style="--i:3">{{ section.settings.life_text }}</p>
+          <div class="p-hero__actions hz-in" style="--i:4">
+            {%- if section.settings.life_button_1 != blank -%}<a class="btn btn--money" href="{{ section.settings.life_link_1 | default: '/products/energy' }}" tabindex="-1">{{ section.settings.life_button_1 }}</a>{%- endif -%}
+            {%- if section.settings.life_button_2 != blank -%}<a class="btn btn--ghost" href="{{ section.settings.life_link_2 | default: '/products/everyday' }}" tabindex="-1">{{ section.settings.life_button_2 }}</a>{%- endif -%}
+          </div>
+        </div>
+        <div class="hz-stage hz-stage--life">
+          {%- if section.settings.life_big != blank -%}<div class="hz-big hz-big--life" aria-hidden="true">{{ section.settings.life_big }}</div>{%- if section.settings.life_big_label != blank -%}<p class="hz-big-label hz-big-label--life">{{ section.settings.life_big_label }}</p>{%- endif -%}{%- endif -%}
+          <figure class="hz-life">
+            <img class="hz-life__img" src="{{ life | image_url: width: 1600 }}" alt="{{ section.settings.life_alt | escape }}" width="{{ life.width | default: 707 }}" height="{{ life.height | default: 744 }}" loading="lazy">
+            {%- if section.settings.life_note_v != blank -%}
+            <span class="hz-life__note"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.life_note_k }}</small><b>{{ section.settings.life_note_v }}</b></span></span>
+            {%- endif -%}
+          </figure>
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
   </div>
 
-  {%- if show_offer -%}
+  {%- if rotate -%}
   <div class="p-hero__dots hz-dots" role="group" aria-label="Choose a slide">
-    <button type="button" class="p-hero__dot" data-hero-dot="0" aria-label="Show slide 1" aria-current="true"><i></i></button>
-    <button type="button" class="p-hero__dot" data-hero-dot="1" aria-label="Show slide 2: {{ section.settings.offer_heading_accent | escape }}"><i></i></button>
+    {%- for i in (1..slide_count) -%}
+      <button type="button" class="p-hero__dot" data-hero-dot="{{ forloop.index0 }}" aria-label="Show slide {{ i }}"{% if forloop.first %} aria-current="true"{% endif %}><i></i></button>
+    {%- endfor -%}
     <button type="button" class="p-hero__pause" data-hero-pause aria-label="Pause rotation" aria-pressed="false">
       <svg viewBox="0 0 24 24" aria-hidden="true" class="i-pause"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
       <svg viewBox="0 0 24 24" aria-hidden="true" class="i-play"><path d="M8 5l11 7-11 7z" fill="currentColor"/></svg>
@@ -162,7 +222,23 @@
     { "type": "text", "id": "offer_button_2", "label": "Button 2", "default": "Shop Energy" },
     { "type": "url", "id": "offer_link_2", "label": "Button 2 link" },
     { "type": "text", "id": "offer_note", "label": "Note", "default": "Added to your box automatically at 3 subscription packs. Skip or cancel online anytime." },
-    { "type": "image_picker", "id": "offer_creatine_image", "label": "Creatine image (blank uses Creatine_PDP_01.webp from Files)" }
+    { "type": "image_picker", "id": "offer_creatine_image", "label": "Creatine image (blank uses Creatine_PDP_01.webp from Files)" },
+    { "type": "header", "content": "Slide 3: lifestyle photo" },
+    { "type": "checkbox", "id": "life_enabled", "label": "Show the lifestyle slide", "default": true },
+    { "type": "image_picker", "id": "life_image", "label": "Slide 3 photo", "info": "Blank uses Fortified_HP_Hero.png from Files (or hero-energy-stick.png, .jpg, .webp). The slide stays hidden until a photo is found. A white or transparent background blends into the slide." },
+    { "type": "text", "id": "life_alt", "label": "Photo description", "default": "A woman holding a Fortified Energy stick in Organic Salty Watermelon" },
+    { "type": "text", "id": "life_kicker", "label": "Kicker", "default": "Energy · Organic Salty Watermelon" },
+    { "type": "text", "id": "life_heading", "label": "Heading", "default": "Tear, pour," },
+    { "type": "text", "id": "life_heading_accent", "label": "Heading accent", "default": "and go." },
+    { "type": "textarea", "id": "life_text", "label": "Text", "default": "One stick into 12 to 20oz of ice-cold water. Electrolytes, 150mg natural caffeine from coffee bean, and an organic flavor you can name." },
+    { "type": "text", "id": "life_button_1", "label": "Button 1", "default": "Shop Energy" },
+    { "type": "url", "id": "life_link_1", "label": "Button 1 link" },
+    { "type": "text", "id": "life_button_2", "label": "Button 2", "default": "Shop Everyday" },
+    { "type": "url", "id": "life_link_2", "label": "Button 2 link" },
+    { "type": "text", "id": "life_big", "label": "Large outlined figure (blank: none)", "info": "Shows through light parts of the photo, so it can cross the face. Off by default." },
+    { "type": "text", "id": "life_big_label", "label": "Large figure label", "default": "mg natural caffeine" },
+    { "type": "text", "id": "life_note_k", "label": "Callout label", "default": "Energy stick" },
+    { "type": "text", "id": "life_note_v", "label": "Callout value", "default": "150mg caffeine" }
   ],
   "presets": [ { "name": "Fortified hero" } ]
 }
