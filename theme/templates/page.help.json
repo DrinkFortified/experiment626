@@ -13,8 +13,8 @@
         "lx0": {
           "type": "link",
           "settings": {
-            "label": "Orders and shipping",
-            "url": "#orders"
+            "label": "Track and ship",
+            "url": "#track"
           }
         },
         "lx1": {
@@ -65,8 +65,8 @@
           "settings": {
             "icon": "box",
             "title": "Orders and shipping",
-            "text": "Tracking, shipping costs and order changes.",
-            "url": "#orders"
+            "text": "Track a box, shipping costs and order changes.",
+            "url": "#track"
           }
         },
         "t1": {
@@ -177,7 +177,7 @@
           "type": "qa",
           "settings": {
             "q": "When will my order ship?",
-            "a": "<p>You get an email with tracking as soon as your order ships. Delivery estimates show at checkout.</p>"
+            "a": "<p>You get an email with tracking as soon as your order ships. Paste that number into the <a href=\"/pages/help#track\">tracker above</a>, or log in to see every order. Delivery estimates show at checkout.</p>"
           }
         },
         "q1": {
@@ -440,12 +440,20 @@
         "p3"
       ],
       "settings": {}
+    },
+    "track": {
+      "type": "ff-track",
+      "settings": {
+        "anchor": "track",
+        "tone": "paper"
+      }
     }
   },
   "order": [
     "hero",
     "topics",
     "manage",
+    "track",
     "orders",
     "subscriptions",
     "creatine",
