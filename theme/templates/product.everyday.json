@@ -221,7 +221,11 @@
       "settings": {
         "file_name": "howto-everyday-v2a.png",
         "cta": "Build my box",
-        "cta_note": "Free Creatine For Life of Subscription with 3+ packs"
+        "cta_note": "Free Creatine For Life of Subscription with 3+ packs",
+        "steps": "pour|One stick into cold water.|howto-pour-everyday.png\nshake|Until it dissolves.|howto-shake.png\nenjoy|Any time of day.|howto-enjoy.png",
+        "c1": "#bdd8bc",
+        "c2": "#70acb6",
+        "c3": "#3185a1"
       }
     },
     "creatine_offer": {

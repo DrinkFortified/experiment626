@@ -3362,3 +3362,31 @@ html.story-open { overflow: hidden; }
   .hwt__panel--1 .hwt__photo { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14%), linear-gradient(180deg, #000 0, #000 90%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 14%), linear-gradient(180deg, #000 0, #000 90%, transparent 100%); mask-composite: intersect; }
   .hwt__panel--3 .hwt__photo { -webkit-mask-image: linear-gradient(270deg, transparent 0, #000 14%), linear-gradient(180deg, #000 0, #000 90%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(270deg, transparent 0, #000 14%), linear-gradient(180deg, #000 0, #000 90%, transparent 100%); mask-composite: intersect; }
 }
+/* model always sits on the bottom edge of the section */
+.cof { padding-bottom: 0; }
+.cof__grid { align-items: stretch; }
+.cof__photo { align-self: end; margin: 0; padding: 0; line-height: 0; }
+.cof__photo img { transform: none; transform-origin: 50% 100%; margin-bottom: -1px; }
+
+/* How to use v4: one photo per step, on the same flat color as its column; fills the column, no fading */
+.hwt--own { --hh: auto; background: linear-gradient(90deg, var(--c1) 0 33.34%, var(--c2) 33.34% 66.67%, var(--c3) 66.67% 100%); }
+.hwt--own .hwt__panels { width: 100%; max-width: none; margin: 0; }
+.hwt--own .hwt__panel { height: auto; aspect-ratio: 3 / 4; }
+.hwt--own .hwt__photo--own { inset: 0; width: 100%; height: 100%; -webkit-mask-image: none; mask-image: none; }
+.hwt--own .hwt__photo--own img, .hwt--own .hwt__panel .hwt__photo--own img { position: absolute; inset: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 100%; }
+.hwt--own .hwt__cap { bottom: 6%; }
+.hwt--own .hwt__word, .hwt--own .hwt__sub { text-shadow: 0 2px 16px rgba(11, 28, 41, .25); }
+@media (max-width: 860px) { .hwt--own .hwt__panel { aspect-ratio: 3 / 5; } }
+
+/* photos sit flush on the section's bottom edge; button sits under the subtitle */
+.hwt--own { padding-bottom: 0; }
+.hwt--own .hwt__panels { margin-bottom: -1px; }
+.hwt .hwt__head .buy-cta { margin-top: 22px; }
+
+/* the color above each photo is the photo's own top edge, stretched upward: no seam, no fading */
+.hwt--own .hwt__panel { overflow: visible; }
+.hwt--own .hwt__panel::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 2000px; background-image: var(--edge); background-repeat: no-repeat; background-position: 50% 100%; background-size: 100% 400000%; transform: scaleY(-1); transform-origin: 50% 100%; pointer-events: none; }
+.hwt--own .hwt__panel::before { transform: none; background-position: 50% 0; top: auto; }
+.hwt--own { overflow: clip; }
+.hwt--own .hwt__head { z-index: 3; }
+.hwt--own .hwt__panel::before { image-rendering: auto; filter: blur(0); }
