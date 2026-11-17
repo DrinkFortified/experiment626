@@ -353,6 +353,68 @@
     show(0);
   });
 
+  // ---------- 3D pouch turn (scroll) ----------
+  // Front, then turn to the back, then zoom into the ingredient list.
+  $$("[data-turn]").forEach(function (sec) {
+    var bag = $("[data-turn-bag]", sec), zoom = $("[data-turn-zoom]", sec), card = $("[data-turn-card]", sec);
+    var bar = $("[data-turn-bar]", sec), floor = $("[data-turn-floor]", sec), stage = $(".turn__stage", sec), plate = $("[data-turn-plate]", sec);
+    var steps = $$("[data-turn-step]", sec);
+    if (!bag || !zoom) return;
+    var wIn = +sec.getAttribute("data-width") || 7.5, dIn = +sec.getAttribute("data-depth") || 1;
+    // Ingredient block on the back render, as fractions of the pouch face.
+    var IU = 0.188, IV = 0.79, IW = 0.25;
+    function geom() {
+      var bw = bag.offsetWidth, bh = bag.offsetHeight, d = bw * dIn / wIn;
+      var th = Math.asin(Math.min(1, (d / 2) / bh)) * 180 / Math.PI;
+      bag.style.setProperty("--d", d.toFixed(1) + "px");
+      bag.style.setProperty("--th", th.toFixed(3) + "deg");
+      sec.style.setProperty("--bw", bw + "px");
+      sec.style.setProperty("--bh", bh + "px");
+    }
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) { geom(); return; }
+    sec.classList.add("turn--live");
+    geom();
+    function clamp(x, a, b) { return Math.min(b, Math.max(a, x)); }
+    function seg(p, a, b) { return clamp((p - a) / (b - a), 0, 1); }
+    function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    var ticking = false, lastStep = -1;
+    function frame() {
+      ticking = false;
+      var r = sec.getBoundingClientRect(), total = sec.offsetHeight - window.innerHeight;
+      if (r.bottom < -50 || r.top > window.innerHeight + 50) return;
+      var p = clamp(-r.top / Math.max(1, total), 0, 1);
+      var turn = ease(seg(p, .06, .46)), z = ease(seg(p, .6, .88));
+      var a = -24 + 204 * turn, tilt = 7 * (1 - ease(seg(p, .4, .58)));
+      bag.style.transform = "rotateX(" + tilt.toFixed(2) + "deg) rotateY(" + a.toFixed(2) + "deg)";
+      var bw = bag.offsetWidth, bh = bag.offsetHeight, sw = stage.clientWidth, sh = stage.clientHeight;
+      var small = window.innerWidth <= 860;
+      var targetW = Math.min(sw * (small ? .86 : .62), 560);
+      var Z = Math.max(1, targetW / (IW * bw)), S = 1 + (Z - 1) * z;
+      var dx = (IU - .5) * bw, dy = (IV - .5) * bh;
+      var gx = 0, gy = -sh * (small ? .33 : .1);
+      var tx = z * (gx - dx * S), ty = z * (gy - dy * S);
+      zoom.style.transform = "translate3d(" + tx.toFixed(1) + "px," + ty.toFixed(1) + "px,0) scale(" + S.toFixed(3) + ")";
+      // Zoom on a flat, full-size copy of the back so the label text stays sharp.
+      var usePlate = !!plate && p >= .58;
+      sec.classList.toggle("is-plate", usePlate);
+      if (plate) {
+        plate.style.width = (bw * Z).toFixed(1) + "px";
+        plate.style.transform = "translate(-50%,-50%) translate3d(" + tx.toFixed(1) + "px," + ty.toFixed(1) + "px,0) scale(" + (S / Z).toFixed(4) + ")";
+      }
+      if (floor) floor.style.opacity = String(1 - z);
+      if (bar) bar.style.transform = "scaleX(" + p.toFixed(3) + ")";
+      var st = p < .36 ? 0 : p < .66 ? 1 : 2;
+      if (st !== lastStep) { lastStep = st; steps.forEach(function (li, k) { li.classList.toggle("is-on", k === st); }); }
+      if (card) card.classList.toggle("is-on", p > .8);
+    }
+    function req() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    window.addEventListener("scroll", req, { passive: true });
+    window.addEventListener("resize", function () { geom(); req(); });
+    $$("img", bag).forEach(function (im) { if (!im.complete) im.addEventListener("load", req); });
+    frame();
+  });
+
   // ---------- Subscription demo (home) ----------
   var ui = $("[data-sub-ui]");
   if (ui) {

@@ -35,6 +35,14 @@ Or with the Shopify CLI: `shopify theme push --unpublished --path theme`.
 - It adds the `creatine-v2` product ($59) on its 90 day Loop plan. Only 1 is allowed, and it is removed automatically if the order stops qualifying.
 - **Off by default.** The cart shows the price Shopify returns, so turn it on (Theme settings > Offers > Offer a 2nd creatine bag) only after the 50% discount exists. Today the creatine-v2 Loop plans (Deliver every 30/60/90 Days) carry no discount, so the bag would cost $59.
 
+## 3D pouch turn (homepage)
+
+- Section "3D pouch turn" sits above the label section. It uses the product's own images whose file names contain "Front" and "Back" (the 260401 renders), for the chosen formula and organic flavor.
+- Shape: the pouch is about 1 inch deep at the bottom and tapers to no depth at the top seal. Width defaults to 7.5 in; both are section settings, so set the real width.
+- Scrolling: front, then it turns to the back, then zooms into the ingredient list. The list is also shown as text, exactly as printed (Everyday or Energy is picked automatically), with the printed caution.
+- Reduced motion or no JavaScript: a still view of the back with the list beside it.
+- The flat back image in the label section is hidden on the homepage (label section setting "Show the back of pack image").
+
 ## Settings (Theme settings > Offers)
 
 - Free Shipping and Free Creatine For Life of Subscription pack counts drive the progress messages only. Set real shipping rates and the creatine offer in Shopify and Loop.

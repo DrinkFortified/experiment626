@@ -68,7 +68,8 @@
               {%- if cre_img != blank -%}
                 {{ cre_img | image_url: width: 900 | image_tag: loading: 'lazy', alt: 'Fortified Creatine Monohydrate pouch' }}
               {%- else -%}
-                <img src="{{ 'ff-creatine-front.webp' | asset_url }}" alt="Fortified Creatine Monohydrate pouch" width="820" height="918" loading="lazy">
+                {%- assign cre_file = images['Creatine_PDP_01.webp'] -%}
+                {%- if cre_file -%}<span class="offer-row__crop">{{ cre_file | image_url: width: 1200 | image_tag: loading: 'lazy', alt: 'Fortified Creatine Monohydrate pouch' }}</span>{%- endif -%}
               {%- endif -%}
               <span class="offer-row__free">Free</span>
             </div>
@@ -123,7 +124,7 @@
     { "type": "url", "id": "offer_link_2", "label": "Button 2 link" },
     { "type": "text", "id": "offer_note", "label": "Note", "default": "Added to your box automatically at 3 subscription packs. Skip or cancel online anytime." },
     { "type": "text", "id": "offer_caption", "label": "Caption under the creatine", "default": "Free Creatine For Life of Subscription" },
-    { "type": "image_picker", "id": "offer_creatine_image", "label": "Creatine image (blank uses the built-in creatine pouch)" }
+    { "type": "image_picker", "id": "offer_creatine_image", "label": "Creatine image (blank uses Creatine_PDP_01.webp from Files)" }
   ],
   "presets": [ { "name": "Fortified hero" } ]
 }

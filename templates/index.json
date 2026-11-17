@@ -186,7 +186,9 @@
         "i10",
         "i11"
       ],
-      "settings": {}
+      "settings": {
+        "show_back": false
+      }
     },
     "formulas": {
       "type": "ff-formulas",
@@ -338,12 +340,17 @@
     "closing": {
       "type": "ff-closing",
       "settings": {}
+    },
+    "pack_turn": {
+      "type": "ff-pack-turn",
+      "settings": {}
     }
   },
   "order": [
     "hero",
     "ticker",
     "letter",
+    "pack_turn",
     "label",
     "formulas",
     "promise",

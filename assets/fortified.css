@@ -1648,3 +1648,87 @@ section[aria-labelledby="faq-h"] { background: #f3f6f8; } section[aria-labelledb
 @media (prefers-reduced-motion: reduce) {
   .p-hero__slide, .p-hero--rotate .p-hero__slide:not(.is-active) { transition: opacity .2s linear, visibility 0s linear .2s; transform: none; }
 }
+
+/* ---------- v13: 3D pouch turn (scroll) ---------- */
+.turn { position: relative; background: linear-gradient(180deg, #ffffff 0%, #f1f8fa 100%); }
+.turn__runway { position: relative; }
+.turn__sticky { position: relative; padding: clamp(56px, 8vw, 110px) 0; }
+.turn__grid { position: relative; display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 24px 48px; align-items: center; }
+.turn__h { margin: 0 0 22px; }
+.turn__h em { display: block; color: #f76515; }
+.turn__steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: st; }
+.turn__steps li { counter-increment: st; display: grid; grid-template-columns: 34px minmax(0, 1fr); column-gap: 12px; opacity: .38; transition: opacity .45s var(--ease-out); }
+.turn__steps li::before { content: counter(st); grid-row: span 2; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid currentColor; font-weight: 800; font-size: 13px; }
+.turn__steps li.is-on { opacity: 1; }
+.turn__steps li.is-on::before { background: #0b1c29; border-color: #0b1c29; color: #fff; }
+.turn__steps b { font-size: 17px; }
+.turn__steps span { font-size: 14.5px; color: rgba(11, 28, 41, .72); line-height: 1.45; }
+.turn__bar { margin-top: 22px; height: 3px; border-radius: 3px; background: rgba(11, 28, 41, .1); overflow: hidden; max-width: 320px; }
+.turn__bar i { display: block; height: 100%; background: #00aba3; transform-origin: left; transform: scaleX(0); }
+
+.turn__stage { position: relative; display: grid; place-items: center; perspective: 1500px; min-height: clamp(380px, 62vh, 680px); }
+.turn__zoom { transform-style: preserve-3d; transform-origin: 50% 50%; }
+.bag3d { --bw: clamp(220px, 27vw, 400px); --d: 52px; --th: 2deg; position: relative; width: var(--bw); aspect-ratio: 1240 / 1280; transform-style: preserve-3d; transform: rotateY(180deg); }
+.bag3d__face { position: absolute; inset: 0; overflow: hidden; transform-origin: 50% 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.bag3d__face img { position: absolute; max-width: none; width: 120.161%; height: auto; left: -5%; top: -7.422%; }
+.bag3d__face--front { transform: rotateX(var(--th)); }
+.bag3d__face--back { transform: rotateY(180deg) rotateX(var(--th)); }
+.bag3d__side { position: absolute; top: 0; height: 100%; width: var(--d); transform: rotateY(90deg); clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: linear-gradient(180deg, var(--band) 0 19%, var(--c1) 19%, var(--c2) 58%, var(--c3) 100%); }
+.bag3d__side--l { left: calc(3.6% - var(--d) / 2); filter: brightness(.8); }
+.bag3d__side--r { right: calc(4.1% - var(--d) / 2); filter: brightness(.68); }
+.bag3d__bottom { position: absolute; left: 3.6%; right: 4.1%; top: calc(100% - var(--d) / 2 - 1px); height: var(--d); transform: rotateX(90deg); background: var(--c3); filter: brightness(.55); }
+.turn__floor { position: absolute; left: 50%; bottom: 4%; width: calc(var(--bw, 320px) * 1.05); height: 34px; margin-left: calc(var(--bw, 320px) * -.525); border-radius: 50%; background: radial-gradient(closest-side, rgba(11, 28, 41, .22), transparent); pointer-events: none; }
+
+.turn__card { margin-top: 8px; padding: 20px 22px; border-radius: 18px; background: #fff; box-shadow: 0 1px 2px rgba(11, 28, 41, .06), 0 24px 48px -24px rgba(11, 28, 41, .35); max-width: 460px; }
+.turn__card-k { margin: 0 0 8px; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #00857f; }
+.turn__card-list { margin: 0; font-size: 15.5px; line-height: 1.55; color: #0b1c29; }
+.turn__card-fine { margin: 12px 0 0; font-size: 12.5px; line-height: 1.45; color: rgba(11, 28, 41, .62); }
+
+/* Static view (no script, or reduced motion): back of the pouch with the list beside it. */
+.turn:not(.turn--live) .turn__card { grid-column: 1; }
+.turn:not(.turn--live) .turn__bar { display: none; }
+.turn:not(.turn--live) .turn__steps li { opacity: 1; }
+
+/* Scroll-driven view */
+.turn--live .turn__runway { height: 360vh; }
+.turn--live .turn__sticky { position: sticky; top: 0; height: 100vh; height: 100svh; padding: 0; display: flex; align-items: center; overflow: hidden; }
+.turn--live .turn__grid { width: 100%; }
+.turn--live .turn__stage { height: 100vh; height: 100svh; min-height: 0; }
+.turn--live .bag3d { transform: rotateY(-24deg); }
+.turn--live .turn__card { position: absolute; right: 0; bottom: clamp(20px, 7vh, 72px); z-index: 3; opacity: 0; transform: translateY(18px); pointer-events: none; transition: opacity .5s var(--ease-out), transform .5s var(--ease-out); }
+.turn--live .turn__card.is-on { opacity: 1; transform: none; pointer-events: auto; }
+
+@media (max-width: 860px) {
+  .turn__grid { grid-template-columns: minmax(0, 1fr); }
+  .turn:not(.turn--live) .turn__card { grid-column: auto; }
+  .bag3d { --bw: clamp(200px, 58vw, 340px); }
+  .turn--live .turn__grid { display: block; height: 100%; }
+  .turn--live .turn__copy { position: absolute; left: 0; right: 0; top: clamp(70px, 11vh, 110px); z-index: 2; padding: 0 16px; }
+  .turn--live .turn__h { font-size: clamp(30px, 8.5vw, 40px); margin-bottom: 12px; }
+  .turn--live .turn__steps { display: block; position: relative; min-height: 64px; }
+  .turn--live .turn__steps li { position: absolute; inset: 0 0 auto 0; opacity: 0; }
+  .turn--live .turn__steps li.is-on { opacity: 1; }
+  .turn--live .turn__bar { margin-top: 6px; }
+  .turn--live .turn__stage { padding-top: 26vh; }
+  .turn--live .turn__card { left: 16px; right: 16px; bottom: 16px; max-width: none; padding: 16px 18px; }
+  .turn--live .turn__card-list { font-size: 14px; }
+}
+
+/* Creatine render from Files (1588x1380): crop to the pouch, which also drops the stray line at the top edge. */
+.offer-row__crop { position: relative; display: block; width: 100%; aspect-ratio: 1059 / 1150; overflow: hidden; }
+.offer-row__crop img { position: absolute; max-width: none; width: 149.953%; height: auto; left: -29.462%; top: -12.87%; filter: drop-shadow(0 22px 20px rgba(0, 0, 0, .35)); }
+
+/* v13b: sharp zoom plate, clipped stage, floor under the pouch */
+.turn--live .turn__stage { overflow: hidden; }
+.turn__floor { top: calc(50% + var(--bh, 330px) / 2 - 8px); bottom: auto; transition: opacity .3s linear; }
+.turn__plate { display: none; }
+.turn--live .turn__plate { display: block; position: absolute; left: 50%; top: 50%; width: var(--pw, 400px); aspect-ratio: 1240 / 1280; transform-origin: 50% 50%; opacity: 0; pointer-events: none; z-index: 1; }
+.turn__plate-face { inset: 0; backface-visibility: visible; transform: none; }
+.turn--live.is-plate .turn__plate { opacity: 1; }
+.turn--live.is-plate .turn__zoom { visibility: hidden; }
+
+@media (max-width: 860px) {
+  .turn--live .turn__copy { top: 112px; }
+  .turn--live .turn__stage { position: absolute; left: 0; right: 0; top: calc(112px + 32vw + 96px); bottom: 0; height: auto; padding-top: 0; }
+}
