@@ -160,7 +160,8 @@
           "settings": {
             "name": "Energy adds Natural Caffeine",
             "source": "coffee bean, 150mg",
-            "added": true
+            "added": true,
+            "function": "energy"
           }
         },
         "i11": {
@@ -168,7 +169,8 @@
           "settings": {
             "name": "Everyday adds Vitamin D3 + K2",
             "source": "D3 25mcg, K2 as MK-7",
-            "added": true
+            "added": true,
+            "function": "everyday"
           }
         }
       },
