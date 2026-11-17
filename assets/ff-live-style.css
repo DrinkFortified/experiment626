@@ -74,3 +74,17 @@ h1, h2, h3, .display, .crf__h, .art__title, .blg__h, .ofr__h, .cof__h, .hwt__tit
 
 /* Tags and chips */
 .tag { border-radius: 999px; border-color: var(--navy); font-weight: 700; letter-spacing: .08em; }
+
+/* Label section in teal: light teal ground, teal accent, teal highlight as each row lights up */
+section[aria-labelledby="label-h"] { background: #e7f7f6; }
+section[aria-labelledby="label-h"] .display em { color: #00756f; }
+section[aria-labelledby="label-h"] .p-never .hl-row span:last-child { color: #00756f; }
+section[aria-labelledby="label-h"] .hl-row::after { background: rgba(0, 171, 163, .12); }
+section[aria-labelledby="label-h"] .hl-row.is-on::after { background: rgba(0, 171, 163, .26); box-shadow: inset 3px 0 0 #00aba3, 0 10px 24px -18px rgba(11, 28, 41, .35); }
+section[aria-labelledby="label-h"] .hl-row.is-read::after { opacity: 1; }
+
+/* Promises in teal, checks teal on white */
+section[data-check-section] { background: #00aba3; color: var(--navy); }
+section[data-check-section] .p-promise { border-top-color: var(--navy); }
+section[data-check-section] .promise__check { background: #fff; }
+section[data-check-section] .promise__check path { stroke: #00aba3; }
