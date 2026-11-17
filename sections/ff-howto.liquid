@@ -1,7 +1,7 @@
 {%- comment -%}
-  How to use: one photo split into three colored panels (pour, shake, enjoy). All text is
-  real HTML on top of the photo. Panels rise in one after another, the wavy lines draw,
-  the words pop, and each photo moves a little (slow zoom, a shake wiggle, a gentle bob).
+  How to use: one photo split into three colored panels (pour, shake, enjoy). The panel colors run
+  edge to edge and top to bottom of the section; a normal heading and friendly subtitle sit on top.
+  Panels rise in one after another, the wavy lines draw, the words pop, and each photo moves a little.
 {%- endcomment -%}
 {%- liquid
   assign img = section.settings.image
@@ -11,24 +11,25 @@
   assign steps = section.settings.steps | newline_to_br | split: '<br />'
 -%}
 {%- if img != blank and section.settings.only_handle == blank or img != blank and product.handle contains section.settings.only_handle -%}
-<section class="hwt" data-crf data-sp aria-labelledby="hwt-h-{{ section.id }}">
-  <div class="wrap">
-    <ol class="hwt__panels">
-      {%- for l in steps limit: 3 -%}{%- assign p = l | strip | split: '|' -%}
-      {%- assign k = forloop.index0 -%}
-      <li class="hwt__panel hwt__panel--{{ forloop.index }}" style="--i:{{ k }};--cx:{{ k | times: 0.3333 }}">
-        <div class="hwt__photo"><img src="{{ img | image_url: width: 2000 }}" alt="" loading="lazy" width="2000" height="2000"></div>
-        {%- if forloop.index == 2 -%}<h2 id="hwt-h-{{ section.id }}" class="hwt__h">{{ section.settings.heading }}</h2>{%- endif -%}
-        <div class="hwt__cap">
-          <svg class="hwt__wave" viewBox="0 0 240 24" aria-hidden="true" focusable="false"><path d="M4 14 C 24 4, 40 4, 60 12 S 96 22, 120 12 S 156 2, 180 12 S 216 22, 236 10" pathLength="1"/></svg>
-          <h3 class="hwt__word">{{ p[0] | strip }}</h3>
-          {%- if p[1] != blank -%}<p class="hwt__sub">{{ p[1] | strip }}</p>{%- endif -%}
-        </div>
-      </li>
-      {%- endfor -%}
-    </ol>
-    <p class="visually-hidden">{{ section.settings.alt }}</p>
+<section class="hwt" data-crf data-sp aria-labelledby="hwt-h-{{ section.id }}" style="--c1:{{ section.settings.c1 }};--c2:{{ section.settings.c2 }};--c3:{{ section.settings.c3 }}">
+  <div class="hwt__head">
+    <h2 id="hwt-h-{{ section.id }}" class="crf__h crf__h--center hwt__title">{{ section.settings.heading }}</h2>
+    {%- if section.settings.subtitle != blank -%}<p class="hwt__subtitle">{{ section.settings.subtitle }}</p>{%- endif -%}
   </div>
+  <ol class="hwt__panels">
+    {%- for l in steps limit: 3 -%}{%- assign p = l | strip | split: '|' -%}
+    {%- assign k = forloop.index0 -%}
+    <li class="hwt__panel hwt__panel--{{ forloop.index }}" style="--i:{{ k }};--cx:{{ k | times: 0.3333 }}">
+      <div class="hwt__photo"><img src="{{ img | image_url: width: 2000 }}" alt="" loading="lazy" width="2000" height="2000"></div>
+      <div class="hwt__cap">
+        <svg class="hwt__wave" viewBox="0 0 240 24" aria-hidden="true" focusable="false"><path d="M4 14 C 24 4, 40 4, 60 12 S 96 22, 120 12 S 156 2, 180 12 S 216 22, 236 10" pathLength="1"/></svg>
+        <h3 class="hwt__word">{{ p[0] | strip }}</h3>
+        {%- if p[1] != blank -%}<p class="hwt__sub">{{ p[1] | strip }}</p>{%- endif -%}
+      </div>
+    </li>
+    {%- endfor -%}
+  </ol>
+  <p class="visually-hidden">{{ section.settings.alt }}</p>
   {%- render 'ff-buy-cta', label: section.settings.cta, note: section.settings.cta_note -%}
 </section>
 {%- endif -%}
@@ -39,8 +40,12 @@
   "settings": [
     { "type": "image_picker", "id": "image", "label": "Photo with three panels" },
     { "type": "text", "id": "file_name", "label": "Photo file name in Files (used when Photo is blank)", "default": "howto-everyday-v2a.png" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "hydration made easy" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Hydration made easy." },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "No measuring, no guesswork. Here's all it takes, in three easy steps." },
     { "type": "textarea", "id": "steps", "label": "Steps, one per line: word|short line", "default": "pour|One stick into cold water.\nshake|Until it dissolves.\nenjoy|Any time of day." },
+    { "type": "color", "id": "c1", "label": "Panel 1 color", "default": "#bcd9ba" },
+    { "type": "color", "id": "c2", "label": "Panel 2 color", "default": "#70b0b9" },
+    { "type": "color", "id": "c3", "label": "Panel 3 color", "default": "#2e8aa5" },
     { "type": "text", "id": "alt", "label": "Photo description (read by search engines and screen readers)", "default": "A stick pack pouring into a glass of water, a hand shaking the bottle, and a smiling woman holding the drink." },
     { "type": "text", "id": "only_handle", "label": "Only show on products whose handle contains" },
     { "type": "header", "content": "Buy button" },

@@ -3316,3 +3316,49 @@ html.story-open { overflow: hidden; }
 .cof__stamp { left: auto; right: 0; top: 40%; rotate: 10deg; }
 .cof__photo img { filter: drop-shadow(0 24px 30px rgba(11, 28, 41, .18)); }
 @media (max-width: 860px) { .cof__stamp { left: auto; right: 2%; top: 36%; } }
+/* ===== How to use v2: colors run full width and full height; normal heading + subtitle ===== */
+.hwt { position: relative; padding: clamp(56px, 7vw, 96px) 0 clamp(48px, 6vw, 80px); background: linear-gradient(90deg, var(--c1, #bcdbb8) 0 33.34%, var(--c2, #70b3bb) 33.34% 66.67%, var(--c3, #288eaa) 66.67% 100%); color: #fff; overflow: clip; }
+.hwt__head { position: relative; z-index: 2; max-width: 760px; margin: 0 auto clamp(24px, 3vw, 40px); padding: 0 20px; text-align: center; }
+.hwt__title.crf__h { margin: 0 0 12px; color: #fff; text-shadow: 0 2px 22px rgba(11, 28, 41, .18); }
+.hwt__subtitle { margin: 0; font-size: clamp(16px, 1.4vw, 19px); line-height: 1.55; color: #fff; text-shadow: 0 1px 14px rgba(11, 28, 41, .2); }
+.hwt__h { display: none; }
+.hwt__panels { max-width: none; margin: 0; border-radius: 0; box-shadow: none; overflow: visible; }
+.hwt__panel { aspect-ratio: auto; height: clamp(420px, 48vw, 720px); overflow: hidden; }
+.hwt__panel--1 { background: var(--c1, #bcdbb8); } .hwt__panel--2 { background: var(--c2, #70b3bb); } .hwt__panel--3 { background: var(--c3, #288eaa); }
+.hwt__photo img { left: 50%; top: auto; bottom: 0; width: auto; height: 108%; max-width: none; translate: calc(-50% - (var(--cx) - .3333) * 0%) 0; }
+.hwt__panel--1 .hwt__photo img { translate: -16.67% 0; }
+.hwt__panel--2 .hwt__photo img { translate: -50% 0; }
+.hwt__panel--3 .hwt__photo img { translate: -83.33% 0; }
+.hwt__photo img { transform-origin: 50% 70%; }
+.hwt .buy-cta { position: relative; z-index: 2; }
+.hwt .buy-cta__note { color: #fff; opacity: .9; }
+@media (max-width: 860px) {
+  .hwt__panel { height: 112vw; }
+  .hwt__title.crf__h { font-size: 30px; }
+}
+/* each column shows its own third of the photo, centered, edges blended into the column color */
+.hwt__photo { left: 50%; right: auto; top: auto; bottom: 0; height: 100%; aspect-ratio: 1 / 3; translate: -50% 0; inset-inline: auto; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%); }
+.hwt__photo img, .hwt__panel--1 .hwt__photo img, .hwt__panel--2 .hwt__photo img, .hwt__panel--3 .hwt__photo img { position: absolute; top: 0; bottom: auto; height: 100%; width: 300%; max-width: none; translate: none; left: calc(var(--i) * -100%); }
+.hwt__panel { display: flex; justify-content: center; }
+.hwt__photo { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent 100%), linear-gradient(180deg, transparent 0, #000 10%, #000 86%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent 100%), linear-gradient(180deg, transparent 0, #000 10%, #000 86%, transparent 100%); mask-composite: intersect; }
+@media (min-width: 861px) { .hwt__panel { height: clamp(460px, 54vw, 780px); } }
+@media (max-width: 860px) {
+  .hwt__panel { height: 100vw; }
+  .hwt__photo { -webkit-mask-image: linear-gradient(180deg, #000 0, #000 88%, transparent 100%); mask-image: linear-gradient(180deg, #000 0, #000 88%, transparent 100%); }
+  .hwt__cap { bottom: 4%; }
+}
+.hwt__photo { inset: auto; left: 50%; bottom: 0; top: auto; right: auto; }
+@media (max-width: 860px) { .hwt__photo { height: 100vw; width: 33.34vw; aspect-ratio: auto; } }
+/* How to use v3: the photo row keeps its own proportions (each strip exactly fills its column);
+   the column colors then continue outward to the section edges and up and down. */
+.hwt { --hh: clamp(480px, 52vw, 780px); --x0: calc(50% - var(--hh) / 2); background: linear-gradient(90deg, var(--c1) 0 calc(var(--x0) + var(--hh) / 3), var(--c2) calc(var(--x0) + var(--hh) / 3) calc(var(--x0) + var(--hh) * 2 / 3), var(--c3) calc(var(--x0) + var(--hh) * 2 / 3) 100%); }
+.hwt__panels, .hwt .hwt__panels { width: var(--hh); max-width: none; margin: 0 auto; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.hwt__panel, .hwt .hwt__panel { height: var(--hh); background: none; display: block; }
+.hwt__photo, .hwt .hwt__photo { inset: 0; left: 0; top: 0; width: 100%; height: 100%; aspect-ratio: auto; translate: none; -webkit-mask-image: linear-gradient(180deg, #000 0, #000 90%, transparent 100%); mask-image: linear-gradient(180deg, #000 0, #000 90%, transparent 100%); }
+.hwt__cap { left: 4%; right: 4%; }
+.hwt__head { max-width: min(760px, 92vw); }
+@media (max-width: 860px) { .hwt { --hh: 100vw; } .hwt__panel, .hwt .hwt__panel { height: 100vw; } .hwt__photo, .hwt .hwt__photo { width: 100%; height: 100%; } }
+@media (min-width: 861px) {
+  .hwt__panel--1 .hwt__photo { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14%), linear-gradient(180deg, #000 0, #000 90%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 14%), linear-gradient(180deg, #000 0, #000 90%, transparent 100%); mask-composite: intersect; }
+  .hwt__panel--3 .hwt__photo { -webkit-mask-image: linear-gradient(270deg, transparent 0, #000 14%), linear-gradient(180deg, #000 0, #000 90%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(270deg, transparent 0, #000 14%), linear-gradient(180deg, #000 0, #000 90%, transparent 100%); mask-composite: intersect; }
+}
