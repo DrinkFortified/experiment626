@@ -116,6 +116,56 @@
       .catch(function () { return getCart().then(function (c) { return { cart: c, changed: false }; }); });
   }
 
+  // ---------- Quick buy in an empty cart: formula, organic flavor, packs, plan, plus one-time creatine ----------
+  var QB = FF.quick || null, qb = { p: 0, v: 0, n: 2, plan: "sub" };
+  function qbUnit(v, prod, plan, n) {
+    if (plan === "otp") return n >= 2 ? Math.round(v.price * .85) : v.price;
+    if (plan === "sub" && FF.volumeTiers) return Math.round(v.price * (n >= 2 ? .85 : .9));
+    var id = plan === "q3" ? prod.quarterly : prod.monthly;
+    return id && v.plans[String(id)] != null ? v.plans[String(id)] : v.price;
+  }
+  function qbHtml() {
+    if (!QB || !QB.products || !QB.products.length) return "";
+    var prod = QB.products[qb.p], v = prod.variants[qb.v] || prod.variants[0], n = qb.n;
+    var h = '<div class="qb" data-qb>';
+    h += '<p class="qb__h">Build your box</p><p class="qb__sub">Pick a formula, an organic flavor and how often.</p>';
+    h += '<div><p class="qb__label">Formula</p><div class="qb__pills">' + QB.products.map(function (pp, i) { return '<button type="button" class="qb__pill qb__pill--plain" data-qb-p="' + i + '" aria-pressed="' + (i === qb.p) + '">' + esc(pp.label) + '</button>'; }).join("") + '</div></div>';
+    h += '<div><p class="qb__label">Organic flavor</p><div class="qb__pills">' + prod.variants.map(function (vv, i) { return '<button type="button" class="qb__pill" data-qb-v="' + i + '" aria-pressed="' + (i === qb.v) + '"' + (vv.available ? "" : " disabled") + '>' + (vv.img ? '<img src="' + esc(vv.img) + '" alt="" loading="lazy">' : "") + esc(flavorName(vv.title)) + '</button>'; }).join("") + '</div></div>';
+    h += '<div class="qb__row"><p class="qb__label" style="margin:0">Packs</p><div class="stepper stepper--sm"><button type="button" data-qb-n="-1" aria-label="One fewer pack"' + (n <= 1 ? " disabled" : "") + '><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><output class="num" aria-live="polite">' + n + '</output><button type="button" data-qb-n="1" aria-label="One more pack"' + (n >= 12 ? " disabled" : "") + '><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div></div>';
+    var plans = [["sub", "Monthly"], ["q3", "Every 3 months"], ["otp", "One-time"]].filter(function (x) { return x[0] === "otp" || (x[0] === "sub" ? prod.monthly : prod.quarterly); });
+    h += '<div><p class="qb__label">Purchase</p><div class="qb__plans">' + plans.map(function (x) { return '<button type="button" class="qb__plan" data-qb-plan="' + x[0] + '" aria-pressed="' + (x[0] === qb.plan) + '">' + x[1] + '<small>' + money(qbUnit(v, prod, x[0], n) * n) + '</small></button>'; }).join("") + '</div></div>';
+    var cre = n >= (FF.creatineAt || 3) && qb.plan !== "otp";
+    h += '<p class="qb__note">' + (qb.plan === "otp" ? (n >= 2 ? "15% off and Free Shipping on 2+ packs." : "Shipping $5.99, free from 2 packs.") : (cre ? "Free Shipping, plus Free Creatine For Life of Subscription." : "Free Shipping. Free Creatine For Life of Subscription from 3 packs.")) + ' Cancel at any time.</p>';
+    h += '<button type="button" class="btn btn--money btn--block" data-qb-add>Add ' + n + (n === 1 ? " pack" : " packs") + ' · ' + money(qbUnit(v, prod, qb.plan, n) * n) + '</button>';
+    if (QB.creatine) h += '<div class="qb__cr">' + (QB.creatine.img ? '<img src="' + esc(QB.creatine.img) + '" alt="" loading="lazy">' : "<span></span>") + '<div><b>Creatine Monohydrate</b><small>One-time pouch, 45 servings · ' + money(QB.creatine.price) + '</small></div><button type="button" class="btn btn--ghost" data-qb-cr>Add</button></div>';
+    return h + '</div>';
+  }
+  function qbMount() {
+    $$("[data-qb-mount]").forEach(function (m) { m.innerHTML = qbHtml(); });
+    var dm = $("[data-cart-body] [data-qb-slot]"); if (dm) dm.innerHTML = qbHtml();
+  }
+  document.addEventListener("click", function (e) {
+    var root = e.target.closest("[data-qb]"); if (!root || !QB) return;
+    var t;
+    if ((t = e.target.closest("[data-qb-p]"))) { qb.p = +t.getAttribute("data-qb-p"); qb.v = 0; qbMount(); }
+    else if ((t = e.target.closest("[data-qb-v]"))) { qb.v = +t.getAttribute("data-qb-v"); qbMount(); }
+    else if ((t = e.target.closest("[data-qb-n]"))) { qb.n = Math.max(1, Math.min(12, qb.n + +t.getAttribute("data-qb-n"))); qbMount(); }
+    else if ((t = e.target.closest("[data-qb-plan]"))) { qb.plan = t.getAttribute("data-qb-plan"); qbMount(); }
+    else if ((t = e.target.closest("[data-qb-add]")) || (t = e.target.closest("[data-qb-cr]"))) {
+      var item;
+      if (t.hasAttribute("data-qb-cr")) item = { id: QB.creatine.id, quantity: 1 };
+      else {
+        var prod = QB.products[qb.p], v = prod.variants[qb.v] || prod.variants[0];
+        item = { id: v.id, quantity: qb.n };
+        var sp = qb.plan === "q3" ? prod.quarterly : qb.plan === "sub" ? prod.monthly : null; if (sp) item.selling_plan = +sp;
+      }
+      t.disabled = true; t.textContent = "Adding…";
+      post(FF.routes.cartAdd, { items: [item] })
+        .then(function () { if (document.querySelector("[data-cart-page]")) location.reload(); else refreshCart(); })
+        .catch(function (x) { toast(x.message || "Could not add to your box."); qbMount(); });
+    }
+  });
+
   function progressHtml(n, sub) {
     var ship = FF.freeShipAt || 2, cre = FF.creatineAt || 3, t = FF.text || {};
     if (sub == null) sub = n;
@@ -131,7 +181,8 @@
     var packs = (cart.items || []).reduce(function (a, it) { return a + (isCreatine(it) ? 0 : it.quantity); }, 0);
     setCount(cart.item_count);
     if (!cart.item_count) {
-      body.innerHTML = progressHtml(0) + '<div class="empty"><b>' + esc((FF.text && FF.text.empty) || "Your box is empty.") + '</b></div><div style="display:grid;gap:10px"><a class="btn btn--money" href="/products/everyday">Shop Everyday</a><a class="btn btn--ghost" href="/products/energy">Shop Energy</a></div>';
+      var qbh = qbHtml();
+      body.innerHTML = qbh ? '<div data-qb-slot>' + qbh + '</div>' : progressHtml(0) + '<div class="empty"><b>' + esc((FF.text && FF.text.empty) || "Your box is empty.") + '</b></div><div style="display:grid;gap:10px"><a class="btn btn--money" href="/products/everyday">Shop Everyday</a><a class="btn btn--ghost" href="/products/energy">Shop Energy</a></div>';
       foot.innerHTML = ""; return;
     }
     var lines = cart.items.map(function (it, i) {
@@ -439,12 +490,76 @@
   // ---------- Label section: sticks slide in and spill salt, once ----------
   $$("[data-spill]").forEach(function (sec) {
     var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce || !("IntersectionObserver" in window) || !sec.querySelector(".lfx")) return;
+    return; // scroll-linked now (see [data-sp])
     sec.classList.add("js-spill");
     var io = new IntersectionObserver(function (es) {
       if (es[0].isIntersecting) { sec.classList.add("is-spilled"); io.disconnect(); }
     }, { threshold: .2 });
     io.observe(sec);
+  });
+
+  // ---------- Scroll progress for [data-sp]: --sp goes 0 to 1 as the element crosses the screen ----------
+  (function () {
+    var els = $$("[data-sp]");
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!els.length || reduce) return;
+    var ticking = false;
+    function frame() {
+      ticking = false;
+      var vh = window.innerHeight;
+      els.forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.bottom < -100 || r.top > vh + 100) return;
+        var p = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
+        el.style.setProperty("--sp", p.toFixed(4));
+      });
+    }
+    function req() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    window.addEventListener("scroll", req, { passive: true });
+    window.addEventListener("resize", req);
+    frame();
+  })();
+
+  // ---------- Signature writes itself when it comes into view ----------
+  $$("[data-sig]").forEach(function (sig) {
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || !("IntersectionObserver" in window)) return;
+    sig.classList.add("js-sig");
+    var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { sig.classList.add("is-in"); io.disconnect(); } }, { threshold: .6 });
+    io.observe(sig);
+  });
+
+  // ---------- Story light box ----------
+  $$("[data-story-open]").forEach(function (btn) {
+    var dlg = btn.closest("section") && $("[data-story]", btn.closest("section"));
+    if (!dlg || !dlg.showModal) return;
+    function close() { dlg.close(); }
+    btn.addEventListener("click", function () { dlg.showModal(); document.documentElement.classList.add("story-open"); });
+    dlg.addEventListener("close", function () { document.documentElement.classList.remove("story-open"); btn.focus(); });
+    dlg.addEventListener("click", function (e) { if (e.target === dlg || e.target.closest("[data-story-close]")) close(); });
+  });
+
+  // ---------- Creatine page: turn the pouch, one-time buy ----------
+  $$("[data-cr-stage]").forEach(function (st) {
+    var flip = $("[data-cr-flip]", st), btn = $("[data-cr-turn]", st), lab = $("[data-cr-turn-label]", st);
+    if (btn && flip) btn.addEventListener("click", function () {
+      var back = flip.classList.toggle("is-back");
+      btn.setAttribute("aria-pressed", String(back)); if (lab) lab.textContent = back ? "See the front" : "Read the back";
+    });
+  });
+  $$("[data-cr-add]").forEach(function (btn) {
+    var box = btn.closest(".cr-box"), inp = $("input", box), err = $("[data-cr-error]", box), price = +btn.getAttribute("data-price");
+    function q() { return Math.max(1, Math.min(12, parseInt(inp.value, 10) || 1)); }
+    function label() { if (!btn.disabled) btn.textContent = "Add " + q() + (q() === 1 ? " pouch" : " pouches") + " · " + money(price * q()); }
+    box.addEventListener("click", function (e) { var s = e.target.closest("[data-step]"); if (!s) return; inp.value = q() + +s.getAttribute("data-step"); inp.value = q(); label(); });
+    inp.addEventListener("input", label);
+    btn.addEventListener("click", function () {
+      btn.disabled = true; btn.textContent = "Adding…"; err.hidden = true;
+      post(FF.routes.cartAdd, { items: [{ id: +btn.getAttribute("data-variant"), quantity: q() }] })
+        .then(function () { btn.disabled = false; label(); openCart(); })
+        .catch(function (x) { btn.disabled = false; label(); err.textContent = x.message; err.hidden = false; });
+    });
+    label();
   });
 
   // ---------- Rotating hero ----------
@@ -583,5 +698,6 @@
     $$("[data-reveal]").forEach(function (el) { io.observe(el); });
   }
 
+  qbMount();
   if (drawer) refreshCart().catch(function () {});
 })();

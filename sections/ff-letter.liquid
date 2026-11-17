@@ -1,11 +1,37 @@
+{%- liquid
+  assign story = section.settings.story_page
+  if story == blank
+    assign story = pages['about-us']
+  endif
+-%}
 <section class="sec" aria-labelledby="letter-h" id="letter-{{ section.id }}">
   <div class="wrap">
     <article class="letter">
       <h2 id="letter-h" class="sr">{{ section.settings.title }}</h2>
       <div class="letter__body">{{ section.settings.body }}</div>
-      {%- if section.settings.signature != blank -%}<span class="letter__sign">{{ section.settings.signature }}</span>{%- endif -%}
+      {%- if section.settings.signature != blank -%}
+        {%- comment -%} A signature that writes itself when it scrolls into view. {%- endcomment -%}
+        <span class="letter__sign sig" data-sig role="img" aria-label="{{ section.settings.signature | escape }}">
+          <svg viewBox="0 0 640 140" aria-hidden="true" focusable="false"><text class="sig__t" x="6" y="98">{{ section.settings.signature }}</text></svg>
+        </span>
+      {%- endif -%}
+      {%- if story != blank and story.content != blank -%}
+        <p class="letter__more-wrap"><button type="button" class="letter__more" data-story-open aria-haspopup="dialog">{{ section.settings.more_label }}</button></p>
+      {%- endif -%}
     </article>
   </div>
+  {%- if story != blank and story.content != blank -%}
+  <dialog class="story" data-story aria-labelledby="story-h-{{ section.id }}">
+    <div class="story__inner">
+      <button type="button" class="story__x" data-story-close aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+      <p class="story__kicker">{{ section.settings.story_kicker }}</p>
+      <h2 id="story-h-{{ section.id }}" class="display story__h">{{ section.settings.story_title | default: story.title }}</h2>
+      <div class="story__body">{{ story.content }}</div>
+    </div>
+  </dialog>
+  {%- endif -%}
 </section>
 
 {% schema %}
@@ -14,7 +40,11 @@
   "settings": [
     { "type": "text", "id": "title", "label": "Hidden title", "default": "A note from Fortified" },
     { "type": "richtext", "id": "body", "label": "Letter", "default": "<p>We started Fortified for the person who reads the back of the pack before anything else. The one who sets it down when a list runs long, or hides behind a blend.</p><p>So we made the label first. Every ingredient is named, with the source we buy it from. If it isn’t on that list, it isn’t in the pack.</p><p>We hope it earns a place on your counter.</p>" },
-    { "type": "text", "id": "signature", "label": "Signature", "default": "The Fortified family" }
+    { "type": "text", "id": "signature", "label": "Signature", "default": "The Fortified family" },
+    { "type": "text", "id": "more_label", "label": "Story button", "default": "Learn more" },
+    { "type": "page", "id": "story_page", "label": "Story page (opens in a light box)", "info": "Blank uses the page with handle about-us." },
+    { "type": "text", "id": "story_kicker", "label": "Light box kicker", "default": "Our story" },
+    { "type": "text", "id": "story_title", "label": "Light box title (blank uses the page title)", "default": "Built for label-readers, by label-readers." }
   ],
   "presets": [ { "name": "Letter" } ]
 }

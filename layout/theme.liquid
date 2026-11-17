@@ -10,7 +10,7 @@
   {%- if settings.favicon != blank -%}<link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64 }}">{%- endif -%}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700;800;900&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
   {{ 'fortified.css' | asset_url | stylesheet_tag }}
   {{ content_for_header }}
 </head>
@@ -29,6 +29,8 @@
       money: {{ shop.money_format | json }},
       freeShipAt: {{ settings.free_shipping_packs | default: 2 }},
       creatineAt: {{ settings.creatine_packs | default: 3 }},
+      volumeTiers: {{ settings.volume_tiers | json }},
+      quick: {%- render 'ff-quickbuy-data' -%},
       {%- liquid
         assign cp = settings.creatine_product
         if cp == blank
