@@ -358,6 +358,13 @@
         : "<b>One-time:</b> one delivery, no subscription. 15% off 2 or more packs. " + ship;
       $("[data-plan-note]", pd).innerHTML = note;
       // Savings bar
+      var tw = $("[data-tiers]", pd);
+      if (tw) {
+        var hadGift = tw.classList.contains("has-gift");
+        tw.classList.toggle("has-gift", creOn);
+        if (creOn && !hadGift && tw.dataset.ready) { tw.classList.remove("is-peek"); void tw.offsetWidth; tw.classList.add("is-peek"); }
+        tw.dataset.ready = "1";
+      }
       var on1 = st.plan !== "otp", on2 = n >= 2, on3 = st.plan === "q3";
       $$("[data-tier]", pd).forEach(function (t) { var k = +t.dataset.tier; var on = k === 1 ? on1 : k === 2 ? on2 : on3; t.classList.toggle("is-on", on); t.classList.toggle("is-next", !on && (k === 2 ? on1 : k === 3 ? on1 && on2 : true)); });
       var tm = $("[data-tiers-msg]", pd);
@@ -851,6 +858,12 @@
       var u = cp.dataset.url, done = function () { cp.textContent = "Copied"; setTimeout(function () { cp.textContent = "Copy link"; }, 1800); };
       if (navigator.clipboard) navigator.clipboard.writeText(u).then(done, done); else done();
     });
+  });
+
+  // ---------- Savings bar: shadow once it is stuck under the header ----------
+  $$(".pd__buy [data-tiers]").forEach(function (tw) {
+    function stuck() { var top = parseFloat(getComputedStyle(tw).top) || 0; tw.classList.toggle("is-stuck", tw.getBoundingClientRect().top <= top + 1 && scrollY > 40); }
+    addEventListener("scroll", stuck, { passive: true }); stuck();
   });
 
   // ---------- Rotating hero ----------
