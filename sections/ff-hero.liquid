@@ -63,78 +63,12 @@
   {%- if rotate %} data-hero-rotate="{{ section.settings.interval | default: 8 }}" aria-roledescription="carousel" aria-label="Highlights"{% endif %}>
   <div class="p-hero__slides">
 
-    {%- if show_life -%}
-    <div class="p-hero__slide hz-slide hz-slide--life is-active" data-hero-slide role="group" aria-roledescription="slide" aria-label="1 of {{ slide_count }}">
-      <div class="hz-bg hz-bg--life" aria-hidden="true"></div>
-      <div class="wrap hz-grid">
-        <div class="hz-copy">
-          {%- if section.settings.life_kicker != blank -%}<p class="hz-kicker hz-in" style="--i:0">{{ section.settings.life_kicker }}</p>{%- endif -%}
-          <h1 id="hero-{{ section.id }}" class="display hz-h"><span class="hz-mask"><span class="hz-line">{{ section.settings.life_heading }}</span></span> <span class="hz-mask"><em class="hz-line" style="--d:.12s">{{ section.settings.life_heading_accent }}</em></span></h1>
-          <p class="lede hz-lede hz-in" style="--i:3">{{ section.settings.life_text }}</p>
-          <div class="p-hero__actions hz-in" style="--i:4">
-            {%- if section.settings.life_button_1 != blank -%}<a class="btn btn--money" href="{{ section.settings.life_link_1 | default: '/products/energy' }}">{{ section.settings.life_button_1 }}</a>{%- endif -%}
-            {%- if section.settings.life_button_2 != blank -%}<a class="btn btn--ghost" href="{{ section.settings.life_link_2 | default: '/products/everyday' }}">{{ section.settings.life_button_2 }}</a>{%- endif -%}
-          </div>
-        </div>
-        <div class="hz-stage hz-stage--life">
-          {%- if section.settings.life_big != blank -%}<div class="hz-big hz-big--life" aria-hidden="true">{{ section.settings.life_big }}</div>{%- if section.settings.life_big_label != blank -%}<p class="hz-big-label hz-big-label--life">{{ section.settings.life_big_label }}</p>{%- endif -%}{%- endif -%}
-          <figure class="hz-life">
-            <img class="hz-life__img" src="{{ life | image_url: width: 1600 }}" alt="{{ section.settings.life_alt | escape }}" width="{{ life.width | default: 707 }}" height="{{ life.height | default: 744 }}" loading="eager" fetchpriority="high">
-            {%- if section.settings.life_note_v != blank -%}
-            <span class="hz-life__note"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.life_note_k }}</small><b>{{ section.settings.life_note_v }}</b></span></span>
-            {%- endif -%}
-          </figure>
-        </div>
-      </div>
-    </div>
-    {%- endif -%}
-    {%- if show_offer -%}
-    <div class="p-hero__slide hz-slide hz-slide--dark" data-hero-slide role="group" aria-roledescription="slide" aria-label="2 of {{ slide_count }}" aria-hidden="true" inert>
-      <div class="hz-bg hz-bg--dark" aria-hidden="true"></div>
-      <div class="wrap hz-grid">
-        <div class="hz-copy">
-          {%- if section.settings.offer_eyebrow != blank -%}<p class="hz-kicker hz-in" style="--i:0">{{ section.settings.offer_eyebrow }}</p>{%- endif -%}
-          <h2 class="display hz-h hz-h--offer"><span class="hz-mask"><span class="hz-line">{{ section.settings.offer_heading }}</span></span> <span class="hz-mask"><em class="hz-line" style="--d:.12s">{{ section.settings.offer_heading_accent }}</em></span></h2>
-          <p class="lede hz-lede hz-in" style="--i:3">{{ section.settings.offer_text }}</p>
-          <div class="p-hero__actions hz-in" style="--i:4">
-            {%- if section.settings.offer_button_1 != blank -%}<a class="btn btn--money" href="{{ section.settings.offer_link_1 | default: '/products/everyday' }}" tabindex="-1">{{ section.settings.offer_button_1 }}</a>{%- endif -%}
-            {%- if section.settings.offer_button_2 != blank -%}<a class="btn btn--ghost hz-btn-light" href="{{ section.settings.offer_link_2 | default: '/products/energy' }}" tabindex="-1">{{ section.settings.offer_button_2 }}</a>{%- endif -%}
-          </div>
-          {%- if section.settings.offer_note != blank -%}<p class="p-hero__note hz-in" style="--i:5">{{ section.settings.offer_note }}</p>{%- endif -%}
-        </div>
-        <div class="hz-stage hz-stage--offer">
-          <div class="hz-big" aria-hidden="true">3<span>+</span>1</div>
-          <div class="hz-offer">
-            <div class="hz-trio">
-              {%- if p_every -%}<div class="hz-opack" style="--k:0"><div class="hz-rise"><div class="hz-float">{%- render 'ff-bag3d', product: p_every, flavor: 'watermelon', width: 800 -%}</div></div></div>{%- endif -%}
-              {%- if p_energy -%}<div class="hz-opack" style="--k:1"><div class="hz-rise"><div class="hz-float">{%- render 'ff-bag3d', product: p_energy, flavor: 'orange', width: 800 -%}</div></div></div>{%- endif -%}
-              {%- if p_every -%}<div class="hz-opack" style="--k:2"><div class="hz-rise"><div class="hz-float">{%- render 'ff-bag3d', product: p_every, flavor: 'orange', width: 800 -%}</div></div></div>{%- endif -%}
-            </div>
-            <div class="hz-gift">
-              <div class="hz-rise"><div class="hz-float">
-                {%- if cre_img != blank -%}
-                  {{ cre_img | image_url: width: 900 | image_tag: loading: 'lazy', alt: 'Fortified Creatine Monohydrate pouch' }}
-                {%- else -%}
-                  {%- assign cre_file = images['Creatine_PDP_01.webp'] -%}
-                  {%- if cre_file -%}<span class="hz-crop">{{ cre_file | image_url: width: 1400 | image_tag: loading: 'lazy', alt: 'Fortified Creatine Monohydrate pouch' }}</span>{%- endif -%}
-                {%- endif -%}
-              </div></div>
-              <div class="hz-ring" aria-hidden="true">
-                <svg class="hz-ring__text" viewBox="0 0 120 120" focusable="false"><defs><path id="hzc-{{ section.id }}" d="M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0"/></defs><text><textPath href="#hzc-{{ section.id }}" textLength="292" lengthAdjust="spacing">FREE CREATINE FOR LIFE OF SUBSCRIPTION &#8226;</textPath></text></svg>
-                <span class="hz-ring__core">Free</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    {%- endif -%}
-    <div class="p-hero__slide hz-slide {% if studio_photo != blank %}hz-slide--life hz-slide--photo{% else %}hz-slide--dark hz-slide--warm{% endif %}{% unless rotate %} is-active{% endunless %}" data-hero-slide{% if rotate %} role="group" aria-roledescription="slide" aria-label="{{ slide_count }} of {{ slide_count }}" aria-hidden="true" inert{% endif %}>
+    <div class="p-hero__slide hz-slide {% if studio_photo != blank %}hz-slide--life hz-slide--photo{% else %}hz-slide--dark hz-slide--warm{% endif %} is-active" data-hero-slide{% if rotate %} role="group" aria-roledescription="slide" aria-label="1 of {{ slide_count }}"{% endif %}>
       <div class="hz-bg {% if studio_photo != blank %}hz-bg--life{% else %}hz-bg--warm{% endif %}" aria-hidden="true"></div>
       <div class="wrap hz-grid">
         <div class="hz-copy">
           {%- if section.settings.kicker != blank -%}<p class="hz-kicker hz-in" style="--i:0">{{ section.settings.kicker }}</p>{%- endif -%}
-          <h2 class="display hz-h"><span class="hz-mask"><span class="hz-line">{{ section.settings.heading }}</span></span> <span class="hz-mask"><em class="hz-line" style="--d:.12s">{{ section.settings.heading_accent }}</em></span></h2>
+          <h1 id="hero-{{ section.id }}" class="display hz-h"><span class="hz-mask"><span class="hz-line">{{ section.settings.heading }}</span></span> <span class="hz-mask"><em class="hz-line" style="--d:.12s">{{ section.settings.heading_accent }}</em></span></h1>
           <p class="lede hz-lede hz-in" style="--i:3">{{ section.settings.text }}</p>
           <div class="p-hero__actions hz-in" style="--i:4">
             {%- if section.settings.button_1 != blank -%}<a class="btn btn--money" tabindex="-1" href="{{ section.settings.link_1 | default: '/products/everyday' }}">{{ section.settings.button_1 }}</a>{%- endif -%}
@@ -192,6 +126,72 @@
         {%- endif -%}
       </div>
     </div>
+    {%- if show_offer -%}
+    <div class="p-hero__slide hz-slide hz-slide--dark" data-hero-slide role="group" aria-roledescription="slide" aria-label="2 of {{ slide_count }}" aria-hidden="true" inert>
+      <div class="hz-bg hz-bg--dark" aria-hidden="true"></div>
+      <div class="wrap hz-grid">
+        <div class="hz-copy">
+          {%- if section.settings.offer_eyebrow != blank -%}<p class="hz-kicker hz-in" style="--i:0">{{ section.settings.offer_eyebrow }}</p>{%- endif -%}
+          <h2 class="display hz-h hz-h--offer"><span class="hz-mask"><span class="hz-line">{{ section.settings.offer_heading }}</span></span> <span class="hz-mask"><em class="hz-line" style="--d:.12s">{{ section.settings.offer_heading_accent }}</em></span></h2>
+          <p class="lede hz-lede hz-in" style="--i:3">{{ section.settings.offer_text }}</p>
+          <div class="p-hero__actions hz-in" style="--i:4">
+            {%- if section.settings.offer_button_1 != blank -%}<a class="btn btn--money" href="{{ section.settings.offer_link_1 | default: '/products/everyday' }}" tabindex="-1">{{ section.settings.offer_button_1 }}</a>{%- endif -%}
+            {%- if section.settings.offer_button_2 != blank -%}<a class="btn btn--ghost hz-btn-light" href="{{ section.settings.offer_link_2 | default: '/products/energy' }}" tabindex="-1">{{ section.settings.offer_button_2 }}</a>{%- endif -%}
+          </div>
+          {%- if section.settings.offer_note != blank -%}<p class="p-hero__note hz-in" style="--i:5">{{ section.settings.offer_note }}</p>{%- endif -%}
+        </div>
+        <div class="hz-stage hz-stage--offer">
+          <div class="hz-big" aria-hidden="true">3<span>+</span>1</div>
+          <div class="hz-offer">
+            <div class="hz-trio">
+              {%- if p_every -%}<div class="hz-opack" style="--k:0"><div class="hz-rise"><div class="hz-float">{%- render 'ff-bag3d', product: p_every, flavor: 'watermelon', width: 800 -%}</div></div></div>{%- endif -%}
+              {%- if p_energy -%}<div class="hz-opack" style="--k:1"><div class="hz-rise"><div class="hz-float">{%- render 'ff-bag3d', product: p_energy, flavor: 'orange', width: 800 -%}</div></div></div>{%- endif -%}
+              {%- if p_every -%}<div class="hz-opack" style="--k:2"><div class="hz-rise"><div class="hz-float">{%- render 'ff-bag3d', product: p_every, flavor: 'orange', width: 800 -%}</div></div></div>{%- endif -%}
+            </div>
+            <div class="hz-gift">
+              <div class="hz-rise"><div class="hz-float">
+                {%- if cre_img != blank -%}
+                  {{ cre_img | image_url: width: 900 | image_tag: loading: 'lazy', alt: 'Fortified Creatine Monohydrate pouch' }}
+                {%- else -%}
+                  {%- assign cre_file = images['Creatine_PDP_01.webp'] -%}
+                  {%- if cre_file -%}<span class="hz-crop">{{ cre_file | image_url: width: 1400 | image_tag: loading: 'lazy', alt: 'Fortified Creatine Monohydrate pouch' }}</span>{%- endif -%}
+                {%- endif -%}
+              </div></div>
+              <div class="hz-ring" aria-hidden="true">
+                <svg class="hz-ring__text" viewBox="0 0 120 120" focusable="false"><defs><path id="hzc-{{ section.id }}" d="M60,60 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0"/></defs><text><textPath href="#hzc-{{ section.id }}" textLength="292" lengthAdjust="spacing">FREE CREATINE FOR LIFE OF SUBSCRIPTION &#8226;</textPath></text></svg>
+                <span class="hz-ring__core">Free</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+    {%- if show_life -%}
+    <div class="p-hero__slide hz-slide hz-slide--life" data-hero-slide role="group" aria-roledescription="slide" aria-label="{{ slide_count }} of {{ slide_count }}" aria-hidden="true" inert>
+      <div class="hz-bg hz-bg--life" aria-hidden="true"></div>
+      <div class="wrap hz-grid">
+        <div class="hz-copy">
+          {%- if section.settings.life_kicker != blank -%}<p class="hz-kicker hz-in" style="--i:0">{{ section.settings.life_kicker }}</p>{%- endif -%}
+          <h2 class="display hz-h"><span class="hz-mask"><span class="hz-line">{{ section.settings.life_heading }}</span></span> <span class="hz-mask"><em class="hz-line" style="--d:.12s">{{ section.settings.life_heading_accent }}</em></span></h2>
+          <p class="lede hz-lede hz-in" style="--i:3">{{ section.settings.life_text }}</p>
+          <div class="p-hero__actions hz-in" style="--i:4">
+            {%- if section.settings.life_button_1 != blank -%}<a class="btn btn--money" href="{{ section.settings.life_link_1 | default: '/products/energy' }}">{{ section.settings.life_button_1 }}</a>{%- endif -%}
+            {%- if section.settings.life_button_2 != blank -%}<a class="btn btn--ghost" href="{{ section.settings.life_link_2 | default: '/products/everyday' }}">{{ section.settings.life_button_2 }}</a>{%- endif -%}
+          </div>
+        </div>
+        <div class="hz-stage hz-stage--life">
+          {%- if section.settings.life_big != blank -%}<div class="hz-big hz-big--life" aria-hidden="true">{{ section.settings.life_big }}</div>{%- if section.settings.life_big_label != blank -%}<p class="hz-big-label hz-big-label--life">{{ section.settings.life_big_label }}</p>{%- endif -%}{%- endif -%}
+          <figure class="hz-life">
+            <img class="hz-life__img" src="{{ life | image_url: width: 1600 }}" alt="{{ section.settings.life_alt | escape }}" width="{{ life.width | default: 707 }}" height="{{ life.height | default: 744 }}" loading="eager" fetchpriority="high">
+            {%- if section.settings.life_note_v != blank -%}
+            <span class="hz-life__note"><i class="hz-note__line" aria-hidden="true"></i><span class="hz-note__txt"><small>{{ section.settings.life_note_k }}</small><b>{{ section.settings.life_note_v }}</b></span></span>
+            {%- endif -%}
+          </figure>
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
 
   </div>
 
@@ -214,7 +214,7 @@
   "settings": [
     {
       "type": "header",
-      "content": "Studio slide (shows last)"
+      "content": "Studio slide (shows first)"
     },
     {
       "type": "image_picker",
@@ -402,7 +402,7 @@
     {
       "type": "image_picker",
       "id": "life_image",
-      "label": "Lifestyle photo (first slide)",
+      "label": "Lifestyle photo (last slide)",
       "info": "Blank uses Fortified_HP_Hero.png from Files (or hero-energy-stick.png, .jpg, .webp). The slide stays hidden until a photo is found. A white or transparent background blends into the slide."
     },
     {
