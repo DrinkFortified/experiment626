@@ -192,14 +192,15 @@
         "i4",
         "i5",
         "i6",
-        "i7",
         "i8",
+        "i7",
         "i9",
         "i10",
         "i11"
       ],
       "settings": {
-        "show_back": false
+        "show_back": false,
+        "text": "Both formulas share one short electrolyte base. This is every ingredient in it, with its source. Each pack prints its own full list."
       }
     },
     "cards": {
@@ -269,7 +270,7 @@
             "amount": "",
             "formula": "base",
             "source": "Organic Salty Orange or Organic Salty Watermelon",
-            "why": "The taste of each pack. Organic flavors, as printed on the label."
+            "why": "Certified organic flavors, 95% or more organic, under the USDA National Organic Program (certified by Quality Assurance International)."
           }
         },
         "i6": {
@@ -451,6 +452,15 @@
             "v2": "Organic Salty Orange, Organic Salty Watermelon",
             "v3": "Unflavored"
           }
+        },
+        "rcl": {
+          "type": "row",
+          "settings": {
+            "label": "Chloride",
+            "v1": "1,940mg",
+            "v2": "1,940mg",
+            "v3": "no"
+          }
         }
       },
       "block_order": [
@@ -458,6 +468,7 @@
         "r1",
         "r2",
         "r3",
+        "rcl",
         "r4",
         "r5",
         "r6",
@@ -508,10 +519,18 @@
             "q": "Where can I see the full facts panel?",
             "a": "<p>On each product page (tap Read the back on the pouch) and printed on every pack.</p>"
           }
+        },
+        "qorg": {
+          "type": "qa",
+          "settings": {
+            "q": "Are the flavors organic?",
+            "a": "<p>Yes. The flavors in Organic Salty Orange and Organic Salty Watermelon are certified organic, 95% or more organic, under the USDA National Organic Program, certified by Quality Assurance International. The organic claim is for the flavors named on the label; the drink mix as a whole is not certified organic.</p>"
+          }
         }
       },
       "block_order": [
         "q0",
+        "qorg",
         "q1",
         "q2",
         "q3",

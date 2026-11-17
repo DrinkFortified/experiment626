@@ -226,14 +226,15 @@
         "i4",
         "i5",
         "i6",
-        "i7",
         "i8",
+        "i7",
         "i9",
         "i10",
         "i11"
       ],
       "settings": {
-        "show_back": false
+        "show_back": false,
+        "text": "Both formulas share one short electrolyte base. This is every ingredient in it, with its source. Each pack prints its own full list."
       }
     },
     "promise": {
