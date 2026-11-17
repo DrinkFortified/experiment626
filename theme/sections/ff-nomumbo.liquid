@@ -24,7 +24,7 @@
       {%- if person != blank -%}
         <img src="{{ person | image_url: width: 1400 }}" alt="{{ section.settings.person_alt | escape }}" loading="lazy" width="{{ person.width }}" height="{{ person.height }}">
       {%- else -%}
-        <img src="{{ 'ff-model-cutout.webp' | asset_url }}" alt="{{ section.settings.person_alt | escape }}" loading="lazy" width="760" height="1781">
+        <img src="{{ 'ff-model-cutout.webp' | asset_url }}" alt="{{ section.settings.person_alt | escape }}" loading="lazy" width="760" height="1774">
       {%- endif -%}
     </figure>
   </div>
