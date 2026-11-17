@@ -79,12 +79,39 @@ h1, h2, h3, .display, .crf__h, .art__title, .blg__h, .ofr__h, .cof__h, .hwt__tit
 section[aria-labelledby="label-h"] { background: #e7f7f6; }
 section[aria-labelledby="label-h"] .display em { color: #00756f; }
 section[aria-labelledby="label-h"] .p-never .hl-row span:last-child { color: #00756f; }
-section[aria-labelledby="label-h"] .hl-row::after { background: rgba(0, 171, 163, .12); }
-section[aria-labelledby="label-h"] .hl-row.is-on::after { background: rgba(0, 171, 163, .26); box-shadow: inset 3px 0 0 #00aba3, 0 10px 24px -18px rgba(11, 28, 41, .35); }
-section[aria-labelledby="label-h"] .hl-row.is-read::after { opacity: 1; }
+section[aria-labelledby="label-h"] .hl-row:not(.hl-fn--everyday):not(.hl-fn--energy) { --hl: rgba(0, 171, 163, .16); }
+section[aria-labelledby="label-h"] .hl-row.is-on:not(.hl-fn--everyday):not(.hl-fn--energy)::after { --hl: rgba(0, 171, 163, .3); box-shadow: inset 3px 0 0 #00aba3, 0 10px 24px -18px rgba(11, 28, 41, .35); }
+/* Everyday and Energy rows keep their per-function colors (orange and rose), as in the main theme */
+section[aria-labelledby="label-h"] .hl-fn--everyday.is-on::after { box-shadow: inset 3px 0 0 #d97435, 0 10px 24px -18px rgba(11, 28, 41, .35); }
+section[aria-labelledby="label-h"] .hl-fn--energy.is-on::after { box-shadow: inset 3px 0 0 #bf5a7b, 0 10px 24px -18px rgba(11, 28, 41, .35); }
 
 /* Promises in teal, checks teal on white */
 section[data-check-section] { background: #00aba3; color: var(--navy); }
 section[data-check-section] .p-promise { border-top-color: var(--navy); }
 section[data-check-section] .promise__check { background: #fff; }
 section[data-check-section] .promise__check path { stroke: #00aba3; }
+
+/* Orange text accents become teal. Formula colors stay: Everyday orange and Energy rose
+   (label rows, formula tags, comparison names). Dark grounds get the brighter teal. */
+:root { --orange-ink: #00756f; }
+.display em, .turn__h em, .blg__h em, .hz-play__chip--b b, .nmj__list b,
+.lbl .never, .hl-never, [class*="never"] b, .lfs__kicker, .art__toc-h, .blg-card__more,
+.ofr--spring .bld__eye, .ofr--mothers .bld__eye, .ofr--summer .bld__eye, .pd-proof .stars { color: #00756f; }
+.bar b, .logo i, .letter__body p:first-child::first-letter { color: #00aba3; }
+.ticker__track span:nth-child(4n+3) { color: #5fd6cf; }
+.ofr--bfcm .ofr__h em, .ofr--bfcm .ofr__math b, .ofr--bfcm .ofr__clock-parts b,
+.ofr--halloween .ofr__h em, .ofr--halloween .ofr__math b, .ofr--halloween .ofr__clock-parts b { color: #2fd3ca; }
+.cr-h em { color: #6fe3da; }
+
+/* Design pass: buttons on dark sections are white with navy text, like the live site */
+.p-close .btn--money, .crf--pure .btn, .crf--compare .btn, .crf--consistency .btn, .crf--tone-dark .btn,
+.foot .btn, .hlp-contact .btn--money, .on-dark .btn--money { --bg: #fff; --fg: var(--navy); }
+.p-close .btn--money:hover, .crf--pure .btn:hover, .crf--compare .btn:hover, .crf--consistency .btn:hover, .crf--tone-dark .btn:hover,
+.foot .btn:hover, .hlp-contact .btn--money:hover, .on-dark .btn--money:hover { --bg: #e8f7f6; }
+.bld .btn--money { --bg: var(--navy); --fg: #fff; }
+
+/* Design pass: shared orange accents become teal (formula colors are separate and stay) */
+:root { --orange: #00aba3; --tomato: #00aba3; }
+:root:has(.ofr--bfcm), :root:has(.ofr--halloween) { --cmp-accent: #00aba3; }
+.hz-play__spark, .hz-ring__core, .cr-offer__badge, .pd__gift-badge, .tiers__gift b { background: #00aba3; color: #fff; }
+.p-tiers .tier:not(.is-best), .p-tiers__card:not(.is-best) { background: #f5f5f5; }
