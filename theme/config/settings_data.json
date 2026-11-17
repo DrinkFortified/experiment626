@@ -4,7 +4,7 @@
     "creatine_packs": 3,
     "volume_tiers": false,
     "creatine_auto": true,
-    "creatine_upsell": false,
+    "creatine_upsell": true,
     "creatine_upsell_pct": 50
   }
 }
