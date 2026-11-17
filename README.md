@@ -33,7 +33,7 @@ Or with the Shopify CLI: `shopify theme push --unpublished --path theme`.
 
 - When the cart holds Free Creatine For Life of Subscription on the Quarterly plan, the cart offers 1 more creatine bag at 50% off (one pouch is 45 servings, so 2 cover 90 days).
 - It adds the `creatine-v2` product ($59) on its 90 day Loop plan. Only 1 is allowed, and it is removed automatically if the order stops qualifying.
-- **Off by default.** The cart shows the price Shopify returns, so turn it on (Theme settings > Offers > Offer a 2nd creatine bag) only after the 50% discount exists. Today the creatine-v2 Loop plans (Deliver every 30/60/90 Days) carry no discount, so the bag would cost $59.
+- **On.** The 50% comes from the Shopify automatic discount "2nd Creatine Bag 50% (subscription)": 50% off creatine-v2, subscription purchases only, every billing cycle, no end date. Verified in a live cart: $59.00 to $29.50. Check in Loop that renewals keep the 50%.
 
 ## 3D pouch turn (homepage)
 
