@@ -36,7 +36,7 @@
         "c4": {
           "type": "claim",
           "settings": {
-            "text": "Monk fruit sweetened"
+            "text": "Monk fruit and Reb M"
           }
         },
         "c5": {
@@ -112,7 +112,7 @@
         "style": "pure",
         "file_name": "Card17",
         "heading": "The free part: pure creatine.",
-        "items": "5g per serving\nOne pure ingredient\nMicronized powder\nUnflavored\nNo sweeteners\nNo fillers",
+        "items": "5g per serving\nOne pure ingredient\nUnflavored\nNo sweeteners\nNo fillers",
         "body": "<p>FORTIFIED delivers pure creatine monohydrate in a straightforward daily serving. Mix into your preferred drink. Keep showing up.</p>"
       }
     },
@@ -250,7 +250,7 @@
         "p1": {
           "type": "promise",
           "settings": {
-            "title": "Sweetened with monk fruit",
+            "title": "Sweetened with monk fruit and Reb M",
             "text": "Monk fruit extract and Reb M, as listed on the label."
           }
         },
