@@ -34,7 +34,7 @@
         "c4": {
           "type": "claim",
           "settings": {
-            "text": "Monk fruit sweetened"
+            "text": "Monk fruit and Reb M"
           }
         },
         "c5": {
@@ -234,7 +234,7 @@
         "p1": {
           "type": "promise",
           "settings": {
-            "title": "Sweetened with monk fruit",
+            "title": "Sweetened with monk fruit and Reb M",
             "text": "Monk fruit extract and Reb M, as listed on the label."
           }
         },

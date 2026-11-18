@@ -133,7 +133,7 @@
         "type": "text",
         "id": "trust_3",
         "label": "Ingredients icon text",
-        "default": "Clean ingredients"
+        "default": "No proprietary blends"
       }
     ]
   }
