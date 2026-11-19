@@ -5,17 +5,18 @@
       <div>
         <a class="logo logo--img" href="{{ routes.root_url }}"><img src="{{ 'ff-logo-white.webp' | asset_url }}" alt="Fortified" width="1200" height="214" loading="lazy"></a>
         <p style="max-width:36ch;margin:14px 0 0">{{ section.settings.tagline }}</p>
+        <p class="news__lead" style="margin:18px 0 0">Get new flavors and offers first.</p>
         {%- form 'customer', class: 'news' -%}
           <input type="hidden" name="contact[tags]" value="newsletter">
           <label class="sr" for="news-email">Email</label>
-          <input id="news-email" type="email" name="contact[email]" autocomplete="email" placeholder="Email for drops and restocks" required>
-          <button class="btn btn--money" type="submit">Join</button>
+          <input id="news-email" type="email" name="contact[email]" autocomplete="email" placeholder="Email" required>
+          <button class="btn btn--money" type="submit">Count me in</button>
           {%- if form.posted_successfully? -%}<p role="status" style="margin:8px 0 0">You&rsquo;re on the list.</p>{%- endif -%}
         {%- endform -%}
       </div>
       <div><h2 class="foot__h">Explore</h2><ul>
         {%- if menu.links.size > 0 -%}
-          {%- for link in menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+          {%- for link in menu.links -%}{%- if link.type == 'blog_link' and link.object.articles_count == 0 -%}{%- continue -%}{%- endif -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
         {%- else -%}
           <li><a href="/products/everyday">Everyday</a></li><li><a href="/products/energy">Energy</a></li><li><a href="/pages/ingredients">Ingredients</a></li>
         {%- endif -%}
@@ -40,7 +41,7 @@
   "name": "Footer",
   "settings": [
     { "type": "link_list", "id": "menu", "label": "Site menu", "default": "footer" },
-    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Clean electrolytes for people who read the label. Hydration. No Mumbo Jumbo." },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "For people who read the label, and expect it to tell the truth. No Mumbo Jumbo." },
     { "type": "text", "id": "legal", "label": "Legal line", "default": "Nutrition Facts and ingredients are shown as printed on each pouch." },
     { "type": "textarea", "id": "dshea", "label": "FDA (DSHEA) disclaimer", "default": "*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease." }
   ]

@@ -67,7 +67,7 @@
     }
   });
 
-  // ---------- Free Creatine For Life of Subscription ----------
+  // ---------- Free creatine ----------
   // 1 free creatine is kept in the cart while it holds FF.creatineAt or more subscription
   // packs, on the plan matching the packs' delivery frequency, and removed below that.
   var CR = FF.creatine || null, UP = FF.upsell || null;
@@ -138,7 +138,7 @@
     var plans = [["sub", "Monthly"], ["q3", "Every 3 months"], ["otp", "One-time"]].filter(function (x) { return x[0] === "otp" || (x[0] === "sub" ? prod.monthly : prod.quarterly); });
     h += '<div><p class="qb__label">Purchase</p><div class="qb__plans">' + plans.map(function (x) { return '<button type="button" class="qb__plan" data-qb-plan="' + x[0] + '" aria-pressed="' + (x[0] === qb.plan) + '">' + x[1] + '<small>' + money(qbUnit(v, prod, x[0], n) * n) + '</small></button>'; }).join("") + '</div></div>';
     var cre = n >= (FF.creatineAt || 3) && qb.plan !== "otp";
-    h += '<p class="qb__note">' + (qb.plan === "otp" ? (n >= 2 ? "15% off and Free Shipping on 2+ packs." : "Shipping $5.99, free from 2 packs.") : (cre ? "Free Shipping, plus Free Creatine For Life of Subscription." : "Free Shipping. Free Creatine For Life of Subscription from 3 packs.")) + ' Cancel at any time.</p>';
+    h += '<p class="qb__note">' + (qb.plan === "otp" ? (n >= 2 ? "15% off and Free Shipping on 2+ packs." : "Shipping $5.99, free from 2 packs.") : (cre ? "Free Shipping, plus free creatine with every delivery." : "Free Shipping. Free creatine from 3 packs.")) + ' Cancel at any time.</p>';
     if (/energy/i.test(prod.label)) h += '<p class="qb__fine"><b>Contains caffeine.</b> Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.</p>';
     h += '<button type="button" class="btn btn--money btn--block" data-qb-add>Add ' + n + (n === 1 ? " pack" : " packs") + ' · ' + money(qbUnit(v, prod, qb.plan, n) * n) + '</button>';
     if (QB.creatine) h += '<div class="qb__cr">' + (QB.creatine.img ? '<img src="' + esc(QB.creatine.img) + '" alt="" loading="lazy">' : "<span></span>") + '<div><b>Creatine Monohydrate</b><small>One-time pouch, 45 servings · ' + money(QB.creatine.price) + '</small></div><button type="button" class="btn btn--ghost" data-qb-cr>Add</button></div>';
@@ -251,7 +251,7 @@
     var lines = cart.items.map(function (it, i) {
       if (isCreatine(it)) {
         var cimg = it.image ? '<img src="' + esc(it.image + (it.image.indexOf('?') > -1 ? '&' : '?') + 'width=160') + '" alt="" loading="lazy">' : "";
-        return '<div class="cart-line cart-line--gift"><div class="pack">' + cimg + '</div><div><b>Free Creatine For Life of Subscription</b><small>' + esc((FF.text && FF.text.creatine) || "Free with 3+ subscription packs") + '</small></div><div class="cart-line__price">FREE</div></div>';
+        return '<div class="cart-line cart-line--gift"><div class="pack">' + cimg + '</div><div><b>Free creatine</b><small>' + esc((FF.text && FF.text.creatine) || "Free with 3+ subscription packs") + '</small></div><div class="cart-line__price">FREE</div></div>';
       }
       if (isUpsell(it)) {
         var uimg = it.image ? '<img src="' + esc(it.image + (it.image.indexOf('?') > -1 ? '&' : '?') + 'width=160') + '" alt="" loading="lazy">' : "";
@@ -284,8 +284,8 @@
     return syncCreatine(cart).then(function (r) {
       var had = (cart.items || []).some(isCreatine);
       if (r.changed && r.upOnly) toast("2nd creatine bag removed: it comes with Every 3 months.");
-      else if (r.changed && r.added && !had) toast("Free Creatine For Life of Subscription added to your box.");
-      if (r.changed && !r.added && had) toast("Free Creatine For Life of Subscription needs 3 or more subscription packs.");
+      else if (r.changed && r.added && !had) toast("Free creatine added to your box.");
+      if (r.changed && !r.added && had) toast("Free creatine needs 3 or more subscription packs.");
       renderCart(r.cart); cuMount(r.cart); return r;
     });
   }
@@ -422,7 +422,7 @@
       var ship = st.plan !== "otp" ? "Free Shipping on every delivery." : n >= 2 ? "Free Shipping on this order." : "Shipping " + money(SHIP_OTP) + ", free from 2 packs.";
       var creAt = FF.creatineAt || 3, creOn = st.plan !== "otp" && n >= creAt;
       giftDraw(creOn);
-      var cre = creOn ? "Free Creatine For Life of Subscription included." : "Free Creatine For Life of Subscription with " + creAt + " or more packs" + (n ? " (add " + (creAt - n) + " more)." : ".");
+      var cre = creOn ? "Free creatine included." : "Free creatine with " + creAt + " or more packs" + (n ? " (add " + (creAt - n) + " more)." : ".");
       var note = st.plan === "q3" ? "Renews automatically every 90 days at the price shown until you cancel. Free Shipping. Skip or cancel online anytime."
         : st.plan === "sub" ? "Renews automatically every 30 days at the price shown until you cancel. Free Shipping. Skip or cancel online anytime."
         : "One delivery, no subscription. " + (n >= 2 ? "Free Shipping." : "Shipping " + money(SHIP_OTP) + ", free from 2 packs.");
@@ -438,14 +438,14 @@
       var on1 = st.plan !== "otp", on2 = n >= 2, on3 = st.plan === "q3";
       $$("[data-tier]", pd).forEach(function (t) { var k = +t.dataset.tier; var on = k === 1 ? on1 : k === 2 ? on2 : on3; t.classList.toggle("is-on", on); t.classList.toggle("is-next", !on && (k === 2 ? on1 : k === 3 ? on1 && on2 : true)); });
       var tm = $("[data-tiers-msg]", pd);
-      if (tm) tm.innerHTML = st.plan === "otp" ? "Savings and Free Creatine For Life of Subscription come with a subscription."
-        : !creOn ? "Add " + (creAt - n) + " more " + (creAt - n === 1 ? "pack" : "packs") + " for <b>Free Creatine For Life of Subscription</b>."
-        : st.plan === "q3" ? "<b>Best value unlocked:</b> " + P.quarterlyPct + "% off and Free Creatine For Life of Subscription." : "Free Creatine For Life of Subscription unlocked. Switch to <b>Every 3 months</b> for " + P.quarterlyPct + "% off.";
+      if (tm) tm.innerHTML = st.plan === "otp" ? "Savings and free creatine come with a subscription."
+        : !creOn ? "Add " + (creAt - n) + " more " + (creAt - n === 1 ? "pack" : "packs") + " for <b>free creatine with every delivery</b>."
+        : st.plan === "q3" ? "<b>Best value unlocked:</b> " + P.quarterlyPct + "% off and free creatine with every delivery." : "Free creatine unlocked. Switch to <b>Every 3 months</b> for " + P.quarterlyPct + "% off.";
       // Receipt
       var rc = $("[data-pd-receipt]", pd), html = "";
       Object.keys(st.q).forEach(function (id) { if (st.q[id]) html += '<li class="item"><span class="item__name">' + st.q[id] + "\u00d7 " + esc((V[id].formula ? V[id].formula + " " : "") + flavorName(V[id].title)) + '</span><span class="item__lead"></span><span class="item__val">' + money(V[id].price * st.q[id]) + "</span></li>"; });
       if (save > 0) html += '<li class="item item--save"><span class="item__name">' + (st.plan === "otp" ? "2+ pack savings" : "Subscription savings") + '</span><span class="item__lead"></span><span class="item__val">&minus;' + money(save) + "</span></li>";
-      if (creOn) html += '<li class="item item--add"><span class="item__name">Free Creatine For Life of Subscription</span><span class="item__lead"></span><span class="item__val">FREE</span></li>';
+      if (creOn) html += '<li class="item item--add"><span class="item__name">Free creatine</span><span class="item__lead"></span><span class="item__val">FREE</span></li>';
       html += '<li class="item"><span class="item__name">Shipping</span><span class="item__lead"></span><span class="item__val">' + (freeShip ? "FREE" : money(shipCost)) + "</span></li>";
       rc.innerHTML = html;
       $("[data-pd-receipt-meta]", pd).textContent = st.plan === "q3" ? "Every 3 months" : st.plan === "sub" ? "Monthly" : "One-time";

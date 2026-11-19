@@ -33,7 +33,7 @@
           {%- if cp.id and item.product_id == cp.id and settings.creatine_auto and item.properties._ff_gift != blank or cp.id and item.product_id == cp.id and settings.creatine_auto and item.selling_plan_allocation -%}
           <div class="cart-line cart-line--gift">
             <div class="pack">{%- if item.image -%}{{ item.image | image_url: width: 160 | image_tag: alt: '' }}{%- endif -%}</div>
-            <div><b>Free Creatine For Life of Subscription</b><small>{{ 'cart.creatine_line' | t }}</small><input type="hidden" name="updates[]" value="{{ item.quantity }}"></div>
+            <div><b>Free creatine</b><small>{{ 'cart.creatine_line' | t }}</small><input type="hidden" name="updates[]" value="{{ item.quantity }}"></div>
             <div class="cart-line__price">FREE</div>
           </div>
           {%- continue -%}

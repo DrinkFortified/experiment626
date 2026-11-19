@@ -269,7 +269,7 @@
           "type": "qa",
           "settings": {
             "q": "How do I get Free Creatine?",
-            "a": "<p>Subscribe to 3 or more packs, any mix of Everyday and Energy, in any flavor. A pouch of creatine is added to your box free with every delivery: Free Creatine For Life of Subscription.</p>"
+            "a": "<p>Subscribe to 3 or more packs, any mix of Everyday and Energy, in any flavor. A pouch of creatine is added to your box free with every delivery, for as long as you're subscribed.</p>"
           }
         },
         "q1": {
@@ -277,13 +277,6 @@
           "settings": {
             "q": "What if I drop below 3 packs?",
             "a": "<p>The free pouch comes off your box until your subscription is back at 3 or more packs.</p>"
-          }
-        },
-        "q2": {
-          "type": "qa",
-          "settings": {
-            "q": "Can I get a second pouch?",
-            "a": "<p>On Every 3 months, you can add a 2nd pouch at 50% off in your cart, so your creatine lasts the full 90 days.</p>"
           }
         },
         "q3": {
@@ -297,7 +290,6 @@
       "block_order": [
         "q0",
         "q1",
-        "q2",
         "q3"
       ]
     },
@@ -407,29 +399,29 @@
         "p0": {
           "type": "promise",
           "settings": {
-            "title": "Every ingredient named",
-            "text": "With its source. No proprietary blends, ever."
+            "title": "You know what's in it",
+            "text": "Every ingredient named, with its source. No proprietary blends, ever."
           }
         },
         "p1": {
           "type": "promise",
           "settings": {
-            "title": "Sweetened with monk fruit and Reb M",
-            "text": "Monk fruit extract and Reb M, as listed on the label."
+            "title": "Sweet without the sugar",
+            "text": "Monk fruit extract and Reb M. 0g sugar."
           }
         },
         "p2": {
           "type": "promise",
           "settings": {
-            "title": "Skip or cancel online",
-            "text": "In your account, before you are billed. No phone call."
+            "title": "You're in control",
+            "text": "Skip or cancel in your account before you're billed. No phone call."
           }
         },
         "p3": {
           "type": "promise",
           "settings": {
             "title": "45 days to decide",
-            "text": "Not for your family? We refund you. No return required."
+            "text": "Not right for your family? You get your money back. No return required."
           }
         }
       },

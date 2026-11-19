@@ -8,10 +8,10 @@
   },
   "cart": {
     "title": "Your box",
-    "empty": "Your box is empty. Pick a formula and a flavor.",
+    "empty": "Your box is empty. Start with the formula that fits your day.",
     "perk_ship": "Subscriptions ship free. One-time orders ship free from 2 packs.",
-    "perk_creatine": "Free Shipping unlocked. Free Creatine For Life of Subscription comes with 3 or more subscription packs.",
-    "all_unlocked": "Free Shipping and Free Creatine For Life of Subscription unlocked.",
+    "perk_creatine": "Free Shipping unlocked. Free creatine comes with 3 or more subscription packs.",
+    "all_unlocked": "Free Shipping and free creatine unlocked.",
     "creatine_line": "Free with 3+ subscription packs",
     "subtotal": "Subtotal",
     "checkout": "Checkout",
