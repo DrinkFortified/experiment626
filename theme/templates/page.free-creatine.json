@@ -112,8 +112,8 @@
         "style": "pure",
         "file_name": "Card17",
         "heading": "The free part: pure creatine.",
-        "items": "5g per serving\nOne pure ingredient\nUnflavored\nNo sweeteners\nNo fillers",
-        "body": "<p>FORTIFIED delivers pure creatine monohydrate in a straightforward daily serving. Mix into your preferred drink. Keep showing up.</p>"
+        "items": "5g per serving\nOne ingredient\nUnflavored\nNo sweeteners\nNo fillers",
+        "body": "<p>Mix it into whatever you already drink: water, coffee, your shake or your Everyday. Then keep showing up.</p>"
       }
     },
     "label": {
@@ -234,7 +234,7 @@
       ],
       "settings": {
         "show_back": false,
-        "text": "Both formulas share one short electrolyte base. This is every ingredient in it, with its source. The exact order varies a little by formula and flavor, and is printed on each pack."
+        "text": "Both formulas share one short electrolyte base. Here's every ingredient in it, with its source. The exact order varies a little by formula and flavor, and is printed on each pack."
       }
     },
     "promise": {
@@ -243,29 +243,29 @@
         "p0": {
           "type": "promise",
           "settings": {
-            "title": "Every ingredient named",
-            "text": "With its source. No proprietary blends, ever."
+            "title": "You know what's in it",
+            "text": "Every ingredient named, with its source. No proprietary blends, ever."
           }
         },
         "p1": {
           "type": "promise",
           "settings": {
-            "title": "Sweetened with monk fruit and Reb M",
-            "text": "Monk fruit extract and Reb M, as listed on the label."
+            "title": "Sweet without the sugar",
+            "text": "Monk fruit extract and Reb M. 0g sugar."
           }
         },
         "p2": {
           "type": "promise",
           "settings": {
-            "title": "Skip or cancel online",
-            "text": "In your account, before you are billed. No phone call."
+            "title": "You're in control",
+            "text": "Skip or cancel in your account before you're billed. No phone call."
           }
         },
         "p3": {
           "type": "promise",
           "settings": {
             "title": "45 days to decide",
-            "text": "Not for your family? We refund you. No return required."
+            "text": "Not right for your family? You get your money back. No return required."
           }
         }
       },
@@ -295,7 +295,7 @@
           "type": "qa",
           "settings": {
             "q": "Is it really free every time?",
-            "a": "<p>Yes. A pouch ships free with every delivery for as long as you stay subscribed with 3 or more packs. That is the Free Creatine For Life of Subscription.</p>"
+            "a": "<p>Yes. A pouch ships free with every delivery for as long as you stay subscribed with 3 or more packs. That's your free creatine, for as long as you're subscribed.</p>"
           }
         },
         "q3": {

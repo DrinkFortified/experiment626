@@ -190,7 +190,7 @@
       ],
       "settings": {
         "show_back": false,
-        "text": "Both formulas share one short electrolyte base. This is every ingredient in it, with its source. The exact order varies a little by formula and flavor, and is printed on each pack."
+        "text": "Both formulas share one short electrolyte base. Here's every ingredient in it, with its source. The exact order varies a little by formula and flavor, and is printed on each pack."
       }
     },
     "formulas": {
@@ -227,29 +227,29 @@
         "p0": {
           "type": "promise",
           "settings": {
-            "title": "Every ingredient named",
-            "text": "With its source. No proprietary blends, ever."
+            "title": "You know what's in it",
+            "text": "Every ingredient named, with its source. No proprietary blends, ever."
           }
         },
         "p1": {
           "type": "promise",
           "settings": {
-            "title": "Sweetened with monk fruit and Reb M",
-            "text": "Monk fruit extract and Reb M, as listed on the label."
+            "title": "Sweet without the sugar",
+            "text": "Monk fruit extract and Reb M. 0g sugar."
           }
         },
         "p2": {
           "type": "promise",
           "settings": {
-            "title": "Skip or cancel online",
-            "text": "In your account, before you are billed. No phone call."
+            "title": "You're in control",
+            "text": "Skip or cancel in your account before you're billed. No phone call."
           }
         },
         "p3": {
           "type": "promise",
           "settings": {
             "title": "45 days to decide",
-            "text": "Not for your family? We refund you. No return required."
+            "text": "Not right for your family? You get your money back. No return required."
           }
         }
       },
@@ -277,7 +277,7 @@
           "settings": {
             "big": "10%",
             "title": "Monthly",
-            "text": "$53.10 a pack, ships every 30 days. Free Creatine For Life of Subscription with 3 or more packs."
+            "text": "At your door every 30 days for $53.10 a pack. Get 3 or more packs and your creatine ships free."
           }
         },
         "t2": {
@@ -285,7 +285,7 @@
           "settings": {
             "big": "20%",
             "title": "Every 3 months",
-            "text": "Ships every 90 days at $47.20 a pack. Free Creatine For Life of Subscription with 3 or more packs."
+            "text": "At your door every 90 days for $47.20 a pack. Get 3 or more packs and your creatine ships free."
           }
         }
       },
@@ -321,7 +321,7 @@
           "type": "qa",
           "settings": {
             "q": "How does Every 3 months work?",
-            "a": "<p>We ship a 90 day supply in one box every 3 months at 20% off. Skip, swap flavors or cancel in your account anytime.</p>"
+            "a": "<p>You get a 90-day supply in one box every 3 months, at 20% off. Skip, swap flavors or cancel in your account anytime.</p>"
           }
         },
         "q3": {

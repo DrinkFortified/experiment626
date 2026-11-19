@@ -3,8 +3,8 @@
   (Theme settings > Product trust icons), so every product page matches.
 {%- endcomment -%}
 {%- liquid
-  assign t1 = settings.trust_1 | default: 'Fast U.S. Shipping'
-  assign t2 = settings.trust_2 | default: '45-Day Guarantee'
+  assign t1 = settings.trust_1 | default: 'Ships in 1 to 3 business days'
+  assign t2 = settings.trust_2 | default: '45 days to decide'
   assign t3 = settings.trust_3 | default: 'No proprietary blends'
 -%}
 {%- if settings.trust_show != false -%}

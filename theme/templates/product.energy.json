@@ -5,7 +5,7 @@
       "settings": {
         "formula": "energy",
         "heading": "Energy",
-        "line": "150mg natural caffeine from coffee bean, plus electrolytes.",
+        "line": "Your morning lift, with electrolytes. 150mg natural caffeine from coffee bean.",
         "badge": "Caffeine"
       }
     },
@@ -125,7 +125,7 @@
       ],
       "settings": {
         "cta": "Shop Energy",
-        "text": "Both formulas share one short electrolyte base. This is every ingredient in it, with its source. The exact order varies a little by formula and flavor, and is printed on each pack."
+        "text": "Both formulas share one short electrolyte base. Here's every ingredient in it, with its source. The exact order varies a little by formula and flavor, and is printed on each pack."
       }
     },
     "faq": {
@@ -149,7 +149,7 @@
           "type": "qa",
           "settings": {
             "q": "How does Every 3 months work?",
-            "a": "<p>We ship a 90 day supply in one box every 3 months at 20% off. Skip, swap flavors or cancel in your account anytime.</p>"
+            "a": "<p>You get a 90-day supply in one box every 3 months, at 20% off. Skip, swap flavors or cancel in your account anytime.</p>"
           }
         },
         "q3": {
@@ -176,10 +176,10 @@
         "file_name": "Energy56.png",
         "crops": "0.56,0,0.44,1",
         "alt": "Fortified Energy stick in Salty Orange with fresh orange slices",
-        "heading": "Energy + electrolytes. Every ingredient has a job.",
+        "heading": "Know what's in your energy. Every ingredient has a job.",
         "items": "bolt|Energy & alertness|150mg of natural caffeine from coffee beans to support alertness.*|\ndrop|Hydration support|Sodium helps maintain normal fluid balance and replenish sodium lost through sweat.*|\nmuscle|Muscle function|Potassium and magnesium support normal muscle and nerve function.*|\nnosugar|Zero added sugar|Sweetened with monk fruit and fermented Reb M.|\nshield|Formula clarity|No proprietary blends. Know what goes into your drink.|",
         "cta": "Choose my flavors",
-        "cta_note": "Free Creatine For Life of Subscription with 3+ packs"
+        "cta_note": "Free creatine with every delivery at 3+ packs"
       }
     },
     "story_only": {
@@ -187,9 +187,9 @@
       "settings": {
         "style": "pure",
         "stick": "ff-energy-orange",
-        "heading": "150mg of caffeine from coffee bean. Electrolytes in the same stick.",
+        "heading": "Your coffee-bean caffeine and your electrolytes, in one stick.",
         "items": "150mg natural caffeine\nSodium + potassium + magnesium\n0g added sugar\nNo artificial colors\nNo sucralose or aspartame\nNo proprietary blends",
-        "body": "<p>Electrolytes and caffeine. Together in one convenient stick.</p>",
+        "body": "<p>One less thing to carry.</p>",
         "cta": "Try Energy"
       }
     },
@@ -211,10 +211,10 @@
         "style": "consistency",
         "file_name": "Energy7-clean.png",
         "heading": "Bring the water. We'll bring the energy.",
-        "body": "<p>Coffee-bean caffeine to support alertness.* Electrolytes to support hydration.*</p><p>FORTIFIED keeps it straightforward: 150mg natural caffeine. Zero added sugar. No proprietary blends.</p>",
+        "body": "<p>Coffee-bean caffeine to support alertness.* Electrolytes to support hydration.*</p><p>You get exactly what's printed: 150mg natural caffeine, 0g added sugar, no proprietary blends.</p>",
         "tagline": "Tear. Pour. Get Fortified.",
         "cta": "Get Energy",
-        "cta_note": "Free Creatine For Life of Subscription with 3+ packs"
+        "cta_note": "Free creatine with every delivery at 3+ packs"
       }
     },
     "howto": {
@@ -224,7 +224,7 @@
         "steps": "pour|One stick into cold water.|howto-pour-energy-v2.png\nshake|Until it dissolves.|howto-shake.png\nenjoy|150mg natural caffeine.|howto-enjoy.png",
         "alt": "A Fortified Energy stick pouring into a glass of water, a hand shaking the bottle, and a smiling woman holding the drink.",
         "cta": "Build my box",
-        "cta_note": "Free Creatine For Life of Subscription with 3+ packs",
+        "cta_note": "Free creatine with every delivery at 3+ packs",
         "c1": "#bdd8bc",
         "c2": "#70acb6",
         "c3": "#3185a1"

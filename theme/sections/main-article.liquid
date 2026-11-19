@@ -99,7 +99,7 @@
             <img src="{{ 'ff-energy-orange-front.webp' | asset_url }}" alt="" width="885" height="900" loading="lazy">
             <img class="art-card__cre" src="{{ 'ff-creatine-cutout.webp' | asset_url }}" alt="" width="721" height="900" loading="lazy">
           </div>
-          <p class="art-card__title">Subscribe to 3 packs. Get Free Creatine For Life of Subscription.</p>
+          <p class="art-card__title">Subscribe to 3 packs. Creatine ships free in every box.</p>
           <p class="art-card__line">Mix Everyday and Energy in any flavor. A pouch of pure creatine ships free with every delivery.</p>
           <a class="btn btn--money btn--block" href="{{ st.offer_link | default: '/pages/free-creatine' }}">Build my box</a>
         {%- else -%}
@@ -124,7 +124,7 @@
             <li>Every ingredient named, with its source</li>
           </ul>
           <a class="btn btn--money btn--block" href="{{ cp.url }}">Shop {{ short | split: ' ' | first }}</a>
-          {%- unless cp.handle contains 'creatine' -%}<p class="art-card__fine">Free Creatine For Life of Subscription with 3 or more packs.</p>{%- endunless -%}
+          {%- unless cp.handle contains 'creatine' -%}<p class="art-card__fine">Free creatine with every delivery when you subscribe to 3 or more packs.</p>{%- endunless -%}
         {%- endif -%}
       </div>
     </aside>

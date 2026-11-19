@@ -5,9 +5,9 @@
       "settings": {
         "tone": "wash",
         "eyebrow": "Ingredients",
-        "heading": "Every ingredient,",
-        "heading_accent": "named.",
-        "text": "<p>Everyday and Energy share one short electrolyte base. Everyday adds Vitamin D3 and K2. Energy adds natural caffeine from coffee bean. Creatine is one ingredient. Here is all of it, with sources.</p>",
+        "heading": "You shouldn't",
+        "heading_accent": "have to guess.",
+        "text": "<p>Here's every ingredient in Everyday and Energy, with its source. Everyday adds Vitamin D3 and K2. Energy adds natural caffeine from coffee bean. Creatine is one ingredient.</p>",
         "button": "Shop Everyday",
         "link": "/products/everyday",
         "button2": "Shop Energy",
@@ -61,7 +61,7 @@
         "lx6": {
           "type": "link",
           "settings": {
-            "label": "What we leave out",
+            "label": "What you won't find",
             "url": "#left-out"
           }
         },
@@ -200,7 +200,7 @@
       ],
       "settings": {
         "show_back": false,
-        "text": "Both formulas share one short electrolyte base. This is every ingredient in it, with its source. The exact order varies a little by formula and flavor, and is printed on each pack."
+        "text": "Both formulas share one short electrolyte base. Here's every ingredient in it, with its source. The exact order varies a little by formula and flavor, and is printed on each pack."
       }
     },
     "cards": {
@@ -208,7 +208,7 @@
       "settings": {
         "anchor": "ingredients",
         "out_anchor": "left-out",
-        "out_heading": "What we leave out",
+        "out_heading": "What you won't find",
         "out_list": "Proprietary blends\nAdded sugar\nSucralose and aspartame\nSeparately added citric acid\nSynthetic caffeine anhydrous\nSynthetic dyes",
         "note": "Amounts are per serving, as printed on the pack. The label on your pouch is always the final word."
       },
@@ -542,7 +542,7 @@
       "settings": {
         "heading": "Read the label.",
         "heading_accent": "Then pour a glass.",
-        "text": "45 days to decide. If it is not for your family, we will refund you.",
+        "text": "45 days to decide. If it isn't right for your family, you get your money back.",
         "button": "Shop Everyday",
         "link": "/products/everyday"
       }
