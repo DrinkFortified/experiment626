@@ -119,7 +119,7 @@
         "i11"
       ],
       "settings": {
-        "text": "Both formulas share one short electrolyte base. This is every ingredient in it, with its source. The exact order varies a little by formula and flavor, and is printed on each pack."
+        "text": "Both formulas share one short electrolyte base. Here's every ingredient in it, with its source. The exact order varies a little by formula and flavor, and is printed on each pack."
       }
     },
     "faq": {
@@ -143,7 +143,7 @@
           "type": "qa",
           "settings": {
             "q": "How does Every 3 months work?",
-            "a": "<p>We ship a 90 day supply in one box every 3 months at 20% off. Skip, swap flavors or cancel in your account anytime.</p>"
+            "a": "<p>You get a 90-day supply in one box every 3 months, at 20% off. Skip, swap flavors or cancel in your account anytime.</p>"
           }
         },
         "q3": {

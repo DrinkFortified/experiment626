@@ -5,7 +5,7 @@
       "settings": {
         "formula": "everyday",
         "heading": "Everyday",
-        "line": "Caffeine-free electrolytes with Vitamin D3 and K2.",
+        "line": "The daily electrolyte that fits your standards. Caffeine-free, with Vitamin D3 and K2.",
         "badge": "Caffeine-free",
         "caution": "Consult your healthcare professional before use if you have any questions or concerns. Especially if you are pregnant, nursing, taking medication, or have a medical condition."
       }
@@ -126,7 +126,7 @@
       ],
       "settings": {
         "cta": "Shop Everyday",
-        "text": "Both formulas share one short electrolyte base. This is every ingredient in it, with its source. The exact order varies a little by formula and flavor, and is printed on each pack."
+        "text": "Both formulas share one short electrolyte base. Here's every ingredient in it, with its source. The exact order varies a little by formula and flavor, and is printed on each pack."
       }
     },
     "faq": {
@@ -150,7 +150,7 @@
           "type": "qa",
           "settings": {
             "q": "How does Every 3 months work?",
-            "a": "<p>We ship a 90 day supply in one box every 3 months at 20% off. Skip, swap flavors or cancel in your account anytime.</p>"
+            "a": "<p>You get a 90-day supply in one box every 3 months, at 20% off. Skip, swap flavors or cancel in your account anytime.</p>"
           }
         },
         "q3": {
@@ -177,10 +177,10 @@
         "file_name": "Everyday81.png",
         "crops": "0.63,0,0.37,1",
         "alt": "Fortified Everyday stick in Salty Watermelon with fresh watermelon",
-        "heading": "Every ingredient has a job.",
+        "heading": "You'll know what every ingredient is doing.",
         "items": "drop|Sodium|Helps maintain normal fluid balance and replenish sodium lost through sweat.*|1,200mg\ndrops|Potassium|Works alongside sodium in normal fluid balance.*|200mg\nmuscle|Magnesium|Magnesium supports normal muscle and nerve function.*|150mg\nsun|Vitamin D3 + K2|Vitamin D3 supports normal bone and muscle function. Paired with K2 as MK-7.*|check",
         "cta": "Choose my flavors",
-        "cta_note": "Free Creatine For Life of Subscription with 3+ packs"
+        "cta_note": "Free creatine with every delivery at 3+ packs"
       }
     },
     "story_compare": {
@@ -188,10 +188,10 @@
       "settings": {
         "style": "compare",
         "stick": "ff-everyday-watermelon",
-        "heading": "Electrolytes, without the trade-offs.",
+        "heading": "Electrolytes, without the trade-offs you're used to.",
         "tagline": "Inside Fortified Everyday",
         "items": "Sodium|1,200mg\nPotassium|200mg\nMagnesium|150mg\nVitamin D3 + K2|check\nSugar|0g\nCaffeine|0mg\nFully disclosed formula|check",
-        "body": "<p>Nothing is hidden.</p>",
+        "body": "<p>Nothing for you to dig for.</p>",
         "cta": "Start my box"
       }
     },
@@ -202,7 +202,7 @@
         "stick": "ff-everyday-watermelon",
         "heading": "Only what your daily hydration needs.",
         "items": "No added sugar\nNo caffeine\nNo artificial colors\nNo proprietary blends",
-        "body": "<p>Electrolytes + D3 & K2 in one simple daily formula.</p>",
+        "body": "<p>One stick a day. Your electrolytes plus D3 and K2.</p>",
         "cta": "Try Everyday"
       }
     },
@@ -211,11 +211,11 @@
       "settings": {
         "style": "consistency",
         "file_name": "Everyday9-clean.png",
-        "heading": "Hydration works when you use it consistently.",
-        "body": "<p>Built to be taken every day. No caffeine. No sugar. No routine to remember.</p><p>Just electrolytes + D3 & K2 in one easy stick.</p>",
+        "heading": "Hydration only works if you'll actually drink it every day.",
+        "body": "<p>So Everyday is made for exactly that. No caffeine. No added sugar. No complicated routine. Just electrolytes plus D3 and K2 in one stick.</p>",
         "tagline": "Bring the water. We'll bring the hydration.",
         "cta": "Get Everyday",
-        "cta_note": "Free Creatine For Life of Subscription with 3+ packs"
+        "cta_note": "Free creatine with every delivery at 3+ packs"
       }
     },
     "howto": {
@@ -223,7 +223,7 @@
       "settings": {
         "file_name": "howto-everyday-v2a.png",
         "cta": "Build my box",
-        "cta_note": "Free Creatine For Life of Subscription with 3+ packs",
+        "cta_note": "Free creatine with every delivery at 3+ packs",
         "steps": "pour|One stick into cold water.|howto-pour-everyday-v2.png\nshake|Until it dissolves.|howto-shake.png\nenjoy|Any time of day.|howto-enjoy.png",
         "c1": "#bdd8bc",
         "c2": "#70acb6",

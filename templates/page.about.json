@@ -5,9 +5,9 @@
       "settings": {
         "tone": "paper",
         "eyebrow": "About Fortified",
-        "heading": "Built for",
-        "heading_accent": "label-readers.",
-        "text": "<p>Fortified is hydration for the person who flips the pack over before anything else. Every ingredient named, with its source, in honest amounts.</p>",
+        "heading": "Built for you,",
+        "heading_accent": "the label-reader.",
+        "text": "<p>You flip the pack over before anything else. So we built Fortified to pass that test: every ingredient named, with its source, in honest amounts.</p>",
         "button": "Shop the formulas",
         "link": "/collections/all",
         "button2": "See every ingredient",
@@ -82,7 +82,7 @@
           "type": "step",
           "settings": {
             "title": "Name every source",
-            "text": "Every ingredient is listed with its source, like Ancient Ocean® salt and CocOganic® Plus coconut water."
+            "text": "You see every ingredient with its source, like Ancient Ocean® Pink Himalayan Salt and CocOganic® Plus coconut water."
           }
         },
         "s2": {
@@ -96,7 +96,7 @@
           "type": "step",
           "settings": {
             "title": "Print every milligram",
-            "text": "No proprietary blends. What the front of the pouch says matches the facts panel on the back."
+            "text": "No proprietary blends. What you read on the front matches what you read on the back."
           }
         }
       },
@@ -113,29 +113,29 @@
         "p0": {
           "type": "promise",
           "settings": {
-            "title": "Every ingredient named",
-            "text": "With its source. No proprietary blends, ever."
+            "title": "You know what's in it",
+            "text": "Every ingredient named, with its source. No proprietary blends, ever."
           }
         },
         "p1": {
           "type": "promise",
           "settings": {
-            "title": "Sweetened with monk fruit and Reb M",
-            "text": "Monk fruit extract and Reb M, as listed on the label."
+            "title": "Sweet without the sugar",
+            "text": "Monk fruit extract and Reb M. 0g sugar."
           }
         },
         "p2": {
           "type": "promise",
           "settings": {
-            "title": "Skip or cancel online",
-            "text": "In your account, before you are billed. No phone call."
+            "title": "You're in control",
+            "text": "Skip or cancel in your account before you're billed. No phone call."
           }
         },
         "p3": {
           "type": "promise",
           "settings": {
             "title": "45 days to decide",
-            "text": "Not for your family? We refund you. No return required."
+            "text": "Not right for your family? You get your money back. No return required."
           }
         }
       },
@@ -151,7 +151,7 @@
       "type": "ff-closing",
       "settings": {
         "heading": "Questions?",
-        "heading_accent": "We answer them honestly.",
+        "heading_accent": "You'll get a straight answer.",
         "text": "Ingredients, orders, subscriptions. A real person reads every message.",
         "button": "Visit Help",
         "link": "/pages/help"

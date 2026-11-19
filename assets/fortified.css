@@ -2244,6 +2244,7 @@ section[data-spill] { --sp: 1; --sin: clamp(0, calc((var(--tp, 1) - .1) * 4.5), 
 .js-sig.is-in .sig__t { animation: sig-draw 3.2s cubic-bezier(.65, 0, .35, 1) forwards; }
 @keyframes sig-draw { 0% { stroke-dashoffset: 1400; fill: rgba(0, 133, 127, 0); } 70% { stroke-dashoffset: 0; fill: rgba(0, 133, 127, 0); } 100% { stroke-dashoffset: 0; fill: rgba(0, 133, 127, 1); } }
 .letter__more-wrap { margin: 18px 0 0; }
+.letter__more { white-space: nowrap; max-width: 100%; text-decoration: none; }
 .letter__more { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #0b1c29; background: transparent; color: #0b1c29; font: inherit; font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: transform .2s cubic-bezier(.23, 1, .32, 1), background .2s; }
 @media (hover: hover) { .letter__more:hover { transform: translateY(-2px); background: #0b1c29; color: #fff; } }
 .letter__more:active { transform: scale(.97); }
