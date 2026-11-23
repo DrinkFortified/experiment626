@@ -3658,6 +3658,11 @@ h1, h2, h3, .display, .crf__h, .art__title, .blg__h, .ofr__h, .cof__h, .hwt__tit
 /* Cart: one-time creatine can become free with a subscription */
 .qb--cu { margin-top: 16px; padding: 18px; border-radius: 16px; background: var(--teal-wash); border: 1.5px solid rgba(0, 117, 111, .25); }
 .qb--cu .qb__h { color: var(--teal-aa, #00756f); }
+.cv-cre { display: grid; grid-template-columns: 56px 1fr; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px; background: #fff; }
+.cv-cre img { width: 56px; height: 56px; object-fit: contain; }
+.cv-cre p { margin: 0; font-size: 13.5px; line-height: 1.4; }
+.cv-cre b { display: block; color: var(--teal-aa, #00756f); }
+.cv-just { margin-top: -6px; }
 .qb--cv + [data-cu-slot]:not([hidden]) .qb--cu, [data-cv-mount]:not([hidden]) + [data-cu-mount] .qb--cu { margin-top: 12px; }
 
 /* Caution statements, word for word with the pack */
