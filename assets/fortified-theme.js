@@ -229,6 +229,61 @@
     }
   });
 
+  // ---------- One-time hydration packs in the cart: offer to switch them to Monthly ----------
+  // Switches each one-time Everyday/Energy line in place (cart/change.js with selling_plan),
+  // so flavor and quantity stay the same. Prices come from the same rules the buy box uses.
+  var cvCart = null;
+  function cvFind(id) {
+    if (!QB || !QB.products) return null;
+    for (var i = 0; i < QB.products.length; i++) {
+      var pr = QB.products[i];
+      for (var j = 0; j < pr.variants.length; j++) if (+pr.variants[j].id === +id) return { prod: pr, v: pr.variants[j] };
+    }
+    return null;
+  }
+  function cvLines(cart) {
+    return (cart.items || []).filter(function (it) {
+      if (it.selling_plan_allocation || isCreatine(it) || isUpsell(it)) return false;
+      var f = cvFind(it.variant_id); return !!(f && f.prod.monthly);
+    });
+  }
+  function cvHtml(cart) {
+    if (!cart) return "";
+    var ls = cvLines(cart); if (!ls.length) return "";
+    var n = ls.reduce(function (a, it) { return a + it.quantity; }, 0);
+    var now = ls.reduce(function (a, it) { return a + it.final_line_price; }, 0);
+    // Use the Monthly plan's own price (what checkout charges), not the display tiers.
+    var sub = ls.reduce(function (a, it) { var f = cvFind(it.variant_id), pp = f.v.plans[String(f.prod.monthly)]; return a + (pp != null ? pp : f.v.price) * it.quantity; }, 0);
+    var save = now - sub, after = subCount(cart).n + n, at = FF.creatineAt || 3;
+    var energy = ls.some(function (it) { return /energy/i.test(it.product_title); });
+    var h = '<div class="qb qb--cu qb--cv" data-cv>';
+    h += '<p class="qb__h">Never run out. Switch to Monthly.</p>';
+    h += '<p class="qb__sub">Keep the same ' + (n === 1 ? 'pack' : n + ' packs') + ', delivered every 30 days' + (save > 0 ? ' for ' + money(sub) + ' instead of ' + money(now) : '') + '. Subscriptions ship free' + (after >= at ? ', and a pouch of creatine ships free with every delivery' : '') + '.</p>';
+    h += '<p class="qb__note">Renews automatically every 30 days at the price shown until you cancel. Skip or cancel online anytime.</p>';
+    if (energy) h += '<p class="qb__fine"><b>Contains caffeine.</b> Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.</p>';
+    h += '<button type="button" class="btn btn--money btn--block" data-cv-go>Switch to Monthly' + (save > 0 ? ' · save ' + money(save) : '') + '</button>';
+    return h + '</div>';
+  }
+  function cvMount(cart) {
+    if (cart) cvCart = cart;
+    var html = cvHtml(cvCart);
+    $$("[data-cv-slot], [data-cv-mount]").forEach(function (m) { m.innerHTML = html; m.hidden = !html; });
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-cv-go]"); if (!b || !cvCart) return;
+    var ls = cvLines(cvCart); if (!ls.length) return;
+    b.disabled = true; b.textContent = "Switching…";
+    ls.reduce(function (p, it) {
+      var f = cvFind(it.variant_id);
+      return p.then(function () { return post(FF.routes.cartChange, { id: it.key, quantity: it.quantity, selling_plan: +f.prod.monthly }); });
+    }, Promise.resolve())
+      .then(getCart).then(settle).then(function () {
+        toast("Switched to Monthly. Skip or cancel online anytime.");
+        if (document.querySelector("[data-cart-page]")) location.reload();
+      })
+      .catch(function (x) { toast((x && x.message) || "Could not switch to Monthly. Try again."); refreshCart(); });
+  });
+
   function progressHtml(n, sub) {
     var ship = FF.freeShipAt || 2, cre = FF.creatineAt || 3, t = FF.text || {};
     if (sub == null) sub = n;
@@ -272,7 +327,7 @@
       offer = '<div class="upsell"><div><b>Add a 2nd creatine bag, ' + UP.pct + '% off</b><small>One pouch is 45 servings. A 2nd bag covers your full 90 days, every 3 months.</small></div>' +
         '<button type="button" class="btn btn--ghost upsell__btn" data-upsell-add>Add <s>' + money(was) + '</s> ' + money(now) + '</button></div>';
     }
-    body.innerHTML = progressHtml(packs, subCount(cart).n) + lines + offer + '<div data-cu-slot hidden></div>';
+    body.innerHTML = progressHtml(packs, subCount(cart).n) + lines + offer + '<div data-cv-slot hidden></div><div data-cu-slot hidden></div>';
     var saved = cart.original_total_price - cart.total_price;
     foot.innerHTML =
       (saved > 0 ? '<div class="total-row total-row--save"><span>You save</span><span>&minus;' + money(saved) + '</span></div>' : "") +
@@ -286,7 +341,7 @@
       if (r.changed && r.upOnly) toast("2nd creatine bag removed: it comes with Every 3 months.");
       else if (r.changed && r.added && !had) toast("Free creatine added to your box.");
       if (r.changed && !r.added && had) toast("Free creatine needs 3 or more subscription packs.");
-      renderCart(r.cart); cuMount(r.cart); return r;
+      renderCart(r.cart); cvMount(r.cart); cuMount(r.cart); return r;
     });
   }
   function refreshCart() { return getCart().then(settle).then(function (r) { return r.cart; }); }
