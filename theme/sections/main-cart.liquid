@@ -65,6 +65,7 @@
             <button type="button" class="btn btn--ghost upsell__btn" data-upsell-add>Add <s>{{ up.first_available_variant.price | money }}</s> {{ up_now | money }}</button>
           </div>
         {%- endif -%}
+        <div data-cv-mount hidden></div>
         <div data-cu-mount hidden></div>
         <div class="total-row total-row--big" style="margin-top:20px"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></div>
         <p class="legal">{{ 'cart.taxes' | t }}</p>
