@@ -253,15 +253,29 @@
     var n = ls.reduce(function (a, it) { return a + it.quantity; }, 0);
     var now = ls.reduce(function (a, it) { return a + it.final_line_price; }, 0);
     // Use the Monthly plan's own price (what checkout charges), not the display tiers.
-    var sub = ls.reduce(function (a, it) { var f = cvFind(it.variant_id), pp = f.v.plans[String(f.prod.monthly)]; return a + (pp != null ? pp : f.v.price) * it.quantity; }, 0);
-    var save = now - sub, after = subCount(cart).n + n, at = FF.creatineAt || 3;
+    function mUnit(it) { var f = cvFind(it.variant_id), pp = f.v.plans[String(f.prod.monthly)]; return pp != null ? pp : f.v.price; }
+    var sub = ls.reduce(function (a, it) { return a + mUnit(it) * it.quantity; }, 0);
+    var save = now - sub, after = subCount(cart).n + n, at = FF.creatineAt || 3, need = Math.max(0, at - after);
+    var big = ls.reduce(function (a, it) { return !a || it.quantity > a.quantity ? it : a; }, null);
     var energy = ls.some(function (it) { return /energy/i.test(it.product_title); });
+    var cr = QB && QB.creatine, crImg = cr && cr.img ? '<img src="' + esc(cr.img) + '" alt="" width="56" height="56" loading="lazy">' : "";
+    var crVal = cr && cr.price ? ', a ' + money(cr.price) + ' value' : '';
     var h = '<div class="qb qb--cu qb--cv" data-cv>';
     h += '<p class="qb__h">Never run out. Switch to Monthly.</p>';
-    h += '<p class="qb__sub">Keep the same ' + (n === 1 ? 'pack' : n + ' packs') + ', delivered every 30 days' + (save > 0 ? ' for ' + money(sub) + ' instead of ' + money(now) : '') + '. Subscriptions ship free' + (after >= at ? ', and a pouch of creatine ships free with every delivery' : '') + '.</p>';
+    h += '<p class="qb__sub">Keep the same ' + (n === 1 ? 'pack' : n + ' packs') + ', delivered every 30 days' + (save > 0 ? ' for ' + money(sub) + ' instead of ' + money(now) : '') + '. Subscriptions ship free.</p>';
+    if (cr) {
+      h += '<div class="cv-cre">' + crImg + '<p>' + (need
+        ? '<b>Make it ' + at + ' packs and your creatine ships free.</b> Add ' + need + ' more ' + (need === 1 ? 'pack' : 'packs') + ' and a pouch of creatine monohydrate ships free with every delivery' + crVal + ', for as long as you\'re subscribed. ' + at + ' packs: ' + money(sub + mUnit(big) * need) + ' every 30 days.'
+        : '<b>Your creatine ships free.</b> With ' + after + ' subscription packs, a pouch of creatine monohydrate ships free with every delivery' + crVal + ', for as long as you\'re subscribed.') + '</p></div>';
+    }
     h += '<p class="qb__note">Renews automatically every 30 days at the price shown until you cancel. Skip or cancel online anytime.</p>';
     if (energy) h += '<p class="qb__fine"><b>Contains caffeine.</b> Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.</p>';
-    h += '<button type="button" class="btn btn--money btn--block" data-cv-go>Switch to Monthly' + (save > 0 ? ' · save ' + money(save) : '') + '</button>';
+    if (cr && need) {
+      h += '<button type="button" class="btn btn--money btn--block" data-cv-go data-cv-add="' + need + '">Switch and make it ' + at + ' packs · free creatine</button>';
+      h += '<button type="button" class="btn btn--ghost btn--block cv-just" data-cv-go>Just switch to Monthly' + (save > 0 ? ' · save ' + money(save) : '') + '</button>';
+    } else {
+      h += '<button type="button" class="btn btn--money btn--block" data-cv-go>Switch to Monthly' + (cr ? ' · free creatine' : (save > 0 ? ' · save ' + money(save) : '')) + '</button>';
+    }
     return h + '</div>';
   }
   function cvMount(cart) {
@@ -272,13 +286,15 @@
   document.addEventListener("click", function (e) {
     var b = e.target.closest("[data-cv-go]"); if (!b || !cvCart) return;
     var ls = cvLines(cvCart); if (!ls.length) return;
-    b.disabled = true; b.textContent = "Switching…";
+    var extra = +(b.getAttribute("data-cv-add") || 0);
+    var big = ls.reduce(function (a, it) { return !a || it.quantity > a.quantity ? it : a; }, null);
+    $$("[data-cv-go]").forEach(function (x) { x.disabled = true; }); b.textContent = "Switching…";
     ls.reduce(function (p, it) {
-      var f = cvFind(it.variant_id);
-      return p.then(function () { return post(FF.routes.cartChange, { id: it.key, quantity: it.quantity, selling_plan: +f.prod.monthly }); });
+      var f = cvFind(it.variant_id), q = it.quantity + (it === big ? extra : 0);
+      return p.then(function () { return post(FF.routes.cartChange, { id: it.key, quantity: q, selling_plan: +f.prod.monthly }); });
     }, Promise.resolve())
-      .then(getCart).then(settle).then(function () {
-        toast("Switched to Monthly. Skip or cancel online anytime.");
+      .then(getCart).then(settle).then(function (r) {
+        toast(r && r.cart && (r.cart.items || []).some(isCreatine) ? "Switched to Monthly. Your creatine ships free." : "Switched to Monthly. Skip or cancel online anytime.");
         if (document.querySelector("[data-cart-page]")) location.reload();
       })
       .catch(function (x) { toast((x && x.message) || "Could not switch to Monthly. Try again."); refreshCart(); });
