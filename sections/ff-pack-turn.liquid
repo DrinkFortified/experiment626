@@ -78,7 +78,13 @@
           -%}
           {%- render 'ff-burst', flavor: burst_flavor -%}
           <div class="turn__zoom" data-turn-zoom>
-            <div class="bag3d show-back" data-turn-bag>
+            {%- liquid
+              assign p3d_formula = 'everyday'
+              if formula_name == 'Energy'
+                assign p3d_formula = 'energy'
+              endif
+            -%}
+            <div class="bag3d show-back" data-turn-bag {% render 'ff-p3d-attrs', formula: p3d_formula, flavor: burst_flavor %}>
               <div class="bag3d__face bag3d__face--front"><img src="{{ front }}" alt="Front of the {{ formula_name }} {{ v.title | remove: 'Organic ' | escape }} pouch" width="1490" height="1515" loading="lazy"></div>
               <div class="bag3d__face bag3d__face--back"><img src="{{ back }}" alt="Back of the {{ formula_name }} {{ v.title | remove: 'Organic ' | escape }} pouch with Nutrition Facts and ingredients" width="1490" height="1515" loading="lazy"></div>
               <i class="bag3d__side bag3d__side--l" aria-hidden="true"></i>

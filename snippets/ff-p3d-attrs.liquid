@@ -1,0 +1,19 @@
+{%- comment -%}
+  Data attributes for the WebGL pouch (assets/ff-pouch3d.js): flat front/back artwork and base color.
+  Params: formula ('everyday' | 'energy'), flavor ('orange' | 'watermelon')
+{%- endcomment -%}
+{%- liquid
+  assign f = formula | default: 'everyday'
+  assign fl = flavor | default: 'orange'
+  if f == 'energy' and fl == 'watermelon'
+    assign basec = '#b94f7a'
+  elsif f == 'energy'
+    assign basec = '#d96a3a'
+  elsif fl == 'watermelon'
+    assign basec = '#d9636b'
+  else
+    assign basec = '#e0833c'
+  endif
+  assign key = 'ff-p3d-' | append: f | append: '-' | append: fl
+-%}
+data-p3d-front="{{ key | append: '-front.jpg' | asset_url }}" data-p3d-back="{{ key | append: '-back.jpg' | asset_url }}" data-p3d-base="{{ basec }}"
