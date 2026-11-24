@@ -623,11 +623,14 @@
       return { el: el, bag: bag, spinEl: spinEl, rest: rest, spin: 0, raf: 0, back: false, burst: $("[data-burst]", el) };
     });
     function apply(pk) {
-      pk.spinEl.style.setProperty("--spin", pk.spin.toFixed(2) + "deg");
+      var m3 = pk.bag && pk.bag._p3d;
+      pk.spinEl.style.setProperty("--spin", m3 ? "0deg" : pk.spin.toFixed(2) + "deg");
+      if (m3) m3.setAngle(-(pk.rest + pk.spin));
       var back = Math.cos((pk.rest + pk.spin) * Math.PI / 180) < 0;
       if (pk.bag) pk.bag.classList.toggle("show-back", back);
       if (back !== pk.back) { pk.back = back; burstTurn(pk.burst, back); }
     }
+    packs.forEach(function (pk) { if (pk.bag) pk.bag._p3dSync = function () { apply(pk); }; });
     function ease(t) { return 1 - Math.pow(1 - t, 3); }
     // Turn a pouch to an angle; the face swaps exactly when the pouch passes edge-on.
     function tween(pk, to, ms) {
@@ -1171,7 +1174,8 @@
       var p = cur;
       var turn = ease(seg(p, .06, .46)), z = ease(seg(p, .6, .88));
       var a = -24 + 204 * turn, tilt = 7 * (1 - ease(seg(p, .4, .58)));
-      bag.style.transform = "rotateX(" + tilt.toFixed(2) + "deg) rotateY(" + a.toFixed(2) + "deg)";
+      if (bag._p3d) { bag.style.transform = ""; bag._p3d.setAngle(-a); }
+      else bag.style.transform = "rotateX(" + tilt.toFixed(2) + "deg) rotateY(" + a.toFixed(2) + "deg)";
       var isBack = Math.cos(a * Math.PI / 180) < 0;
       bag.classList.toggle("show-back", isBack);
       if (isBack !== tBack) { tBack = isBack; burstTurn(tBurst, isBack); }
@@ -1198,6 +1202,7 @@
       if (card) card.classList.toggle("is-on", p > .8);
     }
     function req() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    bag._p3dSync = function () { cur = -1; req(); };
     window.addEventListener("scroll", req, { passive: true });
     window.addEventListener("resize", function () { geom(); req(); });
     $$("img", bag).forEach(function (im) { if (!im.complete) im.addEventListener("load", req); });
@@ -1219,6 +1224,35 @@
     var io = new IntersectionObserver(function (en) { en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add("is-in"); io.unobserve(x.target); } }); }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
     $$("[data-reveal]").forEach(function (el) { io.observe(el); });
   }
+
+  // ---------- WebGL pouch: replaces the CSS pouch once three.js and the artwork are ready ----------
+  (function () {
+    var bags = $$("[data-p3d-front]");
+    if (!bags.length || !FF.p3d) return;
+    var modP = null;
+    function loadMod() {
+      return modP || (modP = new Promise(function (res, rej) {
+        if (window.FFPouch3D) return res();
+        var sc = document.createElement("script"); sc.src = FF.p3d.mod; sc.onload = res; sc.onerror = rej; document.head.appendChild(sc);
+      }));
+    }
+    function go(bag) {
+      loadMod().then(function () {
+        if (!window.FFPouch3D || !FFPouch3D.supported()) return;
+        var host = document.createElement("div"); host.className = "p3d"; host.setAttribute("aria-hidden", "true"); bag.appendChild(host);
+        var rest = parseFloat(getComputedStyle(bag).getPropertyValue("--rest")) || 0;
+        return FFPouch3D.mount(host, {
+          three: FF.p3d.three, front: bag.getAttribute("data-p3d-front"), back: bag.getAttribute("data-p3d-back"),
+          base: parseInt((bag.getAttribute("data-p3d-base") || "#e0833c").slice(1), 16),
+          angle: bag.classList.contains("show-back") ? 180 : -rest
+        }).then(function (c) { bag._p3d = c; bag.classList.add("is-3d"); if (bag._p3dSync) bag._p3dSync(); });
+      }).catch(function () { $$(".p3d", bag).forEach(function (x) { x.parentNode.removeChild(x); }); });
+    }
+    if ("IntersectionObserver" in window) {
+      var io3 = new IntersectionObserver(function (en) { en.forEach(function (x) { if (x.isIntersecting) { io3.unobserve(x.target); go(x.target); } }); }, { rootMargin: "400px 0px" });
+      bags.forEach(function (b) { io3.observe(b); });
+    } else bags.forEach(go);
+  })();
 
   qbMount();
   if (drawer) refreshCart().catch(function () {});

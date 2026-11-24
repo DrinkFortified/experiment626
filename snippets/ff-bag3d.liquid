@@ -26,10 +26,18 @@
     assign fname = 'Everyday'
   endif
   assign w = width | default: 900
+  assign p3d_formula = 'everyday'
+  if fname == 'Energy'
+    assign p3d_formula = 'energy'
+  endif
+  assign p3d_flavor = 'orange'
+  if vt contains 'watermelon'
+    assign p3d_flavor = 'watermelon'
+  endif
 -%}
 {%- capture front -%}{%- render 'ff-pouch-image', product: product, variant: v, width: w, side: 'front' -%}{%- endcapture -%}
 {%- capture back -%}{%- render 'ff-pouch-image', product: product, variant: v, width: w, side: 'back' -%}{%- endcapture -%}
-<div class="bag3d {{ extra }}" data-bag3d style="--band:{{ band }};{{ cols }}">
+<div class="bag3d {{ extra }}" data-bag3d {% render 'ff-p3d-attrs', formula: p3d_formula, flavor: p3d_flavor %} style="--band:{{ band }};{{ cols }}">
   <div class="bag3d__face bag3d__face--front"><img src="{{ front }}" alt="{{ fname }} {{ v.title | remove: 'Organic ' | escape }} pouch, front" width="1490" height="1515" loading="{{ loading | default: 'lazy' }}" draggable="false"></div>
   {%- if back != blank -%}<div class="bag3d__face bag3d__face--back"><img src="{{ back }}" alt="{{ fname }} {{ v.title | remove: 'Organic ' | escape }} pouch, back with Nutrition Facts and ingredients" width="1490" height="1515" loading="lazy" draggable="false"></div>{%- endif -%}
   <i class="bag3d__side bag3d__side--l" aria-hidden="true"></i>

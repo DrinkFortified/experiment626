@@ -3682,3 +3682,8 @@ h1, h2, h3, .display, .crf__h, .art__title, .blg__h, .ofr__h, .cof__h, .hwt__tit
 .cof__seal-front { transform-origin: 50% 50%; transform-box: fill-box; animation: cof-spin-front 28s linear infinite; }
 .cof__seal-txt { animation: cof-sway 3.2s ease-in-out infinite alternate; }
 @media (prefers-reduced-motion: reduce) { .cof__seal-back, .cof__seal-front, .cof__seal-txt { animation: none; } }
+
+/* WebGL pouch (ff-pouch3d.js). The CSS pouch stays as the fallback until the model is ready. */
+.p3d { position: absolute; left: -22%; right: -22%; top: -16%; bottom: -16%; pointer-events: none; }
+.bag3d.is-3d, .turn--live .bag3d.is-3d { transform: none !important; }
+.bag3d.is-3d > :not(.p3d) { visibility: hidden !important; }
