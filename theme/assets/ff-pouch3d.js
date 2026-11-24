@@ -57,7 +57,7 @@
       el.appendChild(cv);
       var scene = new THREE.Scene();
       var cam = new THREE.PerspectiveCamera(24, 1, 0.1, 20);
-      cam.position.set(0, 0, 3.05); cam.lookAt(0, 0, 0);
+      cam.position.set(0, 0, 3.24); cam.lookAt(0, 0, 0); // framed so the pouch fills the same box as the CSS pouch it replaces
       scene.add(new THREE.HemisphereLight(0xffffff, 0xe6e9ec, 2.5));
       var key = new THREE.DirectionalLight(0xffffff, 1.05); key.position.set(-1.4, 1.9, 2.6); scene.add(key);
       var rim = new THREE.DirectionalLight(0xffffff, 0.45); rim.position.set(2, 0.6, -1.5); scene.add(rim);
