@@ -36,7 +36,10 @@
       for (var i = 0; i <= NU; i++) {
         var u = i / NU, x = (u - 0.5) * WIDTH, s = 2 * u - 1;
         // keep the faces apart at the seal so the back never shows through the front
-        var z = side * Math.max(0.004, (d / 2) * Math.pow(Math.max(0, 1 - s * s), 0.55));
+        var lens = Math.pow(Math.max(0, 1 - s * s), 0.55);
+        // the faces meet exactly at the side seams (no gap edge-on); across the flat top seal they sit a
+        // hair apart so the back's print never shows through the front
+        var z = side * Math.max(0.004 * lens, (d / 2) * lens);
         pos.push(side > 0 ? x : -x, v - 0.5, z); uv.push(u, v);
       }
     }
