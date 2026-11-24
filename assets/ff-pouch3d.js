@@ -13,7 +13,18 @@
     return DEPTH[DEPTH.length - 1][1];
   }
   var threeP = null;
-  function loadThree(url) { return threeP || (threeP = import(url)); }
+  // Load three.js through a <script type="module"> tag. A plain import() here would be rewritten by
+  // Shopify's asset pipeline into require(), which does not exist in browsers.
+  function loadThree(url) {
+    return threeP || (threeP = new Promise(function (res, rej) {
+      if (window.__ffThree) return res(window.__ffThree);
+      var tm = setTimeout(function () { rej(new Error("three.js did not load")); }, 20000);
+      window.__ffThreeReady = function (T) { clearTimeout(tm); window.__ffThree = T; res(T); };
+      var sc = document.createElement("script"); sc.type = "module";
+      sc.textContent = "import * as T from " + JSON.stringify(url) + "; window.__ffThreeReady(T);";
+      document.head.appendChild(sc);
+    }));
+  }
   function supported() {
     try { var c = document.createElement("canvas"); return !!(window.WebGLRenderingContext && (c.getContext("webgl2") || c.getContext("webgl"))); } catch (e) { return false; }
   }
