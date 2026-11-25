@@ -29,6 +29,31 @@
             endif
           endfor
         -%}
+        {%- liquid
+          assign sv_sub = 0
+          for item in cart.items
+            if item.selling_plan_allocation and item.selling_plan_allocation.compare_at_price > item.selling_plan_allocation.price
+              assign sv_d = item.selling_plan_allocation.compare_at_price | minus: item.selling_plan_allocation.price | times: item.quantity
+              assign sv_sub = sv_sub | plus: sv_d
+            endif
+          endfor
+          assign sv_disc = 0
+          for app in cart.discount_applications
+            assign sv_disc = sv_disc | plus: app.total_allocated_amount
+          endfor
+          assign sv_total = sv_sub | plus: sv_disc
+          assign sv_before = cart.total_price | plus: sv_total
+        -%}
+        {%- if sv_total > 0 -%}
+          {%- assign sv_pct = sv_total | times: 100 | divided_by: sv_before -%}
+          <div class="save-banner" role="status">
+            <p class="save-banner__h">You&rsquo;re saving <b>{{ sv_total | money }}</b>{% if sv_pct >= 5 %} <span>({{ sv_pct }}% off)</span>{% endif %}</p>
+            <ul class="save-banner__list">
+              {%- if sv_sub > 0 -%}<li>Subscription savings <b>&minus;{{ sv_sub | money }}</b></li>{%- endif -%}
+              {%- for app in cart.discount_applications -%}{%- if app.total_allocated_amount > 0 -%}<li>{{ app.title | escape }} <b>&minus;{{ app.total_allocated_amount | money }}</b></li>{%- endif -%}{%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
         {%- for item in cart.items -%}
           {%- if cp.id and item.product_id == cp.id and settings.creatine_auto and item.properties._ff_gift != blank or cp.id and item.product_id == cp.id and settings.creatine_auto and item.selling_plan_allocation -%}
           <div class="cart-line cart-line--gift">
@@ -45,7 +70,17 @@
               <label class="sr" for="q-{{ forloop.index }}">Quantity</label>
               <input id="q-{{ forloop.index }}" class="num" type="number" name="updates[]" value="{{ item.quantity }}" min="0" max="1" style="width:72px;height:40px;margin-top:6px">
             </div>
-            <div class="cart-line__price">{%- if item.original_line_price > item.final_line_price -%}<s>{{ item.original_line_price | money }}</s>{%- endif -%}{{ item.final_line_price | money }}</div>
+            {%- liquid
+              assign lsave = 0
+              if item.selling_plan_allocation and item.selling_plan_allocation.compare_at_price > item.selling_plan_allocation.price
+                assign lsave = item.selling_plan_allocation.compare_at_price | minus: item.selling_plan_allocation.price | times: item.quantity
+              endif
+              for al in item.line_level_discount_allocations
+                assign lsave = lsave | plus: al.amount
+              endfor
+              assign lbefore = item.final_line_price | plus: lsave
+            -%}
+            <div class="cart-line__price">{%- if lbefore > item.final_line_price -%}<s>{{ lbefore | money }}</s>{%- endif -%}{{ item.final_line_price | money }}{%- if lsave > 0 -%}<span class="save-tag">You save {{ lsave | money }}</span>{%- endif -%}</div>
           </div>
           {%- continue -%}
           {%- endif -%}
@@ -55,7 +90,17 @@
               <label class="sr" for="q-{{ forloop.index }}">Quantity</label>
               <input id="q-{{ forloop.index }}" class="num" type="number" name="updates[]" value="{{ item.quantity }}" min="0" style="width:72px;height:40px;margin-top:6px">
             </div>
-            <div class="cart-line__price">{%- if item.original_line_price > item.final_line_price -%}<s>{{ item.original_line_price | money }}</s>{%- endif -%}{{ item.final_line_price | money }}</div>
+            {%- liquid
+              assign lsave = 0
+              if item.selling_plan_allocation and item.selling_plan_allocation.compare_at_price > item.selling_plan_allocation.price
+                assign lsave = item.selling_plan_allocation.compare_at_price | minus: item.selling_plan_allocation.price | times: item.quantity
+              endif
+              for al in item.line_level_discount_allocations
+                assign lsave = lsave | plus: al.amount
+              endfor
+              assign lbefore = item.final_line_price | plus: lsave
+            -%}
+            <div class="cart-line__price">{%- if lbefore > item.final_line_price -%}<s>{{ lbefore | money }}</s>{%- endif -%}{{ item.final_line_price | money }}{%- if lsave > 0 -%}<span class="save-tag">You save {{ lsave | money }}</span>{%- endif -%}</div>
           </div>
         {%- endfor -%}
         {%- if settings.creatine_upsell and q_free and has_up == false and up.first_available_variant -%}
@@ -67,7 +112,15 @@
         {%- endif -%}
         <div data-cv-mount hidden></div>
         <div data-cu-mount hidden></div>
-        <div class="total-row total-row--big" style="margin-top:20px"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></div>
+        <div style="margin-top:20px">
+          {%- if sv_total > 0 -%}
+            <div class="total-row total-row--before"><span>Before savings</span><span><s>{{ sv_before | money }}</s></span></div>
+            {%- if sv_sub > 0 -%}<div class="total-row total-row--save"><span>Subscription savings</span><span>&minus;{{ sv_sub | money }}</span></div>{%- endif -%}
+            {%- for app in cart.discount_applications -%}{%- if app.total_allocated_amount > 0 -%}<div class="total-row total-row--save"><span>{{ app.title | escape }}</span><span>&minus;{{ app.total_allocated_amount | money }}</span></div>{%- endif -%}{%- endfor -%}
+          {%- endif -%}
+          <div class="total-row total-row--big"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></div>
+          {%- if sv_total > 0 -%}<p class="save-total">You save {{ sv_total | money }} on this order</p>{%- endif -%}
+        </div>
         <p class="legal">{{ 'cart.taxes' | t }}</p>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
           <button class="btn btn--ghost" type="submit" name="update">Update</button>
