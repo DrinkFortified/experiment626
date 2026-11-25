@@ -3687,3 +3687,17 @@ h1, h2, h3, .display, .crf__h, .art__title, .blg__h, .ofr__h, .cof__h, .hwt__tit
 .p3d { position: absolute; left: -22%; right: -22%; top: -16%; bottom: -16%; pointer-events: none; }
 .bag3d.is-3d, .turn--live .bag3d.is-3d { transform: none !important; }
 .bag3d.is-3d > :not(.p3d) { visibility: hidden !important; }
+
+/* Cart savings: banner with breakdown, per-line tag, totals */
+.save-banner { margin: 10px 0 14px; padding: 14px 16px; border-radius: 14px; background: #00756f; color: #fff; }
+.save-banner__h { margin: 0; font-weight: 800; font-size: 18px; letter-spacing: -.01em; }
+.save-banner__h b { font-size: 22px; font-variant-numeric: tabular-nums; }
+.save-banner__h span { font-weight: 600; opacity: .85; font-size: 15px; }
+.save-banner__list { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.save-banner__list li { background: rgba(255,255,255,.16); border-radius: 999px; padding: 4px 10px; font-size: 13px; font-weight: 600; }
+.save-banner__list b { font-variant-numeric: tabular-nums; }
+.save-tag { display: block; margin-top: 2px; color: #00756f; font-size: 12px; font-weight: 800; white-space: nowrap; }
+.total-row--before { color: var(--ink-2); }
+.total-row--before s { margin: 0; }
+.total-row--save { font-weight: 800; color: #00756f; }
+.save-total { margin: 2px 0 0; text-align: right; color: #00756f; font-weight: 800; font-size: 15px; }

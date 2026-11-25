@@ -309,6 +309,32 @@
   }
   function setCount(n) { $$("[data-count]").forEach(function (c) { c.textContent = n; c.classList.remove("bump"); void c.offsetWidth; c.classList.add("bump"); }); }
 
+  // Everything the shopper saves on this cart: subscription price vs regular price, plus every
+  // discount code or automatic discount Shopify applied (line-level and cart-level), by name.
+  function savings(cart) {
+    var sub = 0, by = {}, order = [], lines = {};
+    function add(title, amt) { if (!(amt > 0)) return; title = title || "Discount"; if (!(title in by)) { by[title] = 0; order.push(title); } by[title] += amt; }
+    (cart.items || []).forEach(function (it) {
+      if (isCreatine(it)) return;
+      var ls = 0, spa = it.selling_plan_allocation;
+      if (spa && spa.compare_at_price > spa.price) { var d = (spa.compare_at_price - spa.price) * it.quantity; sub += d; ls += d; }
+      (it.line_level_discount_allocations || []).forEach(function (al) { add(al.discount_application && al.discount_application.title, al.amount); ls += al.amount; });
+      lines[it.key] = ls;
+    });
+    (cart.cart_level_discount_applications || []).forEach(function (ap) { add(ap.title, ap.total_allocated_amount); });
+    var disc = order.map(function (t) { return { title: t, amount: by[t] }; });
+    var total = sub + disc.reduce(function (x, d) { return x + d.amount; }, 0);
+    return { sub: sub, disc: disc, total: total, before: cart.total_price + total, lines: lines, gift: (cart.items || []).some(isCreatine) };
+  }
+  function saveBannerHtml(sv) {
+    if (!(sv.total > 0)) return "";
+    var chips = [];
+    if (sv.sub > 0) chips.push('<li>Subscription savings <b>&minus;' + money(sv.sub) + '</b></li>');
+    sv.disc.forEach(function (d) { chips.push('<li>' + esc(d.title) + ' <b>&minus;' + money(d.amount) + '</b></li>'); });
+    if (sv.gift && FF.quick && FF.quick.creatine && FF.quick.creatine.price) chips.push('<li>Plus free creatine, a ' + money(FF.quick.creatine.price) + ' value</li>');
+    var pct = sv.before > 0 ? Math.round(sv.total / sv.before * 100) : 0;
+    return '<div class="save-banner" role="status"><p class="save-banner__h">You&rsquo;re saving <b>' + money(sv.total) + '</b>' + (pct >= 5 ? ' <span>(' + pct + '% off)</span>' : '') + '</p><ul class="save-banner__list">' + chips.join("") + '</ul></div>';
+  }
   function renderCart(cart) {
     var body = $("[data-cart-body]"), foot = $("[data-cart-foot]");
     if (!body) return;
@@ -319,6 +345,7 @@
       body.innerHTML = qbh ? '<div data-qb-slot>' + qbh + '</div>' : progressHtml(0) + '<div class="empty"><b>' + esc((FF.text && FF.text.empty) || "Your box is empty.") + '</b></div><div style="display:grid;gap:10px"><a class="btn btn--money" href="/products/everyday">Shop Everyday</a><a class="btn btn--ghost" href="/products/energy">Shop Energy</a></div>';
       foot.innerHTML = ""; return;
     }
+    var sv = savings(cart);
     var lines = cart.items.map(function (it, i) {
       if (isCreatine(it)) {
         var cimg = it.image ? '<img src="' + esc(it.image + (it.image.indexOf('?') > -1 ? '&' : '?') + 'width=160') + '" alt="" loading="lazy">' : "";
@@ -331,11 +358,12 @@
       }
       var plan = it.selling_plan_allocation ? planLabel(it.selling_plan_allocation.selling_plan.name) : "One-time";
       var img = it.image ? '<img src="' + esc(it.image + (it.image.indexOf('?') > -1 ? '&' : '?') + 'width=160') + '" alt="" loading="lazy">' : "";
-      var strike = it.original_line_price > it.final_line_price ? "<s>" + money(it.original_line_price) + "</s>" : "";
+      var lsave = sv.lines[it.key] || 0, lbefore = it.final_line_price + lsave;
+      var strike = lbefore > it.final_line_price ? "<s>" + money(lbefore) + "</s>" : "";
       return '<div class="cart-line" data-line="' + (i + 1) + '"><div class="pack">' + img + '</div>' +
         '<div><b>' + esc(shortTitle(it.product_title)) + '</b><small>' + esc(flavorName(it.variant_title || "")) + ' \u00b7 ' + esc(plan) + '</small><br>' +
         '<div class="qty"><button type="button" data-dec aria-label="Remove one">&minus;</button><output class="num">' + it.quantity + '</output><button type="button" data-inc aria-label="Add one">+</button></div></div>' +
-        '<div class="cart-line__price">' + strike + money(it.final_line_price) + '</div></div>';
+        '<div class="cart-line__price">' + strike + money(it.final_line_price) + (lsave > 0 ? '<span class="save-tag">You save ' + money(lsave) + '</span>' : '') + '</div></div>';
     }).join("");
     var offer = "";
     if (UP && quarterlyFree(cart) && !(cart.items || []).some(isUpsell)) {
@@ -343,12 +371,17 @@
       offer = '<div class="upsell"><div><b>Add a 2nd creatine bag, ' + UP.pct + '% off</b><small>One pouch is 45 servings. A 2nd bag covers your full 90 days, every 3 months.</small></div>' +
         '<button type="button" class="btn btn--ghost upsell__btn" data-upsell-add>Add <s>' + money(was) + '</s> ' + money(now) + '</button></div>';
     }
-    body.innerHTML = progressHtml(packs, subCount(cart).n) + lines + offer + '<div data-cv-slot hidden></div><div data-cu-slot hidden></div>';
-    var saved = cart.original_total_price - cart.total_price;
-    foot.innerHTML =
-      (saved > 0 ? '<div class="total-row total-row--save"><span>You save</span><span>&minus;' + money(saved) + '</span></div>' : "") +
+    body.innerHTML = progressHtml(packs, subCount(cart).n) + saveBannerHtml(sv) + lines + offer + '<div data-cv-slot hidden></div><div data-cu-slot hidden></div>';
+    var rows = "";
+    if (sv.total > 0) {
+      rows += '<div class="total-row total-row--before"><span>Before savings</span><span><s>' + money(sv.before) + '</s></span></div>';
+      if (sv.sub > 0) rows += '<div class="total-row total-row--save"><span>Subscription savings</span><span>&minus;' + money(sv.sub) + '</span></div>';
+      sv.disc.forEach(function (d) { rows += '<div class="total-row total-row--save"><span>' + esc(d.title) + '</span><span>&minus;' + money(d.amount) + '</span></div>'; });
+    }
+    foot.innerHTML = rows +
       '<div class="total-row total-row--big"><span>Subtotal</span><span>' + money(cart.total_price) + '</span></div>' +
-      '<a class="btn btn--money btn--block" href="' + esc(FF.routes.checkout) + '" style="margin-top:12px">Checkout ' + money(cart.total_price) + '</a>' +
+      (sv.total > 0 ? '<p class="save-total">You save ' + money(sv.total) + ' on this order</p>' : '') +
+      '<a class="btn btn--money btn--block" href="' + esc(FF.routes.checkout) + '" style="margin-top:12px">Checkout ' + money(cart.total_price) + (sv.total > 0 ? ' \u00b7 Save ' + money(sv.total) : '') + '</a>' +
       '<p class="legal">Taxes and shipping calculated at checkout. Subscriptions renew at the price shown until you cancel; skip or cancel anytime in your account.</p>';
   }
   function settle(cart) {
