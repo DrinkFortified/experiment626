@@ -256,26 +256,18 @@
     function mUnit(it) { var f = cvFind(it.variant_id), pp = f.v.plans[String(f.prod.monthly)]; return pp != null ? pp : f.v.price; }
     var sub = ls.reduce(function (a, it) { return a + mUnit(it) * it.quantity; }, 0);
     var save = now - sub, after = subCount(cart).n + n, at = FF.creatineAt || 3, need = Math.max(0, at - after);
-    var big = ls.reduce(function (a, it) { return !a || it.quantity > a.quantity ? it : a; }, null);
+    var pct = now > 0 ? Math.round(save / now * 100) : 0;
     var energy = ls.some(function (it) { return /energy/i.test(it.product_title); });
-    var cr = QB && QB.creatine, crImg = cr && cr.img ? '<img src="' + esc(cr.img) + '" alt="" width="56" height="56" loading="lazy">' : "";
-    var crVal = cr && cr.price ? ', a ' + money(cr.price) + ' value' : '';
-    var h = '<div class="qb qb--cu qb--cv" data-cv>';
-    h += '<p class="qb__h">Never run out. Switch to Monthly.</p>';
-    h += '<p class="qb__sub">Keep the same ' + (n === 1 ? 'pack' : n + ' packs') + ', delivered every 30 days' + (save > 0 ? ' for ' + money(sub) + ' instead of ' + money(now) : '') + '. Subscriptions ship free.</p>';
-    if (cr) {
-      h += '<div class="cv-cre">' + crImg + '<p>' + (need
-        ? '<b>Make it ' + at + ' packs: creatine ships free.</b> ' + money(sub + mUnit(big) * need) + ' every 30 days, plus a free pouch of creatine with every delivery' + crVal + '.'
-        : '<b>Your creatine ships free.</b> A pouch with every delivery' + crVal + ', for as long as you\'re subscribed.') + '</p></div>';
-    }
-    h += '<p class="qb__note">Renews automatically every 30 days at the price shown until you cancel. Skip or cancel online anytime.</p>';
-    if (energy) h += '<p class="qb__fine"><b>Contains caffeine.</b> Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.</p>';
-    if (cr && need) {
-      h += '<button type="button" class="btn btn--money btn--block" data-cv-go data-cv-add="' + need + '">Switch and make it ' + at + ' packs · free creatine</button>';
-      h += '<button type="button" class="btn btn--ghost btn--block cv-just" data-cv-go>Just switch to Monthly' + (save > 0 ? ' · save ' + money(save) : '') + '</button>';
-    } else {
-      h += '<button type="button" class="btn btn--money btn--block" data-cv-go>Switch to Monthly' + (cr ? ' · free creatine' : (save > 0 ? ' · save ' + money(save) : '')) + '</button>';
-    }
+    var cr = QB && QB.creatine;
+    var unit = ls.length === 1 ? money(mUnit(ls[0])) + '/pack' : money(sub);
+    var h = '<div class="cvc" data-cv>';
+    h += '<button type="button" class="cvc__row" role="switch" aria-checked="false" data-cv-go><span class="cvc__sw" aria-hidden="true"></span>' +
+      '<span class="cvc__h">' + (pct > 0 ? 'Subscribe &amp; save ' + pct + '%: ' : 'Subscribe: ') + unit + '</span></button>';
+    if (cr) h += need
+      ? '<button type="button" class="cvc__alt" data-cv-go data-cv-add="' + need + '">Make it ' + at + ' packs for free creatine, added automatically &rarr;</button>'
+      : '<p class="cvc__txt">Turn this on for free creatine, added automatically.</p>';
+    h += '<p class="cvc__fine">Renews every 30 days at ' + money(sub) + ' until you cancel. Skip or cancel online anytime.' +
+      (energy ? ' <b>Contains caffeine.</b> Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.' : '') + '</p>';
     return h + '</div>';
   }
   function cvMount(cart) {
@@ -338,15 +330,17 @@
   // ---------- Discount codes and order note (drawer and /cart) ----------
   var tools = { disc: false, note: false, err: "" };
   function cartToolsHtml(cart) {
-    var codes = cart.discount_codes || [], open = tools.disc || !!tools.err;
-    var label = codes.length ? "Discount code · " + codes.filter(function (c) { return c.applicable; }).map(function (c) { return c.code; }).join(", ") : "Discount code or note";
-    var h = '<details class="ctool"' + (open ? ' open' : '') + ' data-tool="disc"><summary>' + esc(label) + '</summary>' +
-      '<form class="ctool__row" data-disc-form><label class="sr" for="disc-in">Discount code</label><input id="disc-in" name="code" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Discount code"><button class="btn btn--ghost" type="submit">Apply</button></form>' +
+    var codes = cart.discount_codes || [];
+    var on = codes.filter(function (c) { return c.applicable; }).map(function (c) { return c.code; });
+    var h = '<div class="ctools">';
+    h += '<details class="ctool"' + (tools.disc || tools.err ? ' open' : '') + ' data-tool="disc"><summary>Discount code' + (on.length ? ' <span class="ctool__on">' + esc(on.join(", ")) + '</span>' : '') + '</summary>' +
+      '<form class="ctool__row" data-disc-form><label class="sr" for="disc-in">Discount code</label><input id="disc-in" name="code" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Enter code"><button class="btn btn--ghost" type="submit">Apply</button></form>' +
       (tools.err ? '<p class="ctool__err" role="alert">' + esc(tools.err) + '</p>' : '') +
       (codes.length ? '<ul class="ctool__codes">' + codes.map(function (c) { return '<li class="' + (c.applicable ? '' : 'is-off') + '">' + esc(c.code) + (c.applicable ? '' : ' <small>not valid for this cart</small>') + ' <button type="button" data-disc-rm="' + esc(c.code) + '" aria-label="Remove code ' + esc(c.code) + '">&times;</button></li>'; }).join("") + '</ul>' : '') +
-      '<label class="sr" for="cart-note">Order note</label><textarea id="cart-note" data-cart-note maxlength="500" rows="2" placeholder="Order note (optional)">' + esc(cart.note || "") + '</textarea>' +
       '</details>';
-    return '<div class="ctools">' + h + '</div>';
+    h += '<details class="ctool"' + (tools.note ? ' open' : '') + ' data-tool="note"><summary>Order note' + (cart.note ? ' <span class="ctool__on">added</span>' : '') + '</summary>' +
+      '<label class="sr" for="cart-note">Order note</label><textarea id="cart-note" data-cart-note maxlength="500" rows="2" placeholder="Anything we should know?">' + esc(cart.note || "") + '</textarea></details>';
+    return h + '</div>';
   }
   function setCodes(list) { return post(FF.routes.cartUpdate || "/cart/update.js", { discount: list.join(",") }); }
   function afterTools() { return getCart().then(settle).then(function () { if (document.querySelector("[data-cart-page]")) location.reload(); }); }
@@ -431,12 +425,13 @@
       sv.disc.forEach(function (d) { rows += '<div class="total-row total-row--save"><span>' + esc(d.title) + '</span><span>&minus;' + money(d.amount) + '</span></div>'; });
     }
     body.innerHTML = progressHtml(packs, subCount(cart).n) + lines + offer + '<div data-cv-slot hidden></div><div data-cu-slot hidden></div>' +
-      cartToolsHtml(cart) + (rows ? '<div class="csave">' + rows + '</div>' : '') +
-      '<p class="legal">Taxes and shipping calculated at checkout. Subscriptions renew at the price shown until you cancel; skip or cancel anytime in your account.</p>';
+      (rows ? '<div class="csave">' + rows + '</div>' : '') +
+      '';
     var extra = $("[data-cart-extra]"); if (extra) extra.hidden = false;
-    foot.innerHTML =
+    foot.innerHTML = cartToolsHtml(cart) +
       '<div class="total-row total-row--big"><span>Subtotal</span><span>' + money(cart.total_price) + '</span></div>' +
       (sv.total > 0 ? '<p class="save-total">You save ' + money(sv.total) + '</p>' : '') +
+      '<p class="legal legal--foot">Taxes and shipping calculated at checkout.</p>' +
       '<a class="btn btn--money btn--block" href="' + esc(FF.routes.checkout) + '" style="margin-top:10px">Checkout ' + money(cart.total_price) + (sv.total > 0 ? ' · Save ' + money(sv.total) : '') + '</a>';
   }
   function settle(cart) {
