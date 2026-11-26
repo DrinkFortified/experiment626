@@ -3722,3 +3722,23 @@ h1, h2, h3, .display, .crf__h, .art__title, .blg__h, .ofr__h, .cof__h, .hwt__tit
 .cart-line__rm { display: block; }
 .dyn-checkout { margin-top: 10px; }
 .dyn-checkout .shopify-cleanslate, .dyn-checkout [data-shopify-buttoncontainer] { gap: 8px; }
+
+/* Roomier drawer: compact fixed footer, details in the scrolling body */
+@media (min-width: 700px) { .drawer { width: min(480px, 100%); } }
+.drawer__foot { padding-top: 12px; padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+.drawer__foot .total-row--big { font-size: 20px; padding-top: 0; }
+.drawer__foot .save-total { font-size: 13.5px; margin-top: 0; }
+.drawer__foot .btn--block { min-height: 50px; }
+.drawer__foot .dyn-checkout { margin-top: 8px; }
+.drawer__body .ctools { margin: 14px 0 0; }
+.drawer__body .ctool { border-top: 1px solid var(--rule); }
+.csave { margin-top: 8px; font-size: 14px; }
+.csave .total-row { padding: 2px 0; }
+.drawer__body .legal { margin-top: 12px; }
+.qb--cv { gap: 10px; padding: 14px 16px; }
+.qb--cv .qb__h { font-size: 17px; }
+.qb--cv .qb__sub, .qb--cv .qb__note { font-size: 13px; margin: 0; }
+.qb--cv .cv-cre { grid-template-columns: 44px 1fr; padding: 8px 10px; }
+.qb--cv .cv-cre img { width: 44px; height: 44px; }
+.qb--cv .cv-cre p { font-size: 12.5px; }
+.qb--cv .btn { min-height: 46px; font-size: 13px; }
