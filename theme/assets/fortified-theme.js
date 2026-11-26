@@ -260,13 +260,19 @@
     var energy = ls.some(function (it) { return /energy/i.test(it.product_title); });
     var cr = QB && QB.creatine;
     var unit = ls.length === 1 ? money(mUnit(ls[0])) + '/pack' : money(sub);
-    var h = '<div class="cvc" data-cv>';
-    h += '<button type="button" class="cvc__row" role="switch" aria-checked="false" data-cv-go><span class="cvc__sw" aria-hidden="true"></span>' +
-      '<span class="cvc__h">' + (pct > 0 ? 'Subscribe &amp; save ' + pct + '%: ' : 'Subscribe: ') + unit + '</span></button>';
-    if (cr) h += need
-      ? '<button type="button" class="cvc__alt" data-cv-go data-cv-add="' + need + '">Make it ' + at + ' packs: free creatine with every delivery while you stay subscribed &rarr;</button>'
-      : '<p class="cvc__txt">Turn this on and a free pouch of creatine is added to every delivery, as long as you keep ' + at + '+ subscription packs.</p>';
-    h += '<p class="cvc__fine">Renews automatically every 30 days at ' + money(sub) + ' until you cancel. Skip or cancel online anytime.</p>';
+    var deal = (pct > 0 ? 'Subscribe &amp; save ' + pct + '%: ' : 'Subscribe: ') + unit;
+    var sw = '<span class="cvc__sw" aria-hidden="true"></span>';
+    var h;
+    if (cr && !need) {
+      // 3+ packs: a small product card for the free creatine, with the toggle on the right
+      h = '<div class="cvc cvc--card" data-cv><button type="button" class="cvc__card" role="switch" aria-checked="false" data-cv-go aria-label="Turn on subscription and get free creatine">' +
+        (cr.img ? '<img class="cvc__img" src="' + esc(cr.img) + '" alt="" width="44" height="44" loading="lazy">' : '') +
+        '<span class="cvc__body"><b>Free creatine</b><span class="cvc__price">' + (cr.price ? '<s>' + money(cr.price) + '</s> ' : '') + 'FREE with every delivery</span><span class="cvc__deal">' + deal + '</span></span>' + sw + '</button>';
+    } else {
+      h = '<div class="cvc" data-cv><button type="button" class="cvc__row" role="switch" aria-checked="false" data-cv-go>' + sw + '<span class="cvc__h">' + deal + '</span></button>';
+      if (cr && need) h += '<button type="button" class="cvc__alt" data-cv-go data-cv-add="' + need + '">Make it ' + at + ' packs: free creatine with every delivery while you stay subscribed &rarr;</button>';
+    }
+    h += '<p class="cvc__fine">Renews automatically every 30 days at ' + money(sub) + ' until you cancel. Skip or cancel online anytime.' + (cr && !need ? ' Free creatine while you keep ' + at + '+ subscription packs.' : '') + '</p>';
     return h + '</div>';
   }
   function cvMount(cart) {
