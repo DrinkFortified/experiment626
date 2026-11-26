@@ -449,7 +449,6 @@
     var hasEnergy = (cart.items || []).some(function (it) { return !isCreatine(it) && /energy/i.test(it.product_title); });
     var caf = hasEnergy ? '<p class="caf-note"><b>Energy contains caffeine (150mg per stick).</b> Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.</p>' : '';
     body.innerHTML = progressHtml(packs, subCount(cart).n, glow) + (glow ? '<div data-cv-slot hidden></div>' : '') + lines + offer + (glow ? '' : '<div data-cv-slot hidden></div>') + '<div data-cu-slot hidden></div>' + caf +
-      (rows ? '<div class="csave">' + rows + '</div>' : '') +
       '';
     var extra = $("[data-cart-extra]"); if (extra) extra.hidden = false;
     foot.innerHTML = cartToolsHtml(cart) +
