@@ -100,6 +100,26 @@
             <button type="button" class="btn btn--ghost upsell__btn" data-upsell-add>Add <s>{{ up.first_available_variant.price | money }}</s> {{ up_now | money }}</button>
           </div>
         {%- endif -%}
+        {%- liquid
+          assign has_energy = false
+          assign rn_m = 0
+          assign rn_q = 0
+          for item in cart.items
+            if item.product.title contains 'Energy'
+              assign has_energy = true
+            endif
+            if item.selling_plan_allocation and item.selling_plan_allocation.price > 0
+              assign rn_amt = item.selling_plan_allocation.price | times: item.quantity
+              assign spn = item.selling_plan_allocation.selling_plan.name | downcase
+              if spn contains '90' or spn contains '3 month' or spn contains 'quarter'
+                assign rn_q = rn_q | plus: rn_amt
+              else
+                assign rn_m = rn_m | plus: rn_amt
+              endif
+            endif
+          endfor
+        -%}
+        {%- if has_energy -%}<p class="caf-note"><b>Energy contains caffeine (150mg per stick).</b> Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.</p>{%- endif -%}
         <div data-cv-mount hidden></div>
         <div data-cu-mount hidden></div>
         <div class="ctools">
@@ -122,6 +142,7 @@
           <div class="total-row total-row--big"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></div>
           {%- if sv_total > 0 -%}<p class="save-total">You save {{ sv_total | money }} on this order</p>{%- endif -%}
         </div>
+        {%- if rn_m > 0 or rn_q > 0 -%}<p class="renew-note">Your subscription renews automatically{% if rn_m > 0 %} every 30 days at {{ rn_m | money }}{% endif %}{% if rn_m > 0 and rn_q > 0 %} and{% endif %}{% if rn_q > 0 %} every 90 days at {{ rn_q | money }}{% endif %} (before any one-time discounts, plus tax) until you cancel. Skip or cancel online anytime in your account.</p>{%- endif -%}
         <p class="legal">{{ 'cart.taxes' | t }}</p>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
           <button class="btn btn--ghost" type="submit" name="update">Update</button>
