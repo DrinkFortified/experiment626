@@ -335,6 +335,60 @@
     var pct = sv.before > 0 ? Math.round(sv.total / sv.before * 100) : 0;
     return '<div class="save-banner" role="status"><p class="save-banner__h">You&rsquo;re saving <b>' + money(sv.total) + '</b>' + (pct >= 5 ? ' <span>(' + pct + '% off)</span>' : '') + '</p><ul class="save-banner__list">' + chips.join("") + '</ul></div>';
   }
+  // ---------- Discount codes and order note (drawer and /cart) ----------
+  var tools = { disc: false, note: false, err: "" };
+  function cartToolsHtml(cart) {
+    var codes = cart.discount_codes || [];
+    var h = '<div class="ctools">';
+    h += '<details class="ctool"' + (tools.disc || codes.length ? ' open' : '') + ' data-tool="disc"><summary>Discount code</summary>' +
+      '<form class="ctool__row" data-disc-form><label class="sr" for="disc-in">Discount code</label><input id="disc-in" name="code" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Enter code"><button class="btn btn--ghost" type="submit">Apply</button></form>' +
+      (tools.err ? '<p class="ctool__err" role="alert">' + esc(tools.err) + '</p>' : '') +
+      (codes.length ? '<ul class="ctool__codes">' + codes.map(function (c) { return '<li class="' + (c.applicable ? '' : 'is-off') + '">' + esc(c.code) + (c.applicable ? '' : ' <small>not valid for this cart</small>') + ' <button type="button" data-disc-rm="' + esc(c.code) + '" aria-label="Remove code ' + esc(c.code) + '">&times;</button></li>'; }).join("") + '</ul>' : '') +
+      '</details>';
+    h += '<details class="ctool"' + (tools.note || cart.note ? ' open' : '') + ' data-tool="note"><summary>Order note</summary>' +
+      '<label class="sr" for="cart-note">Order note</label><textarea id="cart-note" data-cart-note maxlength="500" rows="2" placeholder="Anything we should know?">' + esc(cart.note || "") + '</textarea></details>';
+    return h + '</div>';
+  }
+  function setCodes(list) { return post(FF.routes.cartUpdate || "/cart/update.js", { discount: list.join(",") }); }
+  function afterTools() { return getCart().then(settle).then(function () { if (document.querySelector("[data-cart-page]")) location.reload(); }); }
+  document.addEventListener("toggle", function (e) { var d = e.target; if (d && d.matches && d.matches("details[data-tool]")) tools[d.getAttribute("data-tool")] = d.open; }, true);
+  document.addEventListener("submit", function (e) {
+    var f = e.target.closest && e.target.closest("[data-disc-form]"); if (!f) return;
+    e.preventDefault();
+    var code = (f.code.value || "").trim(); if (!code) return;
+    var btn = f.querySelector("button"); btn.disabled = true; btn.textContent = "Applying…";
+    getCart().then(function (c) {
+      var have = (c.discount_codes || []).filter(function (x) { return x.applicable; }).map(function (x) { return x.code; });
+      if (have.some(function (x) { return x.toLowerCase() === code.toLowerCase(); })) return c;
+      return setCodes(have.concat([code]));
+    }).then(function (c) {
+      var hit = (c.discount_codes || []).filter(function (x) { return x.code.toLowerCase() === code.toLowerCase(); })[0];
+      tools.disc = true;
+      tools.err = hit && hit.applicable ? "" : code.toUpperCase() + " can’t be used with this cart.";
+      if (!tools.err) toast(code.toUpperCase() + " applied.");
+      return afterTools();
+    }).catch(function () { tools.err = "Could not apply that code. Try again."; return afterTools(); });
+  });
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-disc-rm]"); if (!b) return;
+    var rm = b.getAttribute("data-disc-rm"); b.disabled = true;
+    getCart().then(function (c) { return setCodes((c.discount_codes || []).map(function (x) { return x.code; }).filter(function (x) { return x !== rm; })); })
+      .then(function () { tools.err = ""; return afterTools(); }).catch(function () { refreshCart(); });
+  });
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-disc-apply-page]"); if (!b) return;
+    var inp = b.parentNode.querySelector("input"), code = (inp.value || "").trim(); if (!code) return;
+    b.disabled = true; b.textContent = "Applying\u2026";
+    getCart().then(function (c) { var have = (c.discount_codes || []).filter(function (x) { return x.applicable; }).map(function (x) { return x.code; }); return setCodes(have.concat([code])); })
+      .then(function () { location.reload(); }).catch(function () { location.reload(); });
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Enter" && e.target.closest && e.target.closest("[data-disc-form-page]")) { e.preventDefault(); var b = e.target.closest("[data-disc-form-page]").querySelector("[data-disc-apply-page]"); if (b) b.click(); } });
+  var noteT = 0;
+  document.addEventListener("input", function (e) {
+    var t = e.target.closest && e.target.closest("[data-cart-note]"); if (!t) return;
+    clearTimeout(noteT); var v = t.value;
+    noteT = setTimeout(function () { post(FF.routes.cartUpdate || "/cart/update.js", { note: v }).catch(function () {}); }, 500);
+  });
   function renderCart(cart) {
     var body = $("[data-cart-body]"), foot = $("[data-cart-foot]");
     if (!body) return;
@@ -343,7 +397,7 @@
     if (!cart.item_count) {
       var qbh = qbHtml();
       body.innerHTML = qbh ? '<div data-qb-slot>' + qbh + '</div>' : progressHtml(0) + '<div class="empty"><b>' + esc((FF.text && FF.text.empty) || "Your box is empty.") + '</b></div><div style="display:grid;gap:10px"><a class="btn btn--money" href="/products/everyday">Shop Everyday</a><a class="btn btn--ghost" href="/products/energy">Shop Energy</a></div>';
-      foot.innerHTML = ""; return;
+      foot.innerHTML = ""; var ex0 = $("[data-cart-extra]"); if (ex0) ex0.hidden = true; return;
     }
     var sv = savings(cart);
     var lines = cart.items.map(function (it, i) {
@@ -362,7 +416,7 @@
       var strike = lbefore > it.final_line_price ? "<s>" + money(lbefore) + "</s>" : "";
       return '<div class="cart-line" data-line="' + (i + 1) + '"><div class="pack">' + img + '</div>' +
         '<div><b>' + esc(shortTitle(it.product_title)) + '</b><small>' + esc(flavorName(it.variant_title || "")) + ' \u00b7 ' + esc(plan) + '</small><br>' +
-        '<div class="qty"><button type="button" data-dec aria-label="Remove one">&minus;</button><output class="num">' + it.quantity + '</output><button type="button" data-inc aria-label="Add one">+</button></div></div>' +
+        '<div class="qty"><button type="button" data-dec aria-label="Remove one">&minus;</button><output class="num">' + it.quantity + '</output><button type="button" data-inc aria-label="Add one">+</button></div><button type="button" class="linkish cart-line__rm" data-remove>Remove</button></div>' +
         '<div class="cart-line__price">' + strike + money(it.final_line_price) + (lsave > 0 ? '<span class="save-tag">You save ' + money(lsave) + '</span>' : '') + '</div></div>';
     }).join("");
     var offer = "";
@@ -371,18 +425,19 @@
       offer = '<div class="upsell"><div><b>Add a 2nd creatine bag, ' + UP.pct + '% off</b><small>One pouch is 45 servings. A 2nd bag covers your full 90 days, every 3 months.</small></div>' +
         '<button type="button" class="btn btn--ghost upsell__btn" data-upsell-add>Add <s>' + money(was) + '</s> ' + money(now) + '</button></div>';
     }
-    body.innerHTML = progressHtml(packs, subCount(cart).n) + saveBannerHtml(sv) + lines + offer + '<div data-cv-slot hidden></div><div data-cu-slot hidden></div>';
+    body.innerHTML = progressHtml(packs, subCount(cart).n) + lines + offer + '<div data-cv-slot hidden></div><div data-cu-slot hidden></div>';
     var rows = "";
     if (sv.total > 0) {
       rows += '<div class="total-row total-row--before"><span>Before savings</span><span><s>' + money(sv.before) + '</s></span></div>';
       if (sv.sub > 0) rows += '<div class="total-row total-row--save"><span>Subscription savings</span><span>&minus;' + money(sv.sub) + '</span></div>';
       sv.disc.forEach(function (d) { rows += '<div class="total-row total-row--save"><span>' + esc(d.title) + '</span><span>&minus;' + money(d.amount) + '</span></div>'; });
     }
-    foot.innerHTML = rows +
+    var extra = $("[data-cart-extra]"); if (extra) extra.hidden = false;
+    foot.innerHTML = cartToolsHtml(cart) + rows +
       '<div class="total-row total-row--big"><span>Subtotal</span><span>' + money(cart.total_price) + '</span></div>' +
       (sv.total > 0 ? '<p class="save-total">You save ' + money(sv.total) + ' on this order</p>' : '') +
       '<a class="btn btn--money btn--block" href="' + esc(FF.routes.checkout) + '" style="margin-top:12px">Checkout ' + money(cart.total_price) + (sv.total > 0 ? ' \u00b7 Save ' + money(sv.total) : '') + '</a>' +
-      '<p class="legal">Taxes and shipping calculated at checkout. Subscriptions renew at the price shown until you cancel; skip or cancel anytime in your account.</p>';
+      '';
   }
   function settle(cart) {
     return syncCreatine(cart).then(function (r) {
@@ -415,6 +470,7 @@
     var q = +$("output", line).textContent, n = +line.dataset.line;
     if (e.target.closest("[data-inc]")) changeLine(n, q + 1);
     if (e.target.closest("[data-dec]")) changeLine(n, q - 1);
+    if (e.target.closest("[data-remove]")) changeLine(n, 0);
   });
 
   // ---------- Product buy box ----------

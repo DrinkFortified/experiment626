@@ -5,5 +5,11 @@
     <button class="x" type="button" data-close aria-label="{{ 'general.close' | t }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
   <div class="drawer__body" data-cart-body></div>
-  <div class="drawer__foot" data-cart-foot></div>
+  <div class="drawer__foot">
+    <div data-cart-foot></div>
+    <div data-cart-extra hidden>
+      {%- if additional_checkout_buttons -%}<div class="dyn-checkout">{{ content_for_additional_checkout_buttons }}</div>{%- endif -%}
+      <p class="legal">Taxes and shipping calculated at checkout. Subscriptions renew at the price shown until you cancel; skip or cancel anytime in your account.</p>
+    </div>
+  </div>
 </aside>

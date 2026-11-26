@@ -44,16 +44,6 @@
           assign sv_total = sv_sub | plus: sv_disc
           assign sv_before = cart.total_price | plus: sv_total
         -%}
-        {%- if sv_total > 0 -%}
-          {%- assign sv_pct = sv_total | times: 100 | divided_by: sv_before -%}
-          <div class="save-banner" role="status">
-            <p class="save-banner__h">You&rsquo;re saving <b>{{ sv_total | money }}</b>{% if sv_pct >= 5 %} <span>({{ sv_pct }}% off)</span>{% endif %}</p>
-            <ul class="save-banner__list">
-              {%- if sv_sub > 0 -%}<li>Subscription savings <b>&minus;{{ sv_sub | money }}</b></li>{%- endif -%}
-              {%- for app in cart.discount_applications -%}{%- if app.total_allocated_amount > 0 -%}<li>{{ app.title | escape }} <b>&minus;{{ app.total_allocated_amount | money }}</b></li>{%- endif -%}{%- endfor -%}
-            </ul>
-          </div>
-        {%- endif -%}
         {%- for item in cart.items -%}
           {%- if cp.id and item.product_id == cp.id and settings.creatine_auto and item.properties._ff_gift != blank or cp.id and item.product_id == cp.id and settings.creatine_auto and item.selling_plan_allocation -%}
           <div class="cart-line cart-line--gift">
@@ -88,7 +78,7 @@
             <div class="pack">{%- if item.image -%}{{ item.image | image_url: width: 160 | image_tag: alt: item.title }}{%- endif -%}</div>
             <div><b>{{ item.product.title | split: ' by ' | first }}</b><small>{% if item.product.has_only_default_variant %}Unflavored{% else %}{{ item.variant.title | remove: 'Organic ' }}{% endif %}{% if item.selling_plan_allocation %} · {{ item.selling_plan_allocation.selling_plan.name }}{% endif %}</small><br>
               <label class="sr" for="q-{{ forloop.index }}">Quantity</label>
-              <input id="q-{{ forloop.index }}" class="num" type="number" name="updates[]" value="{{ item.quantity }}" min="0" style="width:72px;height:40px;margin-top:6px">
+              <input id="q-{{ forloop.index }}" class="num" type="number" name="updates[]" value="{{ item.quantity }}" min="0" style="width:72px;height:40px;margin-top:6px"><a class="linkish cart-line__rm" href="{{ item.url_to_remove }}">Remove</a>
             </div>
             {%- liquid
               assign lsave = 0
@@ -112,6 +102,17 @@
         {%- endif -%}
         <div data-cv-mount hidden></div>
         <div data-cu-mount hidden></div>
+        <div class="ctools">
+          <details class="ctool"{% if cart.discount_codes.size > 0 %} open{% endif %}><summary>Discount code</summary>
+            <div class="ctool__row" data-disc-form-page><label class="sr" for="disc-page">Discount code</label><input id="disc-page" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Enter code"><button class="btn btn--ghost" type="button" data-disc-apply-page>Apply</button></div>
+            {%- if cart.discount_codes.size > 0 -%}
+              <ul class="ctool__codes">{%- for c in cart.discount_codes -%}<li class="{% unless c.applicable %}is-off{% endunless %}">{{ c.code | escape }}{% unless c.applicable %} <small>not valid for this cart</small>{% endunless %} <button type="button" data-disc-rm="{{ c.code | escape }}" aria-label="Remove code {{ c.code | escape }}">&times;</button></li>{%- endfor -%}</ul>
+            {%- endif -%}
+          </details>
+          <details class="ctool"{% if cart.note != blank %} open{% endif %}><summary>Order note</summary>
+            <label class="sr" for="cart-note-page">Order note</label><textarea id="cart-note-page" name="note" data-cart-note maxlength="500" rows="2" placeholder="Anything we should know?">{{ cart.note }}</textarea>
+          </details>
+        </div>
         <div style="margin-top:20px">
           {%- if sv_total > 0 -%}
             <div class="total-row total-row--before"><span>Before savings</span><span><s>{{ sv_before | money }}</s></span></div>
@@ -124,8 +125,9 @@
         <p class="legal">{{ 'cart.taxes' | t }}</p>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
           <button class="btn btn--ghost" type="submit" name="update">Update</button>
-          <button class="btn btn--money" type="submit" name="checkout">{{ 'cart.checkout' | t }}</button>
+          <button class="btn btn--money" type="submit" name="checkout">{{ 'cart.checkout' | t }}{% if sv_total > 0 %} &middot; Save {{ sv_total | money }}{% endif %}</button>
         </div>
+        {%- if additional_checkout_buttons -%}<div class="dyn-checkout">{{ content_for_additional_checkout_buttons }}</div>{%- endif -%}
       </form>
     {%- endif -%}
   </div>
