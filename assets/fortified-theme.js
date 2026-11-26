@@ -94,7 +94,15 @@
   }
   function getCart() { return fetch(FF.routes.cart, { headers: { Accept: "application/json" } }).then(function (r) { return r.json(); }); }
   // Returns a promise of the (possibly updated) cart and whether it changed.
+  // One sync at a time: two page-load paths (and fast clicks) used to both add the gift.
+  var syncQ = Promise.resolve(), syncDirty = false;
   function syncCreatine(cart) {
+    var run = syncQ.then(function () { return syncDirty ? getCart() : cart; }).then(syncCreatineNow)
+      .then(function (r) { syncDirty = !!r.changed; return r; });
+    syncQ = run.catch(function () {});
+    return run;
+  }
+  function syncCreatineNow(cart) {
     if (!CR) return Promise.resolve({ cart: cart, changed: false });
     var s = subCount(cart), want = s.n >= (FF.creatineAt || 3);
     var planId = want ? (CR[s.plan] || CR.monthly || CR.quarterly || null) : null;
