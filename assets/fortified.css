@@ -3701,3 +3701,24 @@ h1, h2, h3, .display, .crf__h, .art__title, .blg__h, .ofr__h, .cof__h, .hwt__tit
 .total-row--before s { margin: 0; }
 .total-row--save { font-weight: 800; color: #00756f; }
 .save-total { margin: 2px 0 0; text-align: right; color: #00756f; font-weight: 800; font-size: 15px; }
+
+/* Standard cart tools: discount code, order note, express checkout, remove */
+.ctools { display: grid; gap: 2px; margin: 0 0 10px; }
+.ctool { border-bottom: 1px solid var(--rule); }
+.ctool summary { cursor: pointer; list-style: none; padding: 10px 0; font-weight: 700; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
+.ctool summary::-webkit-details-marker { display: none; }
+.ctool summary::after { content: "+"; font-size: 18px; line-height: 1; color: var(--ink-2); }
+.ctool[open] summary::after { content: "\2212"; }
+.ctool__row { display: flex; gap: 8px; padding: 0 0 10px; }
+.ctool__row input { flex: 1; min-width: 0; height: 44px; padding: 0 12px; border: 1.5px solid var(--rule); border-radius: 10px; font: inherit; font-size: 16px; text-transform: uppercase; }
+.ctool__row .btn { min-height: 44px; padding: 0 16px; font-size: 13px; }
+.ctool textarea { width: 100%; margin: 0 0 10px; padding: 10px 12px; border: 1.5px solid var(--rule); border-radius: 10px; font: inherit; font-size: 16px; resize: vertical; }
+.ctool__err { margin: -4px 0 8px; color: #b42318; font-size: 13px; font-weight: 600; }
+.ctool__codes { list-style: none; margin: 0 0 10px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.ctool__codes li { display: inline-flex; align-items: center; gap: 6px; padding: 4px 6px 4px 10px; border-radius: 999px; background: #e7f7f6; color: #00756f; font-weight: 800; font-size: 13px; letter-spacing: .04em; }
+.ctool__codes li.is-off { background: #fdecea; color: #b42318; }
+.ctool__codes li small { font-weight: 600; letter-spacing: 0; }
+.ctool__codes button { border: 0; background: rgba(0,0,0,.08); color: inherit; width: 22px; height: 22px; border-radius: 50%; cursor: pointer; font-size: 15px; line-height: 1; }
+.cart-line__rm { display: block; }
+.dyn-checkout { margin-top: 10px; }
+.dyn-checkout .shopify-cleanslate, .dyn-checkout [data-shopify-buttoncontainer] { gap: 8px; }
