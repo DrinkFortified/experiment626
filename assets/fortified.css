@@ -3771,12 +3771,32 @@ h1, h2, h3, .display, .crf__h, .art__title, .blg__h, .ofr__h, .cof__h, .hwt__tit
 /* 3+ one-time packs: light circling the progress bar */
 @property --pg { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 .progress__ring { position: relative; border-radius: 999px; }
-.progress.is-glow .progress__ring { padding: 3px; margin: -3px; background: conic-gradient(from var(--pg), rgba(0,171,163,.15) 0deg, rgba(0,171,163,.15) 220deg, #5fe0d6 290deg, #00aba3 330deg, rgba(0,171,163,.15) 360deg); animation: pg-spin 2.4s linear infinite; box-shadow: 0 0 14px rgba(0,171,163,.45); }
+.progress.is-glow .progress__ring { padding: 3px; margin: -3px; background: conic-gradient(from var(--pg), rgba(242,201,76,.18) 0deg, rgba(242,201,76,.18) 220deg, #ffe58a 290deg, #f2c94c 330deg, rgba(242,201,76,.18) 360deg); animation: pg-spin 2.4s linear infinite; box-shadow: 0 0 14px rgba(242,201,76,.5); }
 .progress.is-glow .progress__track { background: #fff; }
 .progress.is-glow .progress__msg { color: #00756f; }
 @keyframes pg-spin { to { --pg: 360deg; } }
-@media (prefers-reduced-motion: reduce) { .progress.is-glow .progress__ring { animation: none; background: #00aba3; } }
+@media (prefers-reduced-motion: reduce) { .progress.is-glow .progress__ring { animation: none; background: #f2c94c; } }
 .progress.is-glow + [data-cv-slot] .cvc { margin-top: 0; margin-bottom: 14px; }
 /* Required notes */
-.caf-note { margin: 12px 0 0; padding: 8px 10px; border-left: 3px solid var(--ink); background: rgba(14,26,36,.04); border-radius: 0 8px 8px 0; font-size: 12px; line-height: 1.4; }
+.caf-note { margin: 10px 0 0; font-size: 11px; line-height: 1.4; color: var(--ink-2); }
+.caf-note b { font-weight: 700; }
 .renew-note { margin: 4px 0 0; font-size: 12px; line-height: 1.4; color: var(--ink); }
+
+/* Subscription as a small product card (free creatine at 3+ packs) */
+.cvc { padding: 10px 12px; gap: 3px; }
+.cvc__h { font-size: 13.5px; }
+.cvc__sw { width: 34px; height: 20px; }
+.cvc__sw::after { width: 14px; height: 14px; }
+.cvc__row[disabled] .cvc__sw::after, .cvc__card[disabled] .cvc__sw::after { transform: translateX(14px); }
+.cvc__alt, .cvc__txt, .cvc__fine { padding-left: 44px; margin-left: 0; }
+.cvc__alt { font-size: 12px; }
+.cvc__fine { font-size: 10.5px; }
+.cvc__card { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 10px; width: 100%; background: none; border: 0; padding: 0; font: inherit; text-align: left; color: inherit; cursor: pointer; }
+.cvc__img { width: 44px; height: 44px; object-fit: contain; border-radius: 8px; background: var(--paper-2); }
+.cvc__body { display: grid; gap: 1px; line-height: 1.25; }
+.cvc__body b { font-size: 13.5px; }
+.cvc__price { font-size: 12px; font-weight: 800; color: #00756f; }
+.cvc__price s { color: var(--ink-2); font-weight: 600; margin-right: 2px; }
+.cvc__deal { font-size: 11.5px; color: var(--ink-2); }
+.cvc__card:hover .cvc__sw { background: #9fd9d4; }
+.cvc--card .cvc__fine { padding-left: 54px; }
