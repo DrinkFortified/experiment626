@@ -264,10 +264,9 @@
     h += '<button type="button" class="cvc__row" role="switch" aria-checked="false" data-cv-go><span class="cvc__sw" aria-hidden="true"></span>' +
       '<span class="cvc__h">' + (pct > 0 ? 'Subscribe &amp; save ' + pct + '%: ' : 'Subscribe: ') + unit + '</span></button>';
     if (cr) h += need
-      ? '<button type="button" class="cvc__alt" data-cv-go data-cv-add="' + need + '">Make it ' + at + ' packs for free creatine, added automatically &rarr;</button>'
-      : '<p class="cvc__txt">Turn this on for free creatine, added automatically.</p>';
-    h += '<p class="cvc__fine">Renews every 30 days at ' + money(sub) + ' until you cancel. Skip or cancel online anytime.' +
-      (energy ? ' <b>Contains caffeine.</b> Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.' : '') + '</p>';
+      ? '<button type="button" class="cvc__alt" data-cv-go data-cv-add="' + need + '">Make it ' + at + ' packs: free creatine with every delivery while you stay subscribed &rarr;</button>'
+      : '<p class="cvc__txt">Turn this on and a free pouch of creatine is added to every delivery, as long as you keep ' + at + '+ subscription packs.</p>';
+    h += '<p class="cvc__fine">Renews automatically every 30 days at ' + money(sub) + ' until you cancel. Skip or cancel online anytime.</p>';
     return h + '</div>';
   }
   function cvMount(cart) {
@@ -292,12 +291,13 @@
       .catch(function (x) { toast((x && x.message) || "Could not switch to Monthly. Try again."); refreshCart(); });
   });
 
-  function progressHtml(n, sub) {
+  function progressHtml(n, sub, glow) {
     var ship = FF.freeShipAt || 2, cre = FF.creatineAt || 3, t = FF.text || {};
     if (sub == null) sub = n;
     var msg = n === 0 ? (t.empty || "") : n < ship ? (t.perk1 || "") : sub < cre ? (t.perk2 || "") : (t.done || "");
     var pct = Math.min(1, Math.max(n / ship * 0.5, sub / cre));
-    return '<div class="progress"><div class="progress__msg">' + esc(msg) + '</div><div class="progress__track"><div class="progress__fill" style="transform:scaleX(' + pct + ')"></div></div></div>';
+    if (glow) { msg = "You have " + glow + " packs. Subscribe and a pouch of creatine ships free with every delivery."; pct = 1; }
+    return '<div class="progress' + (glow ? ' is-glow' : '') + '"><div class="progress__msg">' + esc(msg) + '</div><div class="progress__ring"><div class="progress__track"><div class="progress__fill" style="transform:scaleX(' + pct + ')"></div></div></div></div>';
   }
   function setCount(n) { $$("[data-count]").forEach(function (c) { c.textContent = n; c.classList.remove("bump"); void c.offsetWidth; c.classList.add("bump"); }); }
 
@@ -382,6 +382,20 @@
     clearTimeout(noteT); var v = t.value;
     noteT = setTimeout(function () { post(FF.routes.cartUpdate || "/cart/update.js", { note: v }).catch(function () {}); }, 500);
   });
+  // Auto-renewal terms shown by the Checkout button whenever the cart has a subscription
+  // (California ARL: renewal, frequency, recurring price and how to cancel, near the point of consent).
+  function renewHtml(cart) {
+    var m = 0, q = 0;
+    (cart.items || []).forEach(function (it) {
+      var spa = it.selling_plan_allocation; if (!spa || isCreatine(it)) return;
+      var amt = (spa.price != null ? spa.price : it.final_price) * it.quantity;
+      if (/90|3 month|quarter/i.test(spa.selling_plan.name)) q += amt; else m += amt;
+    });
+    if (!m && !q) return "";
+    var parts = []; if (m) parts.push("every 30 days at " + money(m)); if (q) parts.push("every 90 days at " + money(q));
+    var gift = (cart.items || []).some(isCreatine) ? " Free creatine continues while you keep 3 or more subscription packs." : "";
+    return '<p class="renew-note">Your subscription renews automatically ' + parts.join(" and ") + ' (before any one-time discounts, plus tax) until you cancel. Skip or cancel online anytime in your account.' + gift + '</p>';
+  }
   function renderCart(cart) {
     var body = $("[data-cart-body]"), foot = $("[data-cart-foot]");
     if (!body) return;
@@ -424,13 +438,18 @@
       if (sv.sub > 0) rows += '<div class="total-row total-row--save"><span>Subscription savings</span><span>&minus;' + money(sv.sub) + '</span></div>';
       sv.disc.forEach(function (d) { rows += '<div class="total-row total-row--save"><span>' + esc(d.title) + '</span><span>&minus;' + money(d.amount) + '</span></div>'; });
     }
-    body.innerHTML = progressHtml(packs, subCount(cart).n) + lines + offer + '<div data-cv-slot hidden></div><div data-cu-slot hidden></div>' +
+    var otpN = cvLines(cart).reduce(function (x, it) { return x + it.quantity; }, 0), creAt = FF.creatineAt || 3;
+    var glow = otpN >= creAt && subCount(cart).n < creAt ? otpN : 0;
+    var hasEnergy = (cart.items || []).some(function (it) { return !isCreatine(it) && /energy/i.test(it.product_title); });
+    var caf = hasEnergy ? '<p class="caf-note"><b>Energy contains caffeine (150mg per stick).</b> Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.</p>' : '';
+    body.innerHTML = progressHtml(packs, subCount(cart).n, glow) + (glow ? '<div data-cv-slot hidden></div>' : '') + lines + offer + (glow ? '' : '<div data-cv-slot hidden></div>') + '<div data-cu-slot hidden></div>' + caf +
       (rows ? '<div class="csave">' + rows + '</div>' : '') +
       '';
     var extra = $("[data-cart-extra]"); if (extra) extra.hidden = false;
     foot.innerHTML = cartToolsHtml(cart) +
       '<div class="total-row total-row--big"><span>Subtotal</span><span>' + money(cart.total_price) + '</span></div>' +
       (sv.total > 0 ? '<p class="save-total">You save ' + money(sv.total) + '</p>' : '') +
+      renewHtml(cart) +
       '<p class="legal legal--foot">Taxes and shipping calculated at checkout.</p>' +
       '<a class="btn btn--money btn--block" href="' + esc(FF.routes.checkout) + '" style="margin-top:10px">Checkout ' + money(cart.total_price) + (sv.total > 0 ? ' · Save ' + money(sv.total) : '') + '</a>';
   }
