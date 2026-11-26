@@ -3722,3 +3722,48 @@ h1, h2, h3, .display, .crf__h, .art__title, .blg__h, .ofr__h, .cof__h, .hwt__tit
 .cart-line__rm { display: block; }
 .dyn-checkout { margin-top: 10px; }
 .dyn-checkout .shopify-cleanslate, .dyn-checkout [data-shopify-buttoncontainer] { gap: 8px; }
+
+/* Roomier drawer: compact fixed footer, details in the scrolling body */
+@media (min-width: 700px) { .drawer { width: min(480px, 100%); } }
+.drawer__foot { padding-top: 12px; padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+.drawer__foot .total-row--big { font-size: 20px; padding-top: 0; }
+.drawer__foot .save-total { font-size: 13.5px; margin-top: 0; }
+.drawer__foot .btn--block { min-height: 50px; }
+.drawer__foot .dyn-checkout { margin-top: 8px; }
+.csave { margin-top: 8px; font-size: 14px; }
+.csave .total-row { padding: 2px 0; }
+.drawer__body .legal { margin-top: 12px; }
+.qb--cv { gap: 10px; padding: 14px 16px; }
+.qb--cv .qb__h { font-size: 17px; }
+.qb--cv .qb__sub, .qb--cv .qb__note { font-size: 13px; margin: 0; }
+.qb--cv .cv-cre { grid-template-columns: 44px 1fr; padding: 8px 10px; }
+.qb--cv .cv-cre img { width: 44px; height: 44px; }
+.qb--cv .cv-cre p { font-size: 12.5px; }
+.qb--cv .btn { min-height: 46px; font-size: 13px; }
+
+/* Subscription toggle under the items (like the live cart) */
+.cvc { margin-top: 12px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--rule); background: #fff; display: grid; gap: 4px; }
+.cvc__row { display: flex; align-items: center; gap: 10px; background: none; border: 0; padding: 0; font: inherit; text-align: left; cursor: pointer; color: inherit; }
+.cvc__sw { flex: none; width: 40px; height: 24px; border-radius: 999px; background: #d5dbe0; position: relative; transition: background .2s; }
+.cvc__sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform .2s; }
+.cvc__row:hover .cvc__sw { background: #9fd9d4; }
+.cvc__row[disabled] .cvc__sw { background: #00aba3; } .cvc__row[disabled] .cvc__sw::after { transform: translateX(16px); }
+.cvc__h { font-weight: 800; font-size: 15px; }
+.cvc__alt { background: none; border: 0; padding: 0 0 0 50px; text-align: left; font: inherit; font-size: 13px; font-weight: 700; color: #00756f; text-decoration: underline; cursor: pointer; }
+.cvc__txt { margin: 0 0 0 50px; font-size: 13px; color: var(--ink); }
+.cvc__fine { margin: 0 0 0 50px; font-size: 11.5px; line-height: 1.4; color: var(--ink-2); }
+.drawer__foot .ctools { margin: 0 0 6px; }
+.drawer__foot .ctool summary { padding: 8px 0; }
+.ctool__on { margin-left: 6px; font-weight: 800; color: #00756f; font-size: 12.5px; letter-spacing: .03em; }
+.ctool summary { justify-content: flex-start; }
+.ctool summary::after { margin-left: auto; }
+
+/* Live-like footer: small totals, one large total, express buttons in one row */
+.drawer__foot .total-row--big { font-size: 18px; }
+.drawer__foot .save-total { font-size: 13px; }
+.drawer__foot .legal--foot { margin: 4px 0 0; font-size: 12px; }
+.drawer__foot .btn--block { min-height: 48px; margin-top: 8px !important; }
+.drawer__foot .ctool summary { padding: 7px 0; font-size: 13.5px; }
+.drawer__body { padding-top: 14px; }
+.dyn-checkout { --shopify-accelerated-checkout-button-block-size: 44px; --shopify-accelerated-checkout-button-border-radius: 8px; --shopify-accelerated-checkout-row-gap: 8px; }
+.dyn-checkout shopify-accelerated-checkout-cart { --shopify-accelerated-checkout-inline-alignment: stretch; }
