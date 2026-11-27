@@ -3870,3 +3870,14 @@ section[aria-labelledby="pr-h"] .display em { color: #fff; }
 .cof__step-img { grid-column: 3; grid-row: 1 / span 2; width: 64px; height: auto; margin: -22px 0 -18px; rotate: 8deg; filter: drop-shadow(0 10px 12px rgba(11, 28, 41, .3)); }
 .js-crf .cof.is-in .cof__steps li.cof__step--free { transform: scale(1.03); }
 @media (max-width: 600px) { .cof__steps li.cof__step--free { grid-template-columns: 44px minmax(0, 1fr) 54px; } .cof__step-img { width: 54px; } .cof__steps li.cof__step--free > b { font-size: 17px; } }
+/* Free creatine step: white card with a pulsing pouch-orange glow */
+.cof__steps li.cof__step--free { background: #fff; box-shadow: 0 0 0 2px #eaa53c, 0 0 18px 2px rgba(234, 165, 60, .45); animation: cof-glow 2.2s ease-in-out infinite; }
+@keyframes cof-glow {
+  0%, 100% { box-shadow: 0 0 0 2px #eaa53c, 0 0 10px 0 rgba(234, 165, 60, .35); }
+  50% { box-shadow: 0 0 0 3px #eaa53c, 0 0 28px 8px rgba(234, 165, 60, .6); }
+}
+.cof__steps li.cof__step--free::before { background: #eaa53c; color: #0b1c29; }
+.cof__steps li.cof__step--free > span { color: rgba(11, 28, 41, .8); }
+.cof__steps li.cof__step--free > span s { color: rgba(11, 28, 41, .5); }
+.cof__steps li.cof__step--free > span b { background: #eaa53c; color: #0b1c29; }
+@media (prefers-reduced-motion: reduce) { .cof__steps li.cof__step--free { animation: none; box-shadow: 0 0 0 2px #eaa53c, 0 0 20px 4px rgba(234, 165, 60, .5); } }
