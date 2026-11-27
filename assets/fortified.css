@@ -3860,3 +3860,13 @@ section[aria-labelledby="pr-h"] .display em { color: #fff; }
 .foot__wave svg { display: block; width: 3604px; height: 64px; max-width: none; transform: translateX(calc(var(--sp, 0) * -640px)); will-change: transform; }
 .foot__wave-fill { fill: currentColor; }
 .foot__wave-line { fill: none; stroke: #fff; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+/* Free creatine step: the payoff card stands out (pouch orange, pouch photo, struck price) */
+.cof__steps li.cof__step--free { grid-template-columns: 44px minmax(0, 1fr) 64px; padding: 18px 16px 18px 18px; background: linear-gradient(120deg, #f2b955 0%, #eaa53c 60%, #e39a2c 100%); box-shadow: 0 0 0 3px rgba(234, 165, 60, .28), 0 26px 44px -26px rgba(196, 120, 20, .75); transform: scale(1.03); transform-origin: left center; overflow: visible; }
+.cof__steps li.cof__step--free::before { background: #0b1c29; color: #fff; }
+.cof__steps li.cof__step--free > b { font-size: 19px; letter-spacing: .04em; color: #0b1c29; }
+.cof__steps li.cof__step--free > span { color: #0b1c29; font-weight: 600; }
+.cof__steps li.cof__step--free > span s { color: rgba(11, 28, 41, .6); font-weight: 600; margin-right: 2px; }
+.cof__steps li.cof__step--free > span b { display: inline-block; padding: 1px 8px; border-radius: 999px; background: #0b1c29; color: #fff; font-size: 13px; font-weight: 800; letter-spacing: .08em; }
+.cof__step-img { grid-column: 3; grid-row: 1 / span 2; width: 64px; height: auto; margin: -22px 0 -18px; rotate: 8deg; filter: drop-shadow(0 10px 12px rgba(11, 28, 41, .3)); }
+.js-crf .cof.is-in .cof__steps li.cof__step--free { transform: scale(1.03); }
+@media (max-width: 600px) { .cof__steps li.cof__step--free { grid-template-columns: 44px minmax(0, 1fr) 54px; } .cof__step-img { width: 54px; } .cof__steps li.cof__step--free > b { font-size: 17px; } }

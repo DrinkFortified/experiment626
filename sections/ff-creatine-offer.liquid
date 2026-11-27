@@ -43,7 +43,7 @@
       <ol class="cof__steps">
         <li style="--i:0"><b>3+ packs</b><span>Any mix of Everyday and Energy, any flavor.</span></li>
         <li style="--i:1"><b>Subscribe</b><span>Monthly or Every 3 months. Skip or cancel online.</span></li>
-        <li style="--i:2"><b>Creatine, free</b><span>A <b class="num">{{ price | money_without_trailing_zeros }}</b> pouch ships free with every delivery.</span></li>
+        <li class="cof__step--free" style="--i:2"><b>Creatine, free</b><span><s class="num">{{ price | money_without_trailing_zeros }}</s> <b>FREE</b> pouch with every delivery.</span><img class="cof__step-img" src="{{ 'ff-creatine-cutout.webp' | asset_url }}" alt="" width="721" height="900" loading="lazy"></li>
       </ol>
       <div class="cof__actions">
         {%- if on_pdp -%}
