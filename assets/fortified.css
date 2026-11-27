@@ -3839,5 +3839,5 @@ section[aria-labelledby="label-h"] .items .hl-row::after { inset: 3px 0; }
 .pd__buy .tiers:not(.has-gift) .tiers__gift img { opacity: 0; }
 .pd__buy .tiers__gift img { transition: transform .5s cubic-bezier(.34, 1.56, .64, 1), opacity .3s; }
 .pd__buy .tiers__gift b { right: -4px; }
-/* Promise band: the amber orange from the pouch artwork (keeps white headline words at 3:1) */
-section[aria-labelledby="pr-h"] { background: #d2812a; }
+/* Promise band: the bright orange from the pouch artwork */
+section[aria-labelledby="pr-h"] { background: #eaa53c; }
