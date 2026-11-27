@@ -3800,3 +3800,13 @@ h1, h2, h3, .display, .crf__h, .art__title, .blg__h, .ofr__h, .cof__h, .hwt__tit
 .cvc__deal { font-size: 11.5px; color: var(--ink-2); }
 .cvc__card:hover .cvc__sw { background: #9fd9d4; }
 .cvc--card .cvc__fine { padding-left: 54px; }
+
+/* Ingredient list on the label section: breathing room so text and row highlights sit inside the card */
+section[aria-labelledby="label-h"] .sheet { padding: 26px 22px 18px; }
+section[aria-labelledby="label-h"] .sheet__head { padding-left: 6px; padding-right: 6px; }
+section[aria-labelledby="label-h"] .items .item { padding-left: 16px; padding-right: 16px; }
+section[aria-labelledby="label-h"] .items .hl-row::after { inset: 3px 0; }
+@media (max-width: 600px) {
+  section[aria-labelledby="label-h"] .sheet { padding: 20px 14px 14px; }
+  section[aria-labelledby="label-h"] .items .item { padding-left: 12px; padding-right: 12px; }
+}

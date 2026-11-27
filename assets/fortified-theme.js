@@ -969,7 +969,12 @@
         var a = sd.getBoundingClientRect(), st = $(".lfx-stick", sd).getBoundingClientRect();
         var mx = a.left - sr.left, my = a.top - sr.top, cx = st.left + st.width / 2 - sr.left, cy = st.top + st.height / 2 - sr.top;
         var dx = mx - cx, dy = my - cy, l = Math.hypot(dx, dy) || 1;
-        return { x: mx, y: my, dx: dx / l, dy: dy / l, fall: Math.min(H - my - 10, Math.max(420, H * .78)) };
+        dx /= l; dy /= l;
+        // Pour from the lower corner of the torn end, not its middle.
+        var hw = ($(".lfx-stick", sd).offsetWidth || 0) / 2 * .82, px = -dy, py = dx;
+        if (py < 0) { px = -px; py = -py; }
+        mx += px * hw; my += py * hw;
+        return { x: mx, y: my, dx: dx, dy: dy, fall: Math.min(H - my - 10, Math.max(420, H * .78)) };
       });
     }
     function inAmount() { var sp = parseFloat(sec.style.getPropertyValue("--tp")); if (isNaN(sp)) sp = 1; return Math.min(1, Math.max(0, (sp - .1) * 4.5)); }
