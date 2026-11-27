@@ -3810,3 +3810,8 @@ section[aria-labelledby="label-h"] .items .hl-row::after { inset: 3px 0; }
   section[aria-labelledby="label-h"] .sheet { padding: 20px 14px 14px; }
   section[aria-labelledby="label-h"] .items .item { padding-left: 12px; padding-right: 12px; }
 }
+/* Wavy underline: reveal with a clip instead of stroke dashes (Safari cut the dashed line short), so it always runs under every accent word */
+.wavy__line path { stroke-dasharray: none !important; stroke-dashoffset: 0 !important; }
+.js-check .wavy__line { clip-path: inset(-60% 100% -60% 0); transition: clip-path 1.1s cubic-bezier(.65, 0, .35, 1) .2s; }
+.js-check.is-in .wavy__line { clip-path: inset(-60% 0 -60% 0); }
+@media (prefers-reduced-motion: reduce) { .js-check .wavy__line { clip-path: none; transition: none; } }
