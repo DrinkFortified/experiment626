@@ -3850,5 +3850,6 @@ section[aria-labelledby="pr-h"] { background: #eaa53c; }
 /* Campaign pages: text on the accent fill flips to navy when the accent is the light pouch orange */
 .ofr__eye, .ofr__plus { color: var(--cmp-on, #fff); }
 .ofr__cta { --fg: var(--cmp-on, #fff); }
-/* Large orange headline accents on light grounds: a deeper shade of the pouch orange so they stay readable (3.7:1) */
-.turn__h em, .blg__h em, .nmj__list b, .hz-play__chip--b b { color: #b87714; }
+/* Orange headline accents use the bright pouch orange */
+.display em, section[aria-labelledby="label-h"] .display em, .turn__h em, .blg__h em, .nmj__list b, .hz-play__chip--b b { color: #eaa53c; }
+section[aria-labelledby="pr-h"] .display em { color: #fff; }
