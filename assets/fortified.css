@@ -3815,3 +3815,9 @@ section[aria-labelledby="label-h"] .items .hl-row::after { inset: 3px 0; }
 .js-check .wavy__line { clip-path: inset(-60% 100% -60% 0); transition: clip-path 1.1s cubic-bezier(.65, 0, .35, 1) .2s; }
 .js-check.is-in .wavy__line { clip-path: inset(-60% 0 -60% 0); }
 @media (prefers-reduced-motion: reduce) { .js-check .wavy__line { clip-path: none; transition: none; } }
+
+/* Every 3 months below the 3-pack minimum: still tappable (it tops the box up to 3), shown muted */
+.qb__plan.is-min small, .pp-q3.is-min small { font-weight: 700; color: #00756f; }
+.qb__plan.is-min:not([aria-pressed="true"]), [data-pp] .pp-q3.is-min:not([aria-pressed="true"]) { border-style: dashed; }
+/* Lifestyle photo: center the 118% tall image so the scroll drift (about 7% each way) never uncovers a strip above or below it */
+.lfs__photo img { position: absolute; left: 0; top: -9%; }
