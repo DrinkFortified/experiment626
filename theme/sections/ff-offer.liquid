@@ -47,7 +47,7 @@
       assign k_sub = 'Subscribe to 3 or more packs of Everyday or Energy and a pouch of pure creatine ships free with every delivery. Not just this weekend. For as long as you stay subscribed.'
       assign k_cta = 'Build my Black Friday box'
       assign k_motif = 'spark'
-      assign k_col = '#0a0f14,#16222c,#ffffff,#f76515,#ffd23f'
+      assign k_col = '#0a0f14,#16222c,#ffffff,#eaa53c,#ffd23f'
     when 'holidays'
       assign k_eye = 'The Holiday Box'
       assign k_h = 'Stock the house for the holidays. Get'
@@ -131,14 +131,14 @@
       assign k_sub = 'Every ingredient named, nothing scary hiding in a blend. Subscribe to 3 or more packs and creatine ships free with every delivery.'
       assign k_cta = 'Build my box'
       assign k_motif = 'bat'
-      assign k_col = '#140d1f,#24153a,#ffffff,#ff7a1a,#b98cff'
+      assign k_col = '#140d1f,#24153a,#ffffff,#eaa53c,#b98cff'
     else
       assign k_eye = 'The Free Creatine offer'
       assign k_h = 'Subscribe to 3 packs. Get'
       assign k_sub = 'Mix Everyday and Energy in any flavor, Monthly or Every 3 months. A pouch of pure creatine monohydrate ships free with every delivery for as long as you stay subscribed.'
       assign k_cta = 'Build my box'
       assign k_motif = 'none'
-      assign k_col = '#0b1c29,#132e44,#ffffff,#00aba3,#f76515'
+      assign k_col = '#0b1c29,#132e44,#ffffff,#00aba3,#eaa53c'
   endcase
   assign col = k_col | split: ','
   assign eye = st.eyebrow | default: k_eye
@@ -156,6 +156,7 @@
   :root {
     --cmp-bg: {{ col[0] }}; --cmp-bg2: {{ col[1] }}; --cmp-ink: {{ col[2] }};
     --cmp-accent: {{ col[3] }}; --cmp-accent2: {{ col[4] }};
+    --cmp-on: {% if col[3] == '#eaa53c' %}#0b1c29{% else %}#ffffff{% endif %};
   }
 {% endstyle %}
 <section class="ofr ofr--{{ c }}" data-campaign="{{ c }}" aria-labelledby="ofr-h-{{ section.id }}">
