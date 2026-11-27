@@ -71,6 +71,8 @@
   // 1 free creatine is kept in the cart while it holds FF.creatineAt or more subscription
   // packs, on the plan matching the packs' delivery frequency, and removed below that.
   var CR = FF.creatine || null, UP = FF.upsell || null;
+  // Every 3 months needs 3 or more packs (one shipment covers the whole 90 days).
+  var Q3MIN = FF.quarterlyMin || 3;
   // Only the free gift line counts: it carries _ff_gift or a selling plan. A one-time pouch
   // bought from the creatine page is a normal line and is never touched.
   function lineProps(it) { return it.properties || {}; }
@@ -97,10 +99,29 @@
   // One sync at a time: two page-load paths (and fast clicks) used to both add the gift.
   var syncQ = Promise.resolve(), syncDirty = false;
   function syncCreatine(cart) {
-    var run = syncQ.then(function () { return syncDirty ? getCart() : cart; }).then(syncCreatineNow)
+    var run = syncQ.then(function () { return syncDirty ? getCart() : cart; }).then(fixQ3)
+      .then(function (x) { return syncCreatineNow(x.cart).then(function (r) { if (x.fixed) { r.changed = true; r.q3fixed = true; } return r; }); })
       .then(function (r) { syncDirty = !!r.changed; return r; });
     syncQ = run.catch(function () {});
     return run;
+  }
+  // Every 3 months needs Q3MIN+ packs. Below that (say the shopper lowers 3 to 2), those lines
+  // move to Monthly in place, keeping flavor and quantity.
+  function fixQ3(cart) {
+    var ql = (cart.items || []).filter(function (it) {
+      return it.selling_plan_allocation && !isCreatine(it) && !isUpsell(it) && /90|3 month|quarter/i.test(it.selling_plan_allocation.selling_plan.name);
+    });
+    var n = ql.reduce(function (a, it) { return a + it.quantity; }, 0);
+    if (!n || n >= Q3MIN) return Promise.resolve({ cart: cart, fixed: false });
+    var p = Promise.resolve(), any = false;
+    ql.forEach(function (it) {
+      var f = cvFind(it.variant_id); if (!f || !f.prod.monthly) return;
+      any = true;
+      p = p.then(function () { return post(FF.routes.cartChange, { id: it.key, quantity: it.quantity, selling_plan: +f.prod.monthly }); });
+    });
+    if (!any) return Promise.resolve({ cart: cart, fixed: false });
+    return p.then(getCart).then(function (c) { return { cart: c, fixed: true }; })
+      .catch(function () { return getCart().then(function (c) { return { cart: c, fixed: false }; }); });
   }
   function syncCreatineNow(cart) {
     if (!CR) return Promise.resolve({ cart: cart, changed: false });
@@ -144,7 +165,8 @@
     h += '<div><p class="qb__label">Flavor</p><div class="qb__pills">' + prod.variants.map(function (vv, i) { return '<button type="button" class="qb__pill" data-qb-v="' + i + '" aria-pressed="' + (i === qb.v) + '"' + (vv.available ? "" : " disabled") + '>' + (vv.img ? '<img src="' + esc(vv.img) + '" alt="" loading="lazy">' : "") + esc(flavorName(vv.title)) + '</button>'; }).join("") + '</div></div>';
     h += '<div class="qb__row"><p class="qb__label" style="margin:0">Packs</p><div class="stepper stepper--sm"><button type="button" data-qb-n="-1" aria-label="One fewer pack"' + (n <= 1 ? " disabled" : "") + '><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><output class="num" aria-live="polite">' + n + '</output><button type="button" data-qb-n="1" aria-label="One more pack"' + (n >= 12 ? " disabled" : "") + '><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div></div>';
     var plans = [["sub", "Monthly"], ["q3", "Every 3 months"], ["otp", "One-time"]].filter(function (x) { return x[0] === "otp" || (x[0] === "sub" ? prod.monthly : prod.quarterly); });
-    h += '<div><p class="qb__label">Purchase</p><div class="qb__plans">' + plans.map(function (x) { return '<button type="button" class="qb__plan" data-qb-plan="' + x[0] + '" aria-pressed="' + (x[0] === qb.plan) + '">' + x[1] + '<small>' + money(qbUnit(v, prod, x[0], n) * n) + '</small></button>'; }).join("") + '</div></div>';
+    if (qb.plan === "q3" && n < Q3MIN) qb.plan = "sub";
+    h += '<div><p class="qb__label">Purchase</p><div class="qb__plans">' + plans.map(function (x) { var lock = x[0] === "q3" && n < Q3MIN; return '<button type="button" class="qb__plan' + (lock ? ' is-min' : '') + '" data-qb-plan="' + x[0] + '" aria-pressed="' + (x[0] === qb.plan) + '">' + x[1] + '<small>' + (lock ? Q3MIN + '+ packs' : money(qbUnit(v, prod, x[0], n) * n)) + '</small></button>'; }).join("") + '</div></div>';
     var cre = n >= (FF.creatineAt || 3) && qb.plan !== "otp";
     h += '<p class="qb__note">' + (qb.plan === "otp" ? (n >= 2 ? "15% off and Free Shipping on 2+ packs." : "Shipping $5.99, free from 2 packs.") : (cre ? "Free Shipping, plus free creatine with every delivery." : "Free Shipping. Free creatine from 3 packs.")) + ' Cancel at any time.</p>';
     if (/energy/i.test(prod.label)) h += '<p class="qb__fine"><b>Contains caffeine.</b> Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.</p>';
@@ -162,7 +184,7 @@
     if ((t = e.target.closest("[data-qb-p]"))) { qb.p = +t.getAttribute("data-qb-p"); qb.v = 0; qbMount(); }
     else if ((t = e.target.closest("[data-qb-v]"))) { qb.v = +t.getAttribute("data-qb-v"); qbMount(); }
     else if ((t = e.target.closest("[data-qb-n]"))) { qb.n = Math.max(1, Math.min(12, qb.n + +t.getAttribute("data-qb-n"))); qbMount(); }
-    else if ((t = e.target.closest("[data-qb-plan]"))) { qb.plan = t.getAttribute("data-qb-plan"); qbMount(); }
+    else if ((t = e.target.closest("[data-qb-plan]"))) { qb.plan = t.getAttribute("data-qb-plan"); if (qb.plan === "q3" && qb.n < Q3MIN) qb.n = Q3MIN; qbMount(); }
     else if ((t = e.target.closest("[data-qb-add]")) || (t = e.target.closest("[data-qb-cr]"))) {
       var item;
       if (t.hasAttribute("data-qb-cr")) item = { id: QB.creatine.id, quantity: 1 };
@@ -203,11 +225,19 @@
     var plans = [["sub", "Monthly"], ["q3", "Every 3 months"]].filter(function (x) { return x[0] === "sub" ? prod.monthly : prod.quarterly; });
     if (!plans.length) return "";
     if (!plans.some(function (x) { return x[0] === cu.plan; })) cu.plan = plans[0][0];
-    h += '<div><p class="qb__label">How often</p><div class="qb__plans">' + plans.map(function (x) { return '<button type="button" class="qb__plan" data-cu-plan="' + x[0] + '" aria-pressed="' + (x[0] === cu.plan) + '"><span>' + x[1] + '</span><small class="num">' + money(qbUnit(v, prod, x[0], n) * n) + '</small></button>'; }).join("") + '</div></div>';
+    var cuQ = cuQNeed(cart);
+    if (cu.plan === "q3" && n < cuQ) cu.plan = "sub";
+    h += '<div><p class="qb__label">How often</p><div class="qb__plans">' + plans.map(function (x) { var lock = x[0] === "q3" && n < cuQ; return '<button type="button" class="qb__plan' + (lock ? ' is-min' : '') + '" data-cu-plan="' + x[0] + '" aria-pressed="' + (x[0] === cu.plan) + '"><span>' + x[1] + '</span><small class="num">' + (lock ? Q3MIN + '+ packs' : money(qbUnit(v, prod, x[0], n) * n)) + '</small></button>'; }).join("") + '</div></div>';
     h += '<p class="qb__note">Renews automatically ' + (cu.plan === "q3" ? "every 90 days" : "every 30 days") + ' at the price shown until you cancel. Free Shipping. Skip or cancel online anytime.</p>';
     if (/energy/i.test(prod.label)) h += '<p class="qb__fine"><b>Contains caffeine.</b> Consult your healthcare professional before use, especially if you are pregnant, nursing, taking medication, have a medical condition, or are sensitive to caffeine. Not recommended for children.</p>';
     h += '<button type="button" class="btn btn--money btn--block" data-cu-add>Subscribe to ' + n + ' packs · creatine free</button>';
     return h + '</div>';
+  }
+  // Packs the creatine upsell must add for Every 3 months: tops the cart's quarterly packs up to Q3MIN.
+  function cuQNeed(cart) {
+    var have = 0;
+    ((cart && cart.items) || []).forEach(function (it) { if (it.selling_plan_allocation && !isCreatine(it) && !isUpsell(it) && /90|3 month|quarter/i.test(it.selling_plan_allocation.selling_plan.name)) have += it.quantity; });
+    return Math.max(1, Q3MIN - have);
   }
   function cuMount(cart) {
     if (cart) cuCart = cart;
@@ -220,7 +250,7 @@
     if ((t = e.target.closest("[data-cu-p]"))) { cu.p = +t.getAttribute("data-cu-p"); cu.v = 0; cuMount(); }
     else if ((t = e.target.closest("[data-cu-v]"))) { cu.v = +t.getAttribute("data-cu-v"); cuMount(); }
     else if ((t = e.target.closest("[data-cu-n]"))) { cu.n = Math.max(1, Math.min(12, cu.n + +t.getAttribute("data-cu-n"))); cuMount(); }
-    else if ((t = e.target.closest("[data-cu-plan]"))) { cu.plan = t.getAttribute("data-cu-plan"); cuMount(); }
+    else if ((t = e.target.closest("[data-cu-plan]"))) { cu.plan = t.getAttribute("data-cu-plan"); if (cu.plan === "q3") cu.n = Math.max(cu.n, cuQNeed(cuCart)); cuMount(); }
     else if ((t = e.target.closest("[data-cu-add]"))) {
       var prod = QB.products[cu.p], v = prod.variants[cu.v] || prod.variants[0];
       var sp = cu.plan === "q3" ? prod.quarterly : prod.monthly;
@@ -469,7 +499,8 @@
   function settle(cart) {
     return syncCreatine(cart).then(function (r) {
       var had = (cart.items || []).some(isCreatine);
-      if (r.changed && r.upOnly) toast("2nd creatine bag removed: it comes with Every 3 months.");
+      if (r.q3fixed) toast("Every 3 months is for " + Q3MIN + "+ packs, so your box switched to Monthly.");
+      else if (r.changed && r.upOnly) toast("2nd creatine bag removed: it comes with Every 3 months.");
       else if (r.changed && r.added && !had) toast("Free creatine added to your box.");
       if (r.changed && !r.added && had) toast("Free creatine needs 3 or more subscription packs.");
       renderCart(r.cart); cvMount(r.cart); cuMount(r.cart); return r;
@@ -582,6 +613,8 @@
     }
     function draw() {
       var n = total(), full = 0, tot = 0;
+      // Below 3 packs Every 3 months falls back to Monthly (an empty box keeps the choice so packs can be added).
+      if (st.plan === "q3" && n > 0 && n < Q3MIN) st.plan = "sub";
       Object.keys(st.q).forEach(function (id) { var v = V[id], k = st.q[id]; full += v.price * k; tot += unit(v, st.plan, n) * k; });
       var save = full - tot;
       // Stage
@@ -596,13 +629,13 @@
         $("[data-fq-sub]", row).textContent = k ? k + (k === 1 ? " pack \u00b7 " : " packs \u00b7 ") + money(unit(v, st.plan, n) * k) : (v.available ? "Not in this order" : "Sold out");
       });
       // Plan toggle and prices
-      $$("[data-pp] button", pd).forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === st.plan)); });
+      $$("[data-pp] button", pd).forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === st.plan)); if (b.dataset.v === "q3") b.classList.toggle("is-min", n < Q3MIN); });
       $$("[data-plan-price]", pd).forEach(function (el) {
         var plan = el.dataset.planPrice, sum = 0;
         var ids = Object.keys(st.q).filter(function (id) { return st.q[id] > 0; });
         if (ids.length) ids.forEach(function (id) { sum += unit(V[id], plan, n) * st.q[id]; });
         else sum = unit(V[Object.keys(st.q)[0]], plan, 1);
-        el.textContent = money(sum);
+        el.textContent = plan === "q3" && n < Q3MIN ? Q3MIN + "+ packs" : money(sum);
       });
       // Shipping: subscriptions always ship free; one-time ships free from 2 packs, otherwise $5.99.
       var freeShip = st.plan !== "otp" || n >= 2, shipCost = freeShip ? 0 : SHIP_OTP;
@@ -648,6 +681,13 @@
       var p = e.target.closest("[data-pp] button");
       if (p) {
         st.plan = p.dataset.v;
+        var short = st.plan === "q3" ? Q3MIN - total() : 0;
+        if (short > 0) {
+          // Top up the flavor with the most packs (or the first in stock) to reach the minimum.
+          var ids = Object.keys(st.q).filter(function (id) { return V[id].available; });
+          ids.sort(function (a, b) { return st.q[b] - st.q[a]; });
+          if (ids.length) st.q[ids[0]] = Math.min(MAXQ, st.q[ids[0]] + short);
+        }
         draw();
       }
     });
