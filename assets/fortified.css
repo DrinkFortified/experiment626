@@ -3855,6 +3855,6 @@ section[aria-labelledby="pr-h"] { background: #eaa53c; }
 section[aria-labelledby="pr-h"] .display em { color: #fff; }
 /* Thin white wave on the seam between the last section and the footer; drifts sideways with the scroll */
 .foot { position: relative; }
-.foot__wave { position: absolute; left: 0; right: 0; top: -10px; height: 20px; overflow: hidden; pointer-events: none; z-index: 2; }
-.foot__wave svg { display: block; width: 3204px; height: 20px; max-width: none; transform: translateX(calc(var(--sp, 0) * -640px)); will-change: transform; }
-.foot__wave path { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; }
+.foot__wave { position: absolute; left: 0; right: 0; top: -16px; height: 32px; overflow: hidden; pointer-events: none; z-index: 2; }
+.foot__wave svg { display: block; width: 3284px; height: 32px; max-width: none; transform: translateX(calc(var(--sp, 0) * -640px)); will-change: transform; }
+.foot__wave path { fill: none; stroke: #fff; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
